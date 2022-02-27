@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.duke.ece651.server.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-02-27T09:22:50" hostname="xueyi" time="0.025">
+  <properties/>
+  <testcase name="appHasAGreeting()" classname="edu.duke.ece651.server.AppTest" time="0.025"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1645953772005" clover="4.3.1">
+   <project name="riskGame" timestamp="1645953772000">
+      <metrics coveredelements="15" complexity="8" loc="80" methods="8" classes="6" statements="11" packages="3" coveredconditionals="0" coveredmethods="6" elements="19" ncloc="51" files="6" conditionals="0" coveredstatements="9"/>
+      <package name="edu.duke.ece651.client">
+         <metrics coveredelements="5" complexity="3" loc="28" methods="3" classes="2" statements="4" coveredconditionals="0" coveredmethods="2" elements="7" ncloc="18" files="2" conditionals="0" coveredstatements="3"/>
+         <file path="/Users/xg/Desktop/ece651-riskgame-main/client/src/main/java/edu/duke/ece651/client/App.java" name="App.java">
+            <metrics coveredelements="2" coveredconditionals="0" complexity="2" loc="14" coveredmethods="1" methods="2" elements="4" classes="1" ncloc="9" statements="2" conditionals="0" coveredstatements="1"/>
+            <class name="App">
+               <metrics coveredelements="2" coveredconditionals="0" complexity="2" coveredmethods="1" methods="2" elements="4" statements="2" conditionals="0" coveredstatements="1"/>
+            </class>
+            <line complexity="1" visibility="public" signature="getGreeting() : String" num="7" count="1" type="method"/>
+            <line num="8" count="1" type="stmt"/>
+            <line complexity="1" visibility="public" signature="main(String[]) : void" num="11" count="0" type="method"/>
+            <line num="12" count="0" type="stmt"/>
+         </file>
+         <file path="/Users/xg/Desktop/ece651-riskgame-main/client/src/test/java/edu/duke/ece651/client/AppTest.java" name="AppTest.java">
+            <metrics coveredelements="3" coveredconditionals="0" complexity="1" loc="14" coveredmethods="1" methods="1" elements="3" classes="1" ncloc="9" statements="2" conditionals="0" coveredstatements="2"/>
+            <class name="AppTest">
+               <metrics coveredelements="3" coveredconditionals="0" complexity="1" coveredmethods="1" methods="1" elements="3" statements="2" conditionals="0" coveredstatements="2"/>
+            </class>
+            <line complexity="1" visibility="package" signature="appHasAGreeting() : void" num="10" count="1" type="method"/>
+            <line num="11" count="1" type="stmt"/>
+            <line num="12" count="1" type="stmt"/>
+         </file>
+      </package>
+      <package name="edu.duke.ece651.server">
+         <metrics coveredelements="5" complexity="3" loc="28" methods="3" classes="2" statements="4" coveredconditionals="0" coveredmethods="2" elements="7" ncloc="18" files="2" conditionals="0" coveredstatements="3"/>
+         <file path="/Users/xg/Desktop/ece651-riskgame-main/server/src/main/java/edu/duke/ece651/server/App.java" name="App.java">
+            <metrics coveredelements="2" coveredconditionals="0" complexity="2" loc="14" coveredmethods="1" methods="2" elements="4" classes="1" ncloc="9" statements="2" conditionals="0" coveredstatements="1"/>
+            <class name="App">
+               <metrics coveredelements="2" coveredconditionals="0" complexity="2" coveredmethods="1" methods="2" elements="4" statements="2" conditionals="0" coveredstatements="1"/>
+            </class>
+            <line complexity="1" visibility="public" signature="getGreeting() : String" num="7" count="1" type="method"/>
+            <line num="8" count="1" type="stmt"/>
+            <line complexity="1" visibility="public" signature="main(String[]) : void" num="11" count="0" type="method"/>
+            <line num="12" count="0" type="stmt"/>
+         </file>
+         <file path="/Users/xg/Desktop/ece651-riskgame-main/server/src/test/java/edu/duke/ece651/server/AppTest.java" name="AppTest.java">
+            <metrics coveredelements="3" coveredconditionals="0" complexity="1" loc="14" coveredmethods="1" methods="1" elements="3" classes="1" ncloc="9" statements="2" conditionals="0" coveredstatements="2"/>
+            <class name="AppTest">
+               <metrics coveredelements="3" coveredconditionals="0" complexity="1" coveredmethods="1" methods="1" elements="3" statements="2" conditionals="0" coveredstatements="2"/>
+            </class>
+            <line complexity="1" visibility="package" signature="appHasAGreeting() : void" num="10" count="1" type="method"/>
+            <line num="11" count="1" type="stmt"/>
+            <line num="12" count="1" type="stmt"/>
+         </file>
+      </package>
+      <package name="edu.duke.ece651.shared">
+         <metrics coveredelements="5" complexity="2" loc="24" methods="2" classes="2" statements="3" coveredconditionals="0" coveredmethods="2" elements="5" ncloc="15" files="2" conditionals="0" coveredstatements="3"/>
+         <file path="/Users/xg/Desktop/ece651-riskgame-main/shared/src/main/java/edu/duke/ece651/shared/Library.java" name="Library.java">
+            <metrics coveredelements="2" coveredconditionals="0" complexity="1" loc="10" coveredmethods="1" methods="1" elements="2" classes="1" ncloc="6" statements="1" conditionals="0" coveredstatements="1"/>
+            <class name="Library">
+               <metrics coveredelements="2" coveredconditionals="0" complexity="1" coveredmethods="1" methods="1" elements="2" statements="1" conditionals="0" coveredstatements="1"/>
+            </class>
+            <line complexity="1" visibility="public" signature="someLibraryMethod() : boolean" num="7" count="1" type="method"/>
+            <line num="8" count="1" type="stmt"/>
+         </file>
+         <file path="/Users/xg/Desktop/ece651-riskgame-main/shared/src/test/java/edu/duke/ece651/shared/LibraryTest.java" name="LibraryTest.java">
+            <metrics coveredelements="3" coveredconditionals="0" complexity="1" loc="14" coveredmethods="1" methods="1" elements="3" classes="1" ncloc="9" statements="2" conditionals="0" coveredstatements="2"/>
+            <class name="LibraryTest">
+               <metrics coveredelements="3" coveredconditionals="0" complexity="1" coveredmethods="1" methods="1" elements="3" statements="2" conditionals="0" coveredstatements="2"/>
+            </class>
+            <line complexity="1" visibility="package" signature="someLibraryMethodReturnsTrue() : void" num="10" count="1" type="method"/>
+            <line num="11" count="1" type="stmt"/>
+            <line num="12" count="1" type="stmt"/>
+         </file>
+      </package>
+   </project>
+   <testproject name="riskGame" timestamp="1645953772000">
+      <metrics coveredelements="0" complexity="0" loc="0" methods="0" classes="0" statements="0" packages="0" coveredconditionals="0" coveredmethods="0" elements="0" ncloc="0" files="0" conditionals="0" coveredstatements="0"/>
+   </testproject>
+</coverage>
