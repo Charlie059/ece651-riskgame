@@ -14,8 +14,8 @@ subprojects{
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
         clover 'org.openclover:clover:4.3.1'
-        testCompile "org.mockito:mockito-core:2.+"
-        compile 'org.json:json:20180813'
+        testImplementation "org.mockito:mockito-core:2.+"
+        implementation 'org.json:json:20180813'
     }
     
     test {
@@ -58,7 +58,7 @@ project (':server'){
 project (':client'){
     dependencies {
         implementation project(':shared')
-    } 
+    }
 }
 
 clover {
@@ -79,3 +79,4 @@ tasks.register("run-client") {
     group = 'Run Client/Server'
     description = 'Run the Client'
 }
+
