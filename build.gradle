@@ -5,8 +5,15 @@ buildscript {
     }
     dependencies {
         classpath 'com.bmuschko:gradle-clover-plugin:3.0.3'
-    }    
+    }
 }
+
+plugins {
+    id 'com.bmuschko.clover' version '2.2.3'
+}
+
+
+
 allprojects{
     repositories {
         mavenCentral()
@@ -14,7 +21,7 @@ allprojects{
     apply plugin: 'com.bmuschko.clover'
     dependencies {
         clover 'org.openclover:clover:4.4.1'
-        
+
     }
 }
 clover{
@@ -27,25 +34,23 @@ clover{
     }
 }
 task resolveDependencies {
-   doLast {
-       project.rootProject.allprojects.each { subProject ->
-           subProject.buildscript.configurations.each { configuration->
-              if(configuration.canBeResolved) {
-                 configuration.resolve()
-              }
-           }
-           subProject.configurations.each { configuration ->
-              if(configuration.canBeResolved) {
-                 configuration.resolve()
-              }
-           }
-       }
-   }
+    doLast {
+        project.rootProject.allprojects.each { subProject ->
+            subProject.buildscript.configurations.each { configuration->
+                if(configuration.canBeResolved) {
+                    configuration.resolve()
+                }
+            }
+            subProject.configurations.each { configuration ->
+                if(configuration.canBeResolved) {
+                    configuration.resolve()
+                }
+            }
+        }
+    }
 }
 
-plugins {
-    id 'com.bmuschko.clover' version '2.2.3'   
-}
+
 
 subprojects{
     apply plugin: "java"
@@ -62,22 +67,22 @@ subprojects{
         testImplementation "org.mockito:mockito-core:2.+"
         implementation 'org.json:json:20180813'
     }
-    
+
     test {
-  testLogging {
-     showStandardStreams = true
-     exceptionFormat = 'full'
-  }
-}
-clover {
-compiler{
-additionalArgs = "-g:lines,source,vars"
-} }
+        testLogging {
+            showStandardStreams = true
+            exceptionFormat = 'full'
+        }
+    }
+    clover {
+        compiler{
+            additionalArgs = "-g:lines,source,vars"
+        } }
 
     clover{
-    compiler{
-        additionalArgs = "-g:lines,source,vars"
-    }
+        compiler{
+            additionalArgs = "-g:lines,source,vars"
+        }
     }
     test{
         testLogging{
@@ -91,28 +96,25 @@ additionalArgs = "-g:lines,source,vars"
     }
 }
 
+// Project specific stuff
 project (':shared'){
 }
-
 project (':server'){
     dependencies {
         implementation project(':shared')
     }
 }
-
 project (':client'){
     dependencies {
         implementation project(':shared')
     }
 }
-
 clover {
-  report { 
-   xml=true
-   html=true 
-   }
+    report {
+        xml=true
+        html=true
+    }
 }
-
 tasks.register("run-server") {
     dependsOn project('server').getTasksByName('run',false)
     group = 'Run Client/Server'
