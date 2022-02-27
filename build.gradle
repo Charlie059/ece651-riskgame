@@ -1,0 +1,81 @@
+plugins {
+    id 'com.bmuschko.clover' version '2.2.3'   
+}
+
+subprojects{
+    apply plugin: "java"
+    apply plugin: "com.bmuschko.clover"
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        implementation 'com.google.guava:guava:28.0-jre'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+        clover 'org.openclover:clover:4.3.1'
+        testCompile "org.mockito:mockito-core:2.+"
+        compile 'org.json:json:20180813'
+    }
+    
+    test {
+  testLogging {
+     showStandardStreams = true
+     exceptionFormat = 'full'
+  }
+}
+clover {
+compiler{
+additionalArgs = "-g:lines,source,vars"
+} }
+
+    clover{
+    compiler{
+        additionalArgs = "-g:lines,source,vars"
+    }
+    }
+    test{
+        testLogging{
+            showStandardStreams = true
+            exceptionFormat = 'full'
+        }
+    }
+    test {
+        // Use junit platform for unit tests
+        useJUnitPlatform()
+    }
+}
+
+project (':shared'){
+}
+
+project (':server'){
+    dependencies {
+        implementation project(':shared')
+    }
+}
+
+project (':client'){
+    dependencies {
+        implementation project(':shared')
+    } 
+}
+
+clover {
+  report { 
+   xml=true
+   html=true 
+   }
+}
+
+tasks.register("run-server") {
+    dependsOn project('server').getTasksByName('run',false)
+    group = 'Run Client/Server'
+    description = 'Run the Server'
+}
+
+tasks.register("run-client") {
+    dependsOn project('client').getTasksByName('run',false)
+    group = 'Run Client/Server'
+    description = 'Run the Client'
+}
