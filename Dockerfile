@@ -41,9 +41,9 @@ COPY --chown=juser build.gradle gradlew settings.gradle  ./
 COPY --chown=juser gradle/wrapper gradle/wrapper
 
 # this will fetch gradle 7.3, and the packages we depend on
-RUN client/.gradlew resolveDependencies
-RUN server/.gradlew resolveDependencies
-RUN shared/.gradlew resolveDependencies
+RUN /client/.gradlew resolveDependencies
+RUN /server/.gradlew resolveDependencies
+RUN /shared/.gradlew resolveDependencies
 
 
 # Now we copy all our source files in.  Note that
