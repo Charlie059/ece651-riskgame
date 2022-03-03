@@ -6,3 +6,5 @@ ECE 651: CI/CD Intro: Factoring Server
 
 ## Coverage 
 [Detailed coverage](https://xg73.pages.oit.duke.edu/ECE651-RiskGame/dashboard.html) 
+
+https://docs.google.com/document/d/1-9WCJpEYGZWGzlxjUabke80DU2-QnUVBN5CN5OtqaRY/edit
