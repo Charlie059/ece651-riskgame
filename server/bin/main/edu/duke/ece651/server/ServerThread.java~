@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import com.google.errorprone.annotations.ForOverride;
 
 //
-public class Server extends Thread {
+public class ServerThread extends Thread {
 
   // private ServerSocket server;
   // private Integer port;
@@ -21,7 +21,7 @@ public class Server extends Thread {
   /**
    * Constructor
    */
-  public Server(Socket socket) {
+  public ServerThread(Socket socket) {
     // this.port = port;
     this.socket = socket;
   }
@@ -61,12 +61,13 @@ public class Server extends Thread {
       throw new IllegalArgumentException("Syntex: ./Server <port>");
     }
     System.out.println("On port" + args[0]);
-    ServerSocket server = new ServerSocket(Integer.parseInt(args[0]));
+    ServerSocket serversocket = new ServerSocket(Integer.parseInt(args[0]));
     while (true) {
       try {
-        Socket client = server.accept();
-        Server myserver = new Server(client);
-        myserver.start();
+
+        Socket client = serversocket.accept();
+        ServerThread myserverthread = new ServerThread(client);
+        myserverthread.start();
       } catch (IOException ex) {
       }
 
