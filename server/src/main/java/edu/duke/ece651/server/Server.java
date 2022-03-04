@@ -14,21 +14,16 @@ import com.google.errorprone.annotations.ForOverride;
 //
 public class Server extends Thread {
 
-  private ServerSocket server;
-  private Integer port;
+  // private ServerSocket server;
+  // private Integer port;
   private Socket socket;
 
   /**
    * Constructor
    */
-  public Server(Integer port) throws SocketException, IOException {
-    this.port = port;
-    this.server = new ServerSocket(this.port);
-
-    try {
-      this.socket = server.accept();
-    } finally {
-    }
+  public Server(Socket socket) {
+    // this.port = port;
+    this.socket = socket;
   }
 
   /*
@@ -43,8 +38,9 @@ public class Server extends Thread {
         if (s.equals("bye")) {
           break;
         }
-        
-        System.out.println("Port"+" ["+socket.getLocalPort()+"] "+ "Inet"+" ["+socket.getInetAddress()+"] : "+ s);
+
+        System.out.println(
+            "Port" + " [" + socket.getLocalPort() + "] " + "Inet" + " [" + socket.getInetAddress() + "] : " + s);
       }
       // read method read byte of data from input stream and return int 0-255
     } catch (IOException ex) {
@@ -60,17 +56,18 @@ public class Server extends Thread {
   /*
    * Gamecontroller(...,..,....,port...)
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     if (args.length != 1) {
       throw new IllegalArgumentException("Syntex: ./Server <port>");
     }
     System.out.println("On port" + args[0]);
-    int i = 0;
+    ServerSocket server = new ServerSocket(Integer.parseInt(args[0]));
     while (true) {
       try {
-        Server server = new Server(Integer.parseInt(args[0]));
-        server.start();
-      } catch (IOException ex){
+        Socket client = server.accept();
+        Server myserver = new Server(client);
+        myserver.start();
+      } catch (IOException ex) {
       }
 
     }
