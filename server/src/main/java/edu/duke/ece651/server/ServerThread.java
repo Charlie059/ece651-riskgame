@@ -70,6 +70,7 @@ public class ServerThread extends Thread {
         i++;
         String s = String.valueOf(i);
         Socket client = serversocket.accept();
+        System.out.println("Current Thread Number: " + tg1.activeCount());
         ServerThread myserverthread = new ServerThread(client, s, tg1);
         myserverthread.start();
       } catch (IOException ex) {
