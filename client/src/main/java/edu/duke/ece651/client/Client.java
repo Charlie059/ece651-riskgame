@@ -16,7 +16,7 @@ public class Client {
     int i = 0;
 
     while (i < 30) {
-      String s = String.valueOf(i);
+      String s = "123";
       writer.write(s);
       writer.flush();
       i++;
