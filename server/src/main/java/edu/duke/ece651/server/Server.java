@@ -17,6 +17,8 @@ public class Server {
     }
     System.out.println("On port" + args[0]);
     ServerSocket serversocket = new ServerSocket(Integer.parseInt(args[0]));
+
+    //The max number of throwed threads by service
     ExecutorService service = Executors.newFixedThreadPool(2);
     ArrayList<Future<?>> futureList = new ArrayList<>();
     while (true) {
