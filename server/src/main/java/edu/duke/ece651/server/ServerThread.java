@@ -73,8 +73,10 @@ public class ServerThread extends Thread {
       try {
         i++;
         ArrayList<String> temp = callback.getCallBack();
-        for (int k = 0; k < temp.size(); k++) {
-          System.out.print(temp.get(k));
+        if (temp != null) {
+          for (int k = 0; k < temp.size(); k++) {
+            System.out.print(temp.get(k));
+          }
         }
         String s = String.valueOf(i);
         Socket client = serversocket.accept();

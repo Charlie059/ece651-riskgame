@@ -6,6 +6,10 @@ public class ConnectionCallback {
 
   private ArrayList<String> callback;
 
+  public ConnectionCallback() {
+    this.callback = new ArrayList<String>();
+  }
+
   void receiveString(String s) {
     System.out.println("ConnectionCallback()");
     this.callback.add(s);
