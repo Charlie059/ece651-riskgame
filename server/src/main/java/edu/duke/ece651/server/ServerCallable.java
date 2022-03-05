@@ -12,15 +12,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
 public class ServerCallable implements Callable<String> {
-  private String s;
+
   private Socket socket;
 
-  ServerCallable(Socket socket, String s) {
-    this.s = s;
+  ServerCallable(Socket socket) {
+
     this.socket = socket;
   }
 
-  public String call() throws IOException{
+  public String call() throws IOException {
     OutputStream out = this.socket.getOutputStream();
     InputStream in = this.socket.getInputStream();
     var writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));

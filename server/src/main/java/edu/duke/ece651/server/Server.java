@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
 
 public class Server {
 
-  public static void main(String[] args) throws IOException,ExecutionException, InterruptedException {
+  public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
     if (args.length != 1) {
       throw new IllegalArgumentException("Syntex: ./Server <port>");
     }
@@ -22,7 +22,7 @@ public class Server {
     while (true) {
       try {
         Socket client = serversocket.accept();
-        ServerRunnable task = new ServerRunnable(client);
+        ServerCallable task = new ServerCallable(client);
         Future<?> future = service.submit(task);
         futureList.add(future);
       } finally {
