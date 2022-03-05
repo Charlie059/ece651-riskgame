@@ -3,7 +3,7 @@ package edu.duke.ece651.shared;
 public class PlayerCounter {
     private static PlayerCounter counter_obj = null;
     private static int next_counter;
-    private int current_id;
+    private static int current_id;
     private PlayerCounter(){
         next_counter = 1;
     }
@@ -15,12 +15,12 @@ public class PlayerCounter {
                 }
             }
         }
+        current_id = next_counter;
+        next_counter++;
         return counter_obj;
     }
 
-    public int getCurrent_id() {
-        current_id = next_counter;
-        next_counter++;
+    public static int getCurrent_id() {
         return current_id;
     }
 }
