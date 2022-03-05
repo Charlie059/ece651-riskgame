@@ -6,10 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
-
-import com.google.errorprone.annotations.ForOverride;
+import java.util.ArrayList;
 
 //
 public class ServerThread extends Thread {
@@ -17,14 +15,18 @@ public class ServerThread extends Thread {
   // private ServerSocket server;
   // private Integer port;
   private Socket socket;
+  private ConnectionCallback callback;
+  private String threadname;
 
   /**
    * Constructor
    */
-  public ServerThread(Socket socket, String threadName, ThreadGroup tg) {
+  public ServerThread(Socket socket, String threadName, ThreadGroup tg, ConnectionCallback callback) {
     // this.port = port;
     super(tg, threadName);
+    this.threadname = threadName;
     this.socket = socket;
+    this.callback = callback;
   }
 
   /*
@@ -36,6 +38,7 @@ public class ServerThread extends Thread {
       var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
       for (;;) {
         String s = reader.readLine();
+        s = s + this.threadname;
         if (s.equals("bye")) {
           break;
         }
@@ -64,14 +67,19 @@ public class ServerThread extends Thread {
     System.out.println("On port" + args[0]);
     ServerSocket serversocket = new ServerSocket(Integer.parseInt(args[0]));
     ThreadGroup tg1 = new ThreadGroup("Sub Thread");
+    ConnectionCallback callback = new ConnectionCallback();
     int i = 0;
     while (true) {
       try {
         i++;
+        ArrayList<String> temp = callback.getCallBack();
+        for (int k = 0; k < temp.size(); k++) {
+          System.out.print(temp.get(k));
+        }
         String s = String.valueOf(i);
         Socket client = serversocket.accept();
         System.out.println("Current Thread Number: " + tg1.activeCount());
-        ServerThread myserverthread = new ServerThread(client, s, tg1);
+        ServerThread myserverthread = new ServerThread(client, s, tg1, callback);
         myserverthread.start();
       } catch (IOException ex) {
       }
