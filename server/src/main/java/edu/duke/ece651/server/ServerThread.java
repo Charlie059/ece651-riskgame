@@ -39,6 +39,7 @@ public class ServerThread extends Thread {
       for (;;) {
         String s = reader.readLine();
         s = s + this.threadname;
+        callback.receiveString(s);
         if (s.equals("bye")) {
           break;
         }
