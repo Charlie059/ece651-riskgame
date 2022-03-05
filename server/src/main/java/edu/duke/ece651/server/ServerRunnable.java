@@ -10,36 +10,30 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 //
-public class ServerThread extends Thread {
+public class ServerRunnable implements Runnable {
 
   // private ServerSocket server;
   // private Integer port;
   private Socket socket;
-  private ConnectionCallback callback;
-  private String threadname;
 
   /**
    * Constructor
    */
-  public ServerThread(Socket socket, String threadName, ThreadGroup tg, ConnectionCallback callback) {
+  public ServerRunnable(Socket socket) {
     // this.port = port;
-    super(tg, threadName);
-    this.threadname = threadName;
     this.socket = socket;
-    this.callback = callback;
   }
 
   /*
    * run()
    */
+  @Override
   public void run() {
     try {
       InputStream in = socket.getInputStream();
       var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
       for (;;) {
         String s = reader.readLine();
-        s = s + this.threadname;
-        callback.receiveString(s);
         if (s.equals("bye")) {
           break;
         }
@@ -47,6 +41,7 @@ public class ServerThread extends Thread {
         System.out.println(
             "Port" + " [" + socket.getLocalPort() + "] " + "Inet" + " [" + socket.getInetAddress() + "] : " + s);
       }
+
       // read method read byte of data from input stream and return int 0-255
     } catch (IOException ex) {
       ex.printStackTrace();
