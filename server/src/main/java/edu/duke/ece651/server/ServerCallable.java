@@ -23,12 +23,16 @@ public class ServerCallable implements Callable<String> {
   public String call() throws IOException {
     OutputStream out = this.socket.getOutputStream();
     InputStream in = this.socket.getInputStream();
+
     var writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
     var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+    //send
     writer.write("All connected!");
     writer.flush();
-    //String s = reader.readLine();
-    return "abc";
+
+    //rec
+    String s = reader.readLine();
+    return s;
   }
 
 }

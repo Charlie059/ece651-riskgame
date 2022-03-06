@@ -55,6 +55,11 @@ public class Server {
 
       }
     }
+
+    for(int i = 0; i<futureList.size();i++){
+      String receivedMessage = (String)futureList.get(i).get();
+      System.out.println(receivedMessage);
+    }
   }
 
 }
