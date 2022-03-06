@@ -5,8 +5,7 @@ import java.util.HashMap;
 
 public class Map {
     HashMap<String, Territory> territoryList;
-    ArrayList<ArrayList<String>> groups;  // 每个player可以拥有的territory group
-
+    ArrayList<ArrayList<String>> groups; 
     /**
      * Create a fixed map for 3 players. Each player has three territories in the
      * beginning.
@@ -118,5 +117,3 @@ public class Map {
     }
 }
 
-
-//todo: 需要什么接口？
