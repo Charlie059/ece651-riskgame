@@ -22,8 +22,8 @@ public class Server {
     // if (args.length != 1) {
     //   throw new IllegalArgumentException("Syntex: ./Server <port>");
     // }
-    System.out.println("On port" + "4444");
-    ServerSocket serversocket = new ServerSocket(4444);
+    System.out.println("On port" + "1651");
+    ServerSocket serversocket = new ServerSocket(1651);
 
     // The max number of throwed threads by service
     ExecutorService service = Executors.newFixedThreadPool(16);
