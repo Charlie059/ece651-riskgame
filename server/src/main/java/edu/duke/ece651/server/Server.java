@@ -36,6 +36,10 @@ public class Server {
     var hostreader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
     String s = hostreader.readLine();
     Integer num_player = Integer.parseInt(s);
+    if(num_player==1){
+      System.out.println("Syntex: player number should be bigger than 1!");
+      return;
+    }
 
     for (int i = 0; i < num_player - 1; i++) {
       Socket clientsocket = serversocket.accept();
