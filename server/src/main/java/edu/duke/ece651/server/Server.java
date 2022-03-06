@@ -1,13 +1,15 @@
 package edu.duke.ece651.server;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -28,37 +30,59 @@ public class Server {
     ExecutorService service = Executors.newFixedThreadPool(2);
     ArrayList<Future<?>> futureList = new ArrayList<>();
 
-    // add num_player
+    // Connect HostServer, ask num_player
     ArrayList<Socket> clientSocketList = new ArrayList<Socket>();
     Socket hostsocket = serversocket.accept();
     clientSocketList.add(hostsocket);
     InputStream in = hostsocket.getInputStream();
+    OutputStream out = hostsocket.getOutputStream();
+    var hostwriter = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
     var hostreader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+
+    //Send special char to HostClient
+    hostwriter.write("H");
+
+    //Get num_player
     String s = hostreader.readLine();
     Integer num_player = Integer.parseInt(s);
-    if(num_player==1){
+
+    //TODO: Change to Client
+    if (num_player == 1) {
       System.out.println("Syntex: player number should be bigger than 1!");
       return;
     }
 
+    // connect all required number of player client
     for (int i = 0; i < num_player - 1; i++) {
       Socket clientsocket = serversocket.accept();
+      OutputStream client_out = clientsocket.getOutputStream();
+      var ClientWriter = new BufferedWriter(new OutputStreamWriter(client_out,StandardCharsets.UTF_8));
+      ClientWriter.write("C");
       clientSocketList.add(clientsocket);
     }
 
-    for (int k = 0; k < clientSocketList.size(); k++) {
-      try {
-        ServerCallable task = new ServerCallable(clientSocketList.get(k));
-        Future<?> future = service.submit(task);
-        futureList.add(future);
-      } finally {
+    // Entering the game loop
 
+    while (true) {
+
+      futureList.clear();
+      // Thread send receive parse
+      for (int k = 0; k < clientSocketList.size(); k++) {
+        try {
+          ServerCallable task = new ServerCallable(clientSocketList.get(k));
+          Future<?> future = service.submit(task);
+          futureList.add(future);
+        } finally {
+
+        }
       }
-    }
 
-    for(int i = 0; i<futureList.size();i++){
-      String receivedMessage = (String)futureList.get(i).get();
-      System.out.println(receivedMessage);
+      // Thread all end
+      // RunGame()
+      for (int i = 0; i < futureList.size(); i++) {
+        String receivedMessage = (String) futureList.get(i).get();
+        System.out.println(receivedMessage);
+      }
     }
   }
 
