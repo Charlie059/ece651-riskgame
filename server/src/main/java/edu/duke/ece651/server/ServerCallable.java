@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 public class ServerCallable implements Callable<String> {
 
@@ -20,14 +21,15 @@ public class ServerCallable implements Callable<String> {
     this.socket = socket;
   }
 
-  public String call() throws IOException {
+  public String call() throws IOException, InterruptedException {
     OutputStream out = this.socket.getOutputStream();
     InputStream in = this.socket.getInputStream();
 
-    var writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
+    var writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
     var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+
     //send
-    writer.write("All connected!");
+    writer.write("This is Message from the Server" + "\n");
     writer.flush();
 
     //rec
