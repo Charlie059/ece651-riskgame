@@ -25,7 +25,7 @@ public class ServerCallable implements Callable<String> {
     InputStream in = this.socket.getInputStream();
     var writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
     var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
-    writer.write("You have connected, please submit your result!");
+    writer.write("All connected!");
     writer.flush();
     String s = reader.readLine();
     return s;
