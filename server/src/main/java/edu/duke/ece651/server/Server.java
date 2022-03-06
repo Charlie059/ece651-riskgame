@@ -19,10 +19,10 @@ import java.util.concurrent.Future;
 public class Server {
   // ServerJSON
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-    if (args.length != 1) {
-      throw new IllegalArgumentException("Syntex: ./Server <port>");
-    }
-
+    // if (args.length != 1) {
+    //   throw new IllegalArgumentException("Syntex: ./Server <port>");
+    // }
+    args[0] = 4444;
     System.out.println("On port" + args[0]);
     ServerSocket serversocket = new ServerSocket(Integer.parseInt(args[0]));
 
