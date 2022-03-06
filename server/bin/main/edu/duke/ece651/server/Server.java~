@@ -1,0 +1,31 @@
+package edu.duke.ece651.server;
+
+import java.io.IOException;
+
+public class Server {
+
+  public static void main(String[] args) throws IOException {
+    if (args.length != 1) {
+      throw new IllegalArgumentException("Syntex: ./Server <port>");
+    }
+    System.out.println("On port" + args[0]);
+    ServerSocket serversocket = new ServerSocket(Integer.parseInt(args[0]));
+    ThreadGroup tg1 = new ThreadGroup("Sub Thread");
+    ConnectionCallback callback = new ConnectionCallback();
+    int i = 0;
+    while (true) {
+      try {
+        i++;
+        ArrayList<String> temp = callback.getCallBack();
+        if (temp != null) {
+          for (int k = 0; k < temp.size(); k++) {
+            System.out.print(temp.get(k));
+          }
+        }
+        String s = String.valueOf(i);
+        Socket client = serversocket.accept();
+        System.out.println("Current Thread Number: " + tg1.activeCount());
+        ServerThread myserverthread = new ServerThread(client, s, tg1, callback);
+        myserverthread.start();
+      }
+}
