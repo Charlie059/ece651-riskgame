@@ -27,7 +27,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'edu.duke.ece651.server.App'
+    mainClass = 'edu.duke.ece651.server.Server'
 }
 
 tasks.named('test') {
