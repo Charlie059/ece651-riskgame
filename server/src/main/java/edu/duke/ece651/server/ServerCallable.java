@@ -27,8 +27,8 @@ public class ServerCallable implements Callable<String> {
     var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
     writer.write("All connected!");
     writer.flush();
-    String s = reader.readLine();
-    return s;
+    //String s = reader.readLine();
+    return "abc";
   }
 
 }

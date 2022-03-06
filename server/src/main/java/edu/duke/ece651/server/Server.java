@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -41,7 +42,7 @@ public class Server {
       clientSocketList.add(clientsocket);
     }
 
-    for (int k = 0; k < num_player; k++) {
+    for (int k = 0; k < clientSocketList.size(); k++) {
       try {
         ServerCallable task = new ServerCallable(clientSocketList.get(k));
         Future<?> future = service.submit(task);
