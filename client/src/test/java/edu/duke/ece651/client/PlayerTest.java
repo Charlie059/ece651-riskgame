@@ -3,13 +3,13 @@ package edu.duke.ece651.client;
 import edu.duke.ece651.shared.PlayerCounter;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerTest {
 
     @Test
     void constructorTest() {
-        Player p1 = new Player(1);
+        Player p1 = new Player(1,2);
         assertEquals(p1.id, 1);
         assertEquals(p1.wholeMap.getTerritoryList().size(), 9);
         assertEquals(p1.myTerritories.size(), 3);
@@ -18,9 +18,9 @@ class PlayerTest {
     @Test
     void multiPlayersTest(){
         PlayerCounter player_counter = null;//count player id
-        Player p1 = new Player(player_counter.getInstance().getCurrent_id());//id: 1
-        Player p2 = new Player(player_counter.getInstance().getCurrent_id());//id: 2
-        Player p3 = new Player(player_counter.getInstance().getCurrent_id());//id: 3
+        Player p1 = new Player(player_counter.getInstance().getCurrent_id(),2);//id: 1
+        Player p2 = new Player(player_counter.getInstance().getCurrent_id(),2);//id: 2
+        Player p3 = new Player(player_counter.getInstance().getCurrent_id(),2);//id: 3
         //check ids
         assertEquals(p1.id, 1);
         assertEquals(p2.id, 2);

@@ -4,7 +4,6 @@
 package edu.duke.ece651.client;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ClientTest {
     @Test void appHasAGreeting() {

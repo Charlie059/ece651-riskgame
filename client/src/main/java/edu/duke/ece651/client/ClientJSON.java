@@ -1,0 +1,52 @@
+package edu.duke.ece651.client;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/*
+    Convert action lists to JSON and send
+ */
+public class ClientJSON {
+    private ArrayList<Action> actionList;
+
+    public ClientJSON(ArrayList<Action> actionList){
+        this.actionList = actionList;
+    }
+
+    /**
+     * Convert actionList to JSONObject
+     * @return
+     */
+    public JSONObject convertTo(){
+        JSONObject ans = new JSONObject();
+        List<JSONObject> actionLists = new ArrayList<JSONObject> ();
+        for(int i = 0; i < this.actionList.size(); i++){
+            JSONObject action = new JSONObject();
+            action.put("actionType", this.actionList.get(i).getActionName());
+            action.put("from", this.actionList.get(i).getFrom() == null ? JSONObject.NULL : this.actionList.get(i).getFrom().getName());
+            action.put("to", this.actionList.get(i).getTo().getName());
+
+            List<JSONObject> unitsList = new ArrayList<> ();
+            JSONObject units = new JSONObject();
+            HashMap<Integer, Integer> unitMap = this.actionList.get(i).getUnitMap();
+            for (var entry : unitMap.entrySet()) {
+                Integer key = entry.getKey();
+                Integer value = entry.getValue();
+                units.put("level", key);
+                units.put("value", value);
+                unitsList.add(units);
+            }
+            action.put("units", unitsList);
+            actionLists.add(action);
+
+        }
+        ans.put("actions", actionLists);
+
+        return ans;
+    }
+
+
+}
