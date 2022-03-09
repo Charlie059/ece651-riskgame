@@ -133,6 +133,7 @@ public class Player {
         return true;
     }
 
+    //TODO why play one round is using while
     public void playOneRound(){
         //play one round
         while(true) {
