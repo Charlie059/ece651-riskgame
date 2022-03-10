@@ -5,6 +5,7 @@ import edu.duke.ece651.shared.Territory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Player {
     int id; //player id
@@ -17,6 +18,15 @@ public class Player {
     Map wholeMap;
     HashMap<Integer, Integer>totalDeployment; //totalUnits: key: level, value: num of units
     ArrayList<Action> ActionList;//list of actions
+
+    /**
+     * get player id
+     * @return int of id
+     */
+    public int getId() {
+        return id;
+    }
+
 
     /**
      * Constructor
@@ -68,10 +78,10 @@ public class Player {
     public boolean deploy(int numOfDeployedUnits, String to_name){
         if (numOfDeployedUnits <= totalDeployment.get(1)){ // get level 1
             Territory to = myTerritories.get(to_name);
-            HashMap<Integer, Integer> unitMap = new HashMap<>();
-            unitMap.put(1, numOfDeployedUnits);
+            HashMap<Integer, Integer> unitNumber = new HashMap<>();
+            unitNumber.put(1, numOfDeployedUnits);
             try {
-                DeployAction deploy_action = new DeployAction(to, unitMap);
+                DeployAction deploy_action = new DeployAction(to, unitNumber);
                 deploy_action.doAction();
                 totalDeployment.replace(1, totalDeployment.get(1) - numOfDeployedUnits);
                 ActionList.add(deploy_action);
@@ -133,8 +143,9 @@ public class Player {
         return true;
     }
 
+
     //TODO why play one round is using while
-    public void playOneRound(){
+    public void playOneRound() throws IOException {
         //play one round
         while(true) {
             //TODO: clear ActionList

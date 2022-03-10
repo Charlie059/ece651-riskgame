@@ -5,7 +5,12 @@ package edu.duke.ece651.client;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 class ClientTest {
-    @Test void appHasAGreeting() {
+    @Test
+    void initPlayerTEST() throws IOException {
+        Client client = new Client(1651, "127.0.0.1");
+
     }
 }

@@ -3,6 +3,11 @@ package edu.duke.ece651.client;
 import edu.duke.ece651.shared.PlayerCounter;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerTest {
@@ -40,5 +45,19 @@ class PlayerTest {
             System.out.println("key: " + i + " value: " + p3.myTerritories.get(i));
             assertEquals(p3.wholeMap.getTerritoryList().get(i), p3.myTerritories.get(i));
         }
+    }
+
+    @Test
+    void playOneRoundTEST() throws IOException {
+//        Player player =  new Player(0, 3, new BufferedReader(new InputStreamReader(System.in)), System.out);
+//
+//        while(true){
+//            player.playOneRound();
+//            System.out.println("Next Round");
+//        }
+        Scanner scan = new Scanner(System.in);
+        String s = scan.next();
+        System.out.println(s);
+
     }
 }

@@ -13,21 +13,30 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class Server {
+
+  private final int portNum;
+  private final ServerSocket serversocket;
+  private ExecutorService service;
+
+  public Server(int portNum) throws IOException {
+    this.portNum = portNum;
+    this.serversocket = new ServerSocket(this.portNum);
+    this.service = Executors.newFixedThreadPool(16);
+  }
+
   // ServerJSON
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-    // if (args.length != 1) {
-    //   throw new IllegalArgumentException("Syntex: ./Server <port>");
-    // }
-    System.out.println("On port" + "1651");
+//    Server server = new Server(1651);
     ServerSocket serversocket = new ServerSocket(1651);
 
-    // The max number of throwed threads by service
+    // The max number of threads by service
     ExecutorService service = Executors.newFixedThreadPool(16);
     ArrayList<Future<?>> futureList = new ArrayList<>();
 
@@ -38,7 +47,6 @@ public class Server {
     InputStream in = hostsocket.getInputStream();
     OutputStream out = hostsocket.getOutputStream();
 
-//    var hostwriter = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
     var hostwriter = new OutputStreamWriter(out, StandardCharsets.UTF_8);
     var hostreader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
@@ -66,6 +74,7 @@ public class Server {
       OutputStream client_out = clientsocket.getOutputStream();
       var ClientWriter = new BufferedWriter(new OutputStreamWriter(client_out,StandardCharsets.UTF_8));
 
+      // Server send player id and total_num_player
       ClientWriter.write(p.getInstance().getCurrent_id() + " " + num_player + "\n");
       ClientWriter.flush();
       clientSocketList.add(clientsocket);

@@ -21,7 +21,13 @@ public class DeployAction extends Action{
      */
     @Override
     public void doAction() throws IllegalArgumentException{
-
+        //TODO TEST
+        System.out.println("______________________________________________________");
+        System.out.println("DO Action, from: " + this.getFrom() + " to: " + this.getTo());
+        for(Integer i: getUnitNumber().keySet()){
+            System.out.println("Level: " + i + " Nums: " + getUnitNumber().get(i));
+        }
+        System.out.println("______________________________________________________");
     }
 
 }
