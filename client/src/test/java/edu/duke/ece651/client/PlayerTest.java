@@ -10,7 +10,7 @@ class PlayerTest {
     @Test
     void constructorTest() {
         Player p1 = new Player(1,3);
-        assertEquals(p1.id, 1);
+        assertEquals(p1.getId(), 1);
         assertEquals(p1.wholeMap.getTerritoryList().size(), 9);
         assertEquals(p1.myTerritories.size(), 3);
     }
@@ -18,13 +18,13 @@ class PlayerTest {
     @Test
     void multiPlayersTest(){
         PlayerCounter player_counter = null;//count player id
-        Player p1 = new Player(player_counter.getInstance().getCurrent_id(),2);//id: 1
-        Player p2 = new Player(player_counter.getInstance().getCurrent_id(),2);//id: 2
-        Player p3 = new Player(player_counter.getInstance().getCurrent_id(),2);//id: 3
+        Player p1 = new Player(player_counter.getInstance().getCurrent_id(),3);//id: 1
+        Player p2 = new Player(player_counter.getInstance().getCurrent_id(),3);//id: 2
+        Player p3 = new Player(player_counter.getInstance().getCurrent_id(),3);//id: 3
         //check ids
-        assertEquals(p1.id, 1);
-        assertEquals(p2.id, 2);
-        assertEquals(p3.id, 3);
+        assertEquals(p1.getId(), 1);
+        assertEquals(p2.getId(), 2);
+        assertEquals(p3.getId(), 3);
         //check initial territories
         for (String i : p1.myTerritories.keySet()) {
             System.out.println("key: " + i + " value: " + p1.myTerritories.get(i));
