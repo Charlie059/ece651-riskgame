@@ -49,15 +49,7 @@ class PlayerTest {
 
     @Test
     void playOneRoundTEST() throws IOException {
-//        Player player =  new Player(0, 3, new BufferedReader(new InputStreamReader(System.in)), System.out);
-//
-//        while(true){
-//            player.playOneRound();
-//            System.out.println("Next Round");
-//        }
-        Scanner scan = new Scanner(System.in);
-        String s = scan.next();
-        System.out.println(s);
+
 
     }
 }
