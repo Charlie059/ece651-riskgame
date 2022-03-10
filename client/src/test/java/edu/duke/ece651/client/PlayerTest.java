@@ -9,7 +9,7 @@ class PlayerTest {
 
     @Test
     void constructorTest() {
-        Player p1 = new Player(1,2);
+        Player p1 = new Player(1,3);
         assertEquals(p1.id, 1);
         assertEquals(p1.wholeMap.getTerritoryList().size(), 9);
         assertEquals(p1.myTerritories.size(), 3);

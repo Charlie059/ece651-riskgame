@@ -54,12 +54,23 @@ public class Client {
   }
 
 
+  public void initPlayer() throws IOException {
+    String msg = this.recvMsg();
+    if(msg.equals("1")){ // 1 means HOST
+      //TODO user input checker class
+      System.out.println("You are Host!, please send number of players: ");
+      int total_player = 2;
+      System.out.println("You entered " + String.valueOf(total_player));
+      this.sendMsg(String.valueOf(total_player));
+      this.player = new Player(Integer.parseInt(msg), total_player);
+    }else{
+      System.out.println("You are Player");
+//      String[] splited = str.split("\\s+");
+    }
+//    this.player = new Player(Integer.parseInt(msg), );
+  }
+
   public static void main(String[] args) throws IOException, InterruptedException {
-//    Socket socket = new Socket("127.0.0.1", 1651);
-//    InputStream in = socket.getInputStream();
-//    OutputStream out = socket.getOutputStream();
-//    var writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
-//    var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
     Client client = null;
     try {
       client = new Client(1651, "127.0.0.1");
@@ -71,14 +82,10 @@ public class Client {
     }
 
     String s = client.reader.readLine();
-    System.out.println(s);
-
     if(s.equals("H")){
       System.out.println("You are Host!, please send number of players: ");
       int total_player = 2;
       System.out.println("You entered " + String.valueOf(total_player));
-//      writer.write(String.valueOf(total_player)+"\n");
-//      writer.flush();
       client.sendMsg(String.valueOf(total_player));
     }else{
       System.out.println("You are Player");
@@ -86,14 +93,10 @@ public class Client {
 
     while(true){
       //receive()
-//      String received_message = reader.readLine();
       String received_message = client.recvMsg();
       //parse()
       System.out.println(received_message);
-
       //confirm()
-//      writer.write("I Know!" + "\n");
-//      writer.flush();
       client.sendMsg(String.valueOf("I Know!"));
       TimeUnit.SECONDS.sleep(10);
     }
