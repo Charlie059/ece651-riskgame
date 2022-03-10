@@ -1,5 +1,7 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.shared.PlayerCounter;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -40,9 +42,11 @@ public class Server {
     var hostwriter = new OutputStreamWriter(out, StandardCharsets.UTF_8);
     var hostreader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
+    PlayerCounter p = null;
+
 
     //Send special char to HostClient
-    hostwriter.write("H" + "\n");
+    hostwriter.write(p.getInstance().getCurrent_id() + "\n");
     hostwriter.flush();
 
 
@@ -61,7 +65,8 @@ public class Server {
       Socket clientsocket = serversocket.accept();
       OutputStream client_out = clientsocket.getOutputStream();
       var ClientWriter = new BufferedWriter(new OutputStreamWriter(client_out,StandardCharsets.UTF_8));
-      ClientWriter.write("C\n");
+
+      ClientWriter.write(p.getInstance().getCurrent_id() + " " + num_player + "\n");
       ClientWriter.flush();
       clientSocketList.add(clientsocket);
     }
