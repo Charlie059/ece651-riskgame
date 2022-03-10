@@ -3,17 +3,21 @@ package edu.duke.ece651.client;
 import edu.duke.ece651.shared.Map;
 import edu.duke.ece651.shared.Territory;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player {
-    int id; //player id
-    int numOfPlayers;
-    boolean isFirstRound; //deploy
-    boolean isLose; //commit
-    boolean isGameOver;
-    boolean isWon;
+
+    private int id; //player id
+    private int numOfPlayers;
+    private BufferedReader inputReader;
+    private PrintStream out;
+    private boolean isFirstRound; //deploy
+    private boolean isLose; //commit
+    private boolean isGameOver;
+    private boolean isWon;
     HashMap<String, Territory> myTerritories;//all territories of the player
     Map wholeMap;
     HashMap<Integer, Integer>totalDeployment; //totalUnits: key: level, value: num of units
@@ -36,6 +40,10 @@ public class Player {
     public Player(int _id, int _numOfPlayer){
         id = _id;
         numOfPlayers = _numOfPlayer;
+        InputStreamReader myReader = new InputStreamReader(System.in);
+        inputReader = new BufferedReader(myReader);
+        out = new PrintStream(OutputStream.nullOutputStream());
+
         isFirstRound = true;
         isLose = false;
         isGameOver= false;
@@ -45,6 +53,19 @@ public class Player {
         setInitialTerritories(myTerritories, wholeMap);
         initializeDeployment();
         ActionList = new ArrayList<>();
+    }
+
+    /**
+     * Constructor 2
+     * @param _id
+     * @param _numOfPlayer
+     * @param _in
+     * @param _out
+     */
+    public Player(int _id, int _numOfPlayer, BufferedReader _in, PrintStream _out){
+        this(_id, _numOfPlayer);
+        inputReader = _in;
+        out = _out;
     }
 
     /**
@@ -67,6 +88,46 @@ public class Player {
     public void initializeDeployment(){
         totalDeployment = new HashMap<>();
         totalDeployment.put(1, myTerritories.size() * 3);// add 9 level 1 units
+    }
+
+    /**
+     * ask player to select an action
+     * @param inputReader
+     * @param out
+     * @return
+     */
+    public String playerMakeChoice(BufferedReader inputReader, PrintStream out) throws IOException{
+        String choice;
+        boolean isChoiceValid= true;
+        do {
+            out.println("You are Player " + id + ", what would you like to do?");
+            out.println("(M)ove\n(A)ttack\n(D)one\n");
+            choice = inputReader.readLine();
+            if (choice == "M" || choice == "m" || choice == "A" || choice == "a"
+                    || choice == "D" || choice == "d") {
+                return choice;
+            }
+            else{
+                out.println("Input Error: please enter a valid choice\n(M)ove\n(A)ttack\n(D)one\n");
+                isChoiceValid = false;
+            }
+        } while(isChoiceValid == false);
+
+        choice = choice.toUpperCase();
+        if (choice == "M"){
+            //TODO: MOVE
+
+//                move();
+        }
+        else if (choice == "A"){
+            //TODO: Attack
+//                attack();
+        }
+        else{
+            //TODO: Commit
+        }
+
+        return choice;
     }
 
     /**
@@ -98,6 +159,71 @@ public class Player {
         }
     }
 
+    public boolean isTerrNameMatch(String terrName,  HashMap<String, Territory> myTerritories){
+        for(String terr: myTerritories.keySet()) {
+            if (terrName == terr){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public void playerDoMove(BufferedReader inputReader, PrintStream out) throws IOException{
+        String from_name, to_name;
+        HashMap<Integer, Integer> moveUnits;
+        boolean isFromValid = false;
+        boolean isLevelValid = false;
+        boolean isNumUnitsValid = false;
+        boolean isToValid = true;
+
+        //player chooses to_name
+        do {
+            out.println("Player " + id + ", enter the name of the territory you want to move units from?");
+            for(String terrName: myTerritories.keySet()) {
+                out.println(terrName);
+            }
+            from_name = inputReader.readLine();
+            //check if from_name exists
+            isFromValid = isTerrNameMatch(from_name,  myTerritories);
+            if (isFromValid == false){
+                out.println("No territory name found: please enter a valid name!");
+            }
+        } while(!isFromValid);
+        //player chooses moveUnits
+        Integer level;
+        Integer unitNum;
+        do{
+            out.println("Player " + id + ", which level of unit do you want to move?");
+            for(Integer i :totalDeployment.keySet()) {
+                //out.println("Level "+ i+ ": ");
+            }
+            int l = Integer.parseInt(inputReader.readLine());
+            level = l;
+            //check if level exists
+            isLevelValid = totalDeployment.get(level) == null? false: true;
+            if (isLevelValid == false){
+                out.println("Level not found: please enter a valid level!");
+            }
+        } while(!isLevelValid);
+
+        //player set the number of units
+        do{
+            out.println("Player " + id + ", how many number of level " + level +" units do you want to move?");
+            int num = Integer.parseInt(inputReader.readLine());
+            if ( totalDeployment.get(level) >= num){
+                isNumUnitsValid = true;
+            }
+            else{
+//                out.println("Number of Units cannot exceed the maximum number of units in territory " + );
+            }
+        }while(!isNumUnitsValid);
+
+
+        out.println("Player "+id+ ", where do you want to move to?");
+
+    }
+
     /**
      * move units from one territory to another territory
      * @param moveUnits
@@ -105,6 +231,7 @@ public class Player {
      * @param to_name
      * @return
      */
+
     public boolean move(HashMap<Integer, Integer> moveUnits, String from_name, String to_name){
         try {
             Territory from = myTerritories.get(from_name);
@@ -147,38 +274,75 @@ public class Player {
     //TODO why play one round is using while
     public void playOneRound() throws IOException {
         //play one round
-        while(true) {
-            //TODO: clear ActionList
-            ActionList.clear();
+        //TODO: clear ActionList
+        ActionList.clear();
 
-            if (this.isFirstRound) {
-                //TODO:deploy unit
+        if (this.isFirstRound) {
+            //TODO:deploy unit
+            HashMap<Integer, Integer> unitHashMap = new HashMap<>();
+            unitHashMap.put(1,2);
+            unitHashMap.put(2,4);
+            unitHashMap.put(3,1);
 
-                this.isFirstRound = false;
-            }
+            deploy(5, "Duke");
 
-            //not first round
-            while (!this.isGameOver) {
-                if (!this.isLose) {
-                    //TODO:
-                    //receive map from server (JSON)
-                    //update isLose, isGameOver, isWon
-                    // 1) Move 2) Attack 3) Commit
-                } else {
-                    //receive map from server
-                    //update isGameOver
-                    //3) commit
+            this.isFirstRound = false;
+            return;
+        }
+
+        //not first round
+        while (!this.isGameOver) {
+            if (!this.isLose) {
+                //TODO:
+                //receive map from server (JSON)
+                //update isLose, isGameOver, isWon
+                // 1) Move 2) Attack 3) Commit
+
+                //                    playerChoice = playerMakeChoice(this.inputReader, this.out);
+
+//                String playerChoice = inputReader.readLine();
+                Scanner scan = new Scanner(System.in);
+                String playerChoice = scan.nextLine();
+                playerChoice = playerChoice.toUpperCase();
+                if (playerChoice == "M"){
+                    //TODO: MOVE
+
+                    HashMap<Integer, Integer> unitHashMap = new HashMap<>();
+                    unitHashMap.put(1,2);
+                    unitHashMap.put(2,4);
+                    unitHashMap.put(3,1);
+
+                    move(unitHashMap, "Duke", "Tex");
+                }
+                else if (playerChoice == "A"){
+                    //TODO: Attack
+
+                    HashMap<Integer, Integer> unitHashMap = new HashMap<>();
+                    unitHashMap.put(1,2);
+                    unitHashMap.put(2,4);
+                    unitHashMap.put(3,1);
+
+                    attack(unitHashMap, "iceland", "UK");
+                }
+                else{
+                    //TODO: Commit
+                    return;
                 }
 
-            }
-            //gameOver
-            if (this.isWon) {
-                //TODO: let player know he wins
             } else {
-                //TODO: let player know he loses
+                //receive map from server
+                //update isGameOver
+                //3) commit
+                return;
             }
-
-
+        }
+        //gameOver
+        if (this.isWon) {
+            //TODO: let player know he wins
+            out.println("You are WIN");
+        } else {
+            //TODO: let player know he loses
+            out.println("You are LOSE");
         }
     }
 }
