@@ -8,7 +8,7 @@ public abstract class Action {
     private String actionName;
     private Territory from;
     private Territory to;
-    private HashMap<Integer, Integer> unitMap; // level and numbers
+    private HashMap<Integer, Integer> unitNumber; // level and numbers
     // TODO Client rule checker
 
     /**
@@ -20,7 +20,7 @@ public abstract class Action {
     public Action(Territory from, Territory to, HashMap<Integer, Integer> unitMap, String actionName){
         this.from = from;
         this.to = to;
-        this.unitMap = unitMap;
+        this.unitNumber = unitMap;
         this.actionName = actionName;
     }
 
@@ -47,7 +47,7 @@ public abstract class Action {
         return to;
     }
 
-    public HashMap<Integer, Integer> getUnitMap() {
-        return unitMap;
+    public HashMap<Integer, Integer> getUnitNumber() {
+        return unitNumber;
     }
 }
