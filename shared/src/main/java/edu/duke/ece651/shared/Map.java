@@ -2,6 +2,8 @@ package edu.duke.ece651.shared;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Stack;
 
 public class Map {
     public int numOfPlayers; // number of player = 3
@@ -59,16 +61,34 @@ public class Map {
      * @return return true if path existed, else return false.
      */
     public boolean isPathExist(int playerID, String from, String to) throws IllegalArgumentException {
-        Territory territorySrc = territoryList.get(from);
-        Territory territoryDst = territoryList.get(to);
+        Territory terrSrc = territoryList.get(from);
+        Territory terrDst = territoryList.get(to);
 
-        if(territorySrc.getOwner() != playerID ||  territoryDst.getOwner() != playerID){
-            throw new IllegalArgumentException("territory from and territory to belong to different(wrong) player.");
+        if (terrSrc.getOwner() != playerID || terrDst.getOwner() != playerID) {
+            throw new IllegalArgumentException(
+                    "territory (from) and territory (to) belong to different(wrong) player.");
         }
-            
-        //todo: search a path from A to B using adjacentlist (DFS)
 
-        return true;
+        // DFS search an existed path
+        HashSet<Territory> visited = new HashSet<Territory>();
+        Stack<Territory> s = new Stack<Territory>();
+
+        s.push(terrSrc);
+        visited.add(terrSrc);
+        while (!s.empty()) {
+            Territory cur_node = s.pop();
+            if (cur_node.equals(terrDst))
+                return true;
+
+            for (Territory t : cur_node.neighbours) {
+                if (visited.contains(t) == false && t.getOwner() == playerID) {
+                    visited.add(t);
+                    s.push(t);
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -85,14 +105,14 @@ public class Map {
         Territory t1 = territoryList.get(Terr1);
         Territory t2 = territoryList.get(Terr2);
 
-        if(t1.getOwner() != playerID || t2.getOwner() == playerID){
+        if (t1.getOwner() != playerID || t2.getOwner() == playerID) {
             throw new IllegalArgumentException("Terr1 and Terr2 belong to the same(wrong) player.");
         }
-        
+
         // check Terr1's neighbourList whether contains Terr2
         for (Territory it : t1.neighbours) {
-            if(it.getName().equals(Terr2))
-                return true;   
+            if (it.getName().equals(Terr2))
+                return true;
         }
         return false;
     }
