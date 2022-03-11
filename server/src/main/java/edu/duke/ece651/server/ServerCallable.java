@@ -17,7 +17,6 @@ public class ServerCallable implements Callable<String> {
   private Socket socket;
 
   ServerCallable(Socket socket) {
-
     this.socket = socket;
   }
 
