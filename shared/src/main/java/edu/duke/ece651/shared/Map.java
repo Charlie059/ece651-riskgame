@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class Map {
     public int numOfPlayers; // number of player = 3
-    MapFactory myMapFactory;
+    private MapFactory myMapFactory;
     HashMap<String, Territory> territoryList;
     ArrayList<ArrayList<String>> groups;
 
@@ -58,20 +58,42 @@ public class Map {
      * @param to
      * @return return true if path existed, else return false.
      */
-    public boolean isPathExist(int playerID, String from, String to) {
+    public boolean isPathExist(int playerID, String from, String to) throws IllegalArgumentException {
+        Territory territorySrc = territoryList.get(from);
+        Territory territoryDst = territoryList.get(to);
+
+        if(territorySrc.getOwner() != playerID ||  territoryDst.getOwner() != playerID){
+            throw new IllegalArgumentException("territory from and territory to belong to different(wrong) player.");
+        }
+            
+        //todo: search a path from A to B using adjacentlist (DFS)
+
         return true;
     }
 
     /**
-     * Used in Attack action, check if the two territories (with names "Terr1" and
-     * "Terr2") are neighbors and belong to different players. ? 
+     * Used in Attack action, territory(Terr1) belongs to playerID, check whether
+     * territory(Terr2) belongs to another player.
+     * If yes, check whether these two territories are adjacent.
      * 
      * @param playerID
      * @param Terr1
      * @param Terr2
-     * @return
+     * @return check result
      */
-    public boolean isAdjacent(int playerID, String Terr1, String Terr2) {
-        return true;
+    public boolean isAdjacent(int playerID, String Terr1, String Terr2) throws IllegalArgumentException {
+        Territory t1 = territoryList.get(Terr1);
+        Territory t2 = territoryList.get(Terr2);
+
+        if(t1.getOwner() != playerID || t2.getOwner() == playerID){
+            throw new IllegalArgumentException("Terr1 and Terr2 belong to the same(wrong) player.");
+        }
+        
+        // check Terr1's neighbourList whether contains Terr2
+        for (Territory it : t1.neighbours) {
+            if(it.getName().equals(Terr2))
+                return true;   
+        }
+        return false;
     }
 }
