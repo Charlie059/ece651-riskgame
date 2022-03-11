@@ -106,38 +106,60 @@ public class Player {
      * @param out
      * @return
      */
-    public String playerMakeChoice(BufferedReader inputReader, PrintStream out) throws IOException{
+    public void playerMakeChoice(BufferedReader inputReader, PrintStream out) throws IOException{
         String choice;
-        boolean isChoiceValid= true;
+        boolean isChoiceValid= false;
         do {
             out.println("You are Player " + id + ", what would you like to do?");
             out.println("(M)ove\n(A)ttack\n(D)one\n");
             choice = inputReader.readLine();
-            if (choice == "M" || choice == "m" || choice == "A" || choice == "a"
-                    || choice == "D" || choice == "d") {
-                return choice;
+            if (choice.equals("M") || choice.equals("m") || choice.equals("A") || choice.equals("a")
+                    || choice.equals("D") || choice.equals("d")) {
+                isChoiceValid = true;
             }
             else{
                 out.println("Input Error: please enter a valid choice\n(M)ove\n(A)ttack\n(D)one\n");
-                isChoiceValid = false;
             }
-        } while(isChoiceValid == false);
+        } while(!isChoiceValid);
 
         choice = choice.toUpperCase();
-        if (choice == "M"){
+        if (choice.equals("M")){
             //TODO: MOVE
-
-//                move();
+            playerDoMove(inputReader, out);
         }
-        else if (choice == "A"){
+        else if (choice.equals("A")){
             //TODO: Attack
-//                attack();
+           playerDoAttack(inputReader, out);
         }
         else{
             //TODO: Commit
+            return;
         }
+        return;
+    }
 
-        return choice;
+    public void playerDoDeploy(BufferedReader inputReader, PrintStream out) throws IOException {
+        //player set the number of units
+        out.println("Player "+ id+ ": you have " + this.totalDeployment.get(1) + "level 1 units");
+        out.println("You can deploy them in your " + this.myTerritories.size() + " territories");
+        Integer unitNum;
+        Integer level = 1;
+        boolean isNumUnitsValid = false;
+        for(String terrName: this.myTerritories.keySet()) {
+            do {
+                out.println("Player " + id + ", how many number of level 1 units do you want to deploy in territory "
+                        + terrName +"?");
+                int num = Integer.parseInt(inputReader.readLine());
+                unitNum = num;
+                if (totalDeployment.get(level) >= unitNum) {
+                    isNumUnitsValid = true;
+                } else {
+                    out.println("Number of level " + level + " units cannot exceed the maximum " +
+                            "number of that unit in territory " + terrName);
+                }
+            } while (!isNumUnitsValid);
+            deploy(unitNum, terrName);
+        }
     }
 
     /**
@@ -169,19 +191,30 @@ public class Player {
         }
     }
 
+    /**
+     * helper function: check if input territory name matches names in myTerritories
+     * @param terrName
+     * @param myTerritories
+     * @return
+     */
     public boolean isTerrNameMatch(String terrName,  HashMap<String, Territory> myTerritories){
         for(String terr: myTerritories.keySet()) {
-            if (terrName == terr){
+            if (terrName.equals(terr)){
                 return true;
             }
         }
         return false;
     }
 
-
+    /**
+     * player inputs parameters of move action
+     * @param inputReader
+     * @param out
+     * @throws IOException
+     */
     public void playerDoMove(BufferedReader inputReader, PrintStream out) throws IOException{
         String from_name, to_name;
-        HashMap<Integer, Integer> moveUnits;
+        HashMap<Integer, Integer> moveUnits = new HashMap<>();
         boolean isFromValid = false;
         boolean isLevelValid = false;
         boolean isNumUnitsValid = false;
@@ -206,32 +239,46 @@ public class Player {
         do{
             out.println("Player " + id + ", which level of unit do you want to move?");
             for(Integer i :totalDeployment.keySet()) {
-                //out.println("Level "+ i+ ": ");
+                out.println("(" + i + ") Level "+ i+ " has " + totalDeployment.get(i)+ " units.");
             }
             int l = Integer.parseInt(inputReader.readLine());
             level = l;
-            //check if level exists
+            //check if level exists in totalDeployment
             isLevelValid = totalDeployment.get(level) == null? false: true;
             if (isLevelValid == false){
                 out.println("Level not found: please enter a valid level!");
             }
         } while(!isLevelValid);
-
         //player set the number of units
         do{
             out.println("Player " + id + ", how many number of level " + level +" units do you want to move?");
             int num = Integer.parseInt(inputReader.readLine());
-            if ( totalDeployment.get(level) >= num){
+            unitNum = num;
+            if ( totalDeployment.get(level) >= unitNum){
                 isNumUnitsValid = true;
             }
             else{
-//                out.println("Number of Units cannot exceed the maximum number of units in territory " + );
+                out.println("Number of level " + level + " units cannot exceed the maximum " +
+                        "number of that unit in territory " + from_name);
             }
         }while(!isNumUnitsValid);
-
-
-        out.println("Player "+id+ ", where do you want to move to?");
-
+        moveUnits.put(level, unitNum);
+        //player set territory he wants to move to
+        do {
+            out.println("Player " + id + ", enter the name of the territory you want to move units to:");
+            for(String terrName: myTerritories.keySet()) {
+                if (terrName != from_name) {
+                    out.println(terrName);
+                }
+            }
+            to_name = inputReader.readLine();
+            //check if from_name exists
+            isToValid = isTerrNameMatch(to_name,  myTerritories);
+            if (isToValid == false){
+                out.println("No territory name found: please enter a valid name!");
+            }
+        } while(!isToValid);
+        move(moveUnits, from_name, to_name);
     }
 
     /**
@@ -256,6 +303,86 @@ public class Player {
         }
         return true;
     }
+
+    public void playerDoAttack(BufferedReader inputReader, PrintStream out) throws IOException{
+        String from_name, to_name;
+        HashMap<Integer, Integer> attackUnits = new HashMap<>();
+        boolean isFromValid = false;
+        boolean isLevelValid = false;
+        boolean isNumUnitsValid = false;
+        boolean isToValid = true;
+
+        //player chooses to_name
+        do {
+            out.println("Player " + id + ", enter the name of the territory you want to send units from?");
+            for(String terrName: myTerritories.keySet()) {
+                out.println(terrName);
+            }
+            from_name = inputReader.readLine();
+            //check if from_name exists
+            isFromValid = isTerrNameMatch(from_name,  myTerritories);
+            if (isFromValid == false){
+                out.println("No territory name found: please enter a valid name!");
+            }
+        } while(!isFromValid);
+        //player chooses attackUnits
+        Integer level;
+        Integer unitNum;
+        do{
+            out.println("Player " + id + ", which level of unit do you want to send?");
+            out.println("Territory "+ from_name+ ":");
+            for(Integer i :totalDeployment.keySet()) {
+                out.println("   (" + i + ") Level "+ i+ " has " + totalDeployment.get(i)+ " units.");
+                out.println();
+            }
+            int l = Integer.parseInt(inputReader.readLine());
+            level = l;
+            //check if level exists in totalDeployment
+            isLevelValid = totalDeployment.get(level) == null? false: true;
+            if (isLevelValid == false){
+                out.println("Level not found: please enter a valid level!");
+            }
+        } while(!isLevelValid);
+        //player set the number of units
+        do{
+            out.println("Player " + id + ", how many number of level " + level +" units do you want to send?");
+            int num = Integer.parseInt(inputReader.readLine());
+            unitNum = num;
+            if ( totalDeployment.get(level) >= unitNum){
+                isNumUnitsValid = true;
+            }
+            else{
+                out.println("Number of level " + level + " units cannot exceed the maximum " +
+                        "number of that unit in territory " + from_name);
+            }
+        }while(!isNumUnitsValid);
+        attackUnits.put(level, unitNum);
+        //player set territory he wants to attack
+        do {
+            out.println("Player " + id + ", enter the name of the territory you want to attack:");
+            for(String terrName: wholeMap.getTerritoryList().keySet()) {
+                //should not display player's own territories
+                if (wholeMap.getTerritoryList().get(terrName).getOwner() != this.id) {
+                    out.println(wholeMap.getTerritoryList().get(terrName)+ ": ");
+                    out.println("   Owner: player" + wholeMap.getTerritoryList().get(terrName).getOwner());
+                    out.println("   Units:");
+                    for(Integer i: wholeMap.getTerritoryList().get(terrName).getUnits().keySet()){
+                        out.println("       Level " + i + " Units: " +
+                                wholeMap.getTerritoryList().get(terrName).getUnits().get(i));
+                    }
+                    out.println();
+                }
+            }
+            to_name = inputReader.readLine();
+            //check if from_name exists
+            isToValid = isTerrNameMatch(to_name,  myTerritories);
+            if (isToValid == false){
+                out.println("No territory name found: please enter a valid name!");
+            }
+        } while(!isToValid);
+        attack(attackUnits, from_name, to_name);
+    }
+
 
     /**
      *send their units to an adjacent territory controlled by a different

@@ -40,6 +40,10 @@ public class Territory {
         return ownerId;
     }
 
+    public HashMap<Integer, ArrayList<Unit>> getUnits(){
+        return Units;
+    }
+
     /**
      * add one unit to the territory
      * @param u
