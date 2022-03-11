@@ -51,3 +51,8 @@ clover{
     }
 }
 
+run{
+    standardInput = System.in
+}
+
+
