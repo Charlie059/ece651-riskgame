@@ -71,9 +71,9 @@ public class Client {
       System.out.println("You are Host!, please send number of players: ");
 
       //TODO user input checker class
-      Scanner scan = new Scanner(System.in);
-      String userInput = scan.next();
-      int total_player = Integer.parseInt(userInput);
+      Scanner reader = new Scanner(System.in);
+      System.out.println("Enter a number: ");
+      int total_player = reader.nextInt();
       System.out.println("You entered " + String.valueOf(total_player));
       this.sendMsg(String.valueOf(total_player));
 
