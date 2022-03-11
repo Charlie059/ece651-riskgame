@@ -43,7 +43,6 @@ public class Player {
         InputStreamReader myReader = new InputStreamReader(System.in);
         inputReader = new BufferedReader(myReader);
         out = new PrintStream(OutputStream.nullOutputStream());
-
         isFirstRound = true;
         isLose = false;
         isGameOver= false;
@@ -63,7 +62,18 @@ public class Player {
      * @param _out
      */
     public Player(int _id, int _numOfPlayer, BufferedReader _in, PrintStream _out){
-        this(_id, _numOfPlayer);
+        id = _id;
+        numOfPlayers = _numOfPlayer;
+        InputStreamReader myReader = new InputStreamReader(System.in);
+        isFirstRound = true;
+        isLose = false;
+        isGameOver= false;
+        isWon = false;
+        myTerritories = new HashMap<>();
+        wholeMap = new Map(numOfPlayers);
+        setInitialTerritories(myTerritories, wholeMap);
+        initializeDeployment();
+        ActionList = new ArrayList<>();
         inputReader = _in;
         out = _out;
     }
@@ -273,70 +283,58 @@ public class Player {
 
     //TODO why play one round is using while
     public void playOneRound() throws IOException {
-        //play one round
-        //TODO: clear ActionList
         ActionList.clear();
 
+        // Deploy Round
         if (this.isFirstRound) {
-            //TODO:deploy unit
+            //TODO: DEPLOY
+            playerDoDeploy(inputReader, out);
+            /*
             HashMap<Integer, Integer> unitHashMap = new HashMap<>();
             unitHashMap.put(1,2);
             unitHashMap.put(2,4);
             unitHashMap.put(3,1);
 
-            deploy(5, "Duke");
-
+            deploy(5, "a1");
+             */
             this.isFirstRound = false;
             return;
         }
 
-        //not first round
+        //if not in the first round (deploy round)
         while (!this.isGameOver) {
             if (!this.isLose) {
-                //TODO:
-                //receive map from server (JSON)
-                //update isLose, isGameOver, isWon
-                // 1) Move 2) Attack 3) Commit
-
-                //                    playerChoice = playerMakeChoice(this.inputReader, this.out);
-
-//                String playerChoice = inputReader.readLine();
-                Scanner scan = new Scanner(System.in);
-                String playerChoice = scan.nextLine();
+                playerMakeChoice(inputReader, out);
+                /*
+                String playerChoice = this.inputReader.readLine();
                 playerChoice = playerChoice.toUpperCase();
-                if (playerChoice == "M"){
+                if (playerChoice.equals("M")){
                     //TODO: MOVE
-
                     HashMap<Integer, Integer> unitHashMap = new HashMap<>();
                     unitHashMap.put(1,2);
                     unitHashMap.put(2,4);
                     unitHashMap.put(3,1);
 
-                    move(unitHashMap, "Duke", "Tex");
+                    move(unitHashMap, "a1", "a2");
                 }
-                else if (playerChoice == "A"){
+                else if (playerChoice.equals("A")){
                     //TODO: Attack
-
                     HashMap<Integer, Integer> unitHashMap = new HashMap<>();
                     unitHashMap.put(1,2);
                     unitHashMap.put(2,4);
                     unitHashMap.put(3,1);
-
-                    attack(unitHashMap, "iceland", "UK");
+                    attack(unitHashMap, "a2", "a3");
                 }
                 else{
-                    //TODO: Commit
+                    // commit the action and send to server
                     return;
                 }
-
-            } else {
-                //receive map from server
-                //update isGameOver
-                //3) commit
+                */
+            } else { // if player lose, auto commit the action and send to server
                 return;
             }
         }
-        //gameOver
+        // if gameOver
         if (this.isWon) {
             //TODO: let player know he wins
             out.println("You are WIN");

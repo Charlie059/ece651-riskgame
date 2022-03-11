@@ -10,7 +10,6 @@ import java.io.IOException;
 class ClientTest {
     @Test
     void initPlayerTEST() throws IOException {
-        Client client = new Client(1651, "127.0.0.1");
 
     }
 }
