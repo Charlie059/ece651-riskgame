@@ -1,5 +1,7 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.shared.PlayerCounter;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -17,75 +19,102 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public class Server {
-  // ServerJSON
+
+  private final int portNum;
+  private final ServerSocket serversocket;
+  private ExecutorService service;
+  private ArrayList<Future<?>> futureList;
+  private ArrayList<Socket> clientSocketList;
+
+  public Server(int portNum) throws IOException {
+    this.portNum = portNum;
+    this.serversocket = new ServerSocket(this.portNum);
+    this.service = Executors.newFixedThreadPool(16); // The max number of threads by service
+    this.futureList = new ArrayList<>();
+    this.clientSocketList = new ArrayList<Socket>();
+  }
+
+  /**
+   * Accept the connection from the client
+   */
+  public void acceptClient() throws IOException {
+    this.clientSocketList.add(this.serversocket.accept());
+  }
+
+  /**
+   * Send message to the client (Do NOT ADD \n)
+   * @param playerID
+   * @param msg
+   * @throws IOException
+   */
+  public void sendMsg(int playerID, String msg) throws IOException {
+    OutputStream out = clientSocketList.get(playerID - 1).getOutputStream();
+    var writer = new OutputStreamWriter(out, StandardCharsets.UTF_8);
+    writer.write(msg + "\n");
+    writer.flush();
+  }
+
+  /**
+   * Recv msg from client
+   * @param playerID
+   * @return the msg
+   * @throws IOException
+   */
+  public String recvMsg(int playerID) throws IOException {
+    InputStream in = clientSocketList.get(playerID - 1).getInputStream();
+    var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+    return reader.readLine();
+  }
+
+  /**
+   * Clear the future list
+   */
+  public void clearFutureList(){
+    this.futureList.clear();
+  }
+
+
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-    // if (args.length != 1) {
-    //   throw new IllegalArgumentException("Syntex: ./Server <port>");
-    // }
-    System.out.println("On port" + "1651");
-    ServerSocket serversocket = new ServerSocket(1651);
+    // Init Server
+    Server server = new Server(1651);
+    // Init a player counter
+    PlayerCounter p = null;
 
-    // The max number of throwed threads by service
-    ExecutorService service = Executors.newFixedThreadPool(16);
-    ArrayList<Future<?>> futureList = new ArrayList<>();
-
-    // Connect HostServer, ask num_player
-    ArrayList<Socket> clientSocketList = new ArrayList<Socket>();
-    Socket hostsocket = serversocket.accept();
-    clientSocketList.add(hostsocket);
-    InputStream in = hostsocket.getInputStream();
-    OutputStream out = hostsocket.getOutputStream();
-
-//    var hostwriter = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
-    var hostwriter = new OutputStreamWriter(out, StandardCharsets.UTF_8);
-    var hostreader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
-
+    // Accept HostServer, ask num_player
+    server.acceptClient();
 
     //Send special char to HostClient
-    hostwriter.write("H" + "\n");
-    hostwriter.flush();
-
+    server.sendMsg(1, String.valueOf(p.getInstance().getCurrent_id()));
 
     //Get num_player
-    String s = hostreader.readLine();
-    Integer num_player = Integer.parseInt(s);
+    Integer num_player = Integer.parseInt(server.recvMsg(1));
 
-    //TODO: Change to Client
-    if (num_player == 1) {
-      System.out.println("Syntex: player number should be bigger than 1!");
-      return;
-    }
-
-    // connect all required number of player client
+    // Connect all required number of player client
     for (int i = 0; i < num_player - 1; i++) {
-      Socket clientsocket = serversocket.accept();
-      OutputStream client_out = clientsocket.getOutputStream();
-      var ClientWriter = new BufferedWriter(new OutputStreamWriter(client_out,StandardCharsets.UTF_8));
-      ClientWriter.write("C\n");
-      ClientWriter.flush();
-      clientSocketList.add(clientsocket);
+      server.acceptClient();
+      // Server send player id and total_num_player
+      server.sendMsg(i + 2,p.getInstance().getCurrent_id() + " " + num_player); // assign from player id 2 to ...
     }
 
     // Entering the game loop
-
     while (true) {
+      server.clearFutureList();
 
-      futureList.clear();
-      // Thread send receive parse
-      for (int k = 0; k < clientSocketList.size(); k++) {
+      // Thread send msg and receive parse
+      for (int k = 0; k < server.clientSocketList.size(); k++) {
         try {
-          ServerCallable task = new ServerCallable(clientSocketList.get(k));
-          Future<?> future = service.submit(task);
-          futureList.add(future);
+          ServerCallable task = new ServerCallable(server.clientSocketList.get(k));
+          Future<?> future = server.service.submit(task);
+          server.futureList.add(future);
         } finally {
 
         }
       }
 
       // Thread all end
-      // RunGame()
-      for (int i = 0; i < futureList.size(); i++) {
-        String receivedMessage = (String) futureList.get(i).get();
+      for (int i = 0; i < server.futureList.size(); i++) {
+        // recv msg from each thread
+        String receivedMessage = (String) server.futureList.get(i).get();
         System.out.println(receivedMessage);
       }
     }

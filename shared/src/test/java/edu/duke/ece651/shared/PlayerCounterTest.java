@@ -2,7 +2,7 @@ package edu.duke.ece651.shared;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerCounterTest {
 

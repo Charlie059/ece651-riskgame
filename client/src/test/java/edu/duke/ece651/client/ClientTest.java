@@ -4,9 +4,12 @@
 package edu.duke.ece651.client;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
 
 class ClientTest {
-    @Test void appHasAGreeting() {
+    @Test
+    void initPlayerTEST() throws IOException {
+
     }
 }

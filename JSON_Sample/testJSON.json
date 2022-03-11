@@ -1,0 +1,40 @@
+{"actions": [
+  {
+    "actionType": "attack",
+    "from": "Duke",
+    "to": "Durham",
+    "units": [
+      {
+        "level": 3,
+        "value": 1
+      },
+      {
+        "level": 3,
+        "value": 1
+      },
+      {
+        "level": 3,
+        "value": 1
+      }
+    ]
+  },
+  {
+    "actionType": "attack",
+    "from": "Duke",
+    "to": "Tex",
+    "units": [
+      {
+        "level": 3,
+        "value": 1
+      },
+      {
+        "level": 3,
+        "value": 1
+      },
+      {
+        "level": 3,
+        "value": 1
+      }
+    ]
+  }
+]}
