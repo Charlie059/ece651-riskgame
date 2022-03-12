@@ -1,5 +1,7 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.shared.Action;
+import edu.duke.ece651.shared.ClientJSONParser;
 import edu.duke.ece651.shared.Map;
 import edu.duke.ece651.shared.PlayerCounter;
 
@@ -120,6 +122,11 @@ public class Server {
       for (int i = 0; i < server.futureList.size(); i++) {
         // recv msg from each thread
         String receivedMessage = (String) server.futureList.get(i).get();
+
+        // Parse Client JSON
+        ClientJSONParser clientJSONParser = new ClientJSONParser(receivedMessage, map);
+        clientJSONParser.doParse();
+        ArrayList<Action> actionArr = clientJSONParser.getActionArrayList();
         System.out.println(receivedMessage);
       }
     }
