@@ -107,31 +107,33 @@ public class Player {
     public void playerMakeChoice(BufferedReader inputReader, PrintStream out) throws IOException{
         String choice;
         boolean isChoiceValid= false;
-        do {
-            out.println("You are Player " + id + ", what would you like to do?");
-            out.println("(M)ove\n(A)ttack\n(D)one\n");
-            choice = inputReader.readLine();
-            if (choice.equals("M") || choice.equals("m") || choice.equals("A") || choice.equals("a")
-                    || choice.equals("D") || choice.equals("d")) {
-                isChoiceValid = true;
-            }
-            else{
-                out.println("Input Error: please enter a valid choice\n(M)ove\n(A)ttack\n(D)one\n");
-            }
-        } while(!isChoiceValid);
+        while(true){
+            do {
+                out.println("You are Player " + id + ", what would you like to do?");
+                out.println("(M)ove\n(A)ttack\n(D)one\n");
+                choice = inputReader.readLine();
+                if (choice.equals("M") || choice.equals("m") || choice.equals("A") || choice.equals("a")
+                        || choice.equals("D") || choice.equals("d")) {
+                    isChoiceValid = true;
+                }
+                else{
+                    out.println("Input Error: please enter a valid choice\n(M)ove\n(A)ttack\n(D)one\n");
+                }
+            } while(!isChoiceValid);
 
-        choice = choice.toUpperCase();
-        if (choice.equals("M")){
-            //TODO: MOVE
-            playerDoMove(inputReader, out);
-        }
-        else if (choice.equals("A")){
-            //TODO: Attack
-           playerDoAttack(inputReader, out);
-        }
-        else{
-            //TODO: Commit
-            return;
+            choice = choice.toUpperCase();
+            if (choice.equals("M")){
+                //TODO: MOVE
+                playerDoMove(inputReader, out);
+            }
+            else if (choice.equals("A")){
+                //TODO: Attack
+               playerDoAttack(inputReader, out);
+            }
+            else {
+                //TODO: Commit
+                break;
+            }
         }
         return;
     }
@@ -361,7 +363,7 @@ public class Player {
             for(String terrName: wholeMap.getTerritoryList().keySet()) {
                 //should not display player's own territories
                 if (wholeMap.getTerritoryList().get(terrName).getOwner() != this.id) {
-                    out.println(wholeMap.getTerritoryList().get(terrName)+ ": ");
+                    out.println(wholeMap.getTerritoryList().get(terrName).getName()+ ": ");
                     out.println("   Owner: player" + wholeMap.getTerritoryList().get(terrName).getOwner());
                     out.println("   Units:");
                     for(Integer i: wholeMap.getTerritoryList().get(terrName).getUnits().keySet()){
@@ -414,20 +416,12 @@ public class Player {
         if (this.isFirstRound) {
             //TODO: DEPLOY
             playerDoDeploy(inputReader, out);
-            /*
-            HashMap<Integer, Integer> unitHashMap = new HashMap<>();
-            unitHashMap.put(1,2);
-            unitHashMap.put(2,4);
-            unitHashMap.put(3,1);
-
-            deploy(5, "a1");
-             */
             this.isFirstRound = false;
             return;
         }
 
         //if not in the first round (deploy round)
-        while (!this.isGameOver) {
+        if (!this.isGameOver) {
             if (!this.isLose) {
                 playerMakeChoice(inputReader, out);
                 return;
