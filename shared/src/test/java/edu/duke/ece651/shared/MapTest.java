@@ -63,7 +63,8 @@ public class MapTest {
         m.territoryList.get("c1").setOwner(2);
         m.territoryList.get("c2").setOwner(2);
         m.territoryList.get("c3").setOwner(2);
-
+        
+        m.territoryList.get("a1").addUnit(new Unit());
         MapView displayer = new MapTextView(3, System.out);
         m.displayMap(displayer);
 

@@ -50,7 +50,11 @@ public class Territory {
      */
     public void addUnit(Unit u){
         int currUnitLevel = u.getLevel();
+        if(Units.containsKey(currUnitLevel) == false){
+            Units.put(currUnitLevel, new ArrayList<Unit>());
+        }
         Units.get(currUnitLevel).add(u);
+        
     }
     /**
      * remove one unit (head) from the territory

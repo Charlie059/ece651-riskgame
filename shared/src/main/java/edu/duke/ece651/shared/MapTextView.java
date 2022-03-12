@@ -23,11 +23,15 @@ public class MapTextView extends MapView {
         }
         for (String terrName : territoryList.keySet()) {
             Territory t = territoryList.get(terrName);
-            String info = " " + Integer.toString(t.getUnits().size()) + " Units in " + terrName + " (next to:";
+            String info = terrName + " :(next to";
             for (Territory neighbour : t.neighbours) {
                 info += "  " + neighbour.getName();
             }
             info += ")\n";
+            HashMap<Integer, ArrayList<Unit>> Units = t.getUnits();
+            for (Integer level  : Units.keySet()) {
+                info += "level "+ Integer.toString(level) + ": " + Integer.toString(Units.get(level).size()) + " units\n"; 
+            }
             terrsInfo.get(t.getOwner()).add(info);
         }
 
