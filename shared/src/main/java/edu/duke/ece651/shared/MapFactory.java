@@ -13,4 +13,5 @@ public interface MapFactory {
     HashMap<String, Territory> createMap();
 
     ArrayList<ArrayList<String>> createGroupsForPlayer();
+
 }

@@ -9,7 +9,8 @@ public class Map {
     public int numOfPlayers; // number of player = 3
     private MapFactory myMapFactory;
     HashMap<String, Territory> territoryList;
-    ArrayList<ArrayList<String>> groups;
+    ArrayList<ArrayList<String>> groups; // initial territory groups
+    
 
     /**
      * constructor
@@ -21,26 +22,6 @@ public class Map {
         myMapFactory = new TextMapFactory(numOfPlayers);
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
-    }
-
-    /**
-     * Use to test whether each territory has correct neighbour and whether groups
-     * is correct
-     */
-    void showNeighbours_TEST() {
-        for (String name : territoryList.keySet()) {
-            System.out.print("territory[" + name + "]: ");
-            for (Territory t : territoryList.get(name).neighbours) {
-                System.out.print(t.getName() + " ");
-            }
-            System.out.print("\n");
-        }
-        for (ArrayList<String> group : groups) {
-            for (String name : group) {
-                System.out.print(name + " ");
-            }
-            System.out.print("\n");
-        }
     }
 
     public HashMap<String, Territory> getTerritoryList() {
@@ -116,4 +97,17 @@ public class Map {
         }
         return false;
     }
+
+    /**
+     * display map information of the map for client.
+     * @param displayer 
+     * @return null
+     */
+    public void displayMap(MapView displayer){
+        displayer.generateViewInfo(territoryList);
+        displayer.display();
+    }
 }
+
+// visitor design pattern for display
+

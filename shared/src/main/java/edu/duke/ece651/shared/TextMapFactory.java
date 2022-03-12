@@ -91,5 +91,4 @@ public class TextMapFactory implements MapFactory{
         return groups;
     }
 
-
 }
