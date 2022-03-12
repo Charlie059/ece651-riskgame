@@ -1,6 +1,6 @@
-package edu.duke.ece651.client;
+package edu.duke.ece651.shared;
 
-import edu.duke.ece651.shared.Territory;
+import edu.duke.ece651.shared.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -33,12 +33,12 @@ class ClientJSONTest {
                 "      \"to\": \"Durham\",\n" +
                 "      \"units\": [\n" +
                 "        {\n" +
-                "          \"level\": 3,\n" +
-                "          \"value\": 1\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 2\n" +
                 "        },\n" +
                 "        {\n" +
-                "          \"level\": 3,\n" +
-                "          \"value\": 1\n" +
+                "          \"level\": 2,\n" +
+                "          \"value\": 4\n" +
                 "        },\n" +
                 "        {\n" +
                 "          \"level\": 3,\n" +
@@ -52,12 +52,12 @@ class ClientJSONTest {
                 "      \"to\": \"Tex\",\n" +
                 "      \"units\": [\n" +
                 "        {\n" +
-                "          \"level\": 3,\n" +
-                "          \"value\": 1\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 2\n" +
                 "        },\n" +
                 "        {\n" +
-                "          \"level\": 3,\n" +
-                "          \"value\": 1\n" +
+                "          \"level\": 2,\n" +
+                "          \"value\": 4\n" +
                 "        },\n" +
                 "        {\n" +
                 "          \"level\": 3,\n" +

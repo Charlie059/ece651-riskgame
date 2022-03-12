@@ -1,5 +1,6 @@
-package edu.duke.ece651.client;
+package edu.duke.ece651.shared;
 
+import edu.duke.ece651.shared.Action;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -32,11 +33,12 @@ public class ClientJSON {
             action.put("to", this.actionList.get(i).getTo() == null ? JSONObject.NULL : this.actionList.get(i).getTo().getName());
 
             List<JSONObject> unitsList = new ArrayList<> ();
-            JSONObject units = new JSONObject();
+
             HashMap<Integer, Integer> unitMap = this.actionList.get(i).getUnitNumber();
             for (var entry : unitMap.entrySet()) {
                 Integer key = entry.getKey();
                 Integer value = entry.getValue();
+                JSONObject units = new JSONObject();
                 units.put("level", key);
                 units.put("value", value);
                 unitsList.add(units);

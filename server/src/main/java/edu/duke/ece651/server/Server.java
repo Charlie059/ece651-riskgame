@@ -1,9 +1,10 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.shared.Map;
 import edu.duke.ece651.shared.PlayerCounter;
 
+import org.json.*;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -95,6 +96,10 @@ public class Server {
       // Server send player id and total_num_player
       server.sendMsg(i + 2,p.getInstance().getCurrent_id() + " " + num_player); // assign from player id 2 to ...
     }
+
+
+    // Init the map
+    Map map = new Map(num_player);
 
     // Entering the game loop
     while (true) {

@@ -1,4 +1,4 @@
-package edu.duke.ece651.client;
+package edu.duke.ece651.shared;
 
 import edu.duke.ece651.shared.Territory;
 

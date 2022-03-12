@@ -1,12 +1,10 @@
 package edu.duke.ece651.client;
 
-import edu.duke.ece651.shared.Map;
-import edu.duke.ece651.shared.Territory;
+import edu.duke.ece651.shared.*;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Player {
 
@@ -432,31 +430,7 @@ public class Player {
         while (!this.isGameOver) {
             if (!this.isLose) {
                 playerMakeChoice(inputReader, out);
-                /*
-                String playerChoice = this.inputReader.readLine();
-                playerChoice = playerChoice.toUpperCase();
-                if (playerChoice.equals("M")){
-                    //TODO: MOVE
-                    HashMap<Integer, Integer> unitHashMap = new HashMap<>();
-                    unitHashMap.put(1,2);
-                    unitHashMap.put(2,4);
-                    unitHashMap.put(3,1);
-
-                    move(unitHashMap, "a1", "a2");
-                }
-                else if (playerChoice.equals("A")){
-                    //TODO: Attack
-                    HashMap<Integer, Integer> unitHashMap = new HashMap<>();
-                    unitHashMap.put(1,2);
-                    unitHashMap.put(2,4);
-                    unitHashMap.put(3,1);
-                    attack(unitHashMap, "a2", "a3");
-                }
-                else{
-                    // commit the action and send to server
-                    return;
-                }
-                */
+                return;
             } else { // if player lose, auto commit the action and send to server
                 return;
             }

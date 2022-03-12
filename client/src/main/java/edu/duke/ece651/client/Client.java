@@ -4,6 +4,8 @@
 package edu.duke.ece651.client;
 
 
+import edu.duke.ece651.shared.ClientJSON;
+
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;

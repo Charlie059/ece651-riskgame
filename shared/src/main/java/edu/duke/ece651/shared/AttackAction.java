@@ -1,19 +1,18 @@
-package edu.duke.ece651.client;
-
-import edu.duke.ece651.shared.Territory;
+package edu.duke.ece651.shared;
 
 import java.util.HashMap;
 
-public class MoveAction extends Action {
-     /**
-     * Define the constructer of the Action
+public class AttackAction extends Action{
+
+    /**
+     * Define the constructor of the Action
      *
      * @param from    Territory
      * @param to      Territory
      * @param unitMap HashMap<Integer, Integer> indicate level and numbers
      */
-    public MoveAction(Territory from, Territory to, HashMap<Integer, Integer> unitMap) {
-        super(from, to, unitMap, "move");
+    public AttackAction(Territory from, Territory to, HashMap<Integer, Integer> unitMap) {
+        super(from, to, unitMap, "attack");
     }
 
     /**
