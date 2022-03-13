@@ -9,8 +9,9 @@ import java.util.ArrayList;
 public class MapTest {
     @Test
     void testShowNeighbours_TEST() {
-        Map m = new Map(3);
-        assertEquals(m.territoryList.size(), 9);
+        int numOfPlayers = 5;
+        Map m = new Map(numOfPlayers);
+        assertEquals(m.territoryList.size(), 3*numOfPlayers);
         assertEquals(m.numOfPlayers, m.groups.size());
         for (String name : m.territoryList.keySet()) {
             System.out.print("territory[" + name + "]: ");
@@ -19,6 +20,7 @@ public class MapTest {
             }
             System.out.print("\n");
         }
+        System.out.println("show groups:");
         for (ArrayList<String> group : m.groups) {
             for (String name : group) {
                 System.out.print(name + " ");
