@@ -1,0 +1,21 @@
+{
+  "actions": [
+    {
+      "actionType": "deploy",
+      "from": null,
+      "to:": "B",
+      "units": [
+        {
+          "level": 1,
+          "value": 3
+        },
+        {
+          "level": 2,
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+
+

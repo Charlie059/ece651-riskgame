@@ -1,0 +1,51 @@
+{
+  "actions": [
+    {
+      "actionType": "attack",
+      "from": "A",
+      "to:": "B",
+      "units": [
+        {
+          "level": 1,
+          "value": 3
+        },
+        {
+          "level": 2,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "actionType": "move",
+      "from": "A",
+      "to:": "B",
+      "units": [
+        {
+          "level": 1,
+          "value": 3
+        },
+        {
+          "level": 2,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "actionType": "move",
+      "from": "A",
+      "to:": "B",
+      "units": [
+        {
+          "level": 1,
+          "value": 3
+        },
+        {
+          "level": 2,
+          "value": 5
+        }
+      ]
+    }
+  ]
+}
+
+
