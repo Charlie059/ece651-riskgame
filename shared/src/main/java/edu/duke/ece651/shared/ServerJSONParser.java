@@ -1,6 +1,5 @@
 package edu.duke.ece651.shared;
 import org.json.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -67,10 +66,8 @@ public class ServerJSONParser implements JSONParser{
             }
             //if number of units are not equal
             if (numOfNewUnits != t.getUnits().get(level_Integer).size()){
-
                 int numOfOldUnits = t.getUnits().get(level_Integer).size();
                 if (numOfNewUnits > numOfOldUnits){
-
                     int diff = numOfNewUnits - numOfOldUnits;
                     while(diff != 0){
                         Unit u = new Unit(level);

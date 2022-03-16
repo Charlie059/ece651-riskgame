@@ -16,10 +16,10 @@ public class Player {
     private boolean isLose; //commit
     private boolean isGameOver;
     private boolean isWon;
-    HashMap<String, Territory> myTerritories;//all territories of the player
-    Map wholeMap;
-    HashMap<Integer, Integer>totalDeployment; //totalUnits: key: level, value: num of units
-    ArrayList<Action> ActionList;//list of actions
+    private HashMap<String, Territory> myTerritories;//all territories of the player
+    private Map wholeMap;
+    private HashMap<Integer, Integer>totalDeployment; //totalUnits: key: level, value: num of units
+    private ArrayList<Action> ActionList;//list of actions
 
     /**
      * get player id
@@ -28,8 +28,12 @@ public class Player {
     public int getId() {
         return id;
     }
-
-
+    public BufferedReader getInputReader(){return inputReader;}
+    public PrintStream getOut(){return out;}
+    public HashMap<String, Territory> getMyTerritories(){return myTerritories;}
+    public HashMap<Integer, Integer> getTotalDeployment(){return totalDeployment;}
+    public Map getWholeMap(){return wholeMap;}
+    public ArrayList<Action> getActionList(){return ActionList;}
     /**
      * Constructor
      * @param _id
@@ -95,7 +99,7 @@ public class Player {
 
     public void initializeDeployment(){
         totalDeployment = new HashMap<>();
-        totalDeployment.put(1, myTerritories.size() * 3);// add 9 level 1 units
+        totalDeployment.put(1, myTerritories.size() * 3);// add 3 * territory# units to level 1
     }
 
     /**
@@ -138,9 +142,9 @@ public class Player {
         return;
     }
 
-    public void playerDoDeploy(BufferedReader inputReader, PrintStream out) throws IOException {
+    public void playerDoDeploy(BufferedReader inputReader, PrintStream out) throws IOException, Exception {
         //player set the number of units
-        out.println("Player "+ id+ ": you have " + this.totalDeployment.get(1) + "level 1 units");
+        out.println("Player "+ id+ ": you have " + this.totalDeployment.get(1) + " level-1 units");
         out.println("You can deploy them in your " + this.myTerritories.size() + " territories");
         Integer unitNum;
         Integer level = 1;
@@ -154,13 +158,15 @@ public class Player {
                     break;
                 }
                 do {
-                    out.println("Player " + id + ", how many number of level 1 units do you want to deploy in territory "
+                    out.println("Player " + id + ", how many number of level-1 units do you want to deploy in territory "
                             + terrName + "?");
                     int num = Integer.parseInt(inputReader.readLine());
                     unitNum = num;
                     if (totalDeployment.get(level) >= unitNum) {
                         isNumUnitsValid = true;
-                        totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
+                        //totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
+                        out.println("you have deployed " + unitNum + " level-" + level + " units to " +
+                                "Territory " + terrName + "!");
                     } else {
                         out.println("Number of level " + level + " units cannot exceed the maximum " +
                                 "number of that unit in territory " + terrName);
@@ -177,7 +183,8 @@ public class Player {
      * @param to_name
      * @return boolean: whether deployed successfully
      */
-    public boolean deploy(int numOfDeployedUnits, String to_name){
+    public boolean deploy(int numOfDeployedUnits, String to_name) throws Exception {
+
         if (numOfDeployedUnits <= totalDeployment.get(1)){ // get level 1
             Territory to = myTerritories.get(to_name);
             HashMap<Integer, Integer> unitNumber = new HashMap<>();
@@ -189,7 +196,7 @@ public class Player {
                 ActionList.add(deploy_action);
             }
             catch(IllegalArgumentException illegalArg){
-                System.out.println("Deployment Error: Illegal Argument Found");
+                out.println("Deployment Error: Illegal Argument Found");
                 return false;
             }
             return true;
@@ -418,7 +425,7 @@ public class Player {
 
 
     //TODO why play one round is using while
-    public void playOneRound() throws IOException {
+    public void playOneRound() throws IOException, Exception {
         ActionList.clear();
 
         // Deploy Round

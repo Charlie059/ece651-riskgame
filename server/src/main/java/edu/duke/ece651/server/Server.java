@@ -1,10 +1,5 @@
 package edu.duke.ece651.server;
 
-import edu.duke.ece651.shared.Action;
-import edu.duke.ece651.shared.ClientJSONParser;
-import edu.duke.ece651.shared.Map;
-import edu.duke.ece651.shared.PlayerCounter;
-
 import org.json.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +19,8 @@ import java.util.concurrent.Future;
 public class Server {
 
   private final int portNum;
+
+
   private final ServerSocket serversocket;
   private ExecutorService service;
   private ArrayList<Future<?>> futureList;
@@ -76,6 +73,22 @@ public class Server {
     this.futureList.clear();
   }
 
+  /**
+   * Get future list
+   * @return ArrayList<Future<?>>
+   */
+  public ArrayList<Future<?>> getFutureList() {
+    return futureList;
+  }
+
+  /**
+   * Get socket list
+   * @return ArrayList<Socket>
+   */
+  public ArrayList<Socket> getClientSocketList() {
+    return clientSocketList;
+  }
+
 
   /**
    * Get getServersocket
@@ -96,5 +109,6 @@ public class Server {
   public ArrayList<Socket> getClientSocketList() {
     return clientSocketList;
   }
+
 
 }
