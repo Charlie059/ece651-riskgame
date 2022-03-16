@@ -65,11 +65,11 @@ class PlayerTest {
         a[0] = 3;
         a[1] = 4;
         a[2] = 2;
-
         String inputs[] = new String[3];
         inputs[0] = "3\n3\n3\n";
         inputs[1] = "3\n1\n1\n4\n";
         inputs[2] = "3\n6\n";
+
         for(int round = 0; round < 3; round++) {
             System.out.println("--------------------------------------------------------------------");
             Player testPlayer = createTextPlayer(inputs[round]);
@@ -102,7 +102,22 @@ class PlayerTest {
             System.out.println(testPlayer.getActionList().get(j).getTo().getName() +", " +
                     testPlayer.getActionList().get(j).getUnitNumber());
         }
-        //assertThrows(IllegalArgumentException.class, () -> new BattleShipBoard<Character>(10, 0, 'X'));
+
+        System.out.println("--------------------------------------------------------------------");
+        Player testPlayer2 = createTextPlayer("3\n-1\n3\n3\n");
+        assertEquals(testPlayer.getMyTerritories().size(), 3);
+        for (Integer i : testPlayer.getTotalDeployment().keySet()) {
+            System.out.println("Level " + i + ", " + testPlayer.getTotalDeployment().get(i));
+        }
+        testPlayer.playerDoDeploy(testPlayer.getInputReader(), testPlayer.getOut());
+        System.out.println(bytes.toString());
+
+        assertEquals(testPlayer.getActionList().size(), 3);
+        for(int j = 0; j < 3; j++){
+            System.out.println(testPlayer.getActionList().get(j).getTo().getName() +", " +
+                    testPlayer.getActionList().get(j).getUnitNumber());
+        }
+
     }
 
     @Test
@@ -121,4 +136,10 @@ class PlayerTest {
         assertThrows(NullPointerException.class, () -> testPlayer2.deploy(3, "j2"));
 
     }
+
+    @Test
+    void testPlayerDoMove(){
+        Player testPlayer = createTextPlayer("");
+    }
+    //playerDoMove(BufferedReader inputReader, PrintStream out) throws IOException
 }

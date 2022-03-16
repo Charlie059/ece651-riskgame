@@ -162,14 +162,14 @@ public class Player {
                             + terrName + "?");
                     int num = Integer.parseInt(inputReader.readLine());
                     unitNum = num;
-                    if (totalDeployment.get(level) >= unitNum) {
+                    if (totalDeployment.get(level) >= unitNum && unitNum >= 0) {
                         isNumUnitsValid = true;
                         //totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
                         out.println("you have deployed " + unitNum + " level-" + level + " units to " +
                                 "Territory " + terrName + "!");
                     } else {
-                        out.println("Number of level " + level + " units cannot exceed the maximum " +
-                                "number of that unit in territory " + terrName);
+                        out.println("Number of level " + level + "-units cannot be less than o or exceed the total " +
+                                "number of deployment");
                     }
                 } while (!isNumUnitsValid);
                 deploy(unitNum, terrName);
