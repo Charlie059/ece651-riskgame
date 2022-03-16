@@ -14,6 +14,10 @@ public class GameController {
     Map map;
     Server server;
 
+    public GameController(){
+
+    }
+
 
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
