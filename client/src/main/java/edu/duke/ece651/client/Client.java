@@ -90,7 +90,7 @@ public class Client {
 
   }
 
-  public static void main(String[] args) throws IOException, InterruptedException {
+  public static void main(String[] args) throws IOException, InterruptedException, Exception {
     // Init client TCP SOCKET
     Client client = null;
     try {
@@ -114,7 +114,7 @@ public class Client {
 
       // Client play one round: let the user do some actions
       client.player.playOneRound();
-      ClientJSON converter = new ClientJSON(client.player.getId(), client.player.ActionList);
+      ClientJSON converter = new ClientJSON(client.player.getId(),client.player.getActionList());
 
       // Client send the actionJSON(ie. ClientJSON) to the server
       client.sendMsg(String.valueOf(converter.convertTo()));
