@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public interface MapFactory {
     /**
-     * Create a fixed map for 3 players. Each player has three territories in the
+     * Create a fixed map for diiferent number of players(2-5). Each player has 3 territories in the
      * beginning.
      *
      * @return HaspMap of all the territory
@@ -13,4 +13,5 @@ public interface MapFactory {
     HashMap<String, Territory> createMap();
 
     ArrayList<ArrayList<String>> createGroupsForPlayer();
+
 }

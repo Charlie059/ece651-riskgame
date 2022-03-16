@@ -11,7 +11,7 @@ public class Territory {
 
     public Territory(String name, ArrayList<Territory> neighbourList) {
         this.name = name;
-        this.ownerId = -1;
+        this.ownerId = -1;  // ID[0,1,2...]
         this.neighbours = neighbourList;
         this.Units = new HashMap<>();
     }
@@ -55,6 +55,7 @@ public class Territory {
             Units.put(currUnitLevel, new ArrayList<Unit>());
         }
         Units.get(currUnitLevel).add(u);
+        
     }
     /**
      * remove one unit (head) from the territory
