@@ -67,7 +67,6 @@ public class ServerJSONParser implements JSONParser{
             }
             //if number of units are not equal
             if (numOfNewUnits != t.getUnits().get(level_Integer).size()){
-
                 int numOfOldUnits = t.getUnits().get(level_Integer).size();
                 if (numOfNewUnits > numOfOldUnits){
                     int diff = numOfNewUnits - numOfOldUnits;
