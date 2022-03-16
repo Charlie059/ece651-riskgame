@@ -61,18 +61,10 @@ public class ServerJSONParser implements JSONParser{
                 int original_owner = t.getOwner();
                 int new_owner = getObject.getInt("ownerID");
                 //check if ownership changed
-                if (new_owner != original_owner){
-                    t.setOwner(new_owner);
-                    //if current player wins this territory
-                    if (new_owner == myID){
-                        myTerritories.put(t.getName(), t);
-                    }
-                    //if current player loses this territory
-                    else if (original_owner == myID){
-                        myTerritories.remove(t.getName(), t);
-                    }
-                }
-                //if ()
+                checkOwnership(new_owner, t);
+                //check if number of units changed
+                JSONArray getUnitArr = getObject.getJSONArray("units");
+                checkNumOfUnitsChanged(getUnitArr, t);
             }
             else{
                 throw new IllegalArgumentException("Territory name "+ terrName + " is not found!" );

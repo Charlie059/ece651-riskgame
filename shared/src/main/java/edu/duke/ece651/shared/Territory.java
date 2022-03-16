@@ -19,6 +19,7 @@ public class Territory {
     // create an isolated territory
     public Territory(String name) {
         this.name = name;
+        this.name = name;
         this.ownerId = -1;
         this.neighbours = new ArrayList<Territory>();
         this.Units = new HashMap<>();

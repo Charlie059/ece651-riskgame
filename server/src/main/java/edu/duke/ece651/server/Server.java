@@ -127,6 +127,7 @@ public class Server {
         ClientJSONParser clientJSONParser = new ClientJSONParser(receivedMessage, map);
         clientJSONParser.doParse();
         ArrayList<Action> actionArr = clientJSONParser.getActionArrayList();
+//        clientJSONParser.getPlayerID();
         System.out.println(receivedMessage);
       }
     }
