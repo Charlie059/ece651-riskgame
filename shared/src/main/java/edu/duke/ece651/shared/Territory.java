@@ -19,6 +19,7 @@ public class Territory {
     // create an isolated territory
     public Territory(String name) {
         this.name = name;
+        this.name = name;
         this.ownerId = -1;
         this.neighbours = new ArrayList<Territory>();
         this.Units = new HashMap<>();
@@ -50,7 +51,7 @@ public class Territory {
      */
     public void addUnit(Unit u){
         int currUnitLevel = u.getLevel();
-        if(Units.containsKey(currUnitLevel) == false){
+        if (Units.get(currUnitLevel) == null) {
             Units.put(currUnitLevel, new ArrayList<Unit>());
         }
         Units.get(currUnitLevel).add(u);

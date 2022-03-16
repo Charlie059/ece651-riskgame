@@ -9,6 +9,11 @@ public class Unit {
         hp = 1;
         atk = 1;
     }
+    public Unit(int _level){
+        level = _level;
+        hp = 1;
+        atk = 1;
+    }
     public int getAtk() {
         return atk;
     }
