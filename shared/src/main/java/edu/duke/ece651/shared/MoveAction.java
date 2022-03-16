@@ -22,7 +22,7 @@ public class MoveAction extends Action {
     public void doAction() throws IllegalArgumentException{
         //TODO TEST
         System.out.println("______________________________________________________");
-        System.out.println("DO Action, from: " + this.getFrom() + " to: " + this.getTo());
+        System.out.println("DO MOVE, from: " + this.getFrom().getName() + " to: " + this.getTo().getName());
         for(Integer i: getUnitNumber().keySet()){
             System.out.println("Level: " + i + " Nums: " + getUnitNumber().get(i));
         }
