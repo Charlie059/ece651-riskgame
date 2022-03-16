@@ -51,6 +51,9 @@ public class Territory {
      */
     public void addUnit(Unit u){
         int currUnitLevel = u.getLevel();
+        if (Units.get(currUnitLevel) == null) {
+            Units.put(currUnitLevel, new ArrayList<Unit>());
+        }
         Units.get(currUnitLevel).add(u);
     }
     /**

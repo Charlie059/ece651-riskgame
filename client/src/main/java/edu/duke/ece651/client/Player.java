@@ -145,20 +145,29 @@ public class Player {
         Integer unitNum;
         Integer level = 1;
         boolean isNumUnitsValid = false;
-        for(String terrName: this.myTerritories.keySet()) {
-            do {
-                out.println("Player " + id + ", how many number of level 1 units do you want to deploy in territory "
-                        + terrName +"?");
-                int num = Integer.parseInt(inputReader.readLine());
-                unitNum = num;
-                if (totalDeployment.get(level) >= unitNum) {
-                    isNumUnitsValid = true;
-                } else {
-                    out.println("Number of level " + level + " units cannot exceed the maximum " +
-                            "number of that unit in territory " + terrName);
+        while(true) {
+            if (totalDeployment.get(level) == 0) {
+                break;
+            }
+            for (String terrName : this.myTerritories.keySet()) {
+                if (totalDeployment.get(level) == 0) {
+                    break;
                 }
-            } while (!isNumUnitsValid);
-            deploy(unitNum, terrName);
+                do {
+                    out.println("Player " + id + ", how many number of level 1 units do you want to deploy in territory "
+                            + terrName + "?");
+                    int num = Integer.parseInt(inputReader.readLine());
+                    unitNum = num;
+                    if (totalDeployment.get(level) >= unitNum) {
+                        isNumUnitsValid = true;
+                        totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
+                    } else {
+                        out.println("Number of level " + level + " units cannot exceed the maximum " +
+                                "number of that unit in territory " + terrName);
+                    }
+                } while (!isNumUnitsValid);
+                deploy(unitNum, terrName);
+            }
         }
     }
 
