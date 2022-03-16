@@ -77,60 +77,24 @@ public class Server {
   }
 
 
-  public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-    // Init Server
-    Server server = new Server(1651);
-    // Init a player counter
-    PlayerCounter p = null;
+  /**
+   * Get getServersocket
+   * @return ServerSocket
+   */
+  public ServerSocket getServersocket() {
+    return serversocket;
+  }
 
-    // Accept HostServer, ask num_player
-    server.acceptClient();
+  public ExecutorService getService() {
+    return service;
+  }
 
-    //Send special char to HostClient
-    server.sendMsg(1, String.valueOf(p.getInstance().getCurrent_id()));
+  public ArrayList<Future<?>> getFutureList() {
+    return futureList;
+  }
 
-    //Get num_player
-    Integer num_player = Integer.parseInt(server.recvMsg(1));
-
-    // Connect all required number of player client
-    for (int i = 0; i < num_player - 1; i++) {
-      server.acceptClient();
-      // Server send player id and total_num_player
-      server.sendMsg(i + 2,p.getInstance().getCurrent_id() + " " + num_player); // assign from player id 2 to ...
-    }
-
-
-    // Init the map
-    Map map = new Map(num_player);
-
-    // Entering the game loop
-    while (true) {
-      server.clearFutureList();
-
-      // Thread send msg and receive parse
-      for (int k = 0; k < server.clientSocketList.size(); k++) {
-        try {
-          ServerCallable task = new ServerCallable(server.clientSocketList.get(k));
-          Future<?> future = server.service.submit(task);
-          server.futureList.add(future);
-        } finally {
-
-        }
-      }
-
-      // Thread all end
-      for (int i = 0; i < server.futureList.size(); i++) {
-        // recv msg from each thread
-        String receivedMessage = (String) server.futureList.get(i).get();
-
-        // Parse Client JSON
-        ClientJSONParser clientJSONParser = new ClientJSONParser(receivedMessage, map);
-        clientJSONParser.doParse();
-        ArrayList<Action> actionArr = clientJSONParser.getActionArrayList();
-//        clientJSONParser.getPlayerID();
-        System.out.println(receivedMessage);
-      }
-    }
+  public ArrayList<Socket> getClientSocketList() {
+    return clientSocketList;
   }
 
 }
