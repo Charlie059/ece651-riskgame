@@ -1,6 +1,5 @@
 package edu.duke.ece651.shared;
 import org.json.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
