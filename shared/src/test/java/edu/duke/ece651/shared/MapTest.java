@@ -56,15 +56,15 @@ public class MapTest {
     @Test
     void testDisplayMap() {
         Map m = new Map(3);
-        m.territoryList.get("a1").setOwner(0);
-        m.territoryList.get("a2").setOwner(0);
-        m.territoryList.get("a3").setOwner(0);
-        m.territoryList.get("b1").setOwner(1);
-        m.territoryList.get("b2").setOwner(1);
-        m.territoryList.get("b3").setOwner(1);
-        m.territoryList.get("c1").setOwner(2);
-        m.territoryList.get("c2").setOwner(2);
-        m.territoryList.get("c3").setOwner(2);
+        m.territoryList.get("a1").setOwner(1);
+        m.territoryList.get("a2").setOwner(1);
+        m.territoryList.get("a3").setOwner(1);
+        m.territoryList.get("b1").setOwner(2);
+        m.territoryList.get("b2").setOwner(2);
+        m.territoryList.get("b3").setOwner(2);
+        m.territoryList.get("c1").setOwner(3);
+        m.territoryList.get("c2").setOwner(3);
+        m.territoryList.get("c3").setOwner(3);
         
         m.territoryList.get("a1").addUnit(new Unit());
         MapView displayer = new MapTextView(3, System.out);
