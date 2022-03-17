@@ -23,7 +23,7 @@ public class MapTest {
                 System.out.print("\n");
             }
             System.out.println("show groups:");
-            for (ArrayList<String> group : m.groups) {
+            for (ArrayList<String> group : m.getGroups()) {
                 for (String name : group) {
                     System.out.print(name + " ");
                 }

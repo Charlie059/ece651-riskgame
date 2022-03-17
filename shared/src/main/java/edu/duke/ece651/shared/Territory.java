@@ -9,18 +9,11 @@ public class Territory {
     private HashMap<Integer, ArrayList<Unit>> Units;//level, num of units of this level
     final ArrayList<Territory> neighbours; 
 
-    public Territory(String name, ArrayList<Territory> neighbourList) {
-        this.name = name;
-        this.ownerId = -1;  // ID[0,1,2...]
-        this.neighbours = neighbourList;
-        this.Units = new HashMap<>();
-    }
-
     // create an isolated territory
     public Territory(String name) {
         this.name = name;
         this.name = name;
-        this.ownerId = -1;
+        this.ownerId = -1;  // ID[1,2...]
         this.neighbours = new ArrayList<Territory>();
         this.Units = new HashMap<>();
     }

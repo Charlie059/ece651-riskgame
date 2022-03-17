@@ -23,7 +23,8 @@ public class Map {
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
     }
-
+    
+    // 需不需要get函数，还是直接开放TerritoryList和Groups?
     public HashMap<String, Territory> getTerritoryList() {
         return territoryList;
     }
