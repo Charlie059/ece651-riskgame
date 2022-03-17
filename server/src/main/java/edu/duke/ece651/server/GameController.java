@@ -61,55 +61,49 @@ public class GameController {
   }
 
   /**
-   * Play the game
+   * Initial FutureList field to contains ClientJSONParser
    * 
    * @throws ExecutionException
    * @throws InterruptedException
    */
-  public void play() throws ExecutionException, InterruptedException {
+  public void initFutureList() throws ExecutionException, InterruptedException {
     // Entering the game loop
-    while (true) {
-      this.futureList.clear();
+    this.futureList.clear();
 
-      // Send Threads
-      for (int k = 0; k < server.getClientSocketList().size(); k++) {
-        try {
-          ServerCallable task = new ServerCallable(server.getClientSocketList().get(k), map);
-          Future<?> future = server.getService().submit(task);
-          this.futureList.add(future);
-        } finally {
-
-        }
-      }
-
-      // Barrier Received All threads
-      for (int i = 0; i < this.futureList.size(); i++) {
-
-        // Receive Future
-        String receivedMessage = (String) this.futureList.get(i).get();
-
-        // Parse Client JSON
-        ClientJSONParser clientJSONParser = new ClientJSONParser(receivedMessage, map);
-        clientJSONParser.doParse();
-        ArrayList<Action> actionArr = clientJSONParser.getActionArrayList();
-        // clientJSONParser.getPlayerID();
-        System.out.println(receivedMessage);
+    // Send Thread Barrier Receive futureList
+    for (int k = 0; k < server.getClientSocketList().size(); k++) {
+      try {
+        ServerCallable task = new ServerCallable(server.getClientSocketList().get(k), map);
+        Future<?> future = server.getService().submit(task);
+        this.futureList.add(future);
+      } finally {
       }
     }
+
+    
+  }
+
+  /**
+     
+   */
+  public void runOneGameLoop() throws ExecutionException, InterruptedException {
+    initFutureList();
+
   }
 
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
     GameController gc = new GameController();
     gc.init();
 
-    try {
-      gc.play();
-    } catch (ExecutionException executionException) {
-      executionException.printStackTrace();
-    } catch (InterruptedException interruptedException) {
-      interruptedException.printStackTrace();
+    while (true) {
+      try {
+        gc.runOneGameLoop();
+      } catch (ExecutionException executionException) {
+        executionException.printStackTrace();
+      } catch (InterruptedException interruptedException) {
+        interruptedException.printStackTrace();
+      }
     }
-
   }
 
 }
