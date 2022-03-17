@@ -20,7 +20,7 @@ public abstract class ActionHandler {
     this.map = map;
     this.clientJSONParserList = new ArrayList<ClientJSONParser>();
     for (int i = 0; i < futureList.size(); i++) {
-      this.clientJSONParserList.add((ClientJSONParser) futureList.get(i).get()); 
+      this.clientJSONParserList.add((ClientJSONParser) futureList.get(i).get());
     }
     this.territoryList = map.getTerritoryList();
   };

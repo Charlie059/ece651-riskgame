@@ -51,12 +51,29 @@ public class Territory {
      */
     public void addUnit(Unit u){
         int currUnitLevel = u.getLevel();
+        // if current level unit in Units does not exist
+        // create this level unit and put it in Units
         if (Units.get(currUnitLevel) == null) {
             Units.put(currUnitLevel, new ArrayList<Unit>());
         }
         Units.get(currUnitLevel).add(u);
         
     }
+
+  public void addNumUnit(HashMap<Integer, Integer> numOfUnits){
+
+    //numOfUnits required initialize all levels requirement
+    //some levels may have 0 adding requirments
+    // i is level
+    for(Integer i =1;i<=numOfUnits.size();i++){
+      Unit levelUnit = new Unit(i);
+      //k is how many unit of level i
+      for(Integer k = 0; k<numOfUnits.get(i);k++){
+        addUnit(levelUnit);
+      }
+    }
+  }
+  
     /**
      * remove one unit (head) from the territory
      * @param level

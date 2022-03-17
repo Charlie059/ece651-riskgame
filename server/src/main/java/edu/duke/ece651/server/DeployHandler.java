@@ -12,7 +12,6 @@ public class DeployHandler extends ActionHandler {
 
   public DeployHandler(ArrayList<Future<?>> futureList, Map map) throws ExecutionException, InterruptedException {
     super(futureList, map);
-
   }
 
   @Override
@@ -24,17 +23,17 @@ public class DeployHandler extends ActionHandler {
       // For each deploy action
       for (int k = 0; k < deployActionList.size(); k++) {
 
+        Action currentAction = deployActionList.get(k);
+
         // For the terriotory of this deployAction's working on territory, we trust
         // client should only send the player's working on it's own territory, thus we
         // set the owner to be itself to it's working on territory.
-        territoryList.get(deployActionList.get(k).getTo().getName())
-            .changeOwner(clientJSONParserList.get(i).getPlayerID());
+        territoryList.get(currentAction.getTo().getName()).changeOwner(clientJSONParserList.get(i).getPlayerID());
+
         // For the territory of this deployAction's to's TerritoryName, add number of
         // this deployAction's unitnumber of level 1 Unit()
-        for (Integer j = 0; j < deployActionList.get(k).getUnitNumber().get(level); j++) {
-          territoryList.get(deployActionList.get(k).getTo().getName()).addUnit(new Unit());
+        territoryList.get(deployActionList.get(k).getTo().getName()).addNumUnit(currentAction.getUnitNumber());
 
-        }
       }
     }
   }
