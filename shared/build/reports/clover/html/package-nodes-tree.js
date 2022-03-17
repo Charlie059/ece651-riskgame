@@ -9,7 +9,7 @@ var Packages = {
     "text": "edu.duke.ece651.shared",
     "package": "edu.duke.ece651.shared",
     "url": "edu/duke/ece651/shared/pkg-summary.html",
-            "coverage": "100%",
+            "coverage": "82.9%",
         "icon": "aui-icon aui-icon-small aui-iconfont-devtools-folder-closed",
             "li_attr": {"data-is-link": "true"},
         "a_attr": {"href": "edu/duke/ece651/shared/pkg-summary.html"},

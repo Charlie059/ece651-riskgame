@@ -1,0 +1,64 @@
+
+player 0:
+--------------
+a1 :(next to  a3  a2  b1)
+level 1: 1 units
+a2 :(next to  a3  a1  c1)
+a3 :(next to  a1  a2)
+
+
+player 1:
+--------------
+b2 :(next to  b3  b1  c2)
+b3 :(next to  b1  b2)
+b1 :(next to  b3  b2  a1)
+
+
+player 2:
+--------------
+c3 :(next to  c1  c2)
+c1 :(next to  c3  c2  a2)
+c2 :(next to  c3  c1  b2)
+
+	territory[e1]: a2 e3 
+	territory[d1]: c1 d3 
+	territory[e2]: d2 e3 
+	territory[c1]: d1 c3 
+	territory[d2]: e2 d3 
+	territory[e3]: e1 e2 
+	territory[b1]: a1 b3 
+	territory[c2]: b2 c3 
+	territory[d3]: d1 d2 
+	territory[a1]: b1 a3 
+	territory[b2]: c2 b3 
+	territory[c3]: c1 c2 
+	territory[a2]: e1 a3 
+	territory[b3]: b1 b2 
+	territory[a3]: a1 a2 
+	show groups:
+	
+a1 a2 a3 
+	
+b1 b2 b3 
+	
+c1 c2 c3 
+	
+d1 d2 d3 
+	
+e1 e2 e3 
+1
+2
+3
+4
+5
+ž{"map":[{"name":"a1","units":[{"level":1,"value":4},{"level":2,"value":0}],"ownerID":1},{"name":"b2","units":[],"ownerID":-1},{"name":"c3","units":[],"ownerID":-1},{"name":"a2","units":[{"level":1,"value":1}],"ownerID":1},{"name":"b3","units":[],"ownerID":-1},{"name":"a3","units":[],"ownerID":-1},{"name":"c1","units":[],"ownerID":-1},{"name":"b1","units":[],"ownerID":-1},{"name":"c2","units":[],"ownerID":-1}]}
+R{"name":"a1","units":[{"level":1,"value":3},{"level":2,"value":5}],"ownerID":"1"}
+.[{"level":1,"value":3},{"level":2,"value":5}]
+R{"name":"a2","units":[{"level":1,"value":1},{"level":2,"value":3}],"ownerID":"2"}
+.[{"level":1,"value":1},{"level":2,"value":3}]
+1 -1
+2 -1
+3 -1
+1 1
+2 2
+3 3

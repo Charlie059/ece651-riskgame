@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.duke.ece651.shared.PlayerCounterTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-03-17T03:45:50" hostname="Yuxuans-MacBook-Pro.local" time="0.001">
+  <properties/>
+  <testcase name="playerCounterTest()" classname="edu.duke.ece651.shared.PlayerCounterTest" time="0.001"/>
+  <system-out><![CDATA[1
+2
+3
+4
+5
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
