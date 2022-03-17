@@ -29,9 +29,11 @@ public class Player {
   public int getId() {
     return id;
   }
-  public int getnumOfPlayers(){
+
+  public int getnumOfPlayers() {
     return numOfPlayers;
   }
+
   public BufferedReader getInputReader() {
     return inputReader;
   }

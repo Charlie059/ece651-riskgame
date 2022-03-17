@@ -95,9 +95,8 @@ public class GameController {
       // Deploy.doAction
       this.isDeployed = true;
     } else {
-
-    // MoveHandler.doAction
-    // AttackHandler.doAction
+      // MoveHandler.doAction
+      // AttackHandler.doAction
     }
 
   }
@@ -107,7 +106,7 @@ public class GameController {
 
     // establish connection
     gc.init();
-    gc.deploy();
+    
 
     while (true) {
       try {

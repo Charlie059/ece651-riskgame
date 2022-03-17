@@ -33,6 +33,9 @@ public class ServerCallable implements Callable<ClientJSONParser> {
     var reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
     // send ServerJSON
+    // For first Loop: without previously received ClientJSON, ServerJSON was created by
+    // map(num_players), but this ServerJSON was omitted by Client site at first Loop
+    // For other loop: this ServerJSON then will be seriously considered
     ServerJSON serverJSON = new ServerJSON(this.map);
     writer.write(serverJSON.convertTo() + "\n");
     writer.flush();

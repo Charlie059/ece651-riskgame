@@ -141,7 +141,7 @@ public class Client {
       serverJSONParser.doParse();
 
       // Display map
-     client.player.getWholeMap().displayMap(mapTextView);
+      client.player.getWholeMap().displayMap(mapTextView);
 
       // Client play one round: let the user do some actions
       client.player.playOneRound();

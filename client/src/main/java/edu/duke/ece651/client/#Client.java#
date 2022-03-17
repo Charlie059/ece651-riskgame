@@ -132,6 +132,7 @@ public class Client {
     MapTextView mapTextView = new MapTextView(client.player.getnumOfPlayers(), System.out);
     while (true) {
       // Client recv ServerJson
+      // The first time received an empty ServerJSON, however, this ServerJSON was omitted by player.playOneRound() 
       String received_message = client.recvMsg();
 
       //
@@ -141,7 +142,7 @@ public class Client {
       serverJSONParser.doParse();
 
       // Display map
-     client.player.getWholeMap().displayMap(mapTextView);
+      client.player.getWholeMap().displayMap(mapTextView);
 
       // Client play one round: let the user do some actions
       client.player.playOneRound();
