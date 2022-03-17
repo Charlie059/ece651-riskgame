@@ -18,7 +18,7 @@ public class MapTextView extends MapView {
     void generateViewInfo(HashMap<String, Territory> territoryList) {
         // save territory into different array based on their owners.
         HashMap<Integer, ArrayList<String>> terrsInfo = new HashMap<Integer, ArrayList<String>>();
-        for (int i = 0; i < numOfPlayers; i++) {
+        for (int i = 1; i <= numOfPlayers; i++) {
             terrsInfo.put(i, new ArrayList<String>());
         }
         for (String terrName : territoryList.keySet()) {
@@ -29,14 +29,15 @@ public class MapTextView extends MapView {
             }
             info += ")\n";
             HashMap<Integer, ArrayList<Unit>> Units = t.getUnits();
-            for (Integer level  : Units.keySet()) {
-                info += "level "+ Integer.toString(level) + ": " + Integer.toString(Units.get(level).size()) + " units\n"; 
+            for (Integer level : Units.keySet()) {
+                info += "level " + Integer.toString(level) + ": " + Integer.toString(Units.get(level).size())
+                        + " units\n";
             }
             terrsInfo.get(t.getOwner()).add(info);
         }
 
         // generate display info
-        for (int i = 0; i < numOfPlayers; i++) {
+        for (int i = 1; i <= numOfPlayers; i++) {
             displayText += "player " + Integer.toString(i) + ":\n" + "--------------\n";
             for (String s : terrsInfo.get(i)) {
                 displayText += s;
