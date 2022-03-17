@@ -1,9 +1,9 @@
-var treeMapJson = {"id":"Clover database Wed Mar 16 2022 23:28:43 EDT0","name":"","data":{
-    "$area":910.0,"$color":80.65934,"title":
-    " 910 Elements, 80.7% Coverage"},"children":[{"id":
+var treeMapJson = {"id":"Clover database Wed Mar 16 2022 23:45:50 EDT0","name":"","data":{
+    "$area":951.0,"$color":82.860146,"title":
+    " 951 Elements, 82.9% Coverage"},"children":[{"id":
       "edu.duke.ece651.shared0","name":"edu.duke.ece651.shared","data":{
-        "$area":910.0,"$color":80.65934,"title":
-        "edu.duke.ece651.shared 910 Elements, 80.7% Coverage"},"children":[{
+        "$area":951.0,"$color":82.860146,"title":
+        "edu.duke.ece651.shared 951 Elements, 82.9% Coverage"},"children":[{
           "id":"Map0","name":"Map","data":{"$area":51.0,"$color":96.07843,
             "path":"edu/duke/ece651/shared/Map.html#Map","title":
             "Map 51 Elements, 96.1% Coverage"},"children":[]},{"id":
@@ -50,9 +50,9 @@ var treeMapJson = {"id":"Clover database Wed Mar 16 2022 23:28:43 EDT0","name":"
             "edu/duke/ece651/shared/ServerJSON.html#ServerJSON","title":
             "ServerJSON 26 Elements, 100% Coverage"},"children":[]},{"id":
           "Territory537","name":"Territory","data":{"$area":41.0,"$color":
-            56.09756,"path":
+            70.731705,"path":
             "edu/duke/ece651/shared/Territory.html#Territory","title":
-            "Territory 41 Elements, 56.1% Coverage"},"children":[]},{"id":
+            "Territory 41 Elements, 70.7% Coverage"},"children":[]},{"id":
           "MapTextView578","name":"MapTextView","data":{"$area":30.0,
             "$color":100.0,"path":
             "edu/duke/ece651/shared/MapTextView.html#MapTextView","title":
@@ -62,9 +62,9 @@ var treeMapJson = {"id":"Clover database Wed Mar 16 2022 23:28:43 EDT0","name":"
             "edu/duke/ece651/shared/MapFactory.html#MapFactory","title":
             "MapFactory 0 Elements,  -  Coverage"},"children":[]},{"id":
           "ServerJSONParser608","name":"ServerJSONParser","data":{"$area":
-            70.0,"$color":88.57143,"path":
+            70.0,"$color":98.57143,"path":
             "edu/duke/ece651/shared/ServerJSONParser.html#ServerJSONParser",
-            "title":"ServerJSONParser 70 Elements, 88.6% Coverage"},
+            "title":"ServerJSONParser 70 Elements, 98.6% Coverage"},
           "children":[]},{"id":"DeployAction678","name":"DeployAction",
           "data":{"$area":8.0,"$color":25.0,"path":
             "edu/duke/ece651/shared/DeployAction.html#DeployAction","title":
@@ -78,22 +78,23 @@ var treeMapJson = {"id":"Clover database Wed Mar 16 2022 23:28:43 EDT0","name":"
             "edu/duke/ece651/shared/PlayerCounterTest.html#PlayerCounterTest",
             "title":"PlayerCounterTest 8 Elements, 100% Coverage"},
           "children":[]},{"id":"ServerJSONParserTest713","name":
-          "ServerJSONParserTest","data":{"$area":74.0,"$color":100.0,"path":
+          "ServerJSONParserTest","data":{"$area":115.0,"$color":100.0,"path":
+            
             "edu/duke/ece651/shared/ServerJSONParserTest.html#ServerJSONParserTest",
-            "title":"ServerJSONParserTest 74 Elements, 100% Coverage"},
-          "children":[]},{"id":"MapTest787","name":"MapTest","data":{"$area":
+            "title":"ServerJSONParserTest 115 Elements, 100% Coverage"},
+          "children":[]},{"id":"MapTest828","name":"MapTest","data":{"$area":
             45.0,"$color":100.0,"path":
             "edu/duke/ece651/shared/MapTest.html#MapTest","title":
             "MapTest 45 Elements, 100% Coverage"},"children":[]},{"id":
-          "ClientJSONTest832","name":"ClientJSONTest","data":{"$area":12.0,
+          "ClientJSONTest873","name":"ClientJSONTest","data":{"$area":12.0,
             "$color":100.0,"path":
             "edu/duke/ece651/shared/ClientJSONTest.html#ClientJSONTest",
             "title":"ClientJSONTest 12 Elements, 100% Coverage"},"children":[]},
-        {"id":"TerritoryTest844","name":"TerritoryTest","data":{"$area":
+        {"id":"TerritoryTest885","name":"TerritoryTest","data":{"$area":
             21.0,"$color":100.0,"path":
             "edu/duke/ece651/shared/TerritoryTest.html#TerritoryTest",
             "title":"TerritoryTest 21 Elements, 100% Coverage"},"children":[]},
-        {"id":"ClientJSONParserTest865","name":"ClientJSONParserTest","data":
+        {"id":"ClientJSONParserTest906","name":"ClientJSONParserTest","data":
           {"$area":45.0,"$color":100.0,"path":
             "edu/duke/ece651/shared/ClientJSONParserTest.html#ClientJSONParserTest",
             "title":"ClientJSONParserTest 45 Elements, 100% Coverage"},

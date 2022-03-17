@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1647487723863" clover="4.4.1">
-   <project name="shared" timestamp="1647487723824">
-      <metrics coveredelements="734" complexity="138" loc="1792" methods="87" classes="24" statements="743" packages="1" coveredconditionals="70" coveredmethods="72" elements="910" ncloc="1345" files="24" conditionals="80" coveredstatements="592"/>
+<coverage generated="1647488750974" clover="4.4.1">
+   <project name="shared" timestamp="1647488750916">
+      <metrics coveredelements="788" complexity="139" loc="1846" methods="88" classes="24" statements="783" packages="1" coveredconditionals="74" coveredmethods="74" elements="951" ncloc="1388" files="24" conditionals="80" coveredstatements="640"/>
       <package name="edu.duke.ece651.shared">
-         <metrics coveredelements="734" complexity="138" loc="1792" methods="87" classes="24" statements="743" coveredconditionals="70" coveredmethods="72" elements="910" ncloc="1345" files="24" conditionals="80" coveredstatements="592"/>
+         <metrics coveredelements="788" complexity="139" loc="1846" methods="88" classes="24" statements="783" coveredconditionals="74" coveredmethods="74" elements="951" ncloc="1388" files="24" conditionals="80" coveredstatements="640"/>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/main/java/edu/duke/ece651/shared/Map.java" name="Map.java">
             <metrics coveredelements="49" coveredconditionals="12" complexity="15" loc="113" coveredmethods="5" methods="6" elements="51" classes="1" ncloc="63" statements="33" conditionals="12" coveredstatements="32"/>
             <class name="Map">
                <metrics coveredelements="49" coveredconditionals="12" complexity="15" coveredmethods="5" methods="6" elements="51" statements="33" conditionals="12" coveredstatements="32"/>
             </class>
-            <line complexity="1" visibility="public" signature="Map(int)" num="20" count="11" type="method"/>
-            <line num="21" count="11" type="stmt"/>
-            <line num="22" count="11" type="stmt"/>
-            <line num="23" count="11" type="stmt"/>
-            <line num="24" count="11" type="stmt"/>
-            <line complexity="1" visibility="public" signature="getTerritoryList() : HashMap&lt;String, Territory&gt;" num="27" count="92" type="method"/>
-            <line num="28" count="92" type="stmt"/>
+            <line complexity="1" visibility="public" signature="Map(int)" num="20" count="13" type="method"/>
+            <line num="21" count="13" type="stmt"/>
+            <line num="22" count="13" type="stmt"/>
+            <line num="23" count="13" type="stmt"/>
+            <line num="24" count="13" type="stmt"/>
+            <line complexity="1" visibility="public" signature="getTerritoryList() : HashMap&lt;String, Territory&gt;" num="27" count="149" type="method"/>
+            <line num="28" count="149" type="stmt"/>
             <line complexity="1" visibility="public" signature="getGroups() : ArrayList&lt;ArrayList&lt;String&gt;&gt;" num="31" count="0" type="method"/>
             <line num="32" count="0" type="stmt"/>
             <line complexity="7" visibility="public" signature="isPathExist(int,String,String) : boolean" num="44" count="5" type="method"/>
@@ -137,8 +137,8 @@
             <class name="TextMapFactory">
                <metrics coveredelements="168" coveredconditionals="0" complexity="19" coveredmethods="7" methods="11" elements="290" statements="279" conditionals="0" coveredstatements="161"/>
             </class>
-            <line complexity="1" visibility="public" signature="TextMapFactory(int)" num="9" count="11" type="method"/>
-            <line num="10" count="11" type="stmt"/>
+            <line complexity="1" visibility="public" signature="TextMapFactory(int)" num="9" count="13" type="method"/>
+            <line num="10" count="13" type="stmt"/>
             <line complexity="1" visibility="private" signature="createTerritoryList_2P(HashMap&lt;String, Territory&gt;) : void" num="13" count="0" type="method"/>
             <line num="14" count="0" type="stmt"/>
             <line num="15" count="0" type="stmt"/>
@@ -175,65 +175,65 @@
             <line num="54" count="0" type="stmt"/>
             <line num="55" count="0" type="stmt"/>
             <line num="56" count="0" type="stmt"/>
-            <line complexity="1" visibility="private" signature="createTerritoryList_3P(HashMap&lt;String, Territory&gt;) : void" num="60" count="10" type="method"/>
-            <line num="61" count="10" type="stmt"/>
-            <line num="62" count="10" type="stmt"/>
-            <line num="63" count="10" type="stmt"/>
-            <line num="65" count="10" type="stmt"/>
-            <line num="66" count="10" type="stmt"/>
-            <line num="67" count="10" type="stmt"/>
-            <line num="69" count="10" type="stmt"/>
-            <line num="70" count="10" type="stmt"/>
-            <line num="71" count="10" type="stmt"/>
-            <line num="73" count="10" type="stmt"/>
-            <line num="74" count="10" type="stmt"/>
-            <line num="75" count="10" type="stmt"/>
-            <line num="76" count="10" type="stmt"/>
-            <line num="77" count="10" type="stmt"/>
-            <line num="78" count="10" type="stmt"/>
-            <line num="79" count="10" type="stmt"/>
-            <line num="80" count="10" type="stmt"/>
-            <line num="82" count="10" type="stmt"/>
-            <line num="83" count="10" type="stmt"/>
-            <line num="84" count="10" type="stmt"/>
-            <line num="85" count="10" type="stmt"/>
-            <line num="86" count="10" type="stmt"/>
-            <line num="87" count="10" type="stmt"/>
-            <line num="88" count="10" type="stmt"/>
-            <line num="89" count="10" type="stmt"/>
-            <line num="91" count="10" type="stmt"/>
-            <line num="92" count="10" type="stmt"/>
-            <line num="93" count="10" type="stmt"/>
-            <line num="94" count="10" type="stmt"/>
-            <line num="95" count="10" type="stmt"/>
-            <line num="96" count="10" type="stmt"/>
-            <line num="97" count="10" type="stmt"/>
-            <line num="98" count="10" type="stmt"/>
-            <line num="100" count="10" type="stmt"/>
-            <line num="101" count="10" type="stmt"/>
-            <line num="102" count="10" type="stmt"/>
-            <line num="103" count="10" type="stmt"/>
-            <line num="104" count="10" type="stmt"/>
-            <line num="105" count="10" type="stmt"/>
-            <line num="106" count="10" type="stmt"/>
-            <line num="107" count="10" type="stmt"/>
-            <line num="108" count="10" type="stmt"/>
-            <line complexity="1" visibility="private" signature="createGroup_3P(ArrayList&lt;ArrayList&lt;String&gt;&gt;) : void" num="111" count="10" type="method"/>
-            <line num="112" count="10" type="stmt"/>
-            <line num="113" count="10" type="stmt"/>
-            <line num="114" count="10" type="stmt"/>
-            <line num="115" count="10" type="stmt"/>
-            <line num="116" count="10" type="stmt"/>
-            <line num="118" count="10" type="stmt"/>
-            <line num="119" count="10" type="stmt"/>
-            <line num="120" count="10" type="stmt"/>
-            <line num="121" count="10" type="stmt"/>
-            <line num="122" count="10" type="stmt"/>
-            <line num="124" count="10" type="stmt"/>
-            <line num="125" count="10" type="stmt"/>
-            <line num="126" count="10" type="stmt"/>
-            <line num="127" count="10" type="stmt"/>
-            <line num="128" count="10" type="stmt"/>
+            <line complexity="1" visibility="private" signature="createTerritoryList_3P(HashMap&lt;String, Territory&gt;) : void" num="60" count="12" type="method"/>
+            <line num="61" count="12" type="stmt"/>
+            <line num="62" count="12" type="stmt"/>
+            <line num="63" count="12" type="stmt"/>
+            <line num="65" count="12" type="stmt"/>
+            <line num="66" count="12" type="stmt"/>
+            <line num="67" count="12" type="stmt"/>
+            <line num="69" count="12" type="stmt"/>
+            <line num="70" count="12" type="stmt"/>
+            <line num="71" count="12" type="stmt"/>
+            <line num="73" count="12" type="stmt"/>
+            <line num="74" count="12" type="stmt"/>
+            <line num="75" count="12" type="stmt"/>
+            <line num="76" count="12" type="stmt"/>
+            <line num="77" count="12" type="stmt"/>
+            <line num="78" count="12" type="stmt"/>
+            <line num="79" count="12" type="stmt"/>
+            <line num="80" count="12" type="stmt"/>
+            <line num="82" count="12" type="stmt"/>
+            <line num="83" count="12" type="stmt"/>
+            <line num="84" count="12" type="stmt"/>
+            <line num="85" count="12" type="stmt"/>
+            <line num="86" count="12" type="stmt"/>
+            <line num="87" count="12" type="stmt"/>
+            <line num="88" count="12" type="stmt"/>
+            <line num="89" count="12" type="stmt"/>
+            <line num="91" count="12" type="stmt"/>
+            <line num="92" count="12" type="stmt"/>
+            <line num="93" count="12" type="stmt"/>
+            <line num="94" count="12" type="stmt"/>
+            <line num="95" count="12" type="stmt"/>
+            <line num="96" count="12" type="stmt"/>
+            <line num="97" count="12" type="stmt"/>
+            <line num="98" count="12" type="stmt"/>
+            <line num="100" count="12" type="stmt"/>
+            <line num="101" count="12" type="stmt"/>
+            <line num="102" count="12" type="stmt"/>
+            <line num="103" count="12" type="stmt"/>
+            <line num="104" count="12" type="stmt"/>
+            <line num="105" count="12" type="stmt"/>
+            <line num="106" count="12" type="stmt"/>
+            <line num="107" count="12" type="stmt"/>
+            <line num="108" count="12" type="stmt"/>
+            <line complexity="1" visibility="private" signature="createGroup_3P(ArrayList&lt;ArrayList&lt;String&gt;&gt;) : void" num="111" count="12" type="method"/>
+            <line num="112" count="12" type="stmt"/>
+            <line num="113" count="12" type="stmt"/>
+            <line num="114" count="12" type="stmt"/>
+            <line num="115" count="12" type="stmt"/>
+            <line num="116" count="12" type="stmt"/>
+            <line num="118" count="12" type="stmt"/>
+            <line num="119" count="12" type="stmt"/>
+            <line num="120" count="12" type="stmt"/>
+            <line num="121" count="12" type="stmt"/>
+            <line num="122" count="12" type="stmt"/>
+            <line num="124" count="12" type="stmt"/>
+            <line num="125" count="12" type="stmt"/>
+            <line num="126" count="12" type="stmt"/>
+            <line num="127" count="12" type="stmt"/>
+            <line num="128" count="12" type="stmt"/>
             <line complexity="1" visibility="private" signature="createTerritoryList_4P(HashMap&lt;String, Territory&gt;) : void" num="131" count="0" type="method"/>
             <line num="132" count="0" type="stmt"/>
             <line num="133" count="0" type="stmt"/>
@@ -391,15 +391,15 @@
             <line num="318" count="1" type="stmt"/>
             <line num="319" count="1" type="stmt"/>
             <line num="320" count="1" type="stmt"/>
-            <line complexity="5" visibility="public" signature="createMap() : HashMap&lt;String, Territory&gt;" num="323" count="11" type="method"/>
-            <line num="325" count="11" type="stmt"/>
-            <line num="326" count="11" type="stmt"/>
+            <line complexity="5" visibility="public" signature="createMap() : HashMap&lt;String, Territory&gt;" num="323" count="13" type="method"/>
+            <line num="325" count="13" type="stmt"/>
+            <line num="326" count="13" type="stmt"/>
             <line num="327" count="0" type="stmt"/>
             <line num="328" count="0" type="stmt"/>
             <line num="329" count="0" type="stmt"/>
-            <line num="330" count="10" type="stmt"/>
-            <line num="331" count="10" type="stmt"/>
-            <line num="332" count="10" type="stmt"/>
+            <line num="330" count="12" type="stmt"/>
+            <line num="331" count="12" type="stmt"/>
+            <line num="332" count="12" type="stmt"/>
             <line num="333" count="0" type="stmt"/>
             <line num="334" count="0" type="stmt"/>
             <line num="335" count="0" type="stmt"/>
@@ -408,16 +408,16 @@
             <line num="338" count="1" type="stmt"/>
             <line num="340" count="0" type="stmt"/>
             <line num="341" count="0" type="stmt"/>
-            <line num="343" count="11" type="stmt"/>
-            <line complexity="5" visibility="public" signature="createGroupsForPlayer() : ArrayList&lt;ArrayList&lt;String&gt;&gt;" num="346" count="11" type="method"/>
-            <line num="348" count="11" type="stmt"/>
-            <line num="349" count="11" type="stmt"/>
+            <line num="343" count="13" type="stmt"/>
+            <line complexity="5" visibility="public" signature="createGroupsForPlayer() : ArrayList&lt;ArrayList&lt;String&gt;&gt;" num="346" count="13" type="method"/>
+            <line num="348" count="13" type="stmt"/>
+            <line num="349" count="13" type="stmt"/>
             <line num="350" count="0" type="stmt"/>
             <line num="351" count="0" type="stmt"/>
             <line num="352" count="0" type="stmt"/>
-            <line num="353" count="10" type="stmt"/>
-            <line num="354" count="10" type="stmt"/>
-            <line num="355" count="10" type="stmt"/>
+            <line num="353" count="12" type="stmt"/>
+            <line num="354" count="12" type="stmt"/>
+            <line num="355" count="12" type="stmt"/>
             <line num="356" count="0" type="stmt"/>
             <line num="357" count="0" type="stmt"/>
             <line num="358" count="0" type="stmt"/>
@@ -426,7 +426,7 @@
             <line num="361" count="1" type="stmt"/>
             <line num="362" count="0" type="stmt"/>
             <line num="363" count="0" type="stmt"/>
-            <line num="365" count="11" type="stmt"/>
+            <line num="365" count="13" type="stmt"/>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/main/java/edu/duke/ece651/shared/MapView.java" name="MapView.java">
             <metrics coveredelements="2" coveredconditionals="0" complexity="3" loc="23" coveredmethods="1" methods="3" elements="4" classes="1" ncloc="9" statements="1" conditionals="0" coveredstatements="1"/>
@@ -530,20 +530,20 @@
             <class name="Unit">
                <metrics coveredelements="10" coveredconditionals="0" complexity="5" coveredmethods="3" methods="5" elements="14" statements="9" conditionals="0" coveredstatements="7"/>
             </class>
-            <line complexity="1" visibility="public" signature="Unit()" num="7" count="26" type="method"/>
-            <line num="8" count="26" type="stmt"/>
-            <line num="9" count="26" type="stmt"/>
-            <line num="10" count="26" type="stmt"/>
-            <line complexity="1" visibility="public" signature="Unit(int)" num="12" count="14" type="method"/>
-            <line num="13" count="14" type="stmt"/>
-            <line num="14" count="14" type="stmt"/>
-            <line num="15" count="14" type="stmt"/>
+            <line complexity="1" visibility="public" signature="Unit()" num="7" count="51" type="method"/>
+            <line num="8" count="51" type="stmt"/>
+            <line num="9" count="51" type="stmt"/>
+            <line num="10" count="51" type="stmt"/>
+            <line complexity="1" visibility="public" signature="Unit(int)" num="12" count="18" type="method"/>
+            <line num="13" count="18" type="stmt"/>
+            <line num="14" count="18" type="stmt"/>
+            <line num="15" count="18" type="stmt"/>
             <line complexity="1" visibility="public" signature="getAtk() : int" num="17" count="0" type="method"/>
             <line num="18" count="0" type="stmt"/>
             <line complexity="1" visibility="public" signature="getHp() : int" num="20" count="0" type="method"/>
             <line num="21" count="0" type="stmt"/>
-            <line complexity="1" visibility="public" signature="getLevel() : int" num="23" count="15" type="method"/>
-            <line num="24" count="15" type="stmt"/>
+            <line complexity="1" visibility="public" signature="getLevel() : int" num="23" count="19" type="method"/>
+            <line num="24" count="19" type="stmt"/>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/main/java/edu/duke/ece651/shared/MoveAction.java" name="MoveAction.java">
             <metrics coveredelements="2" coveredconditionals="0" complexity="2" loc="32" coveredmethods="1" methods="2" elements="8" classes="1" ncloc="16" statements="6" conditionals="0" coveredstatements="1"/>
@@ -564,72 +564,72 @@
             <class name="ServerJSON">
                <metrics coveredelements="26" coveredconditionals="0" complexity="2" coveredmethods="2" methods="2" elements="26" statements="24" conditionals="0" coveredstatements="24"/>
             </class>
-            <line complexity="1" visibility="public" signature="ServerJSON(Map)" num="11" count="1" type="method"/>
-            <line num="12" count="1" type="stmt"/>
-            <line complexity="1" visibility="public" signature="convertTo() : JSONObject" num="19" count="1" type="method"/>
-            <line num="20" count="1" type="stmt"/>
-            <line num="21" count="1" type="stmt"/>
-            <line num="22" count="1" type="stmt"/>
-            <line num="25" count="1" type="stmt"/>
-            <line num="26" count="9" type="stmt"/>
-            <line num="27" count="9" type="stmt"/>
-            <line num="28" count="9" type="stmt"/>
-            <line num="29" count="9" type="stmt"/>
-            <line num="30" count="9" type="stmt"/>
-            <line num="31" count="9" type="stmt"/>
-            <line num="33" count="9" type="stmt"/>
-            <line num="35" count="9" type="stmt"/>
-            <line num="37" count="9" type="stmt"/>
-            <line num="38" count="3" type="stmt"/>
-            <line num="39" count="3" type="stmt"/>
-            <line num="41" count="3" type="stmt"/>
-            <line num="42" count="3" type="stmt"/>
-            <line num="43" count="3" type="stmt"/>
-            <line num="44" count="3" type="stmt"/>
-            <line num="46" count="9" type="stmt"/>
-            <line num="47" count="9" type="stmt"/>
-            <line num="49" count="1" type="stmt"/>
-            <line num="50" count="1" type="stmt"/>
+            <line complexity="1" visibility="public" signature="ServerJSON(Map)" num="11" count="2" type="method"/>
+            <line num="12" count="2" type="stmt"/>
+            <line complexity="1" visibility="public" signature="convertTo() : JSONObject" num="19" count="2" type="method"/>
+            <line num="20" count="2" type="stmt"/>
+            <line num="21" count="2" type="stmt"/>
+            <line num="22" count="2" type="stmt"/>
+            <line num="25" count="2" type="stmt"/>
+            <line num="26" count="18" type="stmt"/>
+            <line num="27" count="18" type="stmt"/>
+            <line num="28" count="18" type="stmt"/>
+            <line num="29" count="18" type="stmt"/>
+            <line num="30" count="18" type="stmt"/>
+            <line num="31" count="18" type="stmt"/>
+            <line num="33" count="18" type="stmt"/>
+            <line num="35" count="18" type="stmt"/>
+            <line num="37" count="18" type="stmt"/>
+            <line num="38" count="6" type="stmt"/>
+            <line num="39" count="6" type="stmt"/>
+            <line num="41" count="6" type="stmt"/>
+            <line num="42" count="6" type="stmt"/>
+            <line num="43" count="6" type="stmt"/>
+            <line num="44" count="6" type="stmt"/>
+            <line num="46" count="18" type="stmt"/>
+            <line num="47" count="18" type="stmt"/>
+            <line num="49" count="2" type="stmt"/>
+            <line num="50" count="2" type="stmt"/>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/main/java/edu/duke/ece651/shared/Territory.java" name="Territory.java">
-            <metrics coveredelements="23" coveredconditionals="2" complexity="13" loc="80" coveredmethods="7" methods="10" elements="41" classes="1" ncloc="58" statements="25" conditionals="6" coveredstatements="14"/>
+            <metrics coveredelements="29" coveredconditionals="3" complexity="13" loc="80" coveredmethods="8" methods="10" elements="41" classes="1" ncloc="58" statements="25" conditionals="6" coveredstatements="18"/>
             <class name="Territory">
-               <metrics coveredelements="23" coveredconditionals="2" complexity="13" coveredmethods="7" methods="10" elements="41" statements="25" conditionals="6" coveredstatements="14"/>
+               <metrics coveredelements="29" coveredconditionals="3" complexity="13" coveredmethods="8" methods="10" elements="41" statements="25" conditionals="6" coveredstatements="18"/>
             </class>
             <line complexity="1" visibility="public" signature="Territory(String,ArrayList&lt;Territory&gt;)" num="12" count="0" type="method"/>
             <line num="13" count="0" type="stmt"/>
             <line num="14" count="0" type="stmt"/>
             <line num="15" count="0" type="stmt"/>
             <line num="16" count="0" type="stmt"/>
-            <line complexity="1" visibility="public" signature="Territory(String)" num="20" count="122" type="method"/>
-            <line num="21" count="122" type="stmt"/>
-            <line num="22" count="122" type="stmt"/>
-            <line num="23" count="122" type="stmt"/>
-            <line num="24" count="122" type="stmt"/>
-            <line num="25" count="122" type="stmt"/>
-            <line complexity="1" visibility="package" signature="addNeighbour(Territory) : void" num="28" count="270" type="method"/>
-            <line num="29" count="270" type="stmt"/>
-            <line complexity="1" visibility="public" signature="getName() : String" num="32" count="106" type="method"/>
-            <line num="33" count="106" type="stmt"/>
-            <line complexity="1" visibility="public" signature="setOwner(int) : void" num="36" count="41" type="method"/>
-            <line num="37" count="41" type="stmt"/>
-            <line complexity="1" visibility="public" signature="getOwner() : int" num="40" count="64" type="method"/>
-            <line num="41" count="64" type="stmt"/>
-            <line complexity="1" visibility="public" signature="getUnits() : HashMap&lt;Integer, ArrayList&lt;Unit&gt;&gt;" num="44" count="91" type="method"/>
-            <line num="45" count="91" type="stmt"/>
-            <line complexity="2" visibility="public" signature="addUnit(Unit) : void" num="52" count="15" type="method"/>
-            <line num="53" count="15" type="stmt"/>
-            <line num="54" count="15" type="stmt"/>
-            <line falsecount="14" truecount="1" num="54" type="cond"/>
+            <line complexity="1" visibility="public" signature="Territory(String)" num="20" count="140" type="method"/>
+            <line num="21" count="140" type="stmt"/>
+            <line num="22" count="140" type="stmt"/>
+            <line num="23" count="140" type="stmt"/>
+            <line num="24" count="140" type="stmt"/>
+            <line num="25" count="140" type="stmt"/>
+            <line complexity="1" visibility="package" signature="addNeighbour(Territory) : void" num="28" count="318" type="method"/>
+            <line num="29" count="318" type="stmt"/>
+            <line complexity="1" visibility="public" signature="getName() : String" num="32" count="116" type="method"/>
+            <line num="33" count="116" type="stmt"/>
+            <line complexity="1" visibility="public" signature="setOwner(int) : void" num="36" count="39" type="method"/>
+            <line num="37" count="39" type="stmt"/>
+            <line complexity="1" visibility="public" signature="getOwner() : int" num="40" count="83" type="method"/>
+            <line num="41" count="83" type="stmt"/>
+            <line complexity="1" visibility="public" signature="getUnits() : HashMap&lt;Integer, ArrayList&lt;Unit&gt;&gt;" num="44" count="153" type="method"/>
+            <line num="45" count="153" type="stmt"/>
+            <line complexity="2" visibility="public" signature="addUnit(Unit) : void" num="52" count="19" type="method"/>
+            <line num="53" count="19" type="stmt"/>
+            <line num="54" count="19" type="stmt"/>
+            <line falsecount="18" truecount="1" num="54" type="cond"/>
             <line num="55" count="1" type="stmt"/>
-            <line num="57" count="15" type="stmt"/>
-            <line complexity="2" visibility="public" signature="removeUnit(int) : Unit" num="64" count="0" type="method"/>
-            <line num="65" count="0" type="stmt"/>
-            <line num="66" count="0" type="stmt"/>
-            <line falsecount="0" truecount="0" num="66" type="cond"/>
-            <line num="67" count="0" type="stmt"/>
+            <line num="57" count="19" type="stmt"/>
+            <line complexity="2" visibility="public" signature="removeUnit(int) : Unit" num="64" count="3" type="method"/>
+            <line num="65" count="3" type="stmt"/>
+            <line num="66" count="3" type="stmt"/>
+            <line falsecount="0" truecount="3" num="66" type="cond"/>
+            <line num="67" count="3" type="stmt"/>
             <line num="70" count="0" type="stmt"/>
-            <line num="72" count="0" type="stmt"/>
+            <line num="72" count="3" type="stmt"/>
             <line complexity="2" visibility="public" signature="changeOwner(int) : void" num="75" count="0" type="method"/>
             <line num="76" count="0" type="stmt"/>
             <line falsecount="0" truecount="0" num="76" type="cond"/>
@@ -676,69 +676,69 @@
             </class>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/main/java/edu/duke/ece651/shared/ServerJSONParser.java" name="ServerJSONParser.java">
-            <metrics coveredelements="62" coveredconditionals="18" complexity="16" loc="117" coveredmethods="5" methods="5" elements="70" classes="1" ncloc="80" statements="43" conditionals="22" coveredstatements="39"/>
+            <metrics coveredelements="69" coveredconditionals="21" complexity="16" loc="114" coveredmethods="5" methods="5" elements="70" classes="1" ncloc="80" statements="43" conditionals="22" coveredstatements="43"/>
             <class name="ServerJSONParser">
-               <metrics coveredelements="62" coveredconditionals="18" complexity="16" coveredmethods="5" methods="5" elements="70" statements="43" conditionals="22" coveredstatements="39"/>
+               <metrics coveredelements="69" coveredconditionals="21" complexity="16" coveredmethods="5" methods="5" elements="70" statements="43" conditionals="22" coveredstatements="43"/>
             </class>
-            <line complexity="1" visibility="public" signature="ServerJSONParser(String,Map,int,HashMap&lt;String, Territory&gt;)" num="20" count="5" type="method"/>
-            <line num="21" count="5" type="stmt"/>
-            <line num="22" count="5" type="stmt"/>
-            <line num="23" count="5" type="stmt"/>
-            <line num="24" count="5" type="stmt"/>
-            <line num="25" count="5" type="stmt"/>
-            <line complexity="1" visibility="public" signature="getJSONObj() : JSONObject" num="27" count="1" type="method"/>
-            <line num="28" count="1" type="stmt"/>
-            <line complexity="4" visibility="public" signature="checkOwnership(int,Territory) : void" num="36" count="5" type="method"/>
-            <line num="37" count="5" type="stmt"/>
-            <line num="38" count="5" type="stmt"/>
-            <line falsecount="2" truecount="3" num="38" type="cond"/>
-            <line num="39" count="3" type="stmt"/>
-            <line num="41" count="3" type="stmt"/>
-            <line falsecount="2" truecount="1" num="41" type="cond"/>
-            <line num="42" count="1" type="stmt"/>
-            <line num="45" count="2" type="stmt"/>
-            <line falsecount="0" truecount="2" num="45" type="cond"/>
-            <line num="46" count="2" type="stmt"/>
-            <line complexity="7" visibility="public" signature="checkNumOfUnitsChanged(JSONArray,Territory) : void" num="57" count="4" type="method"/>
-            <line num="59" count="4" type="stmt"/>
-            <line falsecount="4" truecount="8" num="59" type="cond"/>
-            <line num="60" count="8" type="stmt"/>
-            <line num="61" count="8" type="stmt"/>
-            <line num="62" count="8" type="stmt"/>
-            <line num="63" count="8" type="stmt"/>
-            <line num="65" count="8" type="stmt"/>
-            <line falsecount="6" truecount="2" num="65" type="cond"/>
-            <line num="66" count="2" type="stmt"/>
+            <line complexity="1" visibility="public" signature="ServerJSONParser(String,Map,int,HashMap&lt;String, Territory&gt;)" num="19" count="7" type="method"/>
+            <line num="20" count="7" type="stmt"/>
+            <line num="21" count="7" type="stmt"/>
+            <line num="22" count="7" type="stmt"/>
+            <line num="23" count="7" type="stmt"/>
+            <line num="24" count="7" type="stmt"/>
+            <line complexity="1" visibility="public" signature="getJSONObj() : JSONObject" num="26" count="2" type="method"/>
+            <line num="27" count="2" type="stmt"/>
+            <line complexity="4" visibility="public" signature="checkOwnership(int,Territory) : void" num="35" count="14" type="method"/>
+            <line num="36" count="14" type="stmt"/>
+            <line num="37" count="14" type="stmt"/>
+            <line falsecount="10" truecount="4" num="37" type="cond"/>
+            <line num="38" count="4" type="stmt"/>
+            <line num="40" count="4" type="stmt"/>
+            <line falsecount="3" truecount="1" num="40" type="cond"/>
+            <line num="41" count="1" type="stmt"/>
+            <line num="44" count="3" type="stmt"/>
+            <line falsecount="0" truecount="3" num="44" type="cond"/>
+            <line num="45" count="3" type="stmt"/>
+            <line complexity="7" visibility="public" signature="checkNumOfUnitsChanged(JSONArray,Territory) : void" num="56" count="14" type="method"/>
+            <line num="58" count="14" type="stmt"/>
+            <line falsecount="14" truecount="13" num="58" type="cond"/>
+            <line num="59" count="13" type="stmt"/>
+            <line num="60" count="13" type="stmt"/>
+            <line num="61" count="13" type="stmt"/>
+            <line num="62" count="13" type="stmt"/>
+            <line num="64" count="13" type="stmt"/>
+            <line falsecount="10" truecount="3" num="64" type="cond"/>
+            <line num="65" count="3" type="stmt"/>
+            <line num="68" count="13" type="stmt"/>
+            <line falsecount="5" truecount="8" num="68" type="cond"/>
             <line num="69" count="8" type="stmt"/>
-            <line falsecount="4" truecount="4" num="69" type="cond"/>
-            <line num="71" count="4" type="stmt"/>
-            <line num="72" count="4" type="stmt"/>
-            <line falsecount="0" truecount="4" num="72" type="cond"/>
-            <line num="74" count="4" type="stmt"/>
-            <line num="75" count="4" type="stmt"/>
-            <line falsecount="4" truecount="14" num="75" type="cond"/>
-            <line num="76" count="14" type="stmt"/>
-            <line num="77" count="14" type="stmt"/>
-            <line num="78" count="14" type="stmt"/>
-            <line num="82" count="0" type="stmt"/>
-            <line num="83" count="0" type="stmt"/>
-            <line falsecount="0" truecount="0" num="83" type="cond"/>
-            <line num="84" count="0" type="stmt"/>
-            <line num="85" count="0" type="stmt"/>
-            <line complexity="3" visibility="public" signature="doParse() : void" num="96" count="2" type="method"/>
-            <line num="98" count="2" type="stmt"/>
-            <line num="100" count="2" type="stmt"/>
-            <line falsecount="1" truecount="3" num="100" type="cond"/>
-            <line num="101" count="3" type="stmt"/>
-            <line num="102" count="3" type="stmt"/>
-            <line num="103" count="3" type="stmt"/>
-            <line falsecount="1" truecount="2" num="103" type="cond"/>
-            <line num="104" count="2" type="stmt"/>
-            <line num="105" count="2" type="stmt"/>
-            <line num="107" count="2" type="stmt"/>
-            <line num="109" count="2" type="stmt"/>
-            <line num="110" count="2" type="stmt"/>
-            <line num="113" count="1" type="stmt"/>
+            <line num="70" count="8" type="stmt"/>
+            <line falsecount="2" truecount="6" num="70" type="cond"/>
+            <line num="71" count="6" type="stmt"/>
+            <line num="72" count="6" type="stmt"/>
+            <line falsecount="6" truecount="18" num="72" type="cond"/>
+            <line num="73" count="18" type="stmt"/>
+            <line num="74" count="18" type="stmt"/>
+            <line num="75" count="18" type="stmt"/>
+            <line num="79" count="2" type="stmt"/>
+            <line num="80" count="2" type="stmt"/>
+            <line falsecount="2" truecount="3" num="80" type="cond"/>
+            <line num="81" count="3" type="stmt"/>
+            <line num="82" count="3" type="stmt"/>
+            <line complexity="3" visibility="public" signature="doParse() : void" num="93" count="3" type="method"/>
+            <line num="95" count="3" type="stmt"/>
+            <line num="97" count="3" type="stmt"/>
+            <line falsecount="2" truecount="12" num="97" type="cond"/>
+            <line num="98" count="12" type="stmt"/>
+            <line num="99" count="12" type="stmt"/>
+            <line num="100" count="12" type="stmt"/>
+            <line falsecount="1" truecount="11" num="100" type="cond"/>
+            <line num="101" count="11" type="stmt"/>
+            <line num="102" count="11" type="stmt"/>
+            <line num="104" count="11" type="stmt"/>
+            <line num="106" count="11" type="stmt"/>
+            <line num="107" count="11" type="stmt"/>
+            <line num="110" count="1" type="stmt"/>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/main/java/edu/duke/ece651/shared/DeployAction.java" name="DeployAction.java">
             <metrics coveredelements="2" coveredconditionals="0" complexity="2" loc="31" coveredmethods="1" methods="2" elements="8" classes="1" ncloc="16" statements="6" conditionals="0" coveredstatements="1"/>
@@ -793,34 +793,33 @@
             <line num="16" count="5" type="stmt"/>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/test/java/edu/duke/ece651/shared/ServerJSONParserTest.java" name="ServerJSONParserTest.java">
-            <metrics coveredelements="74" coveredconditionals="0" complexity="5" loc="191" coveredmethods="5" methods="5" elements="74" classes="1" ncloc="160" statements="69" conditionals="0" coveredstatements="69"/>
+            <metrics coveredelements="115" coveredconditionals="0" complexity="6" loc="248" coveredmethods="6" methods="6" elements="115" classes="1" ncloc="203" statements="109" conditionals="0" coveredstatements="109"/>
             <class name="ServerJSONParserTest">
-               <metrics coveredelements="74" coveredconditionals="0" complexity="5" coveredmethods="5" methods="5" elements="74" statements="69" conditionals="0" coveredstatements="69"/>
+               <metrics coveredelements="115" coveredconditionals="0" complexity="6" coveredmethods="6" methods="6" elements="115" statements="109" conditionals="0" coveredstatements="109"/>
             </class>
-            <line complexity="1" visibility="public" signature="initialize() : void" num="83" count="4" type="method"/>
-            <line num="84" count="4" type="stmt"/>
-            <line num="85" count="4" type="stmt"/>
-            <line num="86" count="4" type="stmt"/>
-            <line num="88" count="4" type="stmt"/>
-            <line num="89" count="4" type="stmt"/>
-            <line num="90" count="4" type="stmt"/>
-            <line num="92" count="4" type="stmt"/>
-            <line num="93" count="4" type="stmt"/>
-            <line num="94" count="4" type="stmt"/>
-            <line num="96" count="4" type="stmt"/>
-            <line num="98" count="4" type="stmt"/>
-            <line num="99" count="4" type="stmt"/>
-            <line num="101" count="4" type="stmt"/>
-            <line num="103" count="4" type="stmt"/>
-            <line num="105" count="4" type="stmt"/>
-            <line num="106" count="4" type="stmt"/>
-            <line num="107" count="4" type="stmt"/>
-            <line num="109" count="4" type="stmt"/>
-            <line num="110" count="4" type="stmt"/>
-            <line complexity="1" visibility="package" signature="checkOwnership() : void" num="114" count="1" type="method"/>
-            <line num="116" count="1" type="stmt"/>
-            <line num="117" count="1" type="stmt"/>
-            <line num="118" count="1" type="stmt"/>
+            <line complexity="1" visibility="public" signature="initialize() : void" num="84" count="5" type="method"/>
+            <line num="85" count="5" type="stmt"/>
+            <line num="86" count="5" type="stmt"/>
+            <line num="87" count="5" type="stmt"/>
+            <line num="89" count="5" type="stmt"/>
+            <line num="90" count="5" type="stmt"/>
+            <line num="91" count="5" type="stmt"/>
+            <line num="93" count="5" type="stmt"/>
+            <line num="94" count="5" type="stmt"/>
+            <line num="95" count="5" type="stmt"/>
+            <line num="97" count="5" type="stmt"/>
+            <line num="99" count="5" type="stmt"/>
+            <line num="100" count="5" type="stmt"/>
+            <line num="102" count="5" type="stmt"/>
+            <line num="104" count="5" type="stmt"/>
+            <line num="105" count="5" type="stmt"/>
+            <line num="107" count="5" type="stmt"/>
+            <line num="108" count="5" type="stmt"/>
+            <line num="109" count="5" type="stmt"/>
+            <line num="112" count="5" type="stmt"/>
+            <line num="113" count="5" type="stmt"/>
+            <line num="114" count="5" type="stmt"/>
+            <line complexity="1" visibility="package" signature="checkOwnership() : void" num="117" count="1" type="method"/>
             <line num="119" count="1" type="stmt"/>
             <line num="120" count="1" type="stmt"/>
             <line num="121" count="1" type="stmt"/>
@@ -832,45 +831,87 @@
             <line num="127" count="1" type="stmt"/>
             <line num="128" count="1" type="stmt"/>
             <line num="129" count="1" type="stmt"/>
-            <line complexity="1" visibility="package" signature="checkNumOfUnitsChanged() : void" num="132" count="1" type="method"/>
-            <line num="134" count="1" type="stmt"/>
-            <line num="135" count="1" type="stmt"/>
+            <line num="130" count="1" type="stmt"/>
+            <line num="131" count="1" type="stmt"/>
+            <line num="132" count="1" type="stmt"/>
+            <line complexity="1" visibility="package" signature="checkNumOfUnitsChanged() : void" num="135" count="1" type="method"/>
             <line num="137" count="1" type="stmt"/>
             <line num="138" count="1" type="stmt"/>
             <line num="140" count="1" type="stmt"/>
             <line num="141" count="1" type="stmt"/>
-            <line num="142" count="1" type="stmt"/>
             <line num="143" count="1" type="stmt"/>
             <line num="144" count="1" type="stmt"/>
             <line num="145" count="1" type="stmt"/>
             <line num="146" count="1" type="stmt"/>
+            <line num="147" count="1" type="stmt"/>
             <line num="148" count="1" type="stmt"/>
             <line num="149" count="1" type="stmt"/>
-            <line num="150" count="1" type="stmt"/>
+            <line num="151" count="1" type="stmt"/>
             <line num="152" count="1" type="stmt"/>
+            <line num="153" count="1" type="stmt"/>
             <line num="155" count="1" type="stmt"/>
-            <line num="156" count="1" type="stmt"/>
-            <line num="157" count="1" type="stmt"/>
             <line num="158" count="1" type="stmt"/>
             <line num="159" count="1" type="stmt"/>
             <line num="160" count="1" type="stmt"/>
             <line num="161" count="1" type="stmt"/>
             <line num="162" count="1" type="stmt"/>
             <line num="163" count="1" type="stmt"/>
-            <line complexity="1" visibility="package" signature="doParse() : void" num="170" count="1" type="method"/>
+            <line num="164" count="1" type="stmt"/>
+            <line num="165" count="1" type="stmt"/>
+            <line num="166" count="1" type="stmt"/>
+            <line num="168" count="1" type="stmt"/>
+            <line num="169" count="1" type="stmt"/>
+            <line num="170" count="1" type="stmt"/>
+            <line num="171" count="1" type="stmt"/>
             <line num="172" count="1" type="stmt"/>
             <line num="173" count="1" type="stmt"/>
             <line num="174" count="1" type="stmt"/>
             <line num="175" count="1" type="stmt"/>
             <line num="176" count="1" type="stmt"/>
             <line num="177" count="1" type="stmt"/>
-            <line num="178" count="1" type="stmt"/>
-            <line num="179" count="1" type="stmt"/>
-            <line num="180" count="1" type="stmt"/>
-            <line complexity="1" visibility="package" signature="doException() : void" num="184" count="1" type="method"/>
+            <line complexity="1" visibility="package" signature="doParse() : void" num="181" count="1" type="method"/>
+            <line num="183" count="1" type="stmt"/>
+            <line num="184" count="1" type="stmt"/>
+            <line num="185" count="1" type="stmt"/>
             <line num="186" count="1" type="stmt"/>
             <line num="187" count="1" type="stmt"/>
             <line num="188" count="1" type="stmt"/>
+            <line num="189" count="1" type="stmt"/>
+            <line num="190" count="1" type="stmt"/>
+            <line num="191" count="1" type="stmt"/>
+            <line complexity="1" visibility="package" signature="clientAndServerParser() : void" num="195" count="1" type="method"/>
+            <line num="197" count="1" type="stmt"/>
+            <line num="200" count="1" type="stmt"/>
+            <line num="201" count="1" type="stmt"/>
+            <line num="202" count="1" type="stmt"/>
+            <line num="204" count="1" type="stmt"/>
+            <line num="205" count="1" type="stmt"/>
+            <line num="206" count="1" type="stmt"/>
+            <line num="209" count="1" type="stmt"/>
+            <line num="210" count="1" type="stmt"/>
+            <line num="211" count="1" type="stmt"/>
+            <line num="212" count="1" type="stmt"/>
+            <line num="217" count="1" type="stmt"/>
+            <line num="218" count="1" type="stmt"/>
+            <line num="221" count="1" type="stmt"/>
+            <line num="223" count="1" type="stmt"/>
+            <line num="224" count="1" type="stmt"/>
+            <line num="226" count="1" type="stmt"/>
+            <line num="227" count="1" type="stmt"/>
+            <line num="228" count="1" type="stmt"/>
+            <line num="230" count="1" type="stmt"/>
+            <line num="231" count="1" type="stmt"/>
+            <line num="232" count="1" type="stmt"/>
+            <line num="233" count="1" type="stmt"/>
+            <line num="234" count="1" type="stmt"/>
+            <line num="235" count="1" type="stmt"/>
+            <line num="236" count="1" type="stmt"/>
+            <line num="237" count="1" type="stmt"/>
+            <line num="238" count="1" type="stmt"/>
+            <line complexity="1" visibility="package" signature="doException() : void" num="241" count="1" type="method"/>
+            <line num="243" count="1" type="stmt"/>
+            <line num="244" count="1" type="stmt"/>
+            <line num="245" count="1" type="stmt"/>
          </file>
          <file path="/Users/yuxuan/Documents/ECE651/ece651-riskgame/shared/src/test/java/edu/duke/ece651/shared/MapTest.java" name="MapTest.java">
             <metrics coveredelements="45" coveredconditionals="0" complexity="4" loc="74" coveredmethods="4" methods="4" elements="45" classes="1" ncloc="63" statements="41" conditionals="0" coveredstatements="41"/>
@@ -1020,7 +1061,7 @@
          </file>
       </package>
    </project>
-   <testproject name="shared" timestamp="1647487723824">
+   <testproject name="shared" timestamp="1647488750916">
       <metrics coveredelements="0" complexity="0" loc="0" methods="0" classes="0" statements="0" packages="0" coveredconditionals="0" coveredmethods="0" elements="0" ncloc="0" files="0" conditionals="0" coveredstatements="0"/>
    </testproject>
 </coverage>

@@ -74,7 +74,7 @@ public class GameController {
       // Send Threads
       for (int k = 0; k < server.getClientSocketList().size(); k++) {
         try {
-          ServerCallable task = new ServerCallable(server.getClientSocketList().get(k));
+          ServerCallable task = new ServerCallable(server.getClientSocketList().get(k), map);
           Future<?> future = server.getService().submit(task);
           this.futureList.add(future);
         } finally {

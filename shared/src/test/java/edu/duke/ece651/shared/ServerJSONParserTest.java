@@ -42,6 +42,7 @@ class ServerJSONParserTest {
             "    }\n" +
             "  ]\n" +
             "}";
+
     String src2 = "{\n" +
             "  \"map\": [\n" +
             "    {\n" +
@@ -101,14 +102,16 @@ class ServerJSONParserTest {
         testMap.getTerritoryList().get("a2").getUnits().get(1).add(new Unit());
         //a3
         testMap.getTerritoryList().get("a3").getUnits().put(1, new ArrayList<>());
+        testMap.getTerritoryList().get("a3").setOwner(1);
         //add 3 units to level 1
-        testMap.getTerritoryList().get("a3").setOwner(1);
-        testMap.getTerritoryList().get("a3").setOwner(1);
-        testMap.getTerritoryList().get("a3").setOwner(1);
+        testMap.getTerritoryList().get("a3").getUnits().get(1).add(new Unit());
+        testMap.getTerritoryList().get("a3").getUnits().get(1).add(new Unit());
+        testMap.getTerritoryList().get("a3").getUnits().get(1).add(new Unit());
+
 
         playerTerritories.put("a1", testMap.getTerritoryList().get("a1"));
         playerTerritories.put("a2", testMap.getTerritoryList().get("a2"));
-
+        playerTerritories.put("a3", testMap.getTerritoryList().get("a3"));
 
     }
     @Test
@@ -162,8 +165,16 @@ class ServerJSONParserTest {
         p1.checkNumOfUnitsChanged(getUnitArr2, t2);
         assertEquals(t2.getUnits().get(2).size(), 3);
         //test edge cases
-        //ServerJSONParser p3 = new ServerJSONParser(src2, testMap, playerID, playerTerritories);
-        //Territory t3 = playerTerritories.get("a2");
+        ServerJSONParser p3 = new ServerJSONParser(src2, testMap, playerID, playerTerritories);
+        Territory t3 = playerTerritories.get("a3");
+        JSONArray getArray3 = p3.getJSONObj().getJSONArray("map");
+        JSONObject getObject3 = getArray3.getJSONObject(1);//a3
+        String terrName3 = getObject3.getString("name");
+        assertEquals(terrName3, "a3");
+        JSONArray getUnitArr3 = getObject3.getJSONArray("units");
+        assertEquals(t3.getUnits().get(1).size(), 3);
+        p3.checkNumOfUnitsChanged(getUnitArr3, t3);
+        assertEquals(t3.getUnits().get(1).size(), 1);
 
     }
 
@@ -179,6 +190,52 @@ class ServerJSONParserTest {
         assertEquals(t2.getUnits().get(2).size(), 3);
         assertEquals(t2.getOwner(), 2);
 
+    }
+
+    @Test
+    void clientAndServerParser(){
+        initialize();
+
+        //generate serverJSON
+        Map newMap = new Map(3);
+        HashMap<String, Territory> newTerritories = new HashMap<>();
+        HashMap<String, Territory> newTerritories2 = new HashMap<>();
+        //a1
+        newMap.getTerritoryList().get("a1").getUnits().put(1, new ArrayList<>());
+        newMap.getTerritoryList().get("a1").getUnits().put(2, new ArrayList<>());
+        newMap.getTerritoryList().get("a1").setOwner(1);
+
+        //add 4 units to level 1
+        newMap.getTerritoryList().get("a1").getUnits().get(1).add(new Unit());
+        newMap.getTerritoryList().get("a1").getUnits().get(1).add(new Unit());
+        newMap.getTerritoryList().get("a1").getUnits().get(1).add(new Unit());
+        newMap.getTerritoryList().get("a1").getUnits().get(1).add(new Unit());
+
+        //add 0 unit to level 2
+
+        //a2
+        newMap.getTerritoryList().get("a2").getUnits().put(1, new ArrayList<>());
+        newMap.getTerritoryList().get("a2").setOwner(1);
+
+        //add 1 unit to level 1
+        newMap.getTerritoryList().get("a2").getUnits().get(1).add(new Unit());
+
+        newTerritories.put("a1", newMap.getTerritoryList().get("a1"));
+        newTerritories.put("a2", newMap.getTerritoryList().get("a2"));
+
+        ServerJSON serverJSON = new ServerJSON(newMap);
+        String json = serverJSON.convertTo().toString();
+        System.out.println(json);
+        //parse serverJSON
+        ServerJSONParser p1 = new ServerJSONParser(json, testMap, playerID, playerTerritories);
+        Territory t = playerTerritories.get("a1");
+        Territory t2 = playerTerritories.get("a2");
+        assertEquals(t.getOwner(), 1);
+        assertEquals(t.getUnits().get(1).size(), 3);
+        assertEquals(t.getUnits().get(2).size(), 1);
+        p1.doParse();
+        assertEquals(t.getUnits().get(1).size(), 4);
+        assertEquals(t.getUnits().get(2).size(), 0);
     }
 
     @Test
