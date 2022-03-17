@@ -16,7 +16,7 @@ public class MapTextView extends MapView {
 
     @Override
     void generateViewInfo(HashMap<String, Territory> territoryList) {
-        // get territory info, transfer it into string
+        // save territory into different array based on their owners.
         HashMap<Integer, ArrayList<String>> terrsInfo = new HashMap<Integer, ArrayList<String>>();
         for (int i = 0; i < numOfPlayers; i++) {
             terrsInfo.put(i, new ArrayList<String>());
