@@ -9,24 +9,28 @@ import java.util.ArrayList;
 public class MapTest {
     @Test
     void testShowNeighbours_TEST() {
-        int numOfPlayers = 5;
-        Map m = new Map(numOfPlayers);
-        assertEquals(m.territoryList.size(), 3*numOfPlayers);
-        assertEquals(m.numOfPlayers, m.groups.size());
-        for (String name : m.territoryList.keySet()) {
-            System.out.print("territory[" + name + "]: ");
-            for (Territory t : m.territoryList.get(name).neighbours) {
-                System.out.print(t.getName() + " ");
+        for (int i = 2; i <= 5; i++) {
+            System.out.println("show map structure for " + Integer.toString(i) + "players.");
+            int numOfPlayers = i;
+            Map m = new Map(numOfPlayers);
+            assertEquals(m.territoryList.size(), 3 * numOfPlayers);
+            assertEquals(m.numOfPlayers, m.groups.size());
+            for (String name : m.territoryList.keySet()) {
+                System.out.print("territory[" + name + "]: ");
+                for (Territory t : m.territoryList.get(name).neighbours) {
+                    System.out.print(t.getName() + " ");
+                }
+                System.out.print("\n");
             }
-            System.out.print("\n");
-        }
-        System.out.println("show groups:");
-        for (ArrayList<String> group : m.groups) {
-            for (String name : group) {
-                System.out.print(name + " ");
+            System.out.println("show groups:");
+            for (ArrayList<String> group : m.groups) {
+                for (String name : group) {
+                    System.out.print(name + " ");
+                }
+                System.out.print("\n");
             }
-            System.out.print("\n");
         }
+
     }
 
     @Test
@@ -65,7 +69,7 @@ public class MapTest {
         m.territoryList.get("c1").setOwner(3);
         m.territoryList.get("c2").setOwner(3);
         m.territoryList.get("c3").setOwner(3);
-        
+
         m.territoryList.get("a1").addUnit(new Unit());
         MapView displayer = new MapTextView(3, System.out);
         m.displayMap(displayer);
