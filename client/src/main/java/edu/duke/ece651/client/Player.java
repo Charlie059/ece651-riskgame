@@ -270,12 +270,12 @@ public class Player {
             out.println("Player " + id + ", how many number of level " + level +" units do you want to move?");
             int num = Integer.parseInt(inputReader.readLine());
             unitNum = num;
-            if ( totalDeployment.get(level) >= unitNum){
+            if ( totalDeployment.get(level) >= unitNum && unitNum > 0){
                 isNumUnitsValid = true;
             }
             else{
-                out.println("Number of level " + level + " units cannot exceed the maximum " +
-                        "number of that unit in territory " + from_name);
+                out.println("Number of level " + level + "-units cannot be less than or equal to 0 or exceed the maximum " +
+                        "number of that units in Territory " + from_name);
             }
         }while(!isNumUnitsValid);
         moveUnits.put(level, unitNum);
