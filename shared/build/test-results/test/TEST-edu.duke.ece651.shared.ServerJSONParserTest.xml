@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="edu.duke.ece651.shared.ServerJSONParserTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-03-17T03:28:43" hostname="Yuxuans-MacBook-Pro.local" time="0.004">
+  <properties/>
+  <testcase name="doException()" classname="edu.duke.ece651.shared.ServerJSONParserTest" time="0.001"/>
+  <testcase name="checkNumOfUnitsChanged()" classname="edu.duke.ece651.shared.ServerJSONParserTest" time="0.0"/>
+  <testcase name="doParse()" classname="edu.duke.ece651.shared.ServerJSONParserTest" time="0.001"/>
+  <testcase name="checkOwnership()" classname="edu.duke.ece651.shared.ServerJSONParserTest" time="0.001"/>
+  <system-out><![CDATA[{"name":"a1","units":[{"level":1,"value":3},{"level":2,"value":5}],"ownerID":"1"}
+[{"level":1,"value":3},{"level":2,"value":5}]
+{"name":"a2","units":[{"level":1,"value":1},{"level":2,"value":3}],"ownerID":"2"}
+[{"level":1,"value":1},{"level":2,"value":3}]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -26,14 +26,13 @@ public class Server {
   private final int portNum;
   private final ServerSocket serversocket;
   private ExecutorService service;
-  private ArrayList<Future<?>> futureList;
+
   private ArrayList<Socket> clientSocketList;
 
   public Server(int portNum) throws IOException {
     this.portNum = portNum;
     this.serversocket = new ServerSocket(this.portNum);
     this.service = Executors.newFixedThreadPool(16); // The max number of threads by service
-    this.futureList = new ArrayList<>();
     this.clientSocketList = new ArrayList<Socket>();
   }
 
@@ -46,6 +45,7 @@ public class Server {
 
   /**
    * Send message to the client (Do NOT ADD \n)
+   * 
    * @param playerID
    * @param msg
    * @throws IOException
@@ -59,6 +59,7 @@ public class Server {
 
   /**
    * Recv msg from client
+   * 
    * @param playerID
    * @return the msg
    * @throws IOException
@@ -70,15 +71,8 @@ public class Server {
   }
 
   /**
-   * Clear the future list
-   */
-  public void clearFutureList(){
-    this.futureList.clear();
-  }
-
-
-  /**
    * Get getServersocket
+   * 
    * @return ServerSocket
    */
   public ServerSocket getServersocket() {
@@ -87,10 +81,6 @@ public class Server {
 
   public ExecutorService getService() {
     return service;
-  }
-
-  public ArrayList<Future<?>> getFutureList() {
-    return futureList;
   }
 
   public ArrayList<Socket> getClientSocketList() {
