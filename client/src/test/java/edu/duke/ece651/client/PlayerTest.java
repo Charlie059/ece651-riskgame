@@ -49,10 +49,6 @@ class PlayerTest {
         }
     }
 
-    @Test
-    void playOneRoundTEST() throws IOException {
-
-    }
 
     private Player createTextPlayer(String inputData){
         bytes = new ByteArrayOutputStream();
@@ -67,6 +63,102 @@ class PlayerTest {
                 testPlayer.getWholeMap().getTerritoryList().get(str).setOwner(id);
             }
         }
+        String src = "{\n" +
+                "  \"map\": [\n" +
+                "    {\n" +
+                "      \"name\": \"a1\",\n" +
+                "      \"ownerID\": \"1\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"a2\",\n" +
+                "      \"ownerID\": \"1\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n"+
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"a3\",\n" +
+                "      \"ownerID\": \"1\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"b1\",\n" +
+                "      \"ownerID\": \"2\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"b2\",\n" +
+                "      \"ownerID\": \"2\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"b3\",\n" +
+                "      \"ownerID\": \"2\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"c1\",\n" +
+                "      \"ownerID\": \"3\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"c2\",\n" +
+                "      \"ownerID\": \"3\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"name\": \"c3\",\n" +
+                "      \"ownerID\": \"3\",\n" +
+                "      \"units\": [\n" +
+                "        {\n" +
+                "          \"level\": 1,\n" +
+                "          \"value\": 3\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+
+        testPlayer.setRecvJSON(src);
         return testPlayer;
     }
 

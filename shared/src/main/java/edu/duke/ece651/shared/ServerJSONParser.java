@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class ServerJSONParser implements JSONParser{
     private JSONObject JSONObj;
-    private final String source;
+    private String source;
     private Map myMap;
     private int myID;
     HashMap<String, Territory> myTerritories;
@@ -110,5 +110,11 @@ public class ServerJSONParser implements JSONParser{
                 throw new IllegalArgumentException("Territory name "+ terrName + " is not found!" );
             }
         }
+    }
+
+    public void updateJSON(String src){
+        source = src;
+        JSONObj = new JSONObject(source);
+        doParse();
     }
 }
