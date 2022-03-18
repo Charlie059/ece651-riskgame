@@ -22,7 +22,7 @@ public class Player {
     private ArrayList<Action> ActionList;//list of actions
     public MapView myMapTextView;
     private ServerJSONParser ServerJSON_parser;
-    private String recvJSON = "";
+    private String recvJSON = "{}";
     /**
      * get player id
      * @return int of id
@@ -517,6 +517,7 @@ public class Player {
     //TODO why play one round is using while
     public void playOneRound() throws Exception {
         ActionList.clear();
+        setServerJSON_parser(recvJSON);
         ServerJSON_parser.updateJSON(recvJSON);
         wholeMap.displayMap(myMapTextView);
         // Deploy Round
