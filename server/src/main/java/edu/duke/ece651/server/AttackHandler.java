@@ -58,15 +58,14 @@ public class AttackHandler extends ActionHandler {
 
     return combatResult;
   }
-  
 
   @Override
   public void doAction() {
     Integer level = 1;
     for (int i = 0; i < clientJSONParserList.size(); i++) {
-      ArrayList<Action> moveActionList = clientJSONParserList.get(i).getMove();
-      for (int k = 0; k < moveActionList.size(); k++) {
-        Action currentAction = moveActionList.get(k);
+      ArrayList<Action> attackActionList = clientJSONParserList.get(i).getAttack();
+      for (int k = 0; k < attackActionList.size(); k++) {
+        Action currentAction = attackActionList.get(k);
         Territory to = currentAction.getTo();
         Territory from = currentAction.getFrom();
 
@@ -80,7 +79,7 @@ public class AttackHandler extends ActionHandler {
 
         // currently the more sides have the territory, and they all alive
 
-        // Set the combat Result  the combat places
+        // Set the combat Result the combat places
         to.setOwner(combatResult.playerID);
         // to.getUnits() =
         to.setUnits(combatResult.numOfUnits);
