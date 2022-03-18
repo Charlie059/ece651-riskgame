@@ -1,16 +1,12 @@
 package edu.duke.ece651.server;
 
-import edu.duke.ece651.shared.Action;
-import edu.duke.ece651.shared.ClientJSONParser;
-import edu.duke.ece651.shared.Map;
-import edu.duke.ece651.shared.PlayerCounter;
-import edu.duke.ece651.shared.ServerJSON;
-import edu.duke.ece651.shared.ServerJSONParser;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
+import edu.duke.ece651.shared.Map;
+import edu.duke.ece651.shared.PlayerCounter;
 
 public class GameController {
   Map map;
@@ -93,6 +89,8 @@ public class GameController {
     initFutureList();
     if (this.isDeployed == false) {
       // Deploy.doAction
+      DeployHandler deployHandler = new DeployHandler(this.futureList, this.map);
+      deployHandler.doAction();
       this.isDeployed = true;
     } else {
       // MoveHandler.doAction
