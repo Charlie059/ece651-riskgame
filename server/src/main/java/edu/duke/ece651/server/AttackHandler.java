@@ -1,4 +1,83 @@
 package edu.duke.ece651.server;
 
-public class AttackHandler extends Handler{
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import edu.duke.ece651.shared.Map;
+import edu.duke.ece651.shared.*;
+
+public class AttackHandler extends ActionHandler {
+
+  public AttackHandler(ArrayList<Future<?>> futureList, Map map) throws ExecutionException, InterruptedException {
+    super(futureList, map);
+  }
+
+  private class CombatResult {
+    int playerID;
+    HashMap<Integer, Integer> numOfUnits;
+  }
+
+  // from's ID combat with to's ID
+  public CombatResult combat(Action currentAction) {
+    Territory to = currentAction.getTo();
+    Territory from = currentAction.getFrom();
+    int attacker = from.getOwner();
+    int defenser = to.getOwner();
+
+    HashMap<Integer, Integer> attackerUnits = currentAction.getUnitNumber();
+    HashMap<Integer, Integer> defenserUnits = new HashMap<>();
+
+    HashMap<Integer, ArrayList<Unit>> defenserUnits_UnitsArr = to.getUnits();
+    for (int i = 1; i <= 6; i++) {
+      defenserUnits.put(i, defenserUnits_UnitsArr.get(i) == null ? 0 : defenserUnits_UnitsArr.get(i).size());
+    }
+
+    // TODO the combat only do compare at this moment
+    // TODO implement dice iteration
+
+    Integer level = 1;
+
+    CombatResult combatResult = new CombatResult();
+
+    if (attackerUnits.get(level) >= defenserUnits.get(level)) {
+      combatResult.playerID = from.getOwner();
+      combatResult.numOfUnits = attackerUnits;
+    } else {
+      combatResult.playerID = to.getOwner();
+      combatResult.numOfUnits = defenserUnits;
+    }
+
+    return combatResult;
+
+  }
+
+  @Override
+  public void doAction() {
+    Integer level = 1;
+    for (int i = 0; i < clientJSONParserList.size(); i++) {
+      ArrayList<Action> moveActionList = clientJSONParserList.get(i).getMove();
+      for (int k = 0; k < moveActionList.size(); k++) {
+        Action currentAction = moveActionList.get(k);
+        Territory to = currentAction.getTo();
+        Territory from = currentAction.getFrom();
+
+        // map update from
+        map.getTerritoryList().get(from.getName()).removeNumUnit(currentAction.getUnitNumber());
+
+        // combat at to
+        CombatResult combatResult = combat(currentAction);
+
+        // TODO 20 side dice resolution
+
+        // currently the more sides have the territory, and they all alive
+
+        // Set the combat Result ot the combat places
+        to.setOwner(combatResult.playerID);
+        // to.getUnits() =
+        combatResult.numOfUnits;
+      }
+    }
+  }
 }
