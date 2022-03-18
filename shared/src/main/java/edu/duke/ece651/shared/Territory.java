@@ -87,7 +87,7 @@ public class Territory {
    */
   public Unit removeUnit(int level) {
     Unit u = null;
-    if (!Units.get(level).isEmpty() && (!Units.get(level).isEmpty())) {
+    if ((Units.get(level) != null) && (!Units.get(level).isEmpty())) {
       u = Units.get(level).remove(0);
     }
     return u;
