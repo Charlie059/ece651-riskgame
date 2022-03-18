@@ -80,11 +80,13 @@ public class AttackHandler extends ActionHandler {
 
         // currently the more sides have the territory, and they all alive
 
-        // Set the combat Result ot the combat places
+        // Set the combat Result  the combat places
         to.setOwner(combatResult.playerID);
         // to.getUnits() =
         to.setUnits(combatResult.numOfUnits);
 
+        // update the from place
+        from.removeNumUnit(currentAction.getUnitNumber());
       }
     }
   }

@@ -95,7 +95,8 @@ public class GameController {
     } else {
       MoveHandler moveHandler = new MoveHandler(this.futureList, this.map);
       moveHandler.doAction();
-      // AttackHandler.doAction
+      AttackHandler attackHandler = new AttackHandler(this.futureList, this.map);// AttackHandler.doAction
+      attackHandler.doAction();
     }
 
   }
@@ -105,7 +106,6 @@ public class GameController {
 
     // establish connection
     gc.init();
-    
 
     while (true) {
       try {
