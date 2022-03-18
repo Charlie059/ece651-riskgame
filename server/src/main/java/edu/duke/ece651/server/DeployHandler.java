@@ -16,6 +16,18 @@ public class DeployHandler extends ActionHandler {
 
   @Override
   public void doAction() {
+    // Assign All Territory with it's playerID using Group method provided by map
+
+    // For Each Player's ID is i
+    for (int i = 0; i < this.map.numOfPlayers; i++) {
+      ArrayList<String> playerTerritoryList = this.map.getGroups().get(i);
+      int numOfPlayerTerritories = this.map.getGroups().get(i).size();
+      // For Each Territory owned by i
+      for (int j = 0; j < numOfPlayerTerritories; j++) {
+        map.getTerritoryList().get(playerTerritoryList.get(j)).setOwner(i + 1);
+      }
+    }
+
     Integer level = 1;
     // For each player
     for (int i = 0; i < clientJSONParserList.size(); i++) {
