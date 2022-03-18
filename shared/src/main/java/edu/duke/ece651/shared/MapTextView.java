@@ -5,53 +5,54 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MapTextView extends MapView {
-    private String displayText; // save the display info
-    final PrintStream out;
+  private String displayText; // save the display info
+  final PrintStream out;
 
-    public MapTextView(int numOfPlayers, PrintStream out) {
-        super(numOfPlayers);
-        this.displayText = "";
-        this.out = out;
+  public MapTextView(int numOfPlayers, PrintStream out) {
+    super(numOfPlayers);
+    this.displayText = "";
+    this.out = out;
+  }
+
+  @Override
+  void generateViewInfo(HashMap<String, Territory> territoryList) {
+    displayText = "";
+    // save territory into different array based on their owners.
+    HashMap<Integer, ArrayList<String>> terrsInfo = new HashMap<Integer, ArrayList<String>>();
+    for (int i = 1; i <= numOfPlayers; i++) {
+      terrsInfo.put(i, new ArrayList<String>());
+    }
+    for (String terrName : territoryList.keySet()) {
+      Territory t = territoryList.get(terrName);
+      String info = terrName + " :(next to";
+      for (Territory neighbour : t.neighbours) {
+        info += "  " + neighbour.getName();
+      }
+      info += ")\n";
+      HashMap<Integer, ArrayList<Unit>> Units = t.getUnits();
+      for (Integer level : Units.keySet()) {
+        info += "level " + Integer.toString(level) + ": " + Integer.toString(Units.get(level).size()) + " units\n";
+      }
+      if (terrsInfo.get(t.getOwner()) != null) {
+        terrsInfo.get(t.getOwner()).add(info);
+      }
     }
 
-    @Override
-    void generateViewInfo(HashMap<String, Territory> territoryList) {
-        displayText = "";
-        // save territory into different array based on their owners.
-        HashMap<Integer, ArrayList<String>> terrsInfo = new HashMap<Integer, ArrayList<String>>();
-        for (int i = 1; i <= numOfPlayers; i++) {
-            terrsInfo.put(i, new ArrayList<String>());
-        }
-        for (String terrName : territoryList.keySet()) {
-            Territory t = territoryList.get(terrName);
-            String info = terrName + " :(next to";
-            for (Territory neighbour : t.neighbours) {
-                info += "  " + neighbour.getName();
-            }
-            info += ")\n";
-            HashMap<Integer, ArrayList<Unit>> Units = t.getUnits();
-            for (Integer level : Units.keySet()) {
-                info += "level " + Integer.toString(level) + ": " + Integer.toString(Units.get(level).size())
-                        + " units\n";
-            }
-            terrsInfo.get(t.getOwner()).add(info);
-        }
-
-        // generate display info
-        for (int i = 1; i <= numOfPlayers; i++) {
-            displayText += "player " + Integer.toString(i) + ":\n" + "--------------\n";
-            for (String s : terrsInfo.get(i)) {
-                displayText += s;
-            }
-            displayText += "\n";
-        }
-
-        return;
+    // generate display info
+    for (int i = 1; i <= numOfPlayers; i++) {
+      displayText += "player " + Integer.toString(i) + ":\n" + "--------------\n";
+      for (String s : terrsInfo.get(i)) {
+        displayText += s;
+      }
+      displayText += "\n";
     }
 
-    @Override
-    void display() {
-        out.print(displayText);
-    }
+    return;
+  }
+
+  @Override
+  void display() {
+    out.print(displayText);
+  }
 
 }
