@@ -55,6 +55,6 @@ class MoveCheckerTest {
         MoveChecker myChecker3 = createMoveChecker("b3");
         output = myChecker3.doCheck(1, myChecker3.getFrom_name(), myChecker3.getTo_name());
         System.out.println(output);
-        assertEquals(output, "Move Error: there is no path b/w \"from\" Territory and \"to\" Territory!");
+        assertEquals(output, "Move Error: there is no path b/w \"a1\" Territory and \"b3\" Territory!");
     }
 }
