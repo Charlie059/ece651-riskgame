@@ -149,8 +149,8 @@ public class Client {
         serverJSONParser.doParse();
       }
 
-      // Display map
-      client.player.getWholeMap().displayMap(mapTextView);
+     
+     
 
       // Client play one round: let the user do some actions
       client.player.playOneRound();
@@ -159,8 +159,7 @@ public class Client {
       // Client send the actionJSON(ie. ClientJSON) to the server
       client.sendMsg(String.valueOf(converter.convertTo()));
 
-      // TODO DELETE sleep
-      TimeUnit.SECONDS.sleep(10);
+     
     }
   }
 }
