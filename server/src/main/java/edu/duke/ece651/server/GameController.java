@@ -93,7 +93,8 @@ public class GameController {
       deployHandler.doAction();
       this.isDeployed = true;
     } else {
-      // MoveHandler.doAction
+      MoveHandler moveHandler = new MoveHandler(this.futureList, this.map);
+      moveHandler.doAction();
       // AttackHandler.doAction
     }
 
