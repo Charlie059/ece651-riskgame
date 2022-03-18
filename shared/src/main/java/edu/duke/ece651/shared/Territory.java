@@ -7,20 +7,25 @@ public class Territory {
     private String name;
     private int ownerId;
     private HashMap<Integer, ArrayList<Unit>> Units;//level, num of units of this level
-    final ArrayList<Territory> neighbours; 
+    final ArrayList<Territory> neighbours;
+
+    public Territory(String name, ArrayList<Territory> neighbourList) {
+        this.name = name;
+        this.ownerId = -1;  // ID[0,1,2...]
+        this.neighbours = neighbourList;
+        this.Units = new HashMap<>();
+    }
 
     // create an isolated territory
     public Territory(String name) {
         this.name = name;
         this.name = name;
-        this.ownerId = -1;  // ID[1,2...]
+        this.ownerId = -1;
         this.neighbours = new ArrayList<Territory>();
         this.Units = new HashMap<>();
     }
 
-    void addNeighbour(Territory t){
-        neighbours.add(t);
-    }
+    void addNeighbour(Territory t){neighbours.add(t);}
 
     public String getName() {
         return name;
@@ -48,8 +53,10 @@ public class Territory {
             Units.put(currUnitLevel, new ArrayList<Unit>());
         }
         Units.get(currUnitLevel).add(u);
-        
+
     }
+
+
     /**
      * remove one unit (head) from the territory
      * @param level
