@@ -3,13 +3,21 @@
  */
 package edu.duke.ece651.client;
 
-import edu.duke.ece651.shared.ClientJSON;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit; // TODO DELETE
+
+import edu.duke.ece651.shared.ClientJSON;
+import edu.duke.ece651.shared.Map;
+import edu.duke.ece651.shared.MapTextView;
+import edu.duke.ece651.shared.ServerJSONParser;
 
 public class Client {
 
@@ -85,7 +93,7 @@ public class Client {
         System.out.println("You entered " + String.valueOf(userInput));
         System.out.println(checkerOutput);
       } while (!checkerOutput.isEmpty());
-      
+
       int total_player = Integer.parseInt(userInput);
 
       this.sendMsg(String.valueOf(total_player));
@@ -116,13 +124,25 @@ public class Client {
 
     // First handshake, Client recv msg from server and create player object
     client.initPlayer();
+    // Map map = new Map(client.player.getnumOfPlayers());
 
+    /**
+     * TODO System.out is not a appropriate PrintStream
+     */
+    MapTextView mapTextView = new MapTextView(client.player.getNumOfPlayers(), System.out);
     while (true) {
-      // Client recv msg
+      // Client recv ServerJson
+      // The first time received an empty ServerJSON, however, this ServerJSON was omitted by player.playOneRound() 
       String received_message = client.recvMsg();
 
+      //
       // Client parse the JSON to the map
-      System.out.println(received_message);
+      ServerJSONParser serverJSONParser = new ServerJSONParser(received_message, client.player.getWholeMap(),
+          client.player.getId(), client.player.getMyTerritories());
+      serverJSONParser.doParse();
+
+      // Display map
+      client.player.getWholeMap().displayMap(mapTextView);
 
       // Client play one round: let the user do some actions
       client.player.playOneRound();
