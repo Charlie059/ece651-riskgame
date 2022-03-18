@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Territory {
   private String name;
   private int ownerId;
-  private HashMap<Integer, ArrayList<Unit>> Units;// level, num of units of this level
+  private HashMap<Integer, ArrayList<Unit>> Units;// 6 level, num of units of 6 level's
   final ArrayList<Territory> neighbours;
 
   public Territory(String name, ArrayList<Territory> neighbourList) {
@@ -114,8 +114,17 @@ public class Territory {
     }
   }
 
-
-  public void setUnits(HashMap<Integer, Integer> units){
-    
+  // Convert <Integer, Integer> to <Integer, ArrayList<Unit>>
+  public void setUnits(HashMap<Integer, Integer> units) {
+    HashMap<Integer, ArrayList<Unit>> newUnits = new HashMap<>();
+    for (int i = 1; i <= 6; i++) {
+      ArrayList<Unit> unitsArr = new ArrayList<>();
+      for (int j = 0; j < units.get(i); j++) {
+        unitsArr.add(new Unit(i));
+      }
+      newUnits.put(i, unitsArr);
+    }
+    this.Units = newUnits;
   }
+  
 }

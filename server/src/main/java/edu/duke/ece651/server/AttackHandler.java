@@ -24,34 +24,41 @@ public class AttackHandler extends ActionHandler {
     Territory to = currentAction.getTo();
     Territory from = currentAction.getFrom();
     int attacker = from.getOwner();
-    int defenser = to.getOwner();
+    int defender = to.getOwner();
 
     HashMap<Integer, Integer> attackerUnits = currentAction.getUnitNumber();
-    HashMap<Integer, Integer> defenserUnits = new HashMap<>();
 
-    HashMap<Integer, ArrayList<Unit>> defenserUnits_UnitsArr = to.getUnits();
-    for (int i = 1; i <= 6; i++) {
-      defenserUnits.put(i, defenserUnits_UnitsArr.get(i) == null ? 0 : defenserUnits_UnitsArr.get(i).size());
-    }
+    HashMap<Integer, Integer> defenderUnits = new HashMap<>();
+
+    HashMap<Integer, ArrayList<Unit>> defenderUnits_UnitsArr = to.getUnits();
 
     // TODO the combat only do compare at this moment
     // TODO implement dice iteration
 
+    // Convert <Integer, ArrayList<Units>> to <Integer, Integer>
+    for (int i = 1; i <= 6; i++) {
+      defenderUnits.put(i, defenderUnits_UnitsArr.get(i) == null ? 0 : defenderUnits_UnitsArr.get(i).size());
+    }
+
+    // TODO COMBAT RESOLUTION
+
+    // current combat resolution
     Integer level = 1;
-
     CombatResult combatResult = new CombatResult();
-
-    if (attackerUnits.get(level) >= defenserUnits.get(level)) {
+    // only compare level's units
+    // numOfUits(Action), to.numOfUnits
+    // larger one win the territory
+    if (attackerUnits.get(level) >= defenderUnits.get(level)) {
       combatResult.playerID = from.getOwner();
       combatResult.numOfUnits = attackerUnits;
     } else {
       combatResult.playerID = to.getOwner();
-      combatResult.numOfUnits = defenserUnits;
+      combatResult.numOfUnits = defenderUnits;
     }
 
     return combatResult;
-
   }
+  
 
   @Override
   public void doAction() {
@@ -76,7 +83,8 @@ public class AttackHandler extends ActionHandler {
         // Set the combat Result ot the combat places
         to.setOwner(combatResult.playerID);
         // to.getUnits() =
-        combatResult.numOfUnits;
+        to.setUnits(combatResult.numOfUnits);
+
       }
     }
   }
