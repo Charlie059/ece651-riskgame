@@ -21,6 +21,8 @@ public class Player {
     private HashMap<Integer, Integer>totalDeployment; //totalUnits: key: level, value: num of units
     private ArrayList<Action> ActionList;//list of actions
     public MapView myMapTextView;
+    private ServerJSONParser ServerJSON_parser;
+    private String recvJSON = "{}";
     /**
      * get player id
      * @return int of id
@@ -39,11 +41,17 @@ public class Player {
     public boolean getIsGameOver(){return isGameOver;}
     public boolean getIsWon(){return isWon;}
     public boolean getIsFirstRound(){return isFirstRound;}
+    public ServerJSONParser getServerJSON_parser(){return ServerJSON_parser;}
+    public String getRecvJSON(){return recvJSON;}
 
     public void setIsLose(boolean b){isLose = b;}
     public void setIsGameOver(boolean b){isGameOver = b;}
     public void setIsWon(boolean b){isWon = b;}
     public void setIsFirstRound(boolean b){isFirstRound = b;}
+    public void setServerJSON_parser(String src){
+        ServerJSON_parser = new ServerJSONParser(src, wholeMap, id, myTerritories);
+    }
+    public void setRecvJSON(String src){recvJSON = src;}
     /**
      * Constructor
      * @param _id
@@ -509,6 +517,8 @@ public class Player {
     //TODO why play one round is using while
     public void playOneRound() throws Exception {
         ActionList.clear();
+        setServerJSON_parser(recvJSON);
+        ServerJSON_parser.updateJSON(recvJSON);
         wholeMap.displayMap(myMapTextView);
         // Deploy Round
         if (this.isFirstRound) {

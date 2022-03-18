@@ -245,4 +245,17 @@ class ServerJSONParserTest {
         assertThrows(IllegalArgumentException.class, ()->p1.doParse());
     }
 
+    @Test
+    void updateJSON(){
+        initialize();
+        ServerJSONParser p1 = new ServerJSONParser(src2, testMap, playerID, playerTerritories);
+        Territory t = playerTerritories.get("a1");
+        Territory t2 = playerTerritories.get("a2");
+        p1.updateJSON(src);
+        assertEquals(t.getOwner(), 1);
+        assertEquals(t2.getOwner(), 2);
+        assertEquals(t.getUnits().get(1).size(), 3);
+        assertEquals(t2.getUnits().get(1).size(), 1);
+    }
+
 }

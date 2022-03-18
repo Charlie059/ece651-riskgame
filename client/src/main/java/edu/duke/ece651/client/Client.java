@@ -137,22 +137,7 @@ public class Client {
       // omitted by player.playOneRound()
       String received_message = client.recvMsg();
 
-      //
-      // Client parse the JSON to the map
-      ServerJSONParser serverJSONParser = new ServerJSONParser(received_message, client.player.getWholeMap(),
-          client.player.getId(), client.player.getMyTerritories());
-
-      //TODO Modified this logic
-      if (isFirstRound) {
-        isFirstRound = false;
-      } else {
-        serverJSONParser.doParse();
-      }
-
-     
-     
-
-      // Client play one round: let the user do some actions
+      client.player.setRecvJSON(received_message);
       client.player.playOneRound();
       ClientJSON converter = new ClientJSON(client.player.getId(), client.player.getActionList());
 
