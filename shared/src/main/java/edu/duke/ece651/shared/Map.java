@@ -23,6 +23,7 @@ public class Map {
         myMapFactory = new TextMapFactory(numOfPlayers);
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
+        assignInitialID();
 
     }
     
@@ -33,6 +34,18 @@ public class Map {
 
     public ArrayList<ArrayList<String>> getGroups() {
         return groups;
+    }
+
+    /**
+     * assign initial player IDs to each Territory
+     */
+    public void assignInitialID(){
+        for(int i = 0; i < groups.size(); i++){
+            ArrayList<String> name_arr = groups.get(i);
+            for(int j = 0; j < name_arr.size(); j++){
+                territoryList.get(name_arr.get(j)).setOwner(i+1);
+            }
+        }
     }
 
     /**
