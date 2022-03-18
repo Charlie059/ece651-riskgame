@@ -57,12 +57,12 @@ class ServerJSONTest {
                 "    {\n" +
                 "        \"name\": \"b2\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 2\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"name\": \"c3\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 3\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"name\": \"a2\",\n" +
@@ -75,27 +75,27 @@ class ServerJSONTest {
                 "    {\n" +
                 "        \"name\": \"b3\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 2\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"name\": \"a3\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 1\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"name\": \"c1\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 3\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"name\": \"b1\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 2\n" +
                 "    },\n" +
                 "    {\n" +
                 "        \"name\": \"c2\",\n" +
                 "        \"units\": [],\n" +
-                "        \"ownerID\": -1\n" +
+                "        \"ownerID\": 3\n" +
                 "    }\n" +
                 "]}";
         Assertions.assertEquals(except, serverJSON.convertTo().toString(4));
