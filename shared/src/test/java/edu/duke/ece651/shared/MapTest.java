@@ -36,24 +36,22 @@ public class MapTest {
     @Test
     void testIsAdjacent() {
         Map m = new Map(3);
-        assertThrows(IllegalArgumentException.class, () -> m.isAdjacent(-1, "a1", "a3"));
+        assertThrows(IllegalArgumentException.class, () -> m.isAdjacent(1, "a1", "a3"));
 
         m.territoryList.get("b1").setOwner(0);
         m.territoryList.get("b3").setOwner(0);
-        assertTrue(m.isAdjacent(-1, "a1", "b1"));
-        assertFalse(m.isAdjacent(-1, "a1", "b3"));
+        assertTrue(m.isAdjacent(1, "a1", "b1"));
+        assertFalse(m.isAdjacent(1, "a1", "b3"));
     }
 
     @Test
     void testIsPathExist() {
         Map m = new Map(3);
-        m.territoryList.get("b1").setOwner(0);
-        m.territoryList.get("c1").setOwner(1);
-        assertTrue(m.isPathExist(-1, "a3", "a1"));
-        assertTrue(m.isPathExist(-1, "a3", "a2"));
-        assertTrue(m.isPathExist(-1, "a1", "a2"));
-        assertThrows(IllegalArgumentException.class, () -> m.isPathExist(-1, "a1", "c1"));
-        assertFalse(m.isPathExist(-1, "a1", "c3"));
+        assertTrue(m.isPathExist(1, "a3", "a1"));
+        assertTrue(m.isPathExist(1, "a3", "a2"));
+        assertTrue(m.isPathExist(1, "a1", "a2"));
+        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(1, "a1", "c1"));
+        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(1, "a1", "c3"));
 
     }
 
@@ -75,4 +73,43 @@ public class MapTest {
         m.displayMap(displayer);
 
     }
+
+    /**
+     * test map with multiple players(2-5)
+     */
+    @Test
+    void createMap() {
+        //players #: 2
+        Map m = new Map(2);
+        assertEquals(m.getTerritoryList().size(), 6);
+        assertEquals(m.getGroups().size(), 2);
+        //test isPathExist
+        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(2, "a1", "b3"));
+        assertEquals(m.isPathExist(1, "a1", "a2"), true);
+        m.getTerritoryList().get("b3").setOwner(1);
+        assertEquals(m.isPathExist(1, "a1", "b3"), false);
+        //test isAdjacent
+        assertEquals(m.isAdjacent(1, "a2", "b2"), true);
+        assertThrows(IllegalArgumentException.class, ()->m.isAdjacent(1, "a1", "a2"));
+
+
+
+        //players #: 4
+        Map m2 = new Map(4);
+        assertEquals(m2.getTerritoryList().size(), 12);
+        assertEquals(m2.getGroups().size(), 4);
+        assertThrows(IllegalArgumentException.class, ()->m2.isPathExist(2, "a1", "b3"));
+        assertEquals(m2.isPathExist(1, "a1", "a2"), true);
+        m2.getTerritoryList().get("b3").setOwner(1);
+        assertEquals(m2.isPathExist(1, "a1", "b3"), false);
+        //players #: 5
+        Map m3= new Map(5);
+        assertEquals(m3.getTerritoryList().size(), 15);
+        assertEquals(m3.getGroups().size(), 5);
+        assertThrows(IllegalArgumentException.class, ()->m3.isPathExist(2, "a1", "b3"));
+        assertEquals(m3.isPathExist(1, "a1", "a2"), true);
+        m3.getTerritoryList().get("b3").setOwner(1);
+        assertEquals(m3.isPathExist(1, "a1", "b3"), false);
+    }
+
 }

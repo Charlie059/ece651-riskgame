@@ -16,7 +16,10 @@ class PlayerTest {
     ByteArrayOutputStream bytes;
     @Test
     void constructorTest() {
-        Player p1 = new Player(1,3);
+        bytes = new ByteArrayOutputStream();
+        BufferedReader input = new BufferedReader(new StringReader(""));
+        PrintStream output = new PrintStream(bytes, true);
+        Player p1 = new Player(1,3, input, output);
         assertEquals(p1.getId(), 1);
         assertEquals(p1.getWholeMap().getTerritoryList().size(), 9);
         assertEquals(p1.getMyTerritories().size(), 3);
@@ -24,10 +27,13 @@ class PlayerTest {
 
     @Test
     void multiPlayersTest(){
+        bytes = new ByteArrayOutputStream();
+        BufferedReader input = new BufferedReader(new StringReader(""));
+        PrintStream output = new PrintStream(bytes, true);
         PlayerCounter player_counter = null;//count player id
-        Player p1 = new Player(player_counter.getInstance().getCurrent_id(),3);//id: 1
-        Player p2 = new Player(player_counter.getInstance().getCurrent_id(),3);//id: 2
-        Player p3 = new Player(player_counter.getInstance().getCurrent_id(),3);//id: 3
+        Player p1 = new Player(player_counter.getInstance().getCurrent_id(),3, input, output);//id: 1
+        Player p2 = new Player(player_counter.getInstance().getCurrent_id(),3, input, output);//id: 2
+        Player p3 = new Player(player_counter.getInstance().getCurrent_id(),3, input, output);//id: 3
         //check ids
         assertEquals(p1.getId(), 1);
         assertEquals(p2.getId(), 2);
@@ -221,7 +227,6 @@ class PlayerTest {
             System.out.println(testPlayer.getActionList().get(j).getTo().getName() +", " +
                     testPlayer.getActionList().get(j).getUnitNumber());
         }
-
     }
 
     @Test
@@ -238,7 +243,6 @@ class PlayerTest {
         assertEquals(testPlayer2.deploy(3, "a1"),true);
         assertEquals(testPlayer2.getTotalDeployment().get(1), 6);
         //assertThrows(NullPointerException.class, () -> testPlayer2.deploy(3, "j2"));
-
     }
 
     @Test
@@ -264,36 +268,6 @@ class PlayerTest {
         System.out.println("-----------------start--------------------");
         System.out.println(bytes.toString());
         System.out.println("-----------------end--------------------");
-
-        String output = "Player 1, enter the name of the territory you want to move units from?\n" +
-                "a1\n" +
-                "a2\n" +
-                "a3\n" +
-                "Territory name b3 not found: please enter a valid name!\n" +
-                "Player 1, enter the name of the territory you want to move units from?\n" +
-                "a1\n" +
-                "a2\n" +
-                "a3\n" +
-                "Player 1, which level of unit do you want to move?\n" +
-                "(1) Level 1 has 9 units.\n" +
-                "Level 99 not found: please enter a valid level!\n" +
-                "Player 1, which level of unit do you want to move?\n" +
-                "(1) Level 1 has 9 units.\n" +
-                "Player 1, how many number of level 1 units do you want to move?\n" +
-                "Number of level 1-units should be larger than 0 and less than the max  the number of that units in Territory a3, but got -1!\n" +
-                "Player 1, how many number of level 1 units do you want to move?\n" +
-                "Number of level 1-units should be larger than 0 and less than the max  the number of that units in Territory a3, but got 0!\n" +
-                "Player 1, how many number of level 1 units do you want to move?\n" +
-                "Player 1, enter the name of the territory you want to move units to:\n" +
-                "a1\n" +
-                "a2\n" +
-                "a3\n" +
-                "Territory name 2 not found: please enter a valid name!\n" +
-                "Player 1, enter the name of the territory you want to move units to:\n" +
-                "a1\n" +
-                "a2\n" +
-                "a3";
-        //assertEquals(bytes.toString(), output);
         bytes.reset();
         System.out.println("From " + testPlayer.getActionList().get(0).getFrom().getName() + " to " + testPlayer.getActionList().get(0).getTo().getName() +", move" +
                 testPlayer.getActionList().get(0).getUnitNumber());
@@ -313,7 +287,7 @@ class PlayerTest {
     void testPlayerDoAttack() throws IOException{
         //wrong from_name; correct from_name; wrong level; correct level; wrong unit#;
         // wrong unit#; wrong unit#; 2 wrong to names; correct to_name;
-        Player testPlayer = createTextPlayer("b3\na3\n99\n1\n-1\n0\n4\n2\nj3\na1\nb1\n");
+        Player testPlayer = createTextPlayer("b3\na1\n99\n1\n-1\n0\n4\n2\nj3\na1\nb1\n");
         //deploy 3 level-1 units to a1
         testPlayer.getMyTerritories().get("a1").getUnits().put(1, new ArrayList<>());
         testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
@@ -354,12 +328,13 @@ class PlayerTest {
     @Test
     void testPlayerMakeChoice() throws IOException {
         String select_cmd1 = "c\nM\n";
-        String move_cmd = "a1\n1\n1\na3\n";
+        String move_cmd = "a3\n1\n1\na1\n";
         String select_cmd2 = "A\n";
-        String attack_cmd = "a3\n1\n2\nb1\n";
+        String attack_cmd = "a1\n1\n2\nb1\n";
         String select_cmd3 = "d\n";
         Player testPlayer = createTextPlayer(select_cmd1+move_cmd+select_cmd2+
                 attack_cmd + select_cmd3);
+
         //deploy 3 level-1 units to a1
         testPlayer.getMyTerritories().get("a1").getUnits().put(1, new ArrayList<>());
         testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
@@ -392,50 +367,30 @@ class PlayerTest {
 
     public Player createBetterPlayer(){
         String select_cmd1 = "c\nM\n";
-        String move_cmd = "a1\n1\n1\na3\n";
+        String move_cmd = "a3\n1\n1\na1\n";
         String select_cmd2 = "A\n";
-        String attack_cmd = "a3\n1\n2\nb1\n";
+        String attack_cmd = "a1\n1\n2\nb1\n";
         String select_cmd3 = "d\n";
         Player testPlayer = createTextPlayer(select_cmd1+move_cmd+select_cmd2+
                 attack_cmd + select_cmd3);
-        //deploy 3 level-1 units to a1
-        testPlayer.getMyTerritories().get("a1").getUnits().put(1, new ArrayList<>());
-        testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
-        //deploy 3 level-1 units to a2
-        testPlayer.getMyTerritories().get("a2").getUnits().put(1, new ArrayList<>());
-        testPlayer.getMyTerritories().get("a2").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a2").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a2").getUnits().get(1).add(new Unit(1));
-        //deploy 3 level-1 units to a3
-        testPlayer.getMyTerritories().get("a3").getUnits().put(1, new ArrayList<>());
-        testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
+        return testPlayer;
+    }
 
+    public Player createAttackCheckerPlayer(){
+        String select_cmd1 = "c\nM\n";
+        String move_cmd2 = "a1\n1\n1\na3\n";
+        String select_cmd2 = "A\n";
+        String attack_cmd = "a3\n1\n2\nb1\n";//not adjacent
+        String attack_cmd2 = "a1\n1\n1\nb1\n";
+        String select_cmd3 = "d\n";
+        Player testPlayer = createTextPlayer(select_cmd1 + move_cmd2 +select_cmd2+
+                attack_cmd + attack_cmd2 + select_cmd3);
         return testPlayer;
     }
 
     public Player createEmptyPlayer(){
 
         Player testPlayer = createTextPlayer("");
-        //deploy 3 level-1 units to a1
-        testPlayer.getMyTerritories().get("a1").getUnits().put(1, new ArrayList<>());
-        testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
-        //deploy 3 level-1 units to a2
-        testPlayer.getMyTerritories().get("a2").getUnits().put(1, new ArrayList<>());
-        testPlayer.getMyTerritories().get("a2").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a2").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a2").getUnits().get(1).add(new Unit(1));
-        //deploy 3 level-1 units to a3
-        testPlayer.getMyTerritories().get("a3").getUnits().put(1, new ArrayList<>());
-        testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
-        testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
-
         return testPlayer;
     }
 
@@ -489,6 +444,22 @@ class PlayerTest {
     }
 
     @Test
+    void testAttackAndMoveChecker()throws Exception {
+        //case 6: attack checker
+        System.out.println("/////////////////////////////////////case 6: attack checker////////////////////////////////////");
+        Player testPlayer = createAttackCheckerPlayer();
+        testPlayer.setIsFirstRound(false);
+        testPlayer.playOneRound();
+        System.out.println(bytes.toString());
+        assertEquals(testPlayer.getActionList().size(), 2);
+        for(int i = 0 ; i < testPlayer.getActionList().size(); i++) {
+            Action a = testPlayer.getActionList().get(i);
+            System.out.println("From " + a.getFrom().getName() + " to " + a.getTo().getName() + ", units " +
+                    a.getUnitNumber());
+        }
+    }
+
+    @Test
     void testGetter(){
         /**
          public boolean getIsLose(){return isLose;}
@@ -511,7 +482,7 @@ class PlayerTest {
 
     @Test
     void territoryTest(){
-        Player testPlayer = createEmptyPlayer();
+        Player testPlayer = createAttackCheckerPlayer();
         Unit u = new Unit(1);
         testPlayer.getWholeMap().getTerritoryList().get("a1").addUnit(u);
         assertEquals(testPlayer.getWholeMap().getTerritoryList().get("a1").getUnits().get(1).size(),

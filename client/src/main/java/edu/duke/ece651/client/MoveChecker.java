@@ -5,11 +5,11 @@ import edu.duke.ece651.shared.*;
 import java.util.HashMap;
 
 public class MoveChecker {
-    private Map map;
-    private HashMap<Integer, Integer> moveUnits;
-    private final String from_name;
-    private final  String to_name;
-    private int playerID;
+    protected Map map;
+    protected HashMap<Integer, Integer> moveUnits;
+    protected final String from_name;
+    protected final  String to_name;
+    protected int playerID;
     public MoveChecker(Map _map, HashMap<Integer, Integer> _moveUnits, String from, String to, int ID){
         map = _map;
         moveUnits = _moveUnits;
@@ -17,6 +17,8 @@ public class MoveChecker {
         to_name = to;
         playerID = ID;
     }
+
+
     //TODO: check same ownership
     //TODO: check path exist
 
@@ -38,8 +40,16 @@ public class MoveChecker {
             return output;
         }
         if (!isValid){
-            output = "Move Error: there is no path b/w \"from\" Territory and \"to\" Territory!";
+            output = "Move Error: there is no path b/w \"" + from_name +"\" Territory and \""+ to_name +"\" Territory!";
         }
         return output;
+    }
+
+    public String getFrom_name() {
+        return from_name;
+    }
+
+    public String getTo_name() {
+        return to_name;
     }
 }
