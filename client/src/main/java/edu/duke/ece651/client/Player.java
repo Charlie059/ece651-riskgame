@@ -28,12 +28,22 @@ public class Player {
     public int getId() {
         return id;
     }
+    public int getNumOfPlayers(){return numOfPlayers;}
     public BufferedReader getInputReader(){return inputReader;}
     public PrintStream getOut(){return out;}
     public HashMap<String, Territory> getMyTerritories(){return myTerritories;}
     public HashMap<Integer, Integer> getTotalDeployment(){return totalDeployment;}
     public Map getWholeMap(){return wholeMap;}
     public ArrayList<Action> getActionList(){return ActionList;}
+    public boolean getIsLose(){return isLose;}
+    public boolean getIsGameOver(){return isGameOver;}
+    public boolean getIsWon(){return isWon;}
+    public boolean getIsFirstRound(){return isFirstRound;}
+
+    public void setIsLose(boolean b){isLose = b;}
+    public void setIsGameOver(boolean b){isGameOver = b;}
+    public void setIsWon(boolean b){isWon = b;}
+    public void setIsFirstRound(boolean b){isFirstRound = b;}
     /**
      * Constructor
      * @param _id
@@ -90,12 +100,16 @@ public class Player {
             if (i+1 == id){
                 for(int j = 0; j < _map.getGroups().get(i).size(); j++){
                     String currTerrName = _map.getGroups().get(i).get(j);
-                    _territories.put(currTerrName, _map.getTerritoryList().get(currTerrName));
+                    Territory curr_t = _map.getTerritoryList().get(currTerrName);
+                    curr_t.setOwner(id);
+                    _territories.put(currTerrName, curr_t);
                 }
                 break;
             }
         }
     }
+
+
 
     public void initializeDeployment(){
         totalDeployment = new HashMap<>();
@@ -132,7 +146,7 @@ public class Player {
             }
             else if (choice.equals("A")){
                 //TODO: Attack
-               playerDoAttack(inputReader, out);
+                playerDoAttack(inputReader, out);
             }
             else {
                 //TODO: Commit
@@ -183,7 +197,7 @@ public class Player {
      * @param to_name
      * @return boolean: whether deployed successfully
      */
-    public boolean deploy(int numOfDeployedUnits, String to_name) throws Exception {
+    public boolean deploy(int numOfDeployedUnits, String to_name){
 
         if (numOfDeployedUnits <= totalDeployment.get(1)){ // get level 1
             Territory to = myTerritories.get(to_name);
@@ -195,8 +209,8 @@ public class Player {
                 totalDeployment.replace(1, totalDeployment.get(1) - numOfDeployedUnits);
                 ActionList.add(deploy_action);
             }
-            catch(IllegalArgumentException illegalArg){
-                out.println("Deployment Error: Illegal Argument Found");
+            catch(Exception excep){
+                out.println("Deployment Error: " + excep.getMessage());
                 return false;
             }
             return true;
@@ -210,17 +224,26 @@ public class Player {
     /**
      * helper function: check if input territory name matches names in myTerritories
      * @param terrName
-     * @param myTerritories
+     * @param Territories
      * @return
      */
-    public boolean isTerrNameMatch(String terrName,  HashMap<String, Territory> myTerritories){
-        for(String terr: myTerritories.keySet()) {
-            if (terrName.equals(terr)){
-                return true;
-            }
+    public boolean isTerrNameMatch(String terrName,  HashMap<String, Territory> Territories){
+        if (Territories.get(terrName) != null){
+            return true;
         }
         return false;
     }
+
+    public boolean isTerrNameMatchForAttack(String terrName,  HashMap<String, Territory> selfTerritories, HashMap<String, Territory> otherTerritories){
+        if (isTerrNameMatch(terrName,  selfTerritories)){
+            return false;
+        }
+        if (otherTerritories.get(terrName) != null){
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * player inputs parameters of move action
@@ -236,7 +259,7 @@ public class Player {
         boolean isNumUnitsValid = false;
         boolean isToValid = true;
 
-        //player chooses to_name
+        //player chooses from_name
         do {
             out.println("Player " + id + ", enter the name of the territory you want to move units from?");
             for(String terrName: myTerritories.keySet()) {
@@ -246,7 +269,7 @@ public class Player {
             //check if from_name exists
             isFromValid = isTerrNameMatch(from_name,  myTerritories);
             if (isFromValid == false){
-                out.println("No territory name found: please enter a valid name!");
+                out.println("Territory name "+ from_name +" not found: please enter a valid name!");
             }
         } while(!isFromValid);
         //player chooses moveUnits
@@ -254,15 +277,15 @@ public class Player {
         Integer unitNum;
         do{
             out.println("Player " + id + ", which level of unit do you want to move?");
-            for(Integer i :totalDeployment.keySet()) {
-                out.println("(" + i + ") Level "+ i+ " has " + totalDeployment.get(i)+ " units.");
+            for(Integer i :myTerritories.get(from_name).getUnits().keySet()) {
+                out.println("(" + i + ") Level "+ i+ " has " + myTerritories.get(from_name).getUnits().get(i).size()+ " units.");
             }
             int l = Integer.parseInt(inputReader.readLine());
             level = l;
             //check if level exists in totalDeployment
-            isLevelValid = totalDeployment.get(level) == null? false: true;
+            isLevelValid = myTerritories.get(from_name).getUnits().get(level) == null? false: true;
             if (isLevelValid == false){
-                out.println("Level not found: please enter a valid level!");
+                out.println("Level " +level +" not found: please enter a valid level!");
             }
         } while(!isLevelValid);
         //player set the number of units
@@ -270,12 +293,12 @@ public class Player {
             out.println("Player " + id + ", how many number of level " + level +" units do you want to move?");
             int num = Integer.parseInt(inputReader.readLine());
             unitNum = num;
-            if ( totalDeployment.get(level) >= unitNum && unitNum > 0){
+            if ( myTerritories.get(from_name).getUnits().get(level).size() >= unitNum && unitNum > 0){
                 isNumUnitsValid = true;
             }
             else{
-                out.println("Number of level " + level + "-units cannot be less than or equal to 0 or exceed the maximum " +
-                        "number of that units in Territory " + from_name);
+                out.println("Number of level " + level + "-units should be larger than 0 and less than the max " +
+                        " the number of that units in Territory " + from_name + ", but got " + unitNum + "!");
             }
         }while(!isNumUnitsValid);
         moveUnits.put(level, unitNum);
@@ -291,11 +314,28 @@ public class Player {
             //check if from_name exists
             isToValid = isTerrNameMatch(to_name,  myTerritories);
             if (isToValid == false){
-                out.println("No territory name found: please enter a valid name!");
+                out.println("Territory name "+ to_name +" not found: please enter a valid name!");
             }
         } while(!isToValid);
         move(moveUnits, from_name, to_name);
     }
+    /*
+    public boolean updateMove(HashMap<Integer, Integer> moveUnits,
+                           String from_name,
+                           String to_name,
+                           Map _map,
+                           int playerID){
+        //rule checker
+        MoveChecker moveChecker = new MoveChecker(_map,  moveUnits, from_name, to_name, id);
+        if (moveChecker.doCheck(id, from_name, to_name) != null){
+            out.println(moveChecker.doCheck(id, from_name, to_name));
+            return false;
+        }
+        else{
+            _map.getTerritoryList().get(from_name).getUnits()
+        }
+    }
+    */
 
     /**
      * move units from one territory to another territory
@@ -311,10 +351,11 @@ public class Player {
             Territory to = myTerritories.get(to_name);
             MoveAction move_action = new MoveAction(from, to, moveUnits);
             move_action.doAction();
+            //updateMove(HashMap<Integer, Integer> moveUnits, String from_name, String to_name, Map _map, int playerID);
             ActionList.add(move_action);
         }
-        catch(IllegalArgumentException illegalArg){
-            System.out.println("Move Error: Illegal Argument Found");
+        catch(Exception excep){
+            System.out.println("Move Error: " + excep.getMessage());
             return false;
         }
         return true;
@@ -338,7 +379,7 @@ public class Player {
             //check if from_name exists
             isFromValid = isTerrNameMatch(from_name,  myTerritories);
             if (isFromValid == false){
-                out.println("No territory name found: please enter a valid name!");
+                out.println("Territory name "+ from_name +" not found: please enter a valid name!");
             }
         } while(!isFromValid);
         //player chooses attackUnits
@@ -347,16 +388,17 @@ public class Player {
         do{
             out.println("Player " + id + ", which level of unit do you want to send?");
             out.println("Territory "+ from_name+ ":");
-            for(Integer i :totalDeployment.keySet()) {
-                out.println("   (" + i + ") Level "+ i+ " has " + totalDeployment.get(i)+ " units.");
+            for(Integer i :myTerritories.get(from_name).getUnits().keySet()) {
+                out.println("   (" + i + ") Level "+ i+ " has " +
+                        myTerritories.get(from_name).getUnits().get(i).size()+ " units.");
                 out.println();
             }
             int l = Integer.parseInt(inputReader.readLine());
             level = l;
             //check if level exists in totalDeployment
-            isLevelValid = totalDeployment.get(level) == null? false: true;
+            isLevelValid = myTerritories.get(from_name).getUnits().get(level) == null? false: true;
             if (isLevelValid == false){
-                out.println("Level not found: please enter a valid level!");
+                out.println("Level "+ level +" not found: please enter a valid level!");
             }
         } while(!isLevelValid);
         //player set the number of units
@@ -364,12 +406,12 @@ public class Player {
             out.println("Player " + id + ", how many number of level " + level +" units do you want to send?");
             int num = Integer.parseInt(inputReader.readLine());
             unitNum = num;
-            if ( totalDeployment.get(level) >= unitNum){
+            if ( myTerritories.get(from_name).getUnits().get(level).size() >= unitNum && unitNum > 0){
                 isNumUnitsValid = true;
             }
             else{
-                out.println("Number of level " + level + " units cannot exceed the maximum " +
-                        "number of that unit in territory " + from_name);
+                out.println("Number of level " + level + "-units should be larger than 0 and less than the " +
+                        "max unit number in territory " + from_name + ", but got " + unitNum + "!");
             }
         }while(!isNumUnitsValid);
         attackUnits.put(level, unitNum);
@@ -380,20 +422,20 @@ public class Player {
                 //should not display player's own territories
                 if (wholeMap.getTerritoryList().get(terrName).getOwner() != this.id) {
                     out.println(wholeMap.getTerritoryList().get(terrName).getName()+ ": ");
-                    out.println("   Owner: player" + wholeMap.getTerritoryList().get(terrName).getOwner());
+                    out.println("   Owner: player " + wholeMap.getTerritoryList().get(terrName).getOwner());
                     out.println("   Units:");
                     for(Integer i: wholeMap.getTerritoryList().get(terrName).getUnits().keySet()){
-                        out.println("       Level " + i + " Units: " +
-                                wholeMap.getTerritoryList().get(terrName).getUnits().get(i));
+                        out.println("       Level " + i + "-Units: " +
+                                wholeMap.getTerritoryList().get(terrName).getUnits().get(i).size());
                     }
                     out.println();
                 }
             }
             to_name = inputReader.readLine();
             //check if from_name exists
-            isToValid = isTerrNameMatch(to_name,  myTerritories);
+            isToValid = isTerrNameMatchForAttack(to_name,  myTerritories, wholeMap.getTerritoryList());
             if (isToValid == false){
-                out.println("No territory name found: please enter a valid name!");
+                out.println("Territory name "+"\""+to_name+ "\""+ " not found: please enter a valid name!");
             }
         } while(!isToValid);
         attack(attackUnits, from_name, to_name);
@@ -410,14 +452,14 @@ public class Player {
      */
     public boolean attack(HashMap<Integer, Integer> attackUnits, String from_name, String to_name){
         try {
-            Territory from = myTerritories.get(from_name);
-            Territory to = myTerritories.get(to_name);
+            Territory from = wholeMap.getTerritoryList().get(from_name);
+            Territory to = wholeMap.getTerritoryList().get(to_name);
             AttackAction attack_action = new AttackAction(from, to, attackUnits);
             attack_action.doAction();
             ActionList.add(attack_action);
         }
-        catch(IllegalArgumentException illegalArg){
-            System.out.println("Attack Error: Illegal Argument Found");
+        catch(Exception excep){
+            System.out.println("Attack Error: " + excep.getMessage());
             return false;
         }
         return true;
@@ -425,7 +467,7 @@ public class Player {
 
 
     //TODO why play one round is using while
-    public void playOneRound() throws IOException, Exception {
+    public void playOneRound() throws Exception {
         ActionList.clear();
 
         // Deploy Round
@@ -447,11 +489,11 @@ public class Player {
         }
         // if gameOver
         if (this.isWon) {
-            //TODO: let player know he wins
-            out.println("You are WIN");
+            //TODO: let player know she wins
+            out.println("Player "+id+ ", You WON!");
         } else {
-            //TODO: let player know he loses
-            out.println("You are LOSE");
+            //TODO: let player know she loses
+            out.println("Player "+id+ ", You LOSE!");
         }
     }
 }
