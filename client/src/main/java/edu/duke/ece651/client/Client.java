@@ -130,16 +130,24 @@ public class Client {
      * TODO System.out is not a appropriate PrintStream
      */
     MapTextView mapTextView = new MapTextView(client.player.getNumOfPlayers(), System.out);
+    boolean isFirstRound = true;
     while (true) {
       // Client recv ServerJson
-      // The first time received an empty ServerJSON, however, this ServerJSON was omitted by player.playOneRound() 
+      // The first time received an empty ServerJSON, however, this ServerJSON was
+      // omitted by player.playOneRound()
       String received_message = client.recvMsg();
 
       //
       // Client parse the JSON to the map
       ServerJSONParser serverJSONParser = new ServerJSONParser(received_message, client.player.getWholeMap(),
           client.player.getId(), client.player.getMyTerritories());
-      serverJSONParser.doParse();
+
+      //TODO Modified this logic
+      if (isFirstRound) {
+        isFirstRound = false;
+      } else {
+        serverJSONParser.doParse();
+      }
 
       // Display map
       client.player.getWholeMap().displayMap(mapTextView);
