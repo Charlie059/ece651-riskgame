@@ -144,8 +144,7 @@ public class Client {
       // Client send the actionJSON(ie. ClientJSON) to the server
       client.sendMsg(String.valueOf(converter.convertTo()));
 
-      // TODO DELETE sleep
-      TimeUnit.SECONDS.sleep(10);
+     
     }
   }
 }

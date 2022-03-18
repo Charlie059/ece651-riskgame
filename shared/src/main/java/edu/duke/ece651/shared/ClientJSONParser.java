@@ -82,19 +82,27 @@ public class ClientJSONParser implements JSONParser {
     this.playerID = obj.getInt("playerID");
     JSONArray actionArr = obj.getJSONArray("actions");
 
-    // Get action array
+    // Get action array, For each action
     for (int i = 0; i < actionArr.length(); i++) {
       String actionType = actionArr.getJSONObject(i).getString("actionType");
       String from = actionArr.getJSONObject(i).isNull("from") ? null : actionArr.getJSONObject(i).getString("from");
       String to = actionArr.getJSONObject(i).getString("to");
       JSONArray unitsArr = actionArr.getJSONObject(i).getJSONArray("units");
 
-      // create unitHashMap
+      // create unitHashMap,
+      
       HashMap<Integer, Integer> unitHashMap = new HashMap<>();
       for (int j = 0; j < unitsArr.length(); j++) {
-        Integer level = unitsArr.getJSONObject(j).getInt("level");
-        Integer value = unitsArr.getJSONObject(j).getInt("value");
+        Integer level;
+        Integer value;
+        level = unitsArr.getJSONObject(j).getInt("level");
+        value = unitsArr.getJSONObject(j).getInt("value");
         unitHashMap.put(level, value);
+      }
+      
+      // Automatically make it up to 6 level form
+      for (int k = 1; k <=6;k++){
+        unitHashMap.putIfAbsent(k, 0);
       }
 
       // create action
