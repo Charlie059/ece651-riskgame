@@ -2,6 +2,7 @@ package edu.duke.ece651.client;
 
 import edu.duke.ece651.shared.Action;
 import edu.duke.ece651.shared.PlayerCounter;
+import edu.duke.ece651.shared.Territory;
 import edu.duke.ece651.shared.Unit;
 import org.junit.jupiter.api.Test;
 
@@ -58,8 +59,15 @@ class PlayerTest {
         BufferedReader input = new BufferedReader(new StringReader(inputData));
         PrintStream output = new PrintStream(bytes, true);
         Player testPlayer = new Player(1, 3, input, output);
+
+        //set player ID to other territories
+        for(int id = 2; id<=3; id++){
+            ArrayList<String> group = testPlayer.getWholeMap().getGroups().get(id-1);
+            for(String str: group){
+                testPlayer.getWholeMap().getTerritoryList().get(str).setOwner(id);
+            }
+        }
         return testPlayer;
-        //Player(int _id, int _numOfPlayer, BufferedReader _in, PrintStream _out)
     }
 
 
@@ -313,6 +321,7 @@ class PlayerTest {
         testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
         testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
         testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
+
         return testPlayer;
     }
 
@@ -334,32 +343,38 @@ class PlayerTest {
         testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
         testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
         testPlayer.getMyTerritories().get("a3").getUnits().get(1).add(new Unit(1));
+
         return testPlayer;
     }
 
     @Test
     void testPlayOneRound() throws Exception {
         //case 1: lose, but not the first round
+        System.out.println("/////////////////////////////////////case 1: lose, but not the first round////////////////////////////////////");
         Player testPlayer = createEmptyPlayer();
         testPlayer.setIsFirstRound(false);
         testPlayer.setIsLose(true);
         testPlayer.playOneRound();
+        System.out.println(bytes.toString());
         assertEquals(testPlayer.getActionList().size(), 0);
         //case 2: gg and win
+        System.out.println("/////////////////////////////////////case 2: gg and win////////////////////////////////////");
         Player testPlayer2 = createEmptyPlayer();
         testPlayer2.setIsFirstRound(false);
         testPlayer2.setIsWon(true);
         testPlayer2.setIsGameOver(true);
         testPlayer2.playOneRound();
         System.out.println(bytes.toString());
-        //case 2: gg but lose
+        //case 3: gg but lose
+        System.out.println("/////////////////////////////////////case 3: gg but lose////////////////////////////////////");
         Player testPlayer3 = createEmptyPlayer();
         testPlayer3.setIsFirstRound(false);
         testPlayer3.setIsLose(true);
         testPlayer3.setIsGameOver(true);
         testPlayer3.playOneRound();
         System.out.println(bytes.toString());
-        //case 3: is first round
+        //case 4: is first round
+        System.out.println("/////////////////////////////////////case 4: is first round////////////////////////////////////");
         Player testPlayer4 = createTextPlayer("3\n1\n1\n4\n");
         testPlayer4.playOneRound();
         assertEquals(testPlayer4.getActionList().size(), 4);
@@ -368,9 +383,11 @@ class PlayerTest {
                     testPlayer4.getActionList().get(i).getUnitNumber());
         }
         //case 5: not first round
+        System.out.println("/////////////////////////////////////case 5: not first round////////////////////////////////////");
         Player testPlayer5 = createBetterPlayer();
         testPlayer5.setIsFirstRound(false);
         testPlayer5.playOneRound();
+        System.out.println(bytes.toString());
         assertEquals(testPlayer5.getActionList().size(), 2);
         for(int i = 0 ; i < 2; i++) {
             Action a = testPlayer5.getActionList().get(i);

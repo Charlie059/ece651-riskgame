@@ -56,20 +56,47 @@ public class Territory {
 
     }
 
+    /**
+     * add more than one units
+     * @param numOfUnits: hashmap key: level, value: units# to add
+     */
+    public void addNumUnit(HashMap<Integer, Integer> numOfUnits){
 
+        //numOfUnits required initialize all levels requirement
+        //some levels may have 0 adding requirments
+        // i is level
+        for(Integer i =1;i<=numOfUnits.size();i++){
+            Unit levelUnit = new Unit(i);
+            //k is how many unit of level i
+            for(Integer k = 0; k<numOfUnits.get(i);k++){
+                addUnit(levelUnit);
+            }
+        }
+    }
     /**
      * remove one unit (head) from the territory
      * @param level
      */
     public Unit removeUnit(int level){
-        Unit u;
+        Unit u = null;
         if ( !Units.get(level).isEmpty()) {
             u = Units.get(level).remove(0);
         }
-        else{
-            u = new Unit();
-        }
         return u;
+    }
+
+    /**
+     * remove more than one units
+     * @param numOfUnits  hashmap, key: level, value: units# to remove
+     */
+    public void removeNumUnit(HashMap<Integer, Integer> numOfUnits){
+        //i: curr level
+        for(Integer i: numOfUnits.keySet()){
+            //k is how many unit of level i
+            for(Integer k = 0; k < numOfUnits.get(i);k++){
+                removeUnit(i);
+            }
+        }
     }
 
     public void changeOwner(int player_id){
