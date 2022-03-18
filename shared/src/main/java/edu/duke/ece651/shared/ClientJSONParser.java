@@ -90,20 +90,19 @@ public class ClientJSONParser implements JSONParser {
       JSONArray unitsArr = actionArr.getJSONObject(i).getJSONArray("units");
 
       // create unitHashMap,
-      //Automatically make it up to 6 level form
+      
       HashMap<Integer, Integer> unitHashMap = new HashMap<>();
-      for (int j = 0; j < 6; j++) {
+      for (int j = 0; j < unitsArr.length(); j++) {
         Integer level;
         Integer value;
-        if (unitsArr.getJSONObject(j) == null) {
-          level = j + 1;
-          value = 0;
-        } else {
-          level = unitsArr.getJSONObject(j).getInt("level");
-          value = unitsArr.getJSONObject(j).getInt("value");
-        }
-
+        level = unitsArr.getJSONObject(j).getInt("level");
+        value = unitsArr.getJSONObject(j).getInt("value");
         unitHashMap.put(level, value);
+      }
+      
+      // Automatically make it up to 6 level form
+      for (int k = 1; k <=6;k++){
+        unitHashMap.putIfAbsent(k, 0);
       }
 
       // create action

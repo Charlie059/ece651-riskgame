@@ -83,9 +83,6 @@ public class AttackHandler extends ActionHandler {
         to.setOwner(combatResult.playerID);
         // to.getUnits() =
         to.setUnits(combatResult.numOfUnits);
-
-        // update the from place
-        from.removeNumUnit(currentAction.getUnitNumber());
       }
     }
   }
