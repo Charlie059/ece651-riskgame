@@ -1,18 +1,17 @@
 package edu.duke.ece651.server;
 
-import edu.duke.ece651.shared.Action;
-import edu.duke.ece651.shared.ClientJSONParser;
-import edu.duke.ece651.shared.Map;
-import edu.duke.ece651.shared.PlayerCounter;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import edu.duke.ece651.shared.Map;
+import edu.duke.ece651.shared.PlayerCounter;
+
 public class GameController {
   Map map;
   Server server;
+  Boolean isDeployed;
   private ArrayList<Future<?>> futureList;
 
   public GameController() {
@@ -20,6 +19,7 @@ public class GameController {
       // init Server and multiThread futureList
       this.futureList = new ArrayList<>();
       this.server = new Server(1651);
+      this.isDeployed = false;
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -80,7 +80,6 @@ public class GameController {
       }
     }
 
-    
   }
 
   /**
@@ -88,12 +87,24 @@ public class GameController {
    */
   public void runOneGameLoop() throws ExecutionException, InterruptedException {
     initFutureList();
+    if (this.isDeployed == false) {
+      // Deploy.doAction
+      DeployHandler deployHandler = new DeployHandler(this.futureList, this.map);
+      deployHandler.doAction();
+      this.isDeployed = true;
+    } else {
+      // MoveHandler.doAction
+      // AttackHandler.doAction
+    }
 
   }
 
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
     GameController gc = new GameController();
+
+    // establish connection
     gc.init();
+    
 
     while (true) {
       try {
