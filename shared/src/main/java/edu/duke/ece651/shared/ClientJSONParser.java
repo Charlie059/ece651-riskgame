@@ -92,7 +92,7 @@ public class ClientJSONParser implements JSONParser {
       // create unitHashMap,
       //Automatically make it up to 6 level form
       HashMap<Integer, Integer> unitHashMap = new HashMap<>();
-      for (int j = 0; j < unitsArr.length(); j++) {
+      for (int j = 0; j < 6; j++) {
         Integer level;
         Integer value;
         if (unitsArr.getJSONObject(j) == null) {
