@@ -1,5 +1,6 @@
 package edu.duke.ece651.shared;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ public class Map {
     private MapFactory myMapFactory;
     HashMap<String, Territory> territoryList;
     ArrayList<ArrayList<String>> groups; // initial territory groups
-    
+
 
     /**
      * constructor
@@ -22,6 +23,7 @@ public class Map {
         myMapFactory = new TextMapFactory(numOfPlayers);
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
+
     }
     
     // 需不需要get函数，还是直接开放TerritoryList和Groups?

@@ -20,7 +20,7 @@ public class Player {
     private Map wholeMap;
     private HashMap<Integer, Integer>totalDeployment; //totalUnits: key: level, value: num of units
     private ArrayList<Action> ActionList;//list of actions
-
+    public MapView myMapTextView;
     /**
      * get player id
      * @return int of id
@@ -64,6 +64,7 @@ public class Player {
         setInitialTerritories(myTerritories, wholeMap);
         initializeDeployment();
         ActionList = new ArrayList<>();
+        this.myMapTextView =new MapTextView(numOfPlayers, out);
     }
 
     /**
@@ -88,6 +89,7 @@ public class Player {
         ActionList = new ArrayList<>();
         inputReader = _in;
         out = _out;
+        this.myMapTextView =new MapTextView(numOfPlayers, out);
     }
 
     /**
@@ -110,14 +112,17 @@ public class Player {
     }
 
 
-
+    /**
+     * initialize player's total units for deployment
+     * totalDeployment: 3 * territory# level-1 units
+     */
     public void initializeDeployment(){
         totalDeployment = new HashMap<>();
         totalDeployment.put(1, myTerritories.size() * 3);// add 3 * territory# units to level 1
     }
 
     /**
-     * ask player to select an action
+     * ask player to select an action for each round
      * @param inputReader
      * @param out
      * @return
@@ -143,6 +148,7 @@ public class Player {
             if (choice.equals("M")){
                 //TODO: MOVE
                 playerDoMove(inputReader, out);
+                wholeMap.displayMap(myMapTextView);
             }
             else if (choice.equals("A")){
                 //TODO: Attack
@@ -156,6 +162,13 @@ public class Player {
         return;
     }
 
+    /**
+     * receive player's inputs for deploy action
+     * @param inputReader
+     * @param out
+     * @throws IOException
+     * @throws Exception
+     */
     public void playerDoDeploy(BufferedReader inputReader, PrintStream out) throws IOException, Exception {
         //player set the number of units
         out.println("Player "+ id+ ": you have " + this.totalDeployment.get(1) + " level-1 units");
@@ -234,6 +247,13 @@ public class Player {
         return false;
     }
 
+    /**
+     * helper function: check if input territory name matches names in myTerritories and the whole map
+     * @param terrName
+     * @param selfTerritories
+     * @param otherTerritories
+     * @return
+     */
     public boolean isTerrNameMatchForAttack(String terrName,  HashMap<String, Territory> selfTerritories, HashMap<String, Territory> otherTerritories){
         if (isTerrNameMatch(terrName,  selfTerritories)){
             return false;
@@ -258,7 +278,7 @@ public class Player {
         boolean isLevelValid = false;
         boolean isNumUnitsValid = false;
         boolean isToValid = true;
-
+        boolean isUpdateValid = true;
         //player chooses from_name
         do {
             out.println("Player " + id + ", enter the name of the territory you want to move units from?");
@@ -317,9 +337,21 @@ public class Player {
                 out.println("Territory name "+ to_name +" not found: please enter a valid name!");
             }
         } while(!isToValid);
+        do{
+            isUpdateValid = updateMove( moveUnits, from_name, to_name, wholeMap, id);
+        }while(!isUpdateValid);
         move(moveUnits, from_name, to_name);
     }
-    /*
+
+    /**
+     * temporally update player's move action to player's own map
+     * @param moveUnits
+     * @param from_name
+     * @param to_name
+     * @param _map
+     * @param playerID
+     * @return
+     */
     public boolean updateMove(HashMap<Integer, Integer> moveUnits,
                            String from_name,
                            String to_name,
@@ -332,10 +364,11 @@ public class Player {
             return false;
         }
         else{
-            _map.getTerritoryList().get(from_name).getUnits()
+            _map.getTerritoryList().get(from_name).removeNumUnit(moveUnits);
+            _map.getTerritoryList().get(to_name).addNumUnit(moveUnits);
+            return true;
         }
     }
-    */
 
     /**
      * move units from one territory to another territory
@@ -344,14 +377,12 @@ public class Player {
      * @param to_name
      * @return
      */
-
     public boolean move(HashMap<Integer, Integer> moveUnits, String from_name, String to_name){
         try {
             Territory from = myTerritories.get(from_name);
             Territory to = myTerritories.get(to_name);
             MoveAction move_action = new MoveAction(from, to, moveUnits);
             move_action.doAction();
-            //updateMove(HashMap<Integer, Integer> moveUnits, String from_name, String to_name, Map _map, int playerID);
             ActionList.add(move_action);
         }
         catch(Exception excep){
@@ -361,6 +392,12 @@ public class Player {
         return true;
     }
 
+    /**
+     * Receive player's inputs for attack action
+     * @param inputReader
+     * @param out
+     * @throws IOException
+     */
     public void playerDoAttack(BufferedReader inputReader, PrintStream out) throws IOException{
         String from_name, to_name;
         HashMap<Integer, Integer> attackUnits = new HashMap<>();
@@ -443,7 +480,7 @@ public class Player {
 
 
     /**
-     *send their units to an adjacent territory controlled by a different
+     *send player's units to an adjacent territory controlled by a different
      * player, in an attempt to gain control over that territory.
      * @param attackUnits
      * @param from_name
@@ -465,11 +502,14 @@ public class Player {
         return true;
     }
 
-
+    /**
+     * player plays one round
+     * @throws Exception
+     */
     //TODO why play one round is using while
     public void playOneRound() throws Exception {
         ActionList.clear();
-
+        wholeMap.displayMap(myMapTextView);
         // Deploy Round
         if (this.isFirstRound) {
             //TODO: DEPLOY
@@ -477,7 +517,6 @@ public class Player {
             this.isFirstRound = false;
             return;
         }
-
         //if not in the first round (deploy round)
         if (!this.isGameOver) {
             if (!this.isLose) {
