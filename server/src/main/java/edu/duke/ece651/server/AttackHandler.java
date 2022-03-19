@@ -62,12 +62,13 @@ public class AttackHandler extends ActionHandler {
   @Override
   public void doAction() {
     Integer level = 1;
+
+    // Update from
     for (int i = 0; i < clientJSONParserList.size(); i++) {
       ArrayList<Action> attackActionList = clientJSONParserList.get(i).getAttack();
 
-      //Update from
-      //Now defender is updated
-      //Order units do not participate defending
+      // Now defender is updated
+      // Order units do not participate defending
       for (int k = 0; k < attackActionList.size(); k++) {
         Action currentAction = attackActionList.get(k);
         Territory from = currentAction.getFrom();
@@ -76,7 +77,12 @@ public class AttackHandler extends ActionHandler {
         map.getTerritoryList().get(from.getName()).removeNumUnit(currentAction.getUnitNumber());
       }
 
-      //Update to
+    }
+
+    // Update to
+    for (int i = 0; i < clientJSONParserList.size(); i++) {
+      ArrayList<Action> attackActionList = clientJSONParserList.get(i).getAttack();
+
       for (int k = 0; k < attackActionList.size(); k++) {
         Action currentAction = attackActionList.get(k);
         Territory to = currentAction.getTo();
