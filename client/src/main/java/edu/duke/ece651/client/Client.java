@@ -136,7 +136,14 @@ public class Client {
       String received_message = client.recvMsg();
 
       client.player.setRecvJSON(received_message);
+
       client.player.playOneRound();
+
+      //If GameOver, then disconnect socket and return the program
+      if(client.player.getIsGameOver()){
+        client.socket.close();
+        return;
+      }
       ClientJSON converter = new ClientJSON(client.player.getId(), client.player.getActionList());
 
       // Client send the actionJSON(ie. ClientJSON) to the server
