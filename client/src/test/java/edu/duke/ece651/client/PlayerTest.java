@@ -199,7 +199,7 @@ class PlayerTest {
 
         //test corner cases
         System.out.println("--------------------------------------------------------------------");
-        Player testPlayer = createTextPlayer("3\n4\n6\n2\n");
+        Player testPlayer = createTextPlayer("3\n4\n\nw\n6\n2\n");
         assertEquals(testPlayer.getMyTerritories().size(), 3);
         for (Integer i : testPlayer.getTotalDeployment().keySet()) {
             System.out.println("Level " + i + ", " + testPlayer.getTotalDeployment().get(i));
@@ -247,7 +247,10 @@ class PlayerTest {
 
     @Test
     void testPlayerDoMove() throws IOException{
-        Player testPlayer = createTextPlayer("b3\na3\n99\n1\n-1\n0\n4\n2\na1\n");
+        //wrong from_name/ correct from_name/ wrong level/ correct level/ wrong units#(-1)/
+        //wrong units#(0)/ wrong units#(4)/wrong units#(\ng)/ correct units#(2)/wrong to_name(b3)
+        //correct to_name(a1)
+        Player testPlayer = createTextPlayer("b3\na3\n99\n1\n-1\n0\n4\n\ng\n2\nb3\na1\n");
         //deploy 3 level-1 units to a1
         testPlayer.getMyTerritories().get("a1").getUnits().put(1, new ArrayList<>());
         testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));
@@ -285,9 +288,9 @@ class PlayerTest {
 
     @Test
     void testPlayerDoAttack() throws IOException{
-        //wrong from_name; correct from_name; wrong level; correct level; wrong unit#;
-        // wrong unit#; wrong unit#; 2 wrong to names; correct to_name;
-        Player testPlayer = createTextPlayer("b3\na1\n99\n1\n-1\n0\n4\n2\nj3\na1\nb1\n");
+        //wrong from_name; correct from_name; wrong level(99); wrong level(\n); wrong level(k); correct level(1); wrong unit#(-1);
+        // wrong unit#(0); wrong unit#(4); wrong unit#(\n\nj); correct unit#; 2 wrong to names(j3, a1); correct to_name(b1);
+        Player testPlayer = createTextPlayer("b3\na1\n99\n1\n-1\n\nk\n0\n4\n\nj\n2\nj3\na1\nb1\n");
         //deploy 3 level-1 units to a1
         testPlayer.getMyTerritories().get("a1").getUnits().put(1, new ArrayList<>());
         testPlayer.getMyTerritories().get("a1").getUnits().get(1).add(new Unit(1));

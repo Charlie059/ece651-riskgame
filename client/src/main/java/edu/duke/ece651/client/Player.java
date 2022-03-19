@@ -155,7 +155,12 @@ public class Player {
     public void playerDoDeploy(BufferedReader inputReader, PrintStream out) throws IOException, Exception {
         //player set the number of units
         out.println("Player "+ id+ ": you have " + this.totalDeployment.get(1) + " level-1 units");
-        out.println("You can deploy them in your " + this.myTerritories.size() + " territories");
+        out.println("You can deploy them in your " + this.myTerritories.size() + " territories:");
+        out.print("\t");
+        for(String t: myTerritories.keySet()){
+            out.print(t + "\t");
+        }
+        out.print("\n");
         Integer unitNum;
         Integer level = 1;
         boolean isNumUnitsValid = false;
@@ -170,16 +175,24 @@ public class Player {
                 do {
                     out.println("Player " + id + ", how many number of level-1 units do you want to deploy in territory "
                             + terrName + "?");
-                    int num = Integer.parseInt(inputReader.readLine());
+                    int num = 0;
                     unitNum = num;
-                    if (totalDeployment.get(level) >= unitNum && unitNum >= 0) {
-                        isNumUnitsValid = true;
-                        //totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
-                        out.println("you have deployed " + unitNum + " level-" + level + " units to " +
-                                "Territory " + terrName + "!");
-                    } else {
-                        out.println("Number of level " + level + "-units cannot be less than o or exceed the total " +
-                                "number of deployment");
+                    try {
+                        num = Integer.parseInt(inputReader.readLine());
+                        unitNum = num;
+                        if (totalDeployment.get(level) >= unitNum && unitNum >= 0) {
+                            isNumUnitsValid = true;
+                            //totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
+                            out.println("you have deployed " + unitNum + " level-" + level + " units to " +
+                                    "Territory " + terrName + "!");
+                        } else {
+                            out.println("Deployment Error: Number of level-" + level + " units cannot be less than o or exceed the total " +
+                                    "number of deployment");
+                        }
+
+                    }catch(NumberFormatException e){
+                        isNumUnitsValid = false;
+                        out.println("Deployment Error: "+e.getMessage());
                     }
                 } while (!isNumUnitsValid);
                 deploy(unitNum, terrName);
@@ -266,42 +279,54 @@ public class Player {
             do {
                 out.println("Player " + id + ", enter the name of the territory you want to move units from?");
                 for(String terrName: myTerritories.keySet()) {
-                    out.println(terrName);
+                    out.println("\t"+terrName);
                 }
                 from_name = inputReader.readLine();
                 //check if from_name exists
                 isFromValid = isTerrNameMatch(from_name,  myTerritories);
                 if (isFromValid == false){
-                    out.println("Territory name "+ from_name +" not found: please enter a valid name!");
+                    out.println("Move Error: Territory name "+ from_name +" not found! Please enter a valid name!");
                 }
             } while(!isFromValid);
             //player chooses moveUnits
-            Integer level;
+            Integer level = 0;
             Integer unitNum;
             do{
                 out.println("Player " + id + ", which level of unit do you want to move?");
                 for(Integer i :myTerritories.get(from_name).getUnits().keySet()) {
-                    out.println("(" + i + ") Level "+ i+ " has " + myTerritories.get(from_name).getUnits().get(i).size()+ " units.");
+                    out.println("\t(" + i + ") Level-"+ i+ " has " + myTerritories.get(from_name).getUnits().get(i).size()+ " units.");
                 }
-                int l = Integer.parseInt(inputReader.readLine());
-                level = l;
-                //check if level exists in totalDeployment
-                isLevelValid = myTerritories.get(from_name).getUnits().get(level) == null? false: true;
-                if (isLevelValid == false){
-                    out.println("Level " +level +" not found: please enter a valid level!");
+                try {
+                    int l = Integer.parseInt(inputReader.readLine());
+                    level = l;
+                    //check if level exists in totalDeployment
+                    isLevelValid = myTerritories.get(from_name).getUnits().get(level) == null ? false : true;
+                    if (isLevelValid == false) {
+                        out.println("Move Error: Level-" + level + " not found! Please enter a valid level!");
+                    }
+                }
+                catch(NumberFormatException e){
+                    isLevelValid = false;
+                    out.println("Move Error: "+ e.getMessage());
                 }
             } while(!isLevelValid);
             //player set the number of units
             do{
-                out.println("Player " + id + ", how many number of level " + level +" units do you want to move?");
-                int num = Integer.parseInt(inputReader.readLine());
+                out.println("Player " + id + ", how many number of level-" + level +" units do you want to move?");
+                int num = 0;
                 unitNum = num;
-                if ( myTerritories.get(from_name).getUnits().get(level).size() >= unitNum && unitNum > 0){
-                    isNumUnitsValid = true;
-                }
-                else{
-                    out.println("Number of level " + level + "-units should be larger than 0 and less than the max " +
-                            " the number of that units in Territory " + from_name + ", but got " + unitNum + "!");
+                try {
+                    num = Integer.parseInt(inputReader.readLine());
+                    unitNum = num;
+                    if (myTerritories.get(from_name).getUnits().get(level).size() >= unitNum && unitNum > 0) {
+                        isNumUnitsValid = true;
+                    } else {
+                        out.println("Move Error: Number of level-" + level + " units should be larger than 0 and less than the max " +
+                                "number of that units in Territory " + from_name + ", but got " + unitNum + "!");
+                    }
+                }catch(NumberFormatException e){
+                    isNumUnitsValid = false;
+                    out.println("Move Error: "+ e.getMessage());
                 }
             }while(!isNumUnitsValid);
             moveUnits.put(level, unitNum);
@@ -310,14 +335,14 @@ public class Player {
                 out.println("Player " + id + ", enter the name of the territory you want to move units to:");
                 for(String terrName: myTerritories.keySet()) {
                     if (terrName != from_name) {
-                        out.println(terrName);
+                        out.println("\t"+terrName);
                     }
                 }
                 to_name = inputReader.readLine();
                 //check if from_name exists
                 isToValid = isTerrNameMatch(to_name,  myTerritories);
                 if (isToValid == false){
-                    out.println("Territory name "+ to_name +" not found: please enter a valid name!");
+                    out.println("Move Error: Territory name "+ to_name +" not found! Please enter a valid name!");
                 }
             } while(!isToValid);
 
@@ -394,45 +419,58 @@ public class Player {
             do {
                 out.println("Player " + id + ", enter the name of the territory you want to send units from?");
                 for(String terrName: myTerritories.keySet()) {
-                    out.println(terrName);
+                    out.println("\t"+terrName);
                 }
                 from_name = inputReader.readLine();
                 //check if from_name exists
                 isFromValid = isTerrNameMatch(from_name,  myTerritories);
                 if (isFromValid == false){
-                    out.println("Territory name "+ from_name +" not found: please enter a valid name!");
+                    out.println("Attack Error: Territory name "+ from_name +" not found! Please enter a valid name!");
                 }
             } while(!isFromValid);
-            //player chooses attackUnits
+            //player chooses level of attackUnits
             Integer level;
             Integer unitNum;
             do{
                 out.println("Player " + id + ", which level of unit do you want to send?");
                 out.println("Territory "+ from_name+ ":");
                 for(Integer i :myTerritories.get(from_name).getUnits().keySet()) {
-                    out.println("   (" + i + ") Level "+ i+ " has " +
+                    out.println("\t(" + i + ") Level-"+ i+ " has " +
                             myTerritories.get(from_name).getUnits().get(i).size()+ " units.");
                     out.println();
                 }
-                int l = Integer.parseInt(inputReader.readLine());
+                int l = 0;
                 level = l;
-                //check if level exists in totalDeployment
-                isLevelValid = myTerritories.get(from_name).getUnits().get(level) == null? false: true;
-                if (isLevelValid == false){
-                    out.println("Level "+ level +" not found: please enter a valid level!");
+                try {
+                    l = Integer.parseInt(inputReader.readLine());
+                    level = l;
+                    //check if level exists in totalDeployment
+                    isLevelValid = myTerritories.get(from_name).getUnits().get(level) == null ? false : true;
+                    if (isLevelValid == false) {
+                        out.println("Attack Error: Level-" + level + " not found: please enter a valid level!");
+                    }
+                }catch(NumberFormatException e){
+                    isLevelValid = false;
+                    out.println("Attack Error: "+ e.getMessage());
                 }
             } while(!isLevelValid);
-            //player set the number of units
+            //player set the number of attack units
             do{
-                out.println("Player " + id + ", how many number of level " + level +" units do you want to send?");
-                int num = Integer.parseInt(inputReader.readLine());
+                out.println("Player " + id + ", how many number of level-" + level +"units do you want to send?");
+                int num = 0;
                 unitNum = num;
-                if ( myTerritories.get(from_name).getUnits().get(level).size() >= unitNum && unitNum > 0){
-                    isNumUnitsValid = true;
-                }
-                else{
-                    out.println("Number of level " + level + "-units should be larger than 0 and less than the " +
-                            "max unit number in territory " + from_name + ", but got " + unitNum + "!");
+                try {
+                    num = Integer.parseInt(inputReader.readLine());
+                    unitNum = num;
+                    if (myTerritories.get(from_name).getUnits().get(level).size() >= unitNum && unitNum > 0) {
+                        isNumUnitsValid = true;
+                    } else {
+                        out.println("Attack Error: Number of level-" + level + " units should be larger than 0 and less than the " +
+                                "max unit number in territory " + from_name + ", but got " + unitNum + "!");
+                    }
+                }catch(NumberFormatException e){
+                    out.println("Attack Error: " + e.getMessage());
+                    isNumUnitsValid = false;
                 }
             }while(!isNumUnitsValid);
             attackUnits.put(level, unitNum);
@@ -443,10 +481,10 @@ public class Player {
                     //should not display player's own territories
                     if (wholeMap.getTerritoryList().get(terrName).getOwner() != this.id) {
                         out.println(wholeMap.getTerritoryList().get(terrName).getName()+ ": ");
-                        out.println("   Owner: player " + wholeMap.getTerritoryList().get(terrName).getOwner());
-                        out.println("   Units:");
+                        out.println("\tOwner: player " + wholeMap.getTerritoryList().get(terrName).getOwner());
+                        out.println("\tUnits:");
                         for(Integer i: wholeMap.getTerritoryList().get(terrName).getUnits().keySet()){
-                            out.println("       Level " + i + "-Units: " +
+                            out.println("\t\tLevel-" + i + " Units: " +
                                     wholeMap.getTerritoryList().get(terrName).getUnits().get(i).size());
                         }
                         out.println();
@@ -456,7 +494,7 @@ public class Player {
                 //check if from_name exists
                 isToValid = isTerrNameMatchForAttack(to_name,  myTerritories, wholeMap.getTerritoryList());
                 if (isToValid == false){
-                    out.println("Territory name "+"\""+to_name+ "\""+ " not found: please enter a valid name!");
+                    out.println("Attack Error: Territory name "+"\""+to_name+ "\""+ " not found! Please enter a valid name!");
                 }
             } while(!isToValid);
 
