@@ -711,7 +711,7 @@ public class Player {
         if (this.isLoserAsked == false) {
           out.println("Continue to Watch (press C) or Quit (press anything else!)");
           String C = inputReader.readLine();
-          if (!C.equals("C")) {
+          if (C!= null && !C.equals("C")) {
             this.isNotDisplay = true;
           }
           this.isLoserAsked = true;
