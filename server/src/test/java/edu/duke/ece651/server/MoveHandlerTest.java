@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
+
+import static org.junit.jupiter.api.Assertions.*;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class DeployHandlerTest {
+class MoveHandlerTest {
 
     @Test
     void doAction() throws ExecutionException, InterruptedException {
@@ -23,7 +23,7 @@ class DeployHandlerTest {
         unitHashMap.put(2, 4);
         unitHashMap.put(3, 1);
 
-        actionList.add(new DeployAction(new Territory("a1"), unitHashMap));
+        actionList.add(new MoveAction(new Territory("a1"),new Territory("a2"), unitHashMap));
 
         ClientJSON converter = new ClientJSON(1, actionList);
         String clientJSON = converter.convertTo().toString();
@@ -59,7 +59,7 @@ class DeployHandlerTest {
             }
         };
         arrayList.add(future);
-        DeployHandler moveHandler = new DeployHandler(arrayList,map);
+        MoveHandler moveHandler = new MoveHandler(arrayList,map);
         moveHandler.doAction();
     }
 }

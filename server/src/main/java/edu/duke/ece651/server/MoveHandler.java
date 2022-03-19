@@ -7,7 +7,6 @@ import java.util.concurrent.Future;
 import edu.duke.ece651.shared.Action;
 import edu.duke.ece651.shared.Map;
 import edu.duke.ece651.shared.Territory;
-
 public class MoveHandler extends ActionHandler {
   public MoveHandler(ArrayList<Future<?>> futureList, Map map) throws ExecutionException, InterruptedException {
     super(futureList, map);
