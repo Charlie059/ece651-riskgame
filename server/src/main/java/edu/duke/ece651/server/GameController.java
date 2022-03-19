@@ -97,6 +97,8 @@ public class GameController {
       moveHandler.doAction();
       AttackHandler attackHandler = new AttackHandler(this.futureList, this.map);// AttackHandler.doAction
       attackHandler.doAction();
+      BreedHandler breedHandler = new BreedHandler(this.futureList,this.map);
+      breedHandler.doAction();
     }
 
   }
