@@ -49,12 +49,9 @@ public class AttackHandler extends ActionHandler {
     // only compare level's units
     // numOfUits(Action), to.numOfUnits
     // larger one win the territory
-    Random random = new Random();
-    //int attackerminNumUnits = 1;
-    //int attackermaxNumUnits =
-    //  int defenderminNumUnits =1;
-    //  int defendermaxNumUnits = 
-    if (attackerUnits.get(level) >= defenderUnits.get(level)) {
+    Random random20Dice = new Random();
+    int winner20Dice = random20Dice.nextInt(2);
+    if (winner20Dice==0){//attackerUnits.get(level) >= defenderUnits.get(level)) {
       combatResult.playerID = playerID;//from.getOwner();
       combatResult.numOfUnits = attackerUnits;
     } else {
@@ -62,6 +59,8 @@ public class AttackHandler extends ActionHandler {
       combatResult.numOfUnits = defenderUnits;
     }
 
+    int DiceNumOfUnits = random20Dice.nextInt(combatResult.numOfUnits.get(1))+1;
+    combatResult.numOfUnits.put(1, DiceNumOfUnits);
     return combatResult;
   }
 
