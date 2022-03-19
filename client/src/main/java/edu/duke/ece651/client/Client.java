@@ -129,9 +129,7 @@ public class Client {
     /**
      * TODO System.out is not a appropriate PrintStream
      */
-    MapTextView mapTextView = new MapTextView(client.player.getNumOfPlayers(), System.out);
-    boolean isFirstRound = true;
-    while (true) {
+     while (true) {
       // Client recv ServerJson
       // The first time received an empty ServerJSON, however, this ServerJSON was
       // omitted by player.playOneRound()
