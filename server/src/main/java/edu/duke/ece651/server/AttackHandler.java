@@ -33,15 +33,15 @@ public class AttackHandler extends ActionHandler {
 
     HashMap<Integer, ArrayList<Unit>> defenderUnits_UnitsArr = to.getUnits();
 
-    // TODO the combat only do compare at this moment
-    // TODO implement dice iteration
-
     // Convert <Integer, ArrayList<Units>> to <Integer, Integer>
     for (int i = 1; i <= 6; i++) {
       defenderUnits.put(i, defenderUnits_UnitsArr.get(i) == null ? 0 : defenderUnits_UnitsArr.get(i).size());
     }
 
-    // TODO COMBAT RESOLUTION
+    // ==Combat Resolution
+
+    // TODO the combat only do compare at this moment
+    // TODO implement dice iteration
 
     // current combat resolution
     Integer level = 1;
@@ -50,17 +50,33 @@ public class AttackHandler extends ActionHandler {
     // numOfUits(Action), to.numOfUnits
     // larger one win the territory
     Random random20Dice = new Random();
+    int diceAttackerUnits = attackerUnits.get(level);
+    int diceDefenderUnits = defenderUnits.get(level);
+    //Do Dice!
+    while (diceAttackerUnits != 0 && diceDefenderUnits != 0) {
+      int attackerDice = random20Dice.nextInt(20) + 1;
+      int defenderDice = random20Dice.nextInt(20) + 1;
+      if (attackerDice >= defenderDice) {
+        diceDefenderUnits--;
+      } else {
+        diceAttackerUnits--;
+      }
+    }
+
     int winner20Dice = random20Dice.nextInt(2);
-    if (winner20Dice==0 && (defenderUnits.get(1)!=0)){//attackerUnits.get(level) >= defenderUnits.get(level)) {
+    if (diceAttackerUnits == 0) {// winner20Dice==0 && (defenderUnits.get(1)!=0)){
       combatResult.playerID = to.getOwner();//
+      defenderUnits.put(level, diceDefenderUnits);
       combatResult.numOfUnits = defenderUnits;
     } else {
-      combatResult.playerID = playerID;//if Attack win, the ID is this Action's owner ID which is i outside
+      // if Attack win, the ID is this Action's owner ID which is i outside
+      combatResult.playerID = playerID;
+      attackerUnits.put(level,diceAttackerUnits);
       combatResult.numOfUnits = attackerUnits;
     }
 
-    int DiceNumOfUnits = random20Dice.nextInt(combatResult.numOfUnits.get(1))+1;
-    combatResult.numOfUnits.put(1, DiceNumOfUnits);
+    //int DiceNumOfUnits = random20Dice.nextInt(combatResult.numOfUnits.get(1)) + 1;
+    //combatResult.numOfUnits.put(1, DiceNumOfUnits);
     return combatResult;
   }
 
@@ -86,7 +102,7 @@ public class AttackHandler extends ActionHandler {
 
     // Update to
     for (int i = 0; i < clientJSONParserList.size(); i++) {
-      int playerID = i+1;
+      int playerID = i + 1;
       ArrayList<Action> attackActionList = clientJSONParserList.get(i).getAttack();
 
       for (int k = 0; k < attackActionList.size(); k++) {
@@ -94,7 +110,6 @@ public class AttackHandler extends ActionHandler {
         Territory to = currentAction.getTo();
         Territory from = currentAction.getFrom();
 
-       
         // combat at to
         CombatResult combatResult = combat(currentAction, playerID);
 
