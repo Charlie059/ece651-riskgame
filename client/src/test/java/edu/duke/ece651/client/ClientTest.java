@@ -10,7 +10,7 @@ import java.io.IOException;
 
 class ClientTest {
     @Test
-    void ClientTest() throws IOException {
+    void test_ClientTest() throws IOException {
         MockServer server = new MockServer(4444);
         Client client = new Client(4444,"127.0.0.1");
         server.acceptClient();
