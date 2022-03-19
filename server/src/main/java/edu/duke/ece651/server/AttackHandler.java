@@ -51,12 +51,12 @@ public class AttackHandler extends ActionHandler {
     // larger one win the territory
     Random random20Dice = new Random();
     int winner20Dice = random20Dice.nextInt(2);
-    if (winner20Dice==0){//attackerUnits.get(level) >= defenderUnits.get(level)) {
-      combatResult.playerID = playerID;//from.getOwner();
-      combatResult.numOfUnits = attackerUnits;
-    } else {
-      combatResult.playerID = to.getOwner();
+    if (winner20Dice==0 && (defenderUnits.get(1)!=0)){//attackerUnits.get(level) >= defenderUnits.get(level)) {
+      combatResult.playerID = to.getOwner();//
       combatResult.numOfUnits = defenderUnits;
+    } else {
+      combatResult.playerID = playerID;//if Attack win, the ID is this Action's owner ID which is i outside
+      combatResult.numOfUnits = attackerUnits;
     }
 
     int DiceNumOfUnits = random20Dice.nextInt(combatResult.numOfUnits.get(1))+1;
