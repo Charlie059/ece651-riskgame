@@ -6,11 +6,14 @@ package edu.duke.ece651.client;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
 
 class ClientTest {
     @Test
-    void test_ClientTest() throws IOException {
+    void ClientTest() throws IOException {
         MockServer server = new MockServer(4444);
         Client client = new Client(4444,"127.0.0.1");
         server.acceptClient();
@@ -23,4 +26,24 @@ class ClientTest {
         server.getClientSocketList();
     }
 
+    @Test
+    void initPlayer() throws IOException {
+      String input = "2";
+        InputStream sysInBackup = System.in; // backup System.in to restore it later
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        MockServer server = new MockServer(12345);
+        Client client1 = new Client(12345,"127.0.0.1");
+        Client client2 = new Client(12345,"127.0.0.1");
+        server.acceptClient();
+        server.acceptClient();
+        server.sendMsg(1,"1");
+        client1.initPlayer();
+        server.sendMsg(2,"2 2");
+        client2.initPlayer();
+
+        // Reset back
+        System.setIn(sysInBackup);
+    }
 }
