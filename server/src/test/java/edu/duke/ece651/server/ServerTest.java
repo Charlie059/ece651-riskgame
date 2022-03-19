@@ -8,7 +8,7 @@ import java.io.IOException;
 class ServerTest {
 
     @Test
-    void ServerTest() throws IOException {
+    void test_ServerTest() throws IOException {
         Server server = new Server(4444);
         MockClient client = new MockClient(4444,"127.0.0.1");
         server.acceptClient();
