@@ -82,5 +82,4 @@ public class Server {
   public ArrayList<Socket> getClientSocketList() {
     return clientSocketList;
   }
-
 }

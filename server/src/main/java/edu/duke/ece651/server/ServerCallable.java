@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.net.SocketException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
@@ -26,6 +27,12 @@ public class ServerCallable implements Callable<ClientJSONParser> {
   }
 
   public ClientJSONParser call() throws IOException, InterruptedException {
+//    if(socket.isClosed()) return new ClientJSONParser("{\n" +
+//            "  \"playerID\": 0,\n" +
+//            "  \"actions\": []\n" +
+//            "}\n", this.map);
+
+
     OutputStream out = this.socket.getOutputStream();
     InputStream in = this.socket.getInputStream();
 
@@ -37,14 +44,24 @@ public class ServerCallable implements Callable<ClientJSONParser> {
     // map(num_players), but this ServerJSON was omitted by Client site at first Loop
     // For other loop: this ServerJSON then will be seriously considered
     ServerJSON serverJSON = new ServerJSON(this.map);
-    writer.write(serverJSON.convertTo() + "\n");
-    writer.flush();
+    try {
+      writer.write(serverJSON.convertTo() + "\n");
+      writer.flush();
+    }catch(SocketException e){
 
+      return new ClientJSONParser("{\n" +
+              "  \"playerID\": 0,\n" +
+              "  \"actions\": []\n" +
+              "}\n", this.map);
+    }
     // rec ClientJSON
     // Note JSON is sent by String
 
     String s = reader.readLine();
-
+    if (s == null) s = "{\n" +
+            "  \"playerID\": 0,\n" +
+            "  \"actions\": []\n" +
+            "}\n";
     // parse CLientJSON
     ClientJSONParser clientJsonParser = new ClientJSONParser(s, this.map);
     return clientJsonParser;
