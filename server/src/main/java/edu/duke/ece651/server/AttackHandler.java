@@ -2,6 +2,7 @@ package edu.duke.ece651.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -20,7 +21,7 @@ public class AttackHandler extends ActionHandler {
   }
 
   // from's ID combat with to's ID
-  public CombatResult combat(Action currentAction) {
+  public CombatResult combat(Action currentAction, int playerID) {
     Territory to = currentAction.getTo();
     Territory from = currentAction.getFrom();
     int attacker = from.getOwner();
@@ -48,8 +49,13 @@ public class AttackHandler extends ActionHandler {
     // only compare level's units
     // numOfUits(Action), to.numOfUnits
     // larger one win the territory
+    Random random = new Random();
+    //int attackerminNumUnits = 1;
+    //int attackermaxNumUnits =
+    //  int defenderminNumUnits =1;
+    //  int defendermaxNumUnits = 
     if (attackerUnits.get(level) >= defenderUnits.get(level)) {
-      combatResult.playerID = from.getOwner();
+      combatResult.playerID = playerID;//from.getOwner();
       combatResult.numOfUnits = attackerUnits;
     } else {
       combatResult.playerID = to.getOwner();
@@ -81,6 +87,7 @@ public class AttackHandler extends ActionHandler {
 
     // Update to
     for (int i = 0; i < clientJSONParserList.size(); i++) {
+      int playerID = i+1;
       ArrayList<Action> attackActionList = clientJSONParserList.get(i).getAttack();
 
       for (int k = 0; k < attackActionList.size(); k++) {
@@ -92,7 +99,7 @@ public class AttackHandler extends ActionHandler {
         map.getTerritoryList().get(from.getName()).removeNumUnit(currentAction.getUnitNumber());
 
         // combat at to
-        CombatResult combatResult = combat(currentAction);
+        CombatResult combatResult = combat(currentAction, playerID);
 
         // TODO 20 side dice resolution
 
