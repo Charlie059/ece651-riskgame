@@ -95,9 +95,7 @@ public class AttackHandler extends ActionHandler {
         Territory to = currentAction.getTo();
         Territory from = currentAction.getFrom();
 
-        // map update from
-        map.getTerritoryList().get(from.getName()).removeNumUnit(currentAction.getUnitNumber());
-
+       
         // combat at to
         CombatResult combatResult = combat(currentAction, playerID);
 
