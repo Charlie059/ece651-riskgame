@@ -115,7 +115,7 @@ public class Client {
     // Init client TCP SOCKET
     Client client = null;
     try {
-      client = new Client(1651, "127.0.0.1");
+      client = new Client(1651, "207.246.90.49");
     } catch (IOException ioException) {
       System.out.println("Cannot connect to the server");
       int EXIT_FAILURE = 1;
