@@ -9,7 +9,6 @@ public abstract class Action {
     private Territory from;
     private Territory to;
     private HashMap<Integer, Integer> unitNumber; // level and numbers
-    // TODO Client rule checker
 
     /**
      * Define the constructer of the Action
