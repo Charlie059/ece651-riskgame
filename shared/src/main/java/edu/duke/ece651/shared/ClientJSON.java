@@ -3,6 +3,7 @@ package edu.duke.ece651.shared;
 import edu.duke.ece651.shared.Action;
 import org.json.JSONObject;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,25 +17,25 @@ public class ClientJSON {
     private Integer playerNum;
     private Boolean techUpgrade;
     private ArrayList<Upgrade> upgradeList;
-    private ArrayList<Action> actionList;
-    private JSONObject clientJSON;
+    private ArrayList<ActionTest> actionList;
+    //private JSONObject clientJSON;
 
     public ClientJSON(Integer playerID,
                       Boolean playAgain,
                       Integer playerNum,
                       Boolean techUpgrade,
                       ArrayList<Upgrade> upgradeList,
-                      ArrayList<Action> actionList) {
+                      ArrayList<ActionTest> actionList) {
         this.playerID = playerID;
         this.playAgain = playAgain;
         this.playerNum = playerNum;
         this.techUpgrade = techUpgrade;
         this.upgradeList = upgradeList;
         this.actionList = actionList;
-        this.clientJSON = new JSONObject();
-        this.constructPlayerID();
+        //this.clientJSON = new JSONObject();
+        //this.constructPlayerID();
     }
-
+/*
     public void constructPlayerID() {
         this.clientJSON.put("playerID", this.playerID);
     }
@@ -44,10 +45,22 @@ public class ClientJSON {
     }
 
     public void constructPlayerNum() {
+        this.clientJSON.put("playerNum",this.playerNum);
+    }
 
+    public void constructTechUpgrade(){
+        this.clientJSON.put("techUpgrade",this.techUpgrade);
+    }
+
+    public void constructUnitUpgrade(){
+        List<Upgrade> upgradeList = new ArrayList<>();
+        for(int i = 0; i<this.upgradeList.size();i++){
+
+
+        }
 
     }
-    /*
+
     public JSONObject convertTo() {
         JSONObject ans = new JSONObject();
         List<JSONObject> actionLists = new ArrayList<JSONObject>();

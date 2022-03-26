@@ -3,8 +3,7 @@
   "playAgain": false,
   "playerNum": 3,
   "techUpgrade": true,
-  "unitUpgrade": [
-    // unitUpgrade only allowed once on each territory
+  "upgradeList": [
     {"territory": "A",
       "levelFrom": 0,
       "levelTo": 3,
@@ -22,7 +21,7 @@
       "numOfUnits": 2
     }
   ],
-  "actions": [
+  "actionList": [
     {
       "actionType": "attack",
       "from": "A",
