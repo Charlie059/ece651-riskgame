@@ -1,6 +1,8 @@
-package edu.duke.ece651.server;
+package edu.duke.ece651.shared;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.duke.ece651.shared.JSONMap;
+import edu.duke.ece651.shared.Territory;
 import edu.duke.ece651.shared.Unit;
 import org.junit.jupiter.api.Test;
 

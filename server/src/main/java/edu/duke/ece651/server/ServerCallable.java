@@ -12,8 +12,6 @@ import java.util.concurrent.Callable;
 
 import edu.duke.ece651.shared.ClientJSONParser;
 import edu.duke.ece651.shared.Map;
-import edu.duke.ece651.shared.ServerJSON;
-import edu.duke.ece651.shared.ServerJSONParser;
 
 public class ServerCallable implements Callable<ClientJSONParser> {
 

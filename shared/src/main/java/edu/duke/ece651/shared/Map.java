@@ -42,7 +42,7 @@ public class Map {
         for(int i = 0; i < groups.size(); i++){
             ArrayList<String> name_arr = groups.get(i);
             for(int j = 0; j < name_arr.size(); j++){
-                territoryList.get(name_arr.get(j)).setOwner(i+1);
+                territoryList.get(name_arr.get(j)).setOwnerID(i+1);
             }
         }
     }
@@ -60,7 +60,7 @@ public class Map {
         Territory terrSrc = territoryList.get(from);
         Territory terrDst = territoryList.get(to);
 
-        if (terrSrc.getOwner() != playerID || terrDst.getOwner() != playerID) {
+        if (terrSrc.getOwnerID() != playerID || terrDst.getOwnerID() != playerID) {
             throw new IllegalArgumentException(
                     "territory (from) and territory (to) belong to different(wrong) player.");
         }
@@ -77,7 +77,7 @@ public class Map {
                 return true;
 
             for (Territory t : cur_node.neighbours) {
-                if (visited.contains(t) == false && t.getOwner() == playerID) {
+                if (visited.contains(t) == false && t.getOwnerID() == playerID) {
                     visited.add(t);
                     s.push(t);
                 }
@@ -101,7 +101,7 @@ public class Map {
         Territory t1 = territoryList.get(Terr1);
         Territory t2 = territoryList.get(Terr2);
 
-        if (t1.getOwner() != playerID || t2.getOwner() == playerID) {
+        if (t1.getOwnerID() != playerID || t2.getOwnerID() == playerID) {
             throw new IllegalArgumentException("Terr1 and Terr2 belong to the same(wrong) player.");
         }
 

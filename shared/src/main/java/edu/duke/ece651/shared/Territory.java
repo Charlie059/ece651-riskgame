@@ -1,130 +1,103 @@
+
 package edu.duke.ece651.shared;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.processing.Generated;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+    "size",
+    "name",
+    "ownerID",
+    "units",
+    "neighbour"
+})
+@Generated("jsonschema2pojo")
 public class Territory {
-  private String name;
-  private int ownerId;
-  private HashMap<Integer, ArrayList<Unit>> Units;// 6 level, num of units of 6 level's
-  final ArrayList<Territory> neighbours;
 
-  public Territory(String name, ArrayList<Territory> neighbourList) {
-    this.name = name;
-    this.ownerId = -1; // ID[0,1,2...]
-    this.neighbours = neighbourList;
-    this.Units = new HashMap<>();
-  }
+    @JsonProperty("size")
+    private Integer size;
+    @JsonProperty("name")
+    private String name;
+    @JsonProperty("ownerID")
+    private Integer ownerID;
+    @JsonProperty("units")
+    private List<Unit> units = null;
+    @JsonProperty("neighbour")
+    private List<String> neighbour = null;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  // create an isolated territory
-  public Territory(String name) {
-    this.name = name;
-    this.name = name;
-    this.ownerId = -1;
-    this.neighbours = new ArrayList<Territory>();
-    this.Units = new HashMap<>();
-  }
-
-  void addNeighbour(Territory t) {
-    neighbours.add(t);
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setOwner(int playerId) {
-    ownerId = playerId;
-  }
-
-  public int getOwner() {
-    return ownerId;
-  }
-
-  public HashMap<Integer, ArrayList<Unit>> getUnits() {
-    return Units;
-  }
-
-  /**
-   * add one unit to the territory
-   * 
-   * @param u
-   */
-  public void addUnit(Unit u) {
-    int currUnitLevel = u.getLevel();
-    // if current level unit in Units does not exist
-    // create this level unit and put it in Units
-    if (Units.get(currUnitLevel) == null) {
-      Units.put(currUnitLevel, new ArrayList<Unit>());
+    @JsonProperty("size")
+    public Integer getSize() {
+        return size;
     }
-    Units.get(currUnitLevel).add(u);
 
-  }
-
-  /**
-   * add more than one units
-   * 
-   * @param numOfUnits: hashmap key: level, value: units# to add
-   */
-  public void addNumUnit(HashMap<Integer, Integer> numOfUnits) {
-
-    // numOfUnits required initialize all levels requirement
-    // some levels may have 0 adding requirments
-    // i is level
-    for (Integer i = 1; i <= numOfUnits.size(); i++) {
-      Unit levelUnit = new Unit(i);
-      // k is how many unit of level i
-      for (Integer k = 0; k < numOfUnits.get(i); k++) {
-        addUnit(levelUnit);
-      }
+    @JsonProperty("size")
+    public Territory setSize(Integer size) {
+        this.size = size;
+        return this;
     }
-  }
 
-  /**
-   * remove one unit (head) from the territory
-   * 
-   * @param level
-   */
-  public Unit removeUnit(int level) {
-    Unit u = null;
-    if ((Units.get(level) != null) && (!Units.get(level).isEmpty())) {
-      u = Units.get(level).remove(0);
+    @JsonProperty("name")
+    public String getName() {
+        return name;
     }
-    return u;
-  }
 
-  /**
-   * remove more than one units
-   * 
-   * @param numOfUnits hashmap, key: level, value: units# to remove
-   */
-  public void removeNumUnit(HashMap<Integer, Integer> numOfUnits) {
-    // i: curr level
-    for (Integer i : numOfUnits.keySet()) {
-      // k is how many unit of level i
-      for (Integer k = 0; k < numOfUnits.get(i); k++) {
-        removeUnit(i);
-      }
+    @JsonProperty("name")
+    public Territory setName(String name) {
+        this.name = name;
+        return this;
     }
-  }
 
-  public void changeOwner(int player_id) {
-    if (player_id != ownerId) {
-      ownerId = player_id;
+    @JsonProperty("ownerID")
+    public Integer getOwnerID() {
+        return ownerID;
     }
-  }
 
-  // Convert <Integer, Integer> to <Integer, ArrayList<Unit>>
-  public void setUnits(HashMap<Integer, Integer> units) {
-    HashMap<Integer, ArrayList<Unit>> newUnits = new HashMap<>();
-    for (int i = 1; i <= 6; i++) {
-      ArrayList<Unit> unitsArr = new ArrayList<>();
-      for (int j = 0; j < units.get(i); j++) {
-        unitsArr.add(new Unit(i));
-      }
-      newUnits.put(i, unitsArr);
+    @JsonProperty("ownerID")
+    public Territory setOwnerID(Integer ownerID) {
+        this.ownerID = ownerID;
+        return this;
     }
-    this.Units = newUnits;
-  }
-  
+
+    @JsonProperty("units")
+    public List<Unit> getUnits() {
+        return units;
+    }
+
+    @JsonProperty("units")
+    public Territory setUnits(List<Unit> units) {
+        this.units = units;
+        return this;
+    }
+
+    @JsonProperty("neighbour")
+    public List<String> getNeighbour() {
+        return neighbour;
+    }
+
+    @JsonProperty("neighbour")
+    public Territory setNeighbour(List<String> neighbour) {
+        this.neighbour = neighbour;
+        return this;
+    }
+
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+        Territory rhs = ((Territory) other);
+        return (((((((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size)))&&((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name))))&&((this.neighbour == rhs.neighbour)||((this.neighbour!= null)&&this.neighbour.equals(rhs.neighbour))))&&((this.units == rhs.units)||((this.units!= null)&&this.units.equals(rhs.units))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.ownerID == rhs.ownerID)||((this.ownerID!= null)&&this.ownerID.equals(rhs.ownerID))));
+    }
+
 }

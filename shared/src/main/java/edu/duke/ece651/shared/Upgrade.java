@@ -1,4 +1,4 @@
-package edu.duke.ece651.client;
+package edu.duke.ece651.shared;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
