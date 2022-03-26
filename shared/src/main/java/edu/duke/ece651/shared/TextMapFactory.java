@@ -2,6 +2,7 @@ package edu.duke.ece651.shared;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class TextMapFactory implements MapFactory {
     private final int numOfPlayers;
@@ -237,38 +238,98 @@ public class TextMapFactory implements MapFactory {
 
         a1.addNeighbour(b1);
         a1.addNeighbour(a3);
+        a1.addNeighbour(b3);
+        a1.addNeighbour(a2);
+
         a2.addNeighbour(e1);
         a2.addNeighbour(a3);
-        a3.addNeighbour(a1);
+        a2.addNeighbour(a1);
+        a2.addNeighbour(e3);
+
         a3.addNeighbour(a2);
+        a3.addNeighbour(a1);
+        a3.addNeighbour(b1);
+        a3.addNeighbour(b3);
+        a3.addNeighbour(c3);
+        a3.addNeighbour(d3);
+        a3.addNeighbour(e3);
+        a3.addNeighbour(e1);
 
         b1.addNeighbour(a1);
         b1.addNeighbour(b3);
+        b1.addNeighbour(b2);
+        b1.addNeighbour(a3);
+
+        b2.addNeighbour(b1);
         b2.addNeighbour(c2);
         b2.addNeighbour(b3);
+        b2.addNeighbour(c3);
+
         b3.addNeighbour(b1);
         b3.addNeighbour(b2);
+        b3.addNeighbour(a1);
+        b3.addNeighbour(a3);
+        b3.addNeighbour(c2);
+        b3.addNeighbour(c3);
+        b3.addNeighbour(e3);
+        b3.addNeighbour(d3);
 
         c1.addNeighbour(d1);
         c1.addNeighbour(c3);
+        c1.addNeighbour(d3);
+        c1.addNeighbour(c2);
+
         c2.addNeighbour(b2);
+        c2.addNeighbour(b3);
+        c2.addNeighbour(c1);
         c2.addNeighbour(c3);
+
         c3.addNeighbour(c1);
         c3.addNeighbour(c2);
+        c3.addNeighbour(b2);
+        c3.addNeighbour(b3);
+        c3.addNeighbour(d1);
+        c3.addNeighbour(d3);
+        c3.addNeighbour(a3);
+        c3.addNeighbour(e3);
 
         d1.addNeighbour(c1);
+        d1.addNeighbour(c3);
+        d1.addNeighbour(d2);
         d1.addNeighbour(d3);
-        d2.addNeighbour(e2);
+
+        d2.addNeighbour(d1);
         d2.addNeighbour(d3);
+        d2.addNeighbour(e2);
+        d2.addNeighbour(e3);
+
         d3.addNeighbour(d1);
         d3.addNeighbour(d2);
+        d3.addNeighbour(c1);
+        d3.addNeighbour(c3);
+        d3.addNeighbour(e2);
+        d3.addNeighbour(e3);
+        d3.addNeighbour(a3);
+        d3.addNeighbour(b3);
 
-        e1.addNeighbour(a2);
+        e1.addNeighbour(e2);
         e1.addNeighbour(e3);
-        e2.addNeighbour(d2);
+        e1.addNeighbour(a2);
+        e1.addNeighbour(a3);
+
+        e2.addNeighbour(e1);
         e2.addNeighbour(e3);
+        e2.addNeighbour(d2);
+        e2.addNeighbour(d3);
+
         e3.addNeighbour(e1);
         e3.addNeighbour(e2);
+        e3.addNeighbour(a2);
+        e3.addNeighbour(a3);
+        e3.addNeighbour(d2);
+        e3.addNeighbour(d3);
+        e3.addNeighbour(b3);
+        e3.addNeighbour(c3);
 
         m.put("a1", a1);
         m.put("a2", a2);
@@ -366,5 +427,3 @@ public class TextMapFactory implements MapFactory {
     }
 
 }
-
-// 为什么要创建TextMapFactory? GUI界面下 map存储形式不变。
