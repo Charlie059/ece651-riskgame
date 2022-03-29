@@ -34,20 +34,5 @@ public class Server {
 
 
 
-  /**
-   * Get getServersocket
-   * 
-   * @return ServerSocket
-   */
-  public ServerSocket getServersocket() {
-    return serversocket;
-  }
 
-  public ExecutorService getService() {
-    return service;
-  }
-
-  public ArrayList<Socket> getClientSocketList() {
-    return clientSocketList;
-  }
 }
