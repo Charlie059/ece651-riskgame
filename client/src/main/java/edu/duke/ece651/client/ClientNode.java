@@ -22,7 +22,7 @@ public class ClientNode {
      * Send object to server
      * @return true if success
      */
-    public boolean sendObject(Object object){
+    public boolean sendObject(Object object) throws IOException {
         return this.objectStream.sendObject(object);
     }
 
@@ -31,7 +31,7 @@ public class ClientNode {
      * Recv object from server
      * @return true if success
      */
-    public Object recvObject(){
+    public Object recvObject() throws IOException, ClassNotFoundException {
         return this.objectStream.recvObject();
     }
 
