@@ -9,7 +9,11 @@ import edu.duke.ece651.shared.Map;
 import edu.duke.ece651.shared.Unit;
 
 public class BreedHandler extends ActionHandler {
-
+  @Override
+  protected void doAction() {
+    return;
+  }
+/*
   public BreedHandler(ArrayList<Future<?>> futureList, Map map) throws ExecutionException, InterruptedException {
     super(futureList, map);
   }
@@ -21,4 +25,6 @@ public class BreedHandler extends ActionHandler {
     }
   }
 
+
+ */
 }

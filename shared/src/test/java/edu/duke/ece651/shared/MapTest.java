@@ -17,8 +17,8 @@ public class MapTest {
             assertEquals(m.numOfPlayers, m.groups.size());
             for (String name : m.territoryList.keySet()) {
                 System.out.print("territory[" + name + "]: ");
-                for (Territory t : m.territoryList.get(name).neighbours) {
-                    System.out.print(t.getName() + " ");
+                for (String t : m.territoryList.keySet()) {
+                    System.out.print(t + " ");
                 }
                 System.out.print("\n");
             }
@@ -44,16 +44,6 @@ public class MapTest {
         assertFalse(m.isAdjacent(1, "a1", "b3"));
     }
 
-    @Test
-    void testIsPathExist() {
-        Map m = new Map(3);
-        assertTrue(m.isPathExist(1, "a3", "a1"));
-        assertTrue(m.isPathExist(1, "a3", "a2"));
-        assertTrue(m.isPathExist(1, "a1", "a2"));
-        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(1, "a1", "c1"));
-        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(1, "a1", "c3"));
-
-    }
 
     @Test
     void testDisplayMap() {
@@ -68,7 +58,19 @@ public class MapTest {
         m.territoryList.get("c2").setOwner(3);
         m.territoryList.get("c3").setOwner(3);
 
-        m.territoryList.get("a1").addUnit(new Unit());
+        ArrayList<ArrayList<Integer>> units_arr = new ArrayList<>();
+        ArrayList<Integer> curr = new ArrayList<>();
+        curr.add(0);
+        curr.add(3);
+
+        ArrayList<Integer> curr2 = new ArrayList<>();
+        curr2.add(1);
+        curr2.add(2);
+
+        units_arr.add(curr);
+        units_arr.add(curr2);
+
+        m.territoryList.get("a1").addUnitMultiLevels(units_arr);
         MapView displayer = new MapTextView(3, System.out);
         m.displayMap(displayer);
 
@@ -83,11 +85,7 @@ public class MapTest {
         Map m = new Map(2);
         assertEquals(m.getTerritoryList().size(), 6);
         assertEquals(m.getGroups().size(), 2);
-        //test isPathExist
-        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(2, "a1", "b3"));
-        assertEquals(m.isPathExist(1, "a1", "a2"), true);
-        m.getTerritoryList().get("b3").setOwner(1);
-        assertEquals(m.isPathExist(1, "a1", "b3"), false);
+
         //test isAdjacent
         assertEquals(m.isAdjacent(1, "a2", "b2"), true);
         assertThrows(IllegalArgumentException.class, ()->m.isAdjacent(1, "a1", "a2"));
@@ -98,18 +96,12 @@ public class MapTest {
         Map m2 = new Map(4);
         assertEquals(m2.getTerritoryList().size(), 12);
         assertEquals(m2.getGroups().size(), 4);
-        assertThrows(IllegalArgumentException.class, ()->m2.isPathExist(2, "a1", "b3"));
-        assertEquals(m2.isPathExist(1, "a1", "a2"), true);
-        m2.getTerritoryList().get("b3").setOwner(1);
-        assertEquals(m2.isPathExist(1, "a1", "b3"), false);
+
+
         //players #: 5
         Map m3= new Map(5);
         assertEquals(m3.getTerritoryList().size(), 15);
         assertEquals(m3.getGroups().size(), 5);
-        assertThrows(IllegalArgumentException.class, ()->m3.isPathExist(2, "a1", "b3"));
-        assertEquals(m3.isPathExist(1, "a1", "a2"), true);
-        m3.getTerritoryList().get("b3").setOwner(1);
-        assertEquals(m3.isPathExist(1, "a1", "b3"), false);
     }
 
 }

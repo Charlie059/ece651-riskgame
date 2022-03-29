@@ -10,11 +10,10 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 
-import edu.duke.ece651.shared.ClientJSONParser;
 import edu.duke.ece651.shared.Map;
 
-public class ServerCallable implements Callable<ClientJSONParser> {
-
+public class ServerCallable {
+/*
   private Socket socket;
   private Map map;
 
@@ -48,4 +47,6 @@ public class ServerCallable implements Callable<ClientJSONParser> {
     return clientJsonParser;
   }
 
+
+ */
 }

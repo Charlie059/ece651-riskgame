@@ -67,6 +67,7 @@ public class GameController {
    * @throws InterruptedException
    */
   public void initFutureList() throws ExecutionException, InterruptedException {
+    /*
     // Entering the game loop
     this.futureList.clear();
 
@@ -74,18 +75,19 @@ public class GameController {
     for (int k = 0; k < server.getClientSocketList().size(); k++) {
       try {
         ServerCallable task = new ServerCallable(server.getClientSocketList().get(k), map);
-        Future<?> future = server.getService().submit(task);
+        Future<?> future = server.getService().submit((Runnable) task);
         this.futureList.add(future);
       } finally {
       }
     }
 
+     */
+
   }
 
-  /**
-     
-   */
+
   public void runOneGameLoop() throws ExecutionException, InterruptedException {
+    /*
     initFutureList();
     if (this.isDeployed == false) {
       // Deploy.doAction
@@ -101,6 +103,8 @@ public class GameController {
       breedHandler.doAction();
     }
 
+
+     */
   }
 
   public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {

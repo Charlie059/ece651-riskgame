@@ -25,16 +25,16 @@ public class MapTextView extends MapView {
     for (String terrName : territoryList.keySet()) {
       Territory t = territoryList.get(terrName);
       String info = terrName + " :(next to";
-      for (Territory neighbour : t.neighbours) {
+      for (Territory neighbour : t.getNeighbour()) {
         info += "  " + neighbour.getName();
       }
       info += ")\n";
-      HashMap<Integer, ArrayList<Unit>> Units = t.getUnits();
-      for (Integer level : Units.keySet()) {
-        info += "level " + Integer.toString(level) + ": " + Integer.toString(Units.get(level).size()) + " units\n";
+      ArrayList<Unit> Units = (ArrayList<Unit>) t.getUnits();
+      for (Unit u: Units) {
+        info += "level " + Integer.toString(u.getLevel()) + ": " + Integer.toString(u.getValue()) + " units\n";
       }
-      if (terrsInfo.get(t.getOwner()) != null) {
-        terrsInfo.get(t.getOwner()).add(info);
+      if (terrsInfo.get(t.getOwnerId()) != null) {
+        terrsInfo.get(t.getOwnerId()).add(info);
       }
     }
 

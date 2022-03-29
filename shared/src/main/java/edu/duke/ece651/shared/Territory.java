@@ -1,103 +1,135 @@
-
 package edu.duke.ece651.shared;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.annotation.processing.Generated;
+import java.util.ArrayList;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "size",
-    "name",
-    "ownerID",
-    "units",
-    "neighbour"
-})
-@Generated("jsonschema2pojo")
 public class Territory {
-
-    @JsonProperty("size")
-    private Integer size;
-    @JsonProperty("name")
     private String name;
-    @JsonProperty("ownerID")
-    private Integer ownerID;
-    @JsonProperty("units")
-    private List<Unit> units = null;
-    @JsonProperty("neighbour")
-    private List<String> neighbour = null;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private int ownerId;
+    private ArrayList<Unit> Units;// 6 level, num of units of 6 level's
+    private ArrayList<Territory> neighbours;
 
-    @JsonProperty("size")
-    public Integer getSize() {
-        return size;
+    public ArrayList<Territory> getNeighbour() {
+        return neighbours;
     }
 
-    @JsonProperty("size")
-    public Territory setSize(Integer size) {
-        this.size = size;
-        return this;
+
+    // create an isolated territory
+    public Territory(String name) {
+        this.name = name;
+        this.name = name;
+        this.ownerId = -1;
+        this.neighbours = new ArrayList<Territory>();
+        this.Units = new ArrayList<>();
+        //add level 0-6 to units list
+        for(int i = 0; i <= 6; i++){
+            Units.add(new Unit().setLevel(i).setValue(0));
+        }
     }
 
-    @JsonProperty("name")
+    //create a territory with neighbors
+    public Territory(String name, ArrayList<Territory> neighbourList) {
+        this(name);
+        this.neighbours = neighbourList;
+    }
+
+    public void addNeighbour(Territory t) {
+        neighbours.add(t);
+    }
+
     public String getName() {
         return name;
     }
 
-    @JsonProperty("name")
-    public Territory setName(String name) {
-        this.name = name;
-        return this;
+    public void setOwner(int playerId) {
+        ownerId = playerId;
     }
 
-    @JsonProperty("ownerID")
-    public Integer getOwnerID() {
-        return ownerID;
+    public int getOwnerId() {return ownerId;}
+
+    public ArrayList<Unit> getUnits() {
+        return Units;
     }
 
-    @JsonProperty("ownerID")
-    public Territory setOwnerID(Integer ownerID) {
-        this.ownerID = ownerID;
-        return this;
-    }
-
-    @JsonProperty("units")
-    public List<Unit> getUnits() {
-        return units;
-    }
-
-    @JsonProperty("units")
-    public Territory setUnits(List<Unit> units) {
-        this.units = units;
-        return this;
-    }
-
-    @JsonProperty("neighbour")
-    public List<String> getNeighbour() {
-        return neighbour;
-    }
-
-    @JsonProperty("neighbour")
-    public Territory setNeighbour(List<String> neighbour) {
-        this.neighbour = neighbour;
-        return this;
-    }
-
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
+    /**
+     * add num level-l units
+     * @param l : level
+     * @param num : number
+     * @return true on success, false on failure
+     */
+    public boolean addUnitLevel(int l, int num, ArrayList<Unit> U) {
+        if (l >= 0 && l <= 6){
+            int old_val = U.get(l).getValue();
+            U.get(l).setValue(old_val + num);
             return true;
         }
-        Territory rhs = ((Territory) other);
-        return (((((((this.size == rhs.size)||((this.size!= null)&&this.size.equals(rhs.size)))&&((this.name == rhs.name)||((this.name!= null)&&this.name.equals(rhs.name))))&&((this.neighbour == rhs.neighbour)||((this.neighbour!= null)&&this.neighbour.equals(rhs.neighbour))))&&((this.units == rhs.units)||((this.units!= null)&&this.units.equals(rhs.units))))&&((this.additionalProperties == rhs.additionalProperties)||((this.additionalProperties!= null)&&this.additionalProperties.equals(rhs.additionalProperties))))&&((this.ownerID == rhs.ownerID)||((this.ownerID!= null)&&this.ownerID.equals(rhs.ownerID))));
+        return false;
+    }
+
+    /**
+     * add multiple levels of units
+     * @param arr: 2-D (n*2) array, arr[i][0] = level, arr[i][1] = num
+     */
+    public boolean addUnitMultiLevels(ArrayList<ArrayList<Integer>> arr) {
+        ArrayList<Unit> U =(ArrayList<Unit>) Units.clone();
+        for(int i = 0; i < arr.size(); i++){
+            int level = arr.get(i).get(0);
+            int num = arr.get(i).get(1);
+            boolean curr = addUnitLevel(level, num, U);
+            if (!curr){
+                return false;
+            }
+        }
+        Units = (ArrayList<Unit>) U.clone();
+        return true;
+    }
+
+    /**
+     * remove num level-l units from territory
+     * set 0 if num exceeds old num
+     * @param l
+     * @param num
+     * @return true on success, false on failure
+     */
+    public boolean removeUnitLevel(int l, int num, ArrayList<Unit> U) {
+        if (l >= 0 && l <= 6){
+            int old_val = U.get(l).getValue();
+            if (num <= old_val) {
+                U.get(l).setValue(old_val - num);
+                return true;
+            }
+            else{
+                U.get(l).setValue(0);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * remove multiple levels of units
+     * @param arr: 2-D (n*2) array, arr[i][0] = level, arr[i][1] = num
+     * @return true on success, false on failure
+     */
+    public boolean removeUnitMultiLevels(ArrayList<ArrayList<Integer>> arr) {
+        ArrayList<Unit> U =(ArrayList<Unit>) Units.clone();
+        for(int i = 0; i < arr.size(); i++){
+            int level = arr.get(i).get(0);
+            int num = arr.get(i).get(1);
+
+            boolean curr = removeUnitLevel(level, num, U);
+            if (curr == false){
+                return false;
+            }
+        }
+        Units = (ArrayList<Unit>) U.clone();
+        return true;
+    }
+
+    public void changeOwner(int player_id) {
+        if (player_id != ownerId) {
+            ownerId = player_id;
+        }
     }
 
 }
