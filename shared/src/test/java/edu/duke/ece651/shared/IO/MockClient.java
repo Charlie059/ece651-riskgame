@@ -1,21 +1,18 @@
-package edu.duke.ece651.client;
-
-import edu.duke.ece651.shared.IO.ObjectStream;
-
+package edu.duke.ece651.shared.IO;
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
-public class ClientNode {
+public class MockClient {
+
     private final String host;
     private final int portNum;
     private final Socket socket;
-    private final ObjectStream objectStream;
 
-    public ClientNode(int portNum, String host) throws IOException {
+    public MockClient(int portNum, String host) throws IOException {
         this.portNum = portNum;
         this.host = host;
         this.socket = new Socket(this.host, this.portNum);
-        this.objectStream = new ObjectStream(this.socket);
     }
 
     /**
@@ -23,7 +20,8 @@ public class ClientNode {
      * @return true if success
      */
     public boolean sendObject(Object object) throws IOException {
-        return this.objectStream.sendObject(object);
+        ObjectStream objectStream = new ObjectStream(this.socket);
+        return objectStream.sendObject(object);
     }
 
 
@@ -32,7 +30,7 @@ public class ClientNode {
      * @return true if success
      */
     public Object recvObject() throws IOException, ClassNotFoundException {
-        return this.objectStream.recvObject();
+        return new ObjectStream(this.socket).recvObject();
     }
 
 

@@ -1,122 +1,131 @@
 package edu.duke.ece651.shared.map;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Stack;
 
 public class Map {
+    public int numOfPlayers; // number of player = 3
+    private MapFactory myMapFactory;
     HashMap<String, Territory> territoryList;
-    ArrayList<ArrayList<String>> groups;  // 每个player可以拥有的territory group
+    ArrayList<ArrayList<String>> groups; // initial territory groups
+
 
     /**
-     * Create a fixed map for 3 players. Each player has three territories in the
-     * beginning.
-     * 
-     * @return HaspMap of all the territory
+     * constructor
+     *
+     * @param _numOfPlayers
      */
-    private static HashMap<String, Territory> createMapForThreePlayer() {
-        HashMap<String, Territory> m = new HashMap<String, Territory>();
-
-        Territory a1 = new Territory("a1");
-        Territory a2 = new Territory("a2");
-        Territory a3 = new Territory("a3");
-
-        Territory b1 = new Territory("b1");
-        Territory b2 = new Territory("b2");
-        Territory b3 = new Territory("b3");
-
-        Territory c1 = new Territory("c1");
-        Territory c2 = new Territory("c2");
-        Territory c3 = new Territory("c3");
-
-        a1.addNeighbour(a3);
-        a1.addNeighbour(a2);
-        a1.addNeighbour(b1);
-        a2.addNeighbour(a3);
-        a2.addNeighbour(a1);
-        a2.addNeighbour(c1);
-        a3.addNeighbour(a1);
-        a3.addNeighbour(a2);
-
-        b1.addNeighbour(b3);
-        b1.addNeighbour(b2);
-        b1.addNeighbour(a1);
-        b2.addNeighbour(b3);
-        b2.addNeighbour(b1);
-        b2.addNeighbour(c2);
-        b3.addNeighbour(b1);
-        b3.addNeighbour(b2);
-
-        c1.addNeighbour(c3);
-        c1.addNeighbour(c2);
-        c1.addNeighbour(a2);
-        c2.addNeighbour(c3);
-        c2.addNeighbour(c1);
-        c2.addNeighbour(b2);
-        c3.addNeighbour(c1);
-        c3.addNeighbour(c2);
-
-        m.put("a1",a1);
-        m.put("a2",a2);
-        m.put("a3",a3);
-        m.put("b1",b1);
-        m.put("b2",b2);
-        m.put("b3",b3);
-        m.put("c1",c1);
-        m.put("c2",c2);
-        m.put("c3",c3);
-        
-        return m;
+    public Map(int _numOfPlayers) {
+        this.numOfPlayers = _numOfPlayers;
+        myMapFactory = new TextMapFactory(numOfPlayers);
+        this.territoryList = myMapFactory.createMap();
+        this.groups = myMapFactory.createGroupsForPlayer();
+        assignInitialID();
 
     }
 
-    private static ArrayList<ArrayList<String>> createGroupsforThreePlayer(){
-        ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();
+    public HashMap<String, Territory> getTerritoryList() {
+        return territoryList;
+    }
 
-        ArrayList<String> group_1 = new ArrayList<String>();
-        group_1.add("a1");
-        group_1.add("a2");
-        group_1.add("a3");
-        groups.add(group_1);
-
-        ArrayList<String> group_2 = new ArrayList<String>();
-        group_2.add("b1");
-        group_2.add("b2");
-        group_2.add("b3");
-        groups.add(group_2);
-
-        ArrayList<String> group_3 = new ArrayList<String>();
-        group_3.add("c1");
-        group_3.add("c2");
-        group_3.add("c3");
-        groups.add(group_3);
-            
+    public ArrayList<ArrayList<String>> getGroups() {
         return groups;
     }
-    
-    Map() {
-        this.territoryList = createMapForThreePlayer();
-        this.groups = createGroupsforThreePlayer();
+
+    /**
+     * assign initial player IDs to each Territory
+     */
+    public void assignInitialID(){
+        for(int i = 0; i < groups.size(); i++){
+            ArrayList<String> name_arr = groups.get(i);
+            for(int j = 0; j < name_arr.size(); j++){
+                territoryList.get(name_arr.get(j)).changeOwner(i+1);
+            }
+        }
     }
 
     /**
-     * Use to test whether each territory has correct neighbour and whether groups is correct
+     * Used in Move action, check if there is a path between the two
+     * territories(with names "from" and "to") of the player (playerID).
+     *
+     * @param playerID
+     * @param from
+     * @param to
+     * @return return true if path existed, else return false.
      */
-    void showNeighbours_TEST() {
-        for (String name : territoryList.keySet()) {
-            System.out.print("territory[" + name + "]: ");
-            for (Territory t:territoryList.get(name).neighbours) {
-                System.out.print(t.getName()+" ");
-            }
-            System.out.print("\n");
+    public boolean isPathExist(int playerID, String from, String to) throws IllegalArgumentException {
+
+        Territory terrSrc = territoryList.get(from);
+        Territory terrDst = territoryList.get(to);
+
+        if (terrSrc.getOwnerId() != playerID || terrDst.getOwnerId() != playerID) {
+            throw new IllegalArgumentException(
+                    "territory (from) and territory (to) belong to different(wrong) player.");
         }
-        for(ArrayList<String> group:groups){
-            for (String name : group) {
-                System.out.print(name + " ");
+
+        // DFS search an existed path
+        HashSet<Territory> visited = new HashSet<Territory>();
+        Stack<Territory> s = new Stack<Territory>();
+
+        s.push(terrSrc);
+        visited.add(terrSrc);
+        while (!s.empty()) {
+            Territory cur_node = s.pop();
+            if (cur_node.equals(terrDst))
+                return true;
+
+            for (Territory t : cur_node.getNeighbour()) {
+                if (visited.contains(t) == false && t.getOwnerId() == playerID) {
+                    visited.add(t);
+                    s.push(t);
+                }
             }
-            System.out.print("\n");
         }
+
+        return false;
+    }
+
+    /**
+     * Used in Attack action, territory(Terr1) belongs to playerID, check whether
+     * territory(Terr2) belongs to another player.
+     * If yes, check whether these two territories are adjacent.
+     *
+     * @param playerID
+     * @param Terr1
+     * @param Terr2
+     * @return check result
+     */
+    public boolean isAdjacent(int playerID, String Terr1, String Terr2) throws IllegalArgumentException {
+
+        Territory t1 = territoryList.get(Terr1);
+        Territory t2 = territoryList.get(Terr2);
+
+        if (t1.getOwnerId() != playerID || t2.getOwnerId() == playerID) {
+            throw new IllegalArgumentException("Terr1 and Terr2 belong to the same(wrong) player.");
+        }
+
+        // check Terr1's neighbourList whether contains Terr2
+        for (Territory it : t1.getNeighbour()) {
+            if (it.getName().equals(Terr2))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * display map information of the map for client.
+     * @param displayer
+     * @return null
+     */
+    public void displayMap(MapView displayer){
+        displayer.generateViewInfo(territoryList);
+        displayer.display();
     }
 }
 
+// visitor design pattern for display
 
-//todo: 需要什么接口？

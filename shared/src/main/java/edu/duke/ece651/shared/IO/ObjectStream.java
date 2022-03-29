@@ -13,9 +13,9 @@ public class ObjectStream {
 
     public ObjectStream(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        ObjectOutputStream objectOutputStream = new
+        this.objectOutputStream = new
                 ObjectOutputStream(clientSocket.getOutputStream());
-        ObjectInputStream objectInputStream = new
+        this.objectInputStream = new
                 ObjectInputStream(clientSocket.getInputStream());
     }
 
@@ -24,31 +24,17 @@ public class ObjectStream {
      * @param object The Object ready to send
      * @return true: successfully; false: IO exception, commit
      */
-    public boolean sendObject(Object object) {
-        try {
+    public boolean sendObject(Object object) throws IOException {
             this.objectOutputStream.writeObject(object);
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-
     }
 
     /**
      * Receive object
      * @return object or null
      */
-    public Object recvObject(){
-        try{
-           return this.objectInputStream.readObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+    public Object recvObject() throws IOException, ClassNotFoundException {
+        return this.objectInputStream.readObject();
     }
 
 
