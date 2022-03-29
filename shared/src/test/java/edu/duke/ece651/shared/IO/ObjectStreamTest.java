@@ -10,17 +10,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectStreamTest {
     @Test
-    public void test_ObjectStream() throws IOException, InterruptedException {
-        MockServer mockServer= new MockServer(1651);
-        MockClient mockClient = new MockClient(1651, "127.0.0.1");
+    public void test_ObjectStream() throws IOException, InterruptedException, ClassNotFoundException {
+        MockServer mockServer= new MockServer(4444);
+        MockClient mockClient = new MockClient(4444, "127.0.0.1");
         Socket clientSocket =  mockServer.acceptClient();
 
+        // Throw a new thread
         ClientHandler clientSock = new ClientHandler(clientSocket, mockServer);
         new Thread(clientSock).start();
 
-
         MockClass recvObj = (MockClass) mockClient.recvObject();
-
         assertEquals(recvObj.getA(), 2);
+        clientSocket.close();
+
     }
+
+
 }

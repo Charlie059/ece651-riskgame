@@ -39,7 +39,7 @@ public class MockServer {
      * Recv object from client
      * @return true on success
      */
-    public Object recvObject() throws IOException {
+    public Object recvObject() throws IOException, ClassNotFoundException {
         ObjectStream objectStream = new ObjectStream(this.clientSocket);
         return objectStream.recvObject();
     }
