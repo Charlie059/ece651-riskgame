@@ -13,9 +13,9 @@ public class ObjectStream {
 
     public ObjectStream(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        ObjectOutputStream objectOutputStream = new
+        this.objectOutputStream = new
                 ObjectOutputStream(clientSocket.getOutputStream());
-        ObjectInputStream objectInputStream = new
+        this.objectInputStream = new
                 ObjectInputStream(clientSocket.getInputStream());
     }
 
@@ -47,7 +47,6 @@ public class ObjectStream {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
