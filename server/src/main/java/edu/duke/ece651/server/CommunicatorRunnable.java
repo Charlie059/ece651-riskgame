@@ -2,8 +2,6 @@ package edu.duke.ece651.server;
 
 import edu.duke.ece651.shared.IO.ClientActions.Action;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.Visitor.ActionCheckFeedbackVistor;
-import edu.duke.ece651.shared.Visitor.ActionDoVisitor;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -40,12 +38,10 @@ public class CommunicatorRunnable implements Runnable {
     @Override
     public void run() {
         while (true) {
-
+            //Receive Action
             Action action = this.recvAction();
-            action.accept(new ActionCheckFeedbackVistor());
-            action.accept(new ActionDoVisitor());
-            //action.accept(new ActionFeedbackVisitor());
-
+            //Check Do Feedback action
+            action.accept(new ActionCheckDoFeedbackVistor(this.clientSocket,this.playerHashMap,this.gameHashMap));
 
         }
     }

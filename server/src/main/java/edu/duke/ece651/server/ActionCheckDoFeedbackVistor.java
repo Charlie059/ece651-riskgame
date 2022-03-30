@@ -1,17 +1,35 @@
-package edu.duke.ece651.shared.Visitor;
+package edu.duke.ece651.server;
 
 import edu.duke.ece651.shared.IO.ClientActions.*;
+import edu.duke.ece651.shared.Visitor.ActionVisitor;
 
+import java.net.Socket;
 import java.util.HashMap;
 
 /**
  * Check Action correctness
  * FeedBack Success or Failed
  */
-public class ActionCheckFeedbackVistor implements ActionVisitor {
+public class ActionCheckDoFeedbackVistor implements ActionVisitor {
+
+    private Socket clientSocket;
+    private HashMap<Integer, Game> gameHashMap;
+    private HashMap<Integer, Player> playerHashMap;
+    public ActionCheckDoFeedbackVistor(Socket clientSocket, HashMap<Integer, Player> playerHashMap, HashMap<Integer, Game> gameHashMap) {
+        this.clientSocket = clientSocket;
+        this.playerHashMap = playerHashMap;
+        this.gameHashMap = gameHashMap;
+    }
 
     @Override
     public void visit(AttackAction attackAction) {
+        //Check
+
+        //Do
+
+        //Feedback
+        Game currGame = this.gameHashMap.get(attackAction.getGameID());
+
 
     }
 
@@ -22,6 +40,7 @@ public class ActionCheckFeedbackVistor implements ActionVisitor {
 
     @Override
     public void visit(DeployAction deployAction) {
+
 
     }
 
