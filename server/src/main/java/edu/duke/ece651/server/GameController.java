@@ -1,7 +1,9 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.shared.Game;
+import edu.duke.ece651.shared.Player;
+
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -10,8 +12,10 @@ import java.util.concurrent.Executors;
 public class GameController {
     private final Integer PORT_NUM = 1651;
     Server server;
+    //Game Database
     HashMap<Integer, Game> gameHashMap;
-    HashMap<Integer, Player> playerHashMap;
+    //Player Database
+    HashMap<String, Player> playerHashMap;
     private ExecutorService service;
 
 

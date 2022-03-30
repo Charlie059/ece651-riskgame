@@ -15,23 +15,22 @@ public class MockClient {
         this.socket = new Socket(this.host, this.portNum);
     }
 
-    /**
-     * Send object to server
-     * @return true if success
-     */
-    public boolean sendObject(Object object) throws IOException {
-        ObjectStream objectStream = new ObjectStream(this.socket);
-        return objectStream.sendObject(object);
-    }
-
-
-    /**
-     * Recv object from server
-     * @return true if success
-     */
-    public Object recvObject() throws IOException, ClassNotFoundException {
-        return new ObjectStream(this.socket).recvObject();
-    }
+//    /**
+//     * Send object to server
+//     * @return true if success
+//     */
+//    public boolean sendObject(ObjectStream objectStream, Object object) throws IOException {
+//        return objectStream.sendObject(object);
+//    }
+//
+//
+//    /**
+//     * Recv object from server
+//     * @return true if success
+//     */
+//    public Object recvObject(ObjectStream objectStream) throws IOException, ClassNotFoundException {
+//        return objectStream.recvObject();
+//    }
 
 
 }
