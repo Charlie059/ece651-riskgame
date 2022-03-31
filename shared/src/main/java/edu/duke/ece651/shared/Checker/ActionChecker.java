@@ -18,7 +18,7 @@ public abstract class ActionChecker {
         this.accountID = accountID;
     }
 
-    abstract boolean doCheck();
+    public abstract boolean doCheck();
 
 
 }

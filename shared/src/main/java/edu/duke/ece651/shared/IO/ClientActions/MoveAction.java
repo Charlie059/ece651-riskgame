@@ -46,7 +46,8 @@ public class MoveAction implements Action {
         return units;
     }
 
-    public void setUnits(ArrayList<ArrayList<Integer>> units) {
+    public MoveAction setUnits(ArrayList<ArrayList<Integer>> units) {
         this.units = units;
+        return this;
     }
 }

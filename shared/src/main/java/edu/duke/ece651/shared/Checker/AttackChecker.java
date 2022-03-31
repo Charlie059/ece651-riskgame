@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AttackChecker extends MoveChecker{
-    public AttackChecker(AccountID accountID, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> playerHashMap, Map _map, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, int ID){
-        super(accountID,gameHashMap, playerHashMap, _map, _moveUnits, from, to, ID);
+    public AttackChecker(AccountID accountID, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> playerHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, int ID){
+        super(accountID,gameHashMap, playerHashMap, _moveUnits, from, to, ID);
     }
     /**
      * check if ownerships are correct and if two territories are adjacent

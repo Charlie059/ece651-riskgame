@@ -148,6 +148,10 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     }
 
+    /**
+     * When server receive an logout request
+     * @param logoutAction
+     */
     @Override
     public void visit(LogoutAction logoutAction) {
         this.accountID.setaccountID(null);

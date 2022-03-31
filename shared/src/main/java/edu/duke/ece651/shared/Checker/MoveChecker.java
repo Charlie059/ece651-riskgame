@@ -25,7 +25,7 @@ public class MoveChecker extends ActionChecker{
         this.gameID = gameID;
         Game game = this.gameHashMap.get(this.gameID);
         Player player = game.getPlayerHashMap().get(this.playerID);
-        Map map = player.getWholeMap();
+        this.map = player.getWholeMap();
     }
 
     /**
