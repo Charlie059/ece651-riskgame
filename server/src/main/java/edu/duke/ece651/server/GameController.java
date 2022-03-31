@@ -1,7 +1,7 @@
 package edu.duke.ece651.server;
 
 import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.shared.Account;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -15,7 +15,10 @@ public class GameController {
     //Game Database
     HashMap<Integer, Game> gameHashMap;
     //Player Database
-    HashMap<String, Player> playerHashMap;
+    HashMap<String, Account> playerHashMap;
+    //Accout Database
+    HashMap<String, Account> accountHashMap;
+
     private ExecutorService service;
 
 

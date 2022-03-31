@@ -1,14 +1,17 @@
 package edu.duke.ece651.shared.Visitor;
 
-import edu.duke.ece651.shared.Checker.AuthentificationChecker;
+import edu.duke.ece651.shared.Checker.MoveChecker;
+import edu.duke.ece651.shared.Checker.SignupChecker;
+import edu.duke.ece651.shared.Checker.UpgradeTechChecker;
+import edu.duke.ece651.shared.IO.ServerResponse.*;
+import edu.duke.ece651.shared.Player;
 import edu.duke.ece651.shared.Wrapper.CurrGameID;
-import edu.duke.ece651.shared.Wrapper.PlayerID;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.IO.ServerResponse.RSPSignupFail;
-import edu.duke.ece651.shared.IO.ServerResponse.RSPSignupSuccess;
-import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.shared.Account;
+import edu.duke.ece651.shared.map.Map;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -20,28 +23,30 @@ import java.util.HashMap;
  */
 public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
-    private PlayerID playerID;
+    private AccountID accountID;
     private CurrGameID currGameID;
     private Socket clientSocket;
-    private HashMap<Integer, Game> gameHashMap;
-    private HashMap<String, Player> playerHashMap;
-    private ObjectStream objectStream;
+    //Global Database
+    private HashMap<Integer, Game> gameHashMap;//GameID, Game
+    private HashMap<String,Account>accountHashMap;//AccountID Account
+
+    private ArrayList<AttackAction> attackActionArrayList;
+    private ArrayList<Integer> TechLevelUpgradeList;
+    private ArrayList<Integer> UnitLevelUpgradeList;
 
     /**
      * Construct Checker, all by Communicator Reference
-     * @param playerID PlayerID Object reference
+     * @param accountID PlayerID Object reference
      * @param currGameID CurrGameID Object reference
      * @param clientSocket ClientSocket Object referece
-     * @param playerHashMap PlayerHashMap Object reference
+     * @param accountHashMap PlayerHashMap Object reference
      * @param gameHashMap GameHashMap Object reference
      */
-    public ActionCheckDoFeedbackVisitor(PlayerID playerID, CurrGameID currGameID, Socket clientSocket, ObjectStream objectStream, HashMap<String, Player> playerHashMap, HashMap<Integer, Game> gameHashMap) {
+    public ActionCheckDoFeedbackVisitor(AccountID accountID, CurrGameID currGameID, Socket clientSocket, HashMap<String, Account> accountHashMap, HashMap<Integer, Game> gameHashMap) {
         //Comunicator Reference
-        this.playerID = playerID;
+        this.accountID = accountID;
         this.currGameID = currGameID;
         this.clientSocket = clientSocket;
-        this.objectStream = objectStream;
-        this.playerHashMap = playerHashMap;
         this.gameHashMap = gameHashMap;
     }
 
@@ -54,6 +59,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Feedback
         Game currGame = this.gameHashMap.get(attackAction.getGameID());
 
+        this.attackActionArrayList.add(attackAction);
+        //TODO map.attackUpdate(ArrayList<AttackAction> attackActions)
 
     }
 
@@ -85,12 +92,28 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(MoveAction moveAction) {
+        MoveChecker moveChecker = new MoveChecker(this.accountID,this.gameHashMap,this.accountHashMap,moveAction.getUnits(),moveAction.getFrom(),moveAction.getTo(),moveAction.getGameID());
+        if(moveChecker.doCheck()){
+            //Update Server Map
+            Map map = moveChecker.getMap();
+            //TODO:map.moveAction(from, to, ArrayList<ArrayList<Integer>> Units);
+            RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(),moveAction.getTo(),moveAction.getUnits());
+            sendResponse(rspMoveSuccess);
 
+
+        }
     }
 
     @Override
     public void visit(NewGameAction newGameAction) {
-
+        //Checker
+        //Do
+//        String gameID = "3" ;//Random number
+//        Game game = new Game();
+//        Player player = new Player();
+//        game.getPlayerHashMap().put(this.accountID,player);
+//        this.gameHashMap.put(gameID, Game);
+        //thread(this.gameHashMap, this.accountHashMap)
     }
 
     @Override
@@ -105,30 +128,22 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(SignUpAction signUpAction) {
-        // Check Authentication
-        AuthentificationChecker authentificationChecker = new AuthentificationChecker(this.gameHashMap, this.playerHashMap, signUpAction.getAccount(),signUpAction.getPassword());
+        // Check Exist
+        SignupChecker signupChecker = new SignupChecker(this.accountID,this.gameHashMap, this.accountHashMap, signUpAction.getAccount());
         // If account not exist
-        if(authentificationChecker.doCheck()){
+        if(signupChecker.doCheck()){
             //DO Create New Account
-            Player player = new Player();
-            player.setPassword(signUpAction.getPassword());
-            this.playerHashMap.put(signUpAction.getAccount(),player);
+            Account account = new Account();
+            account.setPassword(signUpAction.getPassword());
+            this.accountHashMap.put(signUpAction.getAccount(), account);
             //Successful Response
             RSPSignupSuccess rspSignupSuccess = new RSPSignupSuccess();
-            try {
-                this.objectStream.sendObject(rspSignupSuccess);
-            } catch (IOException e) {
-                System.out.println("Socket Disconnected, Send Failed!");
-            }
+            sendResponse(rspSignupSuccess);
         }
         else {
             //Failed Response
             RSPSignupFail rspSignupFail = new RSPSignupFail();
-            try {
-                this.objectStream.sendObject(rspSignupFail);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            sendResponse(rspSignupFail);
         }
 
         }

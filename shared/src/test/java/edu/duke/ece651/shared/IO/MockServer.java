@@ -24,6 +24,10 @@ public class MockServer {
        return this.clientSocket;
     }
 
+    public void closeSocket() throws IOException {
+        this.serversocket.close();
+    }
+
 
 //    /**
 //     * Send object to client

@@ -1,7 +1,8 @@
 package edu.duke.ece651.shared.Checker;
 
 import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.shared.Account;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.util.HashMap;
 
@@ -12,7 +13,8 @@ public abstract class ActionChecker {
 
     public ActionChecker(HashMap<Integer, Game> gameHashMap, HashMap<String, Player> playerHashMap) {
         this.gameHashMap = gameHashMap;
-        this.playerHashMap = playerHashMap;
+        this.accountHashMap = accountHashMap;
+        this.accountID = accountID;
     }
 
     abstract boolean doCheck();

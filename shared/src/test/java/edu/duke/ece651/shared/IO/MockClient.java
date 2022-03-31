@@ -9,28 +9,32 @@ public class MockClient {
     private final int portNum;
     private final Socket socket;
 
+
     public MockClient(int portNum, String host) throws IOException {
         this.portNum = portNum;
         this.host = host;
         this.socket = new Socket(this.host, this.portNum);
     }
 
-//    /**
-//     * Send object to server
-//     * @return true if success
-//     */
-//    public boolean sendObject(ObjectStream objectStream, Object object) throws IOException {
-//        return objectStream.sendObject(object);
-//    }
-//
-//
-//    /**
-//     * Recv object from server
-//     * @return true if success
-//     */
-//    public Object recvObject(ObjectStream objectStream) throws IOException, ClassNotFoundException {
-//        return objectStream.recvObject();
-//    }
+
+    /**
+     * Send object to server
+     * @return true if success
+     */
+    public boolean sendObject(Object object) throws IOException {
+        ObjectStream objectStream = new ObjectStream(this.socket);
+        return objectStream.sendObject(object);
+    }
+
+
+    /**
+     * Recv object from server
+     * @return true if success
+     */
+    public Object recvObject() throws IOException, ClassNotFoundException {
+        ObjectStream objectStream = new ObjectStream(this.socket);
+        return objectStream.recvObject();
+    }
 
 
 }

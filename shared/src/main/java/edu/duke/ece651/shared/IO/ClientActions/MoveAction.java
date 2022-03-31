@@ -9,7 +9,7 @@ public class MoveAction implements Action {
     private Integer gameID;
     private String from;
     private String to;
-    private ArrayList<Unit> units;
+    private ArrayList<ArrayList<Integer>> units;
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);

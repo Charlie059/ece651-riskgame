@@ -1,7 +1,9 @@
 package edu.duke.ece651.shared.Checker;
 
 import edu.duke.ece651.shared.Game;
+import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.map.Map;
 
 import java.util.ArrayList;
@@ -12,14 +14,18 @@ public class MoveChecker extends ActionChecker{
     protected ArrayList<ArrayList<Integer>> moveUnits;
     protected final String from_name;
     protected final  String to_name;
-    protected int playerID;
-    public MoveChecker(HashMap<Integer, Game> gameHashMap, HashMap<String, Player> playerHashMap, Map _map, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, int ID){
-        super(gameHashMap, playerHashMap);
-        map = _map;
+    protected String playerID;
+    protected Integer gameID;
+    public MoveChecker(AccountID accountID, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, Integer gameID){
+        super(gameHashMap, accountHashMap, accountID);
         moveUnits = _moveUnits;
         from_name = from;
         to_name = to;
-        playerID = ID;
+        this.playerID = accountID.getaccountID();
+        this.gameID = gameID;
+        Game game = this.gameHashMap.get(this.gameID);
+        Player player = game.getPlayerHashMap().get(this.playerID);
+        Map map = player.getWholeMap();
     }
 
     /**
@@ -45,5 +51,10 @@ public class MoveChecker extends ActionChecker{
 
     public String getTo_name() {
         return to_name;
+    }
+
+
+    public Map getMap() {
+        return map;
     }
 }

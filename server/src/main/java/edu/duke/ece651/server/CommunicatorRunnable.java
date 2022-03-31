@@ -1,11 +1,11 @@
 package edu.duke.ece651.server;
 
 import edu.duke.ece651.shared.Wrapper.CurrGameID;
-import edu.duke.ece651.shared.Wrapper.PlayerID;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.IO.ClientActions.Action;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Visitor.ActionCheckDoFeedbackVisitor;
 
 import java.io.IOException;
@@ -13,17 +13,19 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class CommunicatorRunnable implements Runnable {
-    private PlayerID playerID;
+    private AccountID accountID;
     private CurrGameID currGameID;
     private Socket clientSocket;
     private ObjectStream objectStream;
     private HashMap<Integer, Game> gameHashMap;
-    private HashMap<String, Player> playerHashMap;
+    private HashMap<String, Account> accountHashMap;
 
-    public CommunicatorRunnable(Socket clientSocket, HashMap<Integer, Game> gameHashMap, HashMap<String, Player> playerHashMap) throws IOException {
+    public CommunicatorRunnable(Socket clientSocket, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap) throws IOException {
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
-        this.playerHashMap = playerHashMap;
+        this.accountHashMap = accountHashMap;
+        //TODO Extract ObjectStream Send Recv Method
+        //TODO Everytime when use objectStream, construct
         this.objectStream = new ObjectStream(this.clientSocket);
     }
 
@@ -46,7 +48,7 @@ public class CommunicatorRunnable implements Runnable {
             //Receive Action
             Action action = this.recvAction();
             //Check Do Feedback action
-            action.accept(new ActionCheckDoFeedbackVisitor(this.playerID, this.currGameID,this.clientSocket,this.objectStream,this.playerHashMap,this.gameHashMap));
+            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.currGameID,this.clientSocket,this.accountHashMap,this.gameHashMap));
 
         }
     }

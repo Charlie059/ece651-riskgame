@@ -1,7 +1,8 @@
 package edu.duke.ece651.shared.Checker;
 
 import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.shared.Account;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.util.HashMap;
 
@@ -12,14 +13,14 @@ import java.util.HashMap;
  */
 public class SignupChecker extends ActionChecker{
     private String recvAccount;
-    public SignupChecker(HashMap<Integer, Game> gameHashMap, HashMap<String, Player> playerHashMap, String recvAccount) {
-        super(gameHashMap, playerHashMap);
+    public SignupChecker(AccountID accountID, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap, String recvAccount) {
+        super(gameHashMap, accountHashMap,accountID);
         this.recvAccount = recvAccount;
     }
 
     @Override
-    boolean doCheck() {
-        if (!this.playerHashMap.containsKey(this.recvAccount)) {
+    public boolean doCheck() {
+        if (!this.accountHashMap.containsKey(this.recvAccount)) {
             return true;
         } else return false;
     }
