@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class AttackAction implements Action {
     private Integer gameID;
+    private String playerID;
     private String from;
     private String to;
     private ArrayList<Unit> units;
@@ -48,6 +49,15 @@ public class AttackAction implements Action {
 
     public AttackAction setUnits(ArrayList<Unit> units) {
         this.units = units;
+        return this;
+    }
+
+    public String getPlayerID(){
+        return playerID;
+    }
+
+    public AttackAction setPlayerID(String _playerID){
+        playerID = _playerID;
         return this;
     }
 }

@@ -9,7 +9,7 @@ public class DeployAction implements Action {
     private Integer gameID;
     private String to;
     private ArrayList<Unit> units;
-
+    private String playerID;
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);
@@ -35,6 +35,15 @@ public class DeployAction implements Action {
 
     public DeployAction setUnits(ArrayList<Unit> units) {
         this.units = units;
+        return this;
+    }
+
+    public String getPlayerID(){
+        return playerID;
+    }
+
+    public DeployAction setPlayerID(String _playerID){
+        playerID = _playerID;
         return this;
     }
 }

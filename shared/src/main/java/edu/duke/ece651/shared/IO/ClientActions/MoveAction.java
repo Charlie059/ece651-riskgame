@@ -42,12 +42,11 @@ public class MoveAction implements Action {
         return this;
     }
 
-    public ArrayList<Unit> getUnits() {
+    public ArrayList<ArrayList<Integer>> getUnits() {
         return units;
     }
 
-    public MoveAction setUnits(ArrayList<Unit> units) {
+    public void setUnits(ArrayList<ArrayList<Integer>> units) {
         this.units = units;
-        return this;
     }
 }

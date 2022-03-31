@@ -15,6 +15,7 @@ import edu.duke.ece651.shared.map.Map;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -48,6 +49,49 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         this.currGameID = currGameID;
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
+        this.accountHashMap = accountHashMap;
+        setTechLevelUpgradeList();
+        setUnitLevelUpgradeList();
+    }
+
+    /**
+     * setup Tech levelup table
+     */
+    private void setTechLevelUpgradeList(){
+        TechLevelUpgradeList = new ArrayList<>();
+        TechLevelUpgradeList.add(0); //level 0: cost 0
+        TechLevelUpgradeList.add(50);//level 1->2: cost 50
+        TechLevelUpgradeList.add(75);//level 2->3: cost 75
+        TechLevelUpgradeList.add(125);//level 3->4: cost 125
+        TechLevelUpgradeList.add(200);//level 4->5: cost 125
+        TechLevelUpgradeList.add(300);//level 5->6: cost 125
+    }
+
+    /**
+     * setup unit levelup table
+     */
+    private void setUnitLevelUpgradeList(){
+        UnitLevelUpgradeList = new ArrayList<>();
+        UnitLevelUpgradeList.add(0); //level 0: cost 0
+        UnitLevelUpgradeList.add(3); //level 0->1: cost 3
+        UnitLevelUpgradeList.add(8);//level 1->2: cost 8
+        UnitLevelUpgradeList.add(19);//level 2->3: cost 19
+        UnitLevelUpgradeList.add(25);//level 3->4: cost 25
+        UnitLevelUpgradeList.add(35);//level 4->5: cost 35
+        UnitLevelUpgradeList.add(50);//level 5->6: cost 50
+    }
+
+    /**
+     * Send Response to Client
+     * @param response The <Response> object that should send back
+     */
+    private void sendResponse(Response response) {
+        try {
+            ObjectStream objectStream = new ObjectStream(this.clientSocket);
+            objectStream.sendObject(response);
+        } catch (IOException e) {
+            System.out.println("Socket Disconnected, Send Failed!");
+        }
     }
 
     @Override
@@ -156,7 +200,27 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(UpdateTechAction updateTechAction) {
-
+        UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(
+                this.accountID,
+                gameHashMap,
+                accountHashMap,
+                updateTechAction.getNextLevel(),
+                updateTechAction.getCurrTechResource(),
+                TechLevelUpgradeList,
+                UnitLevelUpgradeList
+        );
+        if (updateTechChecker.doCheck()){
+            //TODO: do update Technology level
+            //This Player(me) in the currGame
+            Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
+            //Player updateTech Level, decrease Tech resource
+            RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
+            sendResponse(rspUpdateTechSuccess);
+        }
+        else{
+            RSPUpdateTechFail rspUpdateTechFail = new RSPUpdateTechFail();
+            sendResponse(rspUpdateTechFail);
+        }
     }
 
     @Override
