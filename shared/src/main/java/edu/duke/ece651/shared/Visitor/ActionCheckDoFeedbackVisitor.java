@@ -1,22 +1,19 @@
 package edu.duke.ece651.shared.Visitor;
 
-import edu.duke.ece651.shared.Checker.MoveChecker;
-import edu.duke.ece651.shared.Checker.SignupChecker;
-import edu.duke.ece651.shared.Checker.UpgradeTechChecker;
+import edu.duke.ece651.shared.*;
+import edu.duke.ece651.shared.Checker.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
-import edu.duke.ece651.shared.Player;
 import edu.duke.ece651.shared.Wrapper.CurrGameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
-import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.map.Map;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Check Action correctness
@@ -29,7 +26,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     private Socket clientSocket;
     //Global Database
     private HashMap<Integer, Game> gameHashMap;//GameID, Game
-    private HashMap<String,Account>accountHashMap;//AccountID Account
+    private HashMap<String, Account> accountHashMap;//AccountID Account
 
     private ArrayList<AttackAction> attackActionArrayList;
     private ArrayList<Integer> TechLevelUpgradeList;
@@ -37,11 +34,12 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     /**
      * Construct Checker, all by Communicator Reference
-     * @param accountID PlayerID Object reference
-     * @param currGameID CurrGameID Object reference
-     * @param clientSocket ClientSocket Object referece
+     *
+     * @param accountID      PlayerID Object reference
+     * @param currGameID     CurrGameID Object reference
+     * @param clientSocket   ClientSocket Object referece
      * @param accountHashMap PlayerHashMap Object reference
-     * @param gameHashMap GameHashMap Object reference
+     * @param gameHashMap    GameHashMap Object reference
      */
     public ActionCheckDoFeedbackVisitor(AccountID accountID, CurrGameID currGameID, Socket clientSocket, HashMap<String, Account> accountHashMap, HashMap<Integer, Game> gameHashMap) {
         //Comunicator Reference
@@ -57,7 +55,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     /**
      * setup Tech levelup table
      */
-    private void setTechLevelUpgradeList(){
+    private void setTechLevelUpgradeList() {
         TechLevelUpgradeList = new ArrayList<>();
         TechLevelUpgradeList.add(0); //level 0: cost 0
         TechLevelUpgradeList.add(50);//level 1->2: cost 50
@@ -70,7 +68,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     /**
      * setup unit levelup table
      */
-    private void setUnitLevelUpgradeList(){
+    private void setUnitLevelUpgradeList() {
         UnitLevelUpgradeList = new ArrayList<>();
         UnitLevelUpgradeList.add(0); //level 0: cost 0
         UnitLevelUpgradeList.add(3); //level 0->1: cost 3
@@ -83,6 +81,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     /**
      * Send Response to Client
+     *
      * @param response The <Response> object that should send back
      */
     private void sendResponse(Response response) {
@@ -121,27 +120,49 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(JoinAction joinAction) {
+    JoinChecker joinChecker = new JoinChecker(this.gameHashMap,this.accountHashMap, this.accountID,joinAction.getGameID());
+    if(joinChecker.doCheck()){
+        RSPJoinSuccess rspJoinSuccess = new RSPJoinSuccess();
+        sendResponse(rspJoinSuccess);
+    }else{
+        RSPJoinFail rspJoinFail = new RSPJoinFail();
+        sendResponse(rspJoinFail);
+    }
 
     }
 
     @Override
     public void visit(LoginAction loginAction) {
+        //CHECK
+        LoginChecker loginChecker = new LoginChecker(this.accountID,this.gameHashMap,this.accountHashMap,loginAction.getEnterAccount(),loginAction.getEnterPassword());
+        //IF SUCCESS
+        if (loginChecker.doCheck()){
+            //DO change current accountID warpper class
+            this.accountID.setaccountID(loginAction.getEnterAccount());
+            RSPLoginSuccess rspLoginSuccess = new RSPLoginSuccess();
+            sendResponse(rspLoginSuccess);
+        }else{
+           RSPLoginFail rspLoginFail = new RSPLoginFail();
+            sendResponse(rspLoginFail);
+        }
 
     }
 
     @Override
     public void visit(LogoutAction logoutAction) {
-
+        this.accountID.setaccountID(null);
+        RSPLogoutSuccess rspLogoutSuccess = new RSPLogoutSuccess();
+        sendResponse(rspLogoutSuccess);
     }
 
     @Override
     public void visit(MoveAction moveAction) {
-        MoveChecker moveChecker = new MoveChecker(this.accountID,this.gameHashMap,this.accountHashMap,moveAction.getUnits(),moveAction.getFrom(),moveAction.getTo(),moveAction.getGameID());
-        if(moveChecker.doCheck()){
+        MoveChecker moveChecker = new MoveChecker(this.accountID, this.gameHashMap, this.accountHashMap, moveAction.getUnits(), moveAction.getFrom(), moveAction.getTo(), moveAction.getGameID());
+        if (moveChecker.doCheck()) {
             //Update Server Map
             Map map = moveChecker.getMap();
             //TODO:map.moveAction(from, to, ArrayList<ArrayList<Integer>> Units);
-            RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(),moveAction.getTo(),moveAction.getUnits());
+            RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
 
 
@@ -150,14 +171,30 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(NewGameAction newGameAction) {
-        //Checker
-        //Do
-//        String gameID = "3" ;//Random number
-//        Game game = new Game();
-//        Player player = new Player();
-//        game.getPlayerHashMap().put(this.accountID,player);
-//        this.gameHashMap.put(gameID, Game);
-        //thread(this.gameHashMap, this.accountHashMap)
+        NewGameChecker newGameChecker = new NewGameChecker(this.gameHashMap,this.accountHashMap,this.accountID, newGameAction.getGameID());
+        if(newGameChecker.doCheck()){
+
+            Integer gameID = GameIDCounter.getInstance().getCurrent_id();
+            Game game = new Game(newGameAction.getNumOfPlayer());
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            PrintStream printStream = new PrintStream(System.out);
+            Player player = new Player(this.accountID.getaccountID(),newGameAction.getNumOfPlayer(),bufferedReader,printStream);
+            game.getPlayerHashMap().put(this.accountID.getaccountID(),player);
+            this.gameHashMap.put(gameID,game);
+            this.currGameID.setCurrGameID(gameID);
+
+            GameRunnable gameRunnable = new GameRunnable();
+            Thread thread = new Thread(gameRunnable);
+            thread.start();
+
+            RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess();
+            sendResponse(rspNewGameSuccess);
+        }
+        else{
+            RSPNewGameFail rspNewGameFail = new RSPNewGameFail();
+            sendResponse(rspNewGameFail);
+        }
+
     }
 
     @Override
@@ -173,9 +210,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(SignUpAction signUpAction) {
         // Check Exist
-        SignupChecker signupChecker = new SignupChecker(this.accountID,this.gameHashMap, this.accountHashMap, signUpAction.getAccount());
+        SignupChecker signupChecker = new SignupChecker(this.accountID, this.gameHashMap, this.accountHashMap, signUpAction.getAccount());
         // If account not exist
-        if(signupChecker.doCheck()){
+        if (signupChecker.doCheck()) {
             //DO Create New Account
             Account account = new Account();
             account.setPassword(signUpAction.getPassword());
@@ -183,14 +220,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //Successful Response
             RSPSignupSuccess rspSignupSuccess = new RSPSignupSuccess();
             sendResponse(rspSignupSuccess);
-        }
-        else {
+        } else {
             //Failed Response
             RSPSignupFail rspSignupFail = new RSPSignupFail();
             sendResponse(rspSignupFail);
         }
 
-        }
+    }
 
 
     @Override
@@ -209,15 +245,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 TechLevelUpgradeList,
                 UnitLevelUpgradeList
         );
-        if (updateTechChecker.doCheck()){
+        if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
             Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
             //Player updateTech Level, decrease Tech resource
             RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
             sendResponse(rspUpdateTechSuccess);
-        }
-        else{
+        } else {
             RSPUpdateTechFail rspUpdateTechFail = new RSPUpdateTechFail();
             sendResponse(rspUpdateTechFail);
         }

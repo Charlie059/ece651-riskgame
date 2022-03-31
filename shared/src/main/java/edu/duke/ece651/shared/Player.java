@@ -155,7 +155,7 @@ public class Player {
 
     public void playerDoMove(BufferedReader inputReader, PrintStream out) throws IOException {
         String from_name, to_name;
-        ArrayList<Unit> moveUnits = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> moveUnits = new ArrayList<>();
 
         Integer level;
         Integer unitNum;
@@ -179,13 +179,12 @@ public class Player {
      * @param to_name
      * @return
      */
-    public boolean move(ArrayList<Unit> moveUnits, String from_name, String to_name) {
+    public boolean move(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name) {
         try {
             //Territory from = myTerritories.get(from_name);
             //Territory to = myTerritories.get(to_name);
             MoveAction move_action = new MoveAction();
-            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits).
-                    setGameID(currentGameID).setPlayerID(playerId);
+            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits).setGameID(currentGameID);
 
             ActionList.add(move_action);
         } catch (Exception excep) {
@@ -254,10 +253,10 @@ public class Player {
     }
 
     public void upgradeTech(int next_level, int currTechResource){
-        UpdateTechAction UpdateTech_action = new UpdateTechAction();
-        UpdateTech_action.setPlayerID(playerId).setGameID(currentGameID).
+        UpdateTechAction updateTechAction = new UpdateTechAction();
+        updateTechAction.setGameID(currentGameID).
                 setNextLevel(next_level).setCurrTechResource(currTechResource);
-        ActionList.add(UpdateTech_action);
+        ActionList.add(updateTechAction);
         //TODO: Return Action to client
     }
     public void playerDoUpgradeUnit(BufferedReader inputReader, PrintStream out) throws IOException {

@@ -2,11 +2,8 @@ package edu.duke.ece651.shared.Visitor;
 
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.IO.*;
-import edu.duke.ece651.shared.IO.ClientActions.Action;
-import edu.duke.ece651.shared.IO.ClientActions.SignUpAction;
-import edu.duke.ece651.shared.IO.ServerResponse.RSPSignupFail;
-import edu.duke.ece651.shared.IO.ServerResponse.RSPSignupSuccess;
-import edu.duke.ece651.shared.IO.ServerResponse.Response;
+import edu.duke.ece651.shared.IO.ClientActions.*;
+import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Wrapper.CurrGameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
@@ -112,8 +109,8 @@ class ActionCheckDoFeedbackVistorTest {
 
         Account testAccount = new Account();
         testAccount.setPassword("12345");
-        HashMap<String, Account> playerHashMap = new HashMap<>();
-        playerHashMap.put("abcde", testAccount);
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
 
         HashMap<Integer, Game> gameHashMap = new HashMap<>();
 
@@ -127,7 +124,7 @@ class ActionCheckDoFeedbackVistorTest {
         MockClient mockClient = new MockClient(12345, "127.0.0.1");
         Socket clientSocket = mockServer.acceptClient();
         // Server creates a new thread
-        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, playerHashMap, gameHashMap);
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
         Thread t = new Thread(task);
         t.start();
 
@@ -139,31 +136,217 @@ class ActionCheckDoFeedbackVistorTest {
 
 
     @Test
-    void testVisit() {
+    void test_VisitLoginSuccess() throws IOException, ClassNotFoundException {
+        //Communicator Thread:
+        AccountID accountID = new AccountID();
+        CurrGameID currGameID = new CurrGameID();
+
+        Account testAccount = new Account();
+        testAccount.setPassword("12345");
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
+
+        HashMap<Integer, Game> gameHashMap = new HashMap<>();
+
+        //Signin Action
+        LoginAction loginAction = new LoginAction();
+        loginAction.setEnterAccount("abcde");
+        loginAction.setEnterPassword("12345");
+
+        //Server
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        // Server creates a new thread
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
+        Thread t = new Thread(task);
+        t.start();
+
+        mockClient.sendObject(loginAction);
+        Response trueResponse = (Response) mockClient.recvObject();
+        assertEquals(trueResponse.getClass(), new RSPLoginSuccess().getClass());
+        assertEquals(accountID.getaccountID(),"abcde");
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit1() {
+    void test_VisitLoginFail() throws IOException, ClassNotFoundException {
+        //Communicator Thread:
+        AccountID accountID = new AccountID();
+        CurrGameID currGameID = new CurrGameID();
+
+        Account testAccount = new Account();
+        testAccount.setPassword("12345");
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
+
+        HashMap<Integer, Game> gameHashMap = new HashMap<>();
+
+        //Signin Action
+        LoginAction loginAction = new LoginAction();
+        loginAction.setEnterAccount("abcde");
+        loginAction.setEnterPassword("12346");
+
+        //Server
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        // Server creates a new thread
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
+        Thread t = new Thread(task);
+        t.start();
+
+        mockClient.sendObject(loginAction);
+        Response trueResponse = (Response) mockClient.recvObject();
+        assertEquals(trueResponse.getClass(), new RSPLoginFail().getClass());
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit2() {
+    void test_VisitLogout() throws IOException, ClassNotFoundException {
+        //Communicator Thread:
+        AccountID accountID = new AccountID();
+        CurrGameID currGameID = new CurrGameID();
+
+        Account testAccount = new Account();
+        testAccount.setPassword("12345");
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
+
+        HashMap<Integer, Game> gameHashMap = new HashMap<>();
+
+        accountID.setaccountID("mnbvc");
+        //Signin Action
+        LogoutAction logoutAction = new LogoutAction();
+
+
+        //Server
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        // Server creates a new thread
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
+        Thread t = new Thread(task);
+        t.start();
+
+        mockClient.sendObject(logoutAction);
+        Response trueResponse = (Response) mockClient.recvObject();
+        assertEquals(trueResponse.getClass(), new RSPLogoutSuccess().getClass());
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit3() {
+    void test_VisitNewGameSuccess() throws IOException, ClassNotFoundException {
+        //Communicator Thread:
+        AccountID accountID = new AccountID();
+        CurrGameID currGameID = new CurrGameID();
+
+        Account testAccount = new Account();
+        testAccount.setPassword("12345");
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
+
+        HashMap<Integer, Game> gameHashMap = new HashMap<>();
+
+        accountID.setaccountID("mnbvc");
+        //Signin Action
+        NewGameAction newGameAction = new NewGameAction();
+        newGameAction.setGameID(1);
+        newGameAction.setNumOfPlayer(5);
+
+
+        //Server
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        // Server creates a new thread
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
+        Thread t = new Thread(task);
+        t.start();
+
+        mockClient.sendObject(newGameAction);
+        Response trueResponse = (Response) mockClient.recvObject();
+        assertEquals(trueResponse.getClass(), new RSPNewGameSuccess().getClass());
+        assertEquals(currGameID.getCurrGameID(),1);
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit4() {
+    void test_VisitNewGameFail() throws IOException, ClassNotFoundException {
+        //Communicator Thread:
+        AccountID accountID = new AccountID();
+        CurrGameID currGameID = new CurrGameID();
+
+        Account testAccount = new Account();
+        testAccount.setPassword("12345");
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
+
+        HashMap<Integer, Game> gameHashMap = new HashMap<>();
+        Game game = new Game(5);
+        gameHashMap.put(1,game);
+
+        accountID.setaccountID("mnbvc");
+        //Signin Action
+        NewGameAction newGameAction = new NewGameAction();
+        newGameAction.setGameID(1);
+        newGameAction.setNumOfPlayer(5);
+
+
+        //Server
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        // Server creates a new thread
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
+        Thread t = new Thread(task);
+        t.start();
+
+        mockClient.sendObject(newGameAction);
+        Response trueResponse = (Response) mockClient.recvObject();
+        assertEquals(trueResponse.getClass(), new RSPNewGameFail().getClass());
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit5() {
+    void test_VisitJoinSuccess() throws IOException, ClassNotFoundException {
+        //Communicator Thread:
+        AccountID accountID = new AccountID();
+        CurrGameID currGameID = new CurrGameID();
+
+        Account testAccount = new Account();
+        testAccount.setPassword("12345");
+        HashMap<String, Account> accountHashMap = new HashMap<>();
+        accountHashMap.put("abcde", testAccount);
+
+        HashMap<Integer, Game> gameHashMap = new HashMap<>();
+        Game game = new Game(5);
+        gameHashMap.put(1,game);
+
+        accountID.setaccountID("mnbvc");
+        //Signin Action
+        NewGameAction newGameAction = new NewGameAction();
+        newGameAction.setGameID(1);
+        newGameAction.setNumOfPlayer(5);
+
+
+        //Server
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        // Server creates a new thread
+        CommunicationRunnable task =  new CommunicationRunnable (accountID, currGameID, clientSocket, accountHashMap, gameHashMap);
+        Thread t = new Thread(task);
+        t.start();
+
+        mockClient.sendObject(newGameAction);
+        Response trueResponse = (Response) mockClient.recvObject();
+        assertEquals(trueResponse.getClass(), new RSPNewGameFail().getClass());
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit6() {
+    void test_VisitJoinFail() {
     }
 
     @Test

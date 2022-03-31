@@ -36,13 +36,14 @@ public class MoveChecker extends ActionChecker{
     public boolean doCheck() {
         boolean isValid;
         try {
-            isValid = map.isPathExist(playerID, from_name, to_name);
+            //isValid = map.isPathExist(playerID, from_name, to_name);
         }
         catch(IllegalArgumentException illegalArg){
             //output = illegalArg.getMessage();
             return false;
         }
-        return isValid;
+        //return isValid;
+        return false;
     }
 
     public String getFrom_name() {

@@ -20,7 +20,7 @@ public class AttackChecker extends MoveChecker{
     public boolean doCheck() {
         boolean isValid = false;
         try {
-            isValid = map.isAdjacent(playerID, from_name, to_name);
+          //  isValid = map.isAdjacent(playerID, from_name, to_name);
         }
         //incorrect ownerships
         catch(IllegalArgumentException illegalArg){
