@@ -16,12 +16,12 @@ class LoginCheckerTest {
         AccountID accountID = new AccountID();
         accountID.setaccountID("pod128g");
 
-        HashMap<Integer, Game> gameHashMap = new HashMap<>();
-        HashMap<String, Account> accountHashMap = new HashMap<>();
+        HashMap<GameID, Game> gameHashMap = new HashMap<>();
+        HashMap<AccountID, Account> accountHashMap = new HashMap<>();
 
         Account account = new Account();
         account.setPassword("123");
-        accountHashMap.put(accountID.getaccountID(),account);
+        accountHashMap.put(accountID,account);
 
         String recvAccount = "pod128g";
         String recvPassword = "123";
@@ -54,14 +54,14 @@ class LoginCheckerTest {
         AccountID accountID = new AccountID();
         accountID.setaccountID("pod128g");
 
-        HashMap<Integer, Game> gameHashMap = new HashMap<>();
-        HashMap<String, Account> accountHashMap = new HashMap<>();
+        HashMap<GameID, Game> gameHashMap = new HashMap<>();
+        HashMap<AccountID, Account> accountHashMap = new HashMap<>();
 
         Account account = new Account();
         account.setPassword("123");
-        accountHashMap.put(accountID.getaccountID(),account);
+        accountHashMap.put(accountID,account);
 
-        String recvAccount = "pod12g";
+        AccountID recvAccount = new AccountID("pod18g");
         String recvPassword = "123";
 
         LoginChecker loginChecker = new LoginChecker(accountID, gameHashMap, accountHashMap, recvAccount,recvPassword);

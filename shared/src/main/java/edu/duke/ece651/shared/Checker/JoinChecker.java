@@ -6,10 +6,13 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.util.HashMap;
 
+/**
+ * Check 1. Have this game 2. is not full
+ */
 public class JoinChecker extends ActionChecker {
     private Integer enterGameID;
 
-    public JoinChecker(HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap, AccountID accountID, Integer enterGameID) {
+    public JoinChecker(HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap, AccountID accountID, GameID enterGameID) {
         super(gameHashMap, accountHashMap, accountID);
         this.enterGameID = enterGameID;
     }

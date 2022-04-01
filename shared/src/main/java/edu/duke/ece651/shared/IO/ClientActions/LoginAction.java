@@ -1,16 +1,18 @@
 package edu.duke.ece651.shared.IO.ClientActions;
 
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 
 public class LoginAction implements Action {
-    private String enterAccount;
+    private AccountID enterAccount;
     private String enterPassword;
+
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);
     }
 
-    public String getEnterAccount() {
+    public AccountID getEnterAccount() {
         return enterAccount;
     }
 

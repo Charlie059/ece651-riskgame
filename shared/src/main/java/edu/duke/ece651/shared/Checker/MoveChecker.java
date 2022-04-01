@@ -4,6 +4,7 @@ import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Player;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Map;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class MoveChecker extends ActionChecker{
     protected final  String to_name;
     protected String playerID;
     protected Integer gameID;
-    public MoveChecker(AccountID accountID, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, Integer gameID){
+    public MoveChecker(AccountID accountID, HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, Integer gameID){
         super(gameHashMap, accountHashMap, accountID);
         moveUnits = _moveUnits;
         from_name = from;

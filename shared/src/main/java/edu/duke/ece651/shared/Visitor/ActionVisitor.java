@@ -20,10 +20,6 @@ public interface ActionVisitor {
 
     void visit(NewGameAction newGameAction);
 
-    void visit(PlayAgainAction playAgainAction);
-
-    void visit(QuitGameAction quitGameAction);
-
     void visit(SignUpAction signUpAction);
 
     void visit(SwitchGameAction switchGameAction);

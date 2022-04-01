@@ -1,5 +1,7 @@
 package edu.duke.ece651.shared;
 
+import java.util.Objects;
+
 public class Account {
     private String password=null;
 

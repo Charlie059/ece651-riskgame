@@ -8,11 +8,11 @@ import java.util.HashMap;
 
 public abstract class ActionChecker {
 
-    protected HashMap<Integer, Game> gameHashMap;
-    protected HashMap<String, Account> accountHashMap;
+    protected HashMap<GameID, Game> gameHashMap;
+    protected HashMap<AccountID, Account> accountHashMap;
     protected AccountID accountID;
 
-    public ActionChecker(HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap, AccountID accountID) {
+    public ActionChecker(HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap, AccountID accountID) {
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         this.accountID = accountID;
