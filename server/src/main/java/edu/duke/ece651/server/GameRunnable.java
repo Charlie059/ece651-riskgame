@@ -1,6 +1,55 @@
 package edu.duke.ece651.server;
 
-public class GameRunnable implements Runnable{
+import edu.duke.ece651.shared.Account;
+import edu.duke.ece651.shared.Game;
+import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
+
+import java.util.HashMap;
+
+/**
+ * Deal with Combat Resolution
+ */
+public class GameRunnable implements Runnable {
+    // Database
+    private HashMap<GameID, Game> gameHashMap;//GameID, Game
+    private HashMap<AccountID, Account> accountHashMap;//AccountID Account
+    private GameID gameID;
+
+    public GameRunnable(HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap, GameID gameID) {
+        this.gameHashMap = gameHashMap;
+        this.accountHashMap = accountHashMap;
+        this.gameID = gameID;
+    }
+
+
+    /**
+     * Check if all player is committed
+     *
+     * @return flase for at least one of player is not committed
+     */
+    private Boolean isCommitted() {
+        if (this.gameHashMap.get(gameID).getCommittedHashMap().containsValue(false)) return false;
+        else return true;
+    }
+
+    /**
+     * Change isCommitted Hashmap in thisGame to false
+     */
+    private void changeIsCommitted() {
+        Game thisGame = this.gameHashMap.get(gameID);
+        for (AccountID key : thisGame.getCommittedHashMap().keySet()) {
+            thisGame.getCommittedHashMap().put(key, false);
+        }
+    }
+
+    private void combatResolution() {
+
+    }
+
+    /**
+     * Define the game runnable thread
+     */
     @Override
     public void run() {
         Game thisGame = this.gameHashMap.get(gameID);

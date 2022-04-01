@@ -143,7 +143,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //IF SUCCESS
         if (loginChecker.doCheck()) {
             //DO change current accountID warpper class
-            this.accountID.setaccountID(loginAction.getEnterAccount());
+            this.accountID = loginAction.getEnterAccount();
             RSPLoginSuccess rspLoginSuccess = new RSPLoginSuccess();
             sendResponse(rspLoginSuccess);
         } else {
@@ -160,7 +160,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
      */
     @Override
     public void visit(LogoutAction logoutAction) {
-        this.accountID.setaccountID(null);
+        this.accountID.setAccountID(null);
         RSPLogoutSuccess rspLogoutSuccess = new RSPLogoutSuccess();
         sendResponse(rspLogoutSuccess);
     }

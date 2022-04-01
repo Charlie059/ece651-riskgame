@@ -3,6 +3,7 @@ package edu.duke.ece651.shared.Checker;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
 
 import java.util.HashMap;
 
@@ -12,8 +13,8 @@ import java.util.HashMap;
  * Not Exist: true
  */
 public class SignupChecker extends ActionChecker{
-    private String recvAccount;
-    public SignupChecker(AccountID accountID, HashMap<Integer, Game> gameHashMap, HashMap<String, Account> accountHashMap, String recvAccount) {
+    private AccountID recvAccount;
+    public SignupChecker(AccountID accountID, HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap, AccountID recvAccount) {
         super(gameHashMap, accountHashMap,accountID);
         this.recvAccount = recvAccount;
     }

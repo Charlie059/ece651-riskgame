@@ -16,7 +16,7 @@ public class LoginAction implements Action {
         return enterAccount;
     }
 
-    public void setEnterAccount(String enterAccount) {
+    public void setEnterAccount(AccountID enterAccount) {
         this.enterAccount = enterAccount;
     }
 

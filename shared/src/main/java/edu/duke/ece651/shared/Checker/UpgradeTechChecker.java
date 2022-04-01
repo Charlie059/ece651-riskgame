@@ -3,6 +3,7 @@ package edu.duke.ece651.shared.Checker;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +15,8 @@ public class UpgradeTechChecker extends ActionChecker{
     private ArrayList<Integer> UnitLevelUpgradeList;
 
     public UpgradeTechChecker(AccountID accountID,
-                              HashMap<Integer, Game> gameHashMap,
-                              HashMap<String, Account> playerHashMap,
+                              HashMap<GameID, Game> gameHashMap,
+                              HashMap<AccountID, Account> playerHashMap,
                               Integer _nextLevel,
                               Integer _currTechResource,
                               ArrayList<Integer> _TechLevelUpgradeList,

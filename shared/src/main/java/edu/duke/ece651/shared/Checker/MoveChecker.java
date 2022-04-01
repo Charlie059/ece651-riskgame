@@ -22,7 +22,7 @@ public class MoveChecker extends ActionChecker{
         moveUnits = _moveUnits;
         from_name = from;
         to_name = to;
-        this.playerID = accountID.getaccountID();
+        this.playerID = accountID.getAccountID();
         this.gameID = gameID;
         Game game = this.gameHashMap.get(this.gameID);
         Player player = game.getPlayerHashMap().get(this.playerID);

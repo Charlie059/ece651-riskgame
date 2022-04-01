@@ -25,11 +25,11 @@ class ActionCheckDoFeedbackVistorTest {
         private AccountID accountID;
         private GameID gameID;
         private Socket clientSocket;
-        private HashMap<Integer, Game> gameHashMap;
-        private HashMap<String, Account> playerHashMap;
+        private HashMap<GameID, Game> gameHashMap;
+        private HashMap<AccountID, Account> playerHashMap;
 
 
-        public CommunicationRunnable(AccountID accountID, CurrGameID currGameID, Socket clientSocket, HashMap<String, Account> playerHashMap, HashMap<Integer, Game> gameHashMap) throws IOException {
+        public CommunicationRunnable(AccountID accountID, GameID gameID, Socket clientSocket, HashMap<AccountID, Account> playerHashMap, HashMap<GameID, Game> gameHashMap) throws IOException {
             this.accountID = accountID;
             this.gameID = gameID;
             this.clientSocket = clientSocket;
@@ -74,14 +74,14 @@ class ActionCheckDoFeedbackVistorTest {
 
         Account testAccount = new Account();
         testAccount.setPassword("12345");
-        HashMap<String, Account> playerHashMap = new HashMap<>();
-        playerHashMap.put("abcde", testAccount);
+        HashMap<AccountID, Account> playerHashMap = new HashMap<>();
+        playerHashMap.put(accountID, testAccount);
 
         HashMap<GameID, Game> gameHashMap = new HashMap<>();
 
         //Client Action
         SignUpAction SignUpAction = new SignUpAction();
-        SignUpAction.setAccount("cdefg");
+        SignUpAction.setAccount(new AccountID("cdefg"));
         SignUpAction.setPassword("23456");
 
 
@@ -97,8 +97,8 @@ class ActionCheckDoFeedbackVistorTest {
         mockClient.sendObject(SignUpAction);
         Response trueResponse = (Response) mockClient.recvObject();
         assertEquals(trueResponse.getClass(), new RSPSignupSuccess().getClass());
-        assertTrue(playerHashMap.containsKey("cdefg"));
-        assertEquals(playerHashMap.get("cdefg").getPassword(),"23456");
+        assertTrue(playerHashMap.containsKey(new AccountID("cdefg")));
+        assertEquals(playerHashMap.get(new AccountID("cdefg")).getPassword(),"23456");
         mockServer.closeSocket();
     }
 
@@ -118,7 +118,7 @@ class ActionCheckDoFeedbackVistorTest {
 
         //Client Action
         SignUpAction SignUpAction = new SignUpAction();
-        SignUpAction.setAccount("abcde");
+        SignUpAction.setAccount(new AccountID("abcde"));
         SignUpAction.setPassword("12345");
 
         //Server

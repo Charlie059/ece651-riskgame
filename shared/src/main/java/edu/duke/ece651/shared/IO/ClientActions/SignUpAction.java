@@ -1,11 +1,12 @@
 package edu.duke.ece651.shared.IO.ClientActions;
 
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.io.Serializable;
 
 public class SignUpAction implements Action {
-    private String account;
+    private AccountID accountID;
     private String password;
 
     @Override
@@ -13,12 +14,12 @@ public class SignUpAction implements Action {
         actionVisitor.visit(this);
     }
 
-    public String getAccount() {
-        return account;
+    public AccountID getAccount() {
+        return this.accountID;
     }
 
-    public Action setAccount(String account) {
-        this.account = account;
+    public Action setAccount(AccountID accountID) {
+        this.accountID = accountID;
         return this;
     }
 
