@@ -1,5 +1,7 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.server.Wrapper.AccountHashMap;
+import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Wrapper.AccountID;
@@ -12,11 +14,13 @@ import java.util.HashMap;
  */
 public class GameRunnable implements Runnable {
     // Database
-    private HashMap<GameID, Game> gameHashMap;//GameID, Game
-    private HashMap<AccountID, Account> accountHashMap;//AccountID Account
+    private GameHashMap gameHashMap;//GameID, Game
+    private AccountHashMap accountHashMap;//AccountID Account
     private GameID gameID;
+    private Boolean isCombatResolutionFinished;
 
-    public GameRunnable(HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap, GameID gameID) {
+
+    public GameRunnable(GameHashMap gameHashMap, AccountHashMap accountHashMap, GameID gameID) {
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         this.gameID = gameID;

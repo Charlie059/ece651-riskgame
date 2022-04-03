@@ -9,6 +9,16 @@ public class SignUpAction implements Action {
     private AccountID accountID;
     private String password;
 
+    /**
+     * Constructor of SignUpAction
+     * @param accountID
+     * @param password
+     */
+    public SignUpAction(AccountID accountID, String password){
+        this.accountID = accountID;
+        this.password = password;
+    }
+
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);

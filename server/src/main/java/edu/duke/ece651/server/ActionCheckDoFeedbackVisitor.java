@@ -4,7 +4,6 @@ import edu.duke.ece651.server.Checker.*;
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.*;
-import edu.duke.ece651.shared.Checker.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
 import edu.duke.ece651.shared.Wrapper.GameID;
@@ -42,8 +41,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
      * @param accountHashMap PlayerHashMap Object reference
      * @param gameHashMap    GameHashMap Object reference
      */
-    public ActionCheckDoFeedbackVisitor(AccountID accountID, GameID gameID, Socket clientSocket, HashMap<AccountID, Account> accountHashMap, HashMap<GameID, Game> gameHashMap) {
-        //Comunicator Reference
+    public ActionCheckDoFeedbackVisitor(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap) {
+        //Communicate Reference
         this.accountID = accountID;
         this.gameID = gameID;
         this.clientSocket = clientSocket;
@@ -101,7 +100,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Do
 
         //Feedback
-        Game currGame = this.gameHashMap.get(attackAction.getGameID());
+//        Game currGame = this.gameHashMap.get(attackAction.getGameID());
 
         //TODO:AttackActionArrayList field belongs to Player
         //this.attackActionArrayList.add(attackAction);
@@ -111,10 +110,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(CommitAction commitAction) {
-
-        this.gameHashMap.get(this.accountID).getCommittedHashMap().put(this.accountID,true);
-        RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
-        sendResponse(rspCommitSuccess);
+//        this.gameHashMap.get(this.accountID).getCommittedHashMap().put(this.accountID, true);
+//        RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
+//        sendResponse(rspCommitSuccess);
     }
 
     @Override
@@ -133,6 +131,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
         }
     }
+
 
     @Override
     public void visit(JoinAction joinAction) {

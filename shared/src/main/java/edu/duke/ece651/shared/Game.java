@@ -13,9 +13,10 @@ import java.util.HashMap;
 
 public class Game {
     // All player joined this game
-    private  HashMap<AccountID, Player> playerHashMap;
+    private PlayerHashMap playerHashMap;
     private Integer numOfPlayer;
-    private HashMap<AccountID, ArrayList<AttackAction>> attackHashMap;
+    private AttackHashMap attackHashMap;
+    private volatile CommittedHashMap committedHashMap;
     private volatile Boolean gameOver;
     private volatile Boolean isCombatFinished;
     private volatile Boolean isBegin;

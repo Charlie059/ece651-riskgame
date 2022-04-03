@@ -28,4 +28,7 @@ public interface ActionVisitor {
 
     void visit(UpdateUnitsAction updateUnitsAction);
 
+    void visit(ChooseJoinGameAction chooseJoinGameAction);
+
+    void visit(ChooseSwitchGameAction chooseSwitchGameAction);
 }

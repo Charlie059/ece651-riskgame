@@ -1,9 +1,12 @@
 package edu.duke.ece651.server.Checker;
 
+import edu.duke.ece651.server.Wrapper.AccountHashMap;
+import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -14,8 +17,8 @@ class LoginCheckerTest {
     public void test_LoginChecker_success(){
         AccountID accountID = new AccountID("pod128g");
 
-        HashMap<GameID, Game> gameHashMap = new HashMap<>();
-        HashMap<AccountID, Account> accountHashMap = new HashMap<>();
+        GameHashMap gameHashMap = new GameHashMap();
+        AccountHashMap accountHashMap = new AccountHashMap();
 
         Account account = new Account();
         account.setPassword("123");
@@ -32,8 +35,8 @@ class LoginCheckerTest {
     public void test_LoginChecker_failure(){
         AccountID accountID = new AccountID("pod128g");
 
-        HashMap<GameID, Game> gameHashMap = new HashMap<>();
-        HashMap<AccountID, Account> accountHashMap = new HashMap<>();
+        GameHashMap gameHashMap = new GameHashMap();
+        AccountHashMap accountHashMap = new AccountHashMap();
 
         Account account = new Account();
         account.setPassword("123");
@@ -50,8 +53,8 @@ class LoginCheckerTest {
     public void test_LoginChecker_failure_account_no_exist(){
         AccountID accountID = new AccountID("pod128g");
 
-        HashMap<GameID, Game> gameHashMap = new HashMap<>();
-        HashMap<AccountID, Account> accountHashMap = new HashMap<>();
+        GameHashMap gameHashMap = new GameHashMap();
+        AccountHashMap accountHashMap = new AccountHashMap();
 
         Account account = new Account();
         account.setPassword("123");

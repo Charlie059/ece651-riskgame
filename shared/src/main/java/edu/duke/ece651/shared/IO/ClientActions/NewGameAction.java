@@ -5,6 +5,15 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 
 public class NewGameAction implements Action {
     private Integer numOfPlayer;
+
+    /**
+     * Constructor of NewGameAction
+     * @param numOfPlayer client input
+     */
+    public NewGameAction(Integer numOfPlayer){
+        this.numOfPlayer = numOfPlayer;
+    }
+
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);

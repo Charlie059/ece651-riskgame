@@ -83,12 +83,16 @@ public class CommunicatorRunnable implements Runnable {
 
     @Override
     public void run() {
+        Integer runtimeCounter = this.runtime;
         while (true) {
+            // if runtimeCounter == 0 break
+            if (runtimeCounter == 0) break;
+            else if (runtimeCounter > 0) runtimeCounter--;
+
             //Receive Action
             Action action = this.recvAction();
             //Check Do Feedback action
-            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID,this.clientSocket,this.accountHashMap,this.gameHashMap));
-
+            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap));
         }
     }
 }

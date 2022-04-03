@@ -1,9 +1,14 @@
 package edu.duke.ece651.server.IO;
 
+import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
+import edu.duke.ece651.shared.IO.ServerResponse.Response;
+import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class MockClient {
 
