@@ -25,11 +25,10 @@ public class Map {
 
     }
 
-    public HashMap<String, Territory> getTerritoryList() {
+    public synchronized HashMap<String, Territory> getTerritoryList() {
         return territoryList;
     }
-
-    public ArrayList<ArrayList<String>> getGroups() {
+    public synchronized ArrayList<ArrayList<String>> getGroups() {
         return groups;
     }
 
