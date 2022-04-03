@@ -1,4 +1,4 @@
-package edu.duke.ece651.client.Model;
+package edu.duke.ece651.client;
 
 public class LoginAndSignUpModel {
 

@@ -1,24 +1,23 @@
-package edu.duke.ece651.client.Controller;
+package edu.duke.ece651.client;
 
-import edu.duke.ece651.client.gameInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class joinGameViewController implements Initializable
+public class continueGameViewController implements Initializable
 {
     @FXML
-    private TableView<gameInfo> joinGameTable;
+    private TableView<gameInfo> continueGameTable;
     @FXML
     private TableColumn<gameInfo, Integer> gameID_col, nPlayers_col;
     @FXML
@@ -26,7 +25,7 @@ public class joinGameViewController implements Initializable
 
     private final Stage window;
 
-    public joinGameViewController(Stage window){
+    public continueGameViewController(Stage window){
         this.window = window;
     }
 
@@ -68,7 +67,7 @@ public class joinGameViewController implements Initializable
             return cell;
         });
 
-        joinGameTable.setItems(gameList);
+        continueGameTable.setItems(gameList);
     }
 
     @FXML

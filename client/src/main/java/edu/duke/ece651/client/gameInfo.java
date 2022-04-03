@@ -7,8 +7,8 @@ public class gameInfo {
 
     public gameInfo(int id, int n, String note){
         this.GameID = id;
-        this.NPlayer = n;
         this.Note = note;
+        this.NPlayer = n;
     }
 
     public String getNote() {

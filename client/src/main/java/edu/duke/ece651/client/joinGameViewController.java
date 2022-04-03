@@ -1,24 +1,23 @@
-package edu.duke.ece651.client.Controller;
+package edu.duke.ece651.client;
 
-import edu.duke.ece651.client.gameInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class continueGameViewController implements Initializable
+public class joinGameViewController implements Initializable
 {
     @FXML
-    private TableView<gameInfo> continueGameTable;
+    private TableView<gameInfo> joinGameTable;
     @FXML
     private TableColumn<gameInfo, Integer> gameID_col, nPlayers_col;
     @FXML
@@ -26,7 +25,7 @@ public class continueGameViewController implements Initializable
 
     private final Stage window;
 
-    public continueGameViewController(Stage window){
+    public joinGameViewController(Stage window){
         this.window = window;
     }
 
@@ -59,6 +58,7 @@ public class continueGameViewController implements Initializable
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
                             gameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
+                            // TODO:get info based gameID in class player.
                             System.out.println("Enter Game. INFO: "+clickedInfo.getGameID()+" "+clickedInfo.getNPlayer()+" "+clickedInfo.getNote());
                         });
                     }
@@ -68,7 +68,7 @@ public class continueGameViewController implements Initializable
             return cell;
         });
 
-        continueGameTable.setItems(gameList);
+        joinGameTable.setItems(gameList);
     }
 
     @FXML

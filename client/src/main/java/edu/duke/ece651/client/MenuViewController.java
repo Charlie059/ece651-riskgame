@@ -1,4 +1,4 @@
-package edu.duke.ece651.client.Controller;
+package edu.duke.ece651.client;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -101,3 +101,5 @@ public class MenuViewController {
         this.window.show();
     }
 }
+
+

@@ -1,6 +1,5 @@
-package edu.duke.ece651.client.Controller;
+package edu.duke.ece651.client;
 
-import edu.duke.ece651.client.Model.LoginAndSignUpModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
