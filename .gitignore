@@ -1,0 +1,4 @@
+/.gradle/
+/client/build/tmp/
+/server/build/tmp/
+/shared/build/tmp/

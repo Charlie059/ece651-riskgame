@@ -47,7 +47,10 @@ public class Territory {
         this.accountId = accountId;
     }
 
-    public AccountID getOwnerId() {return accountId;}
+    public AccountID getOwnerId() {
+        if (accountId==null){
+            return null;
+        }else return accountId;}
 
     public ArrayList<Unit> getUnits() {
         return Units;

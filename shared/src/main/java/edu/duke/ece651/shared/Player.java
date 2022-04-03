@@ -45,6 +45,7 @@ public class Player {
         this.currentGameID = currentGameID;
         this.wholeMap = _map;
         this.myTerritories = new HashMap<>();
+        this.totalDeployment = this.wholeMap.numOfPlayers*3;
     }
 
     public void setCurrentGameID(GameID gameID){
@@ -248,7 +249,7 @@ public class Player {
     public void assignMyTerritories(){
         for(String terr: wholeMap.getTerritoryList().keySet()){
             //if map owner equals the player's accountID
-            if (wholeMap.getTerritoryList().get(terr).getOwnerId().equals(this.accountID)){
+            if (this.accountID.equals(wholeMap.getTerritoryList().get(terr).getOwnerId())){
                 this.myTerritories.put(terr, wholeMap.getTerritoryList().get(terr));
             }
         }
