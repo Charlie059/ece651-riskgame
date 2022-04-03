@@ -1,0 +1,17 @@
+.expandable {
+    -fx-max-width: infinity;
+    -fx-max-height: infinity;
+}
+
+.numbtn:hover {
+    -fx-background-color: #bec6d4;
+    -fx-text-fill: ivory;
+    -fx-background-radius: 10, 10;
+    -fx-background-insets: 2, 5;
+}
+.numbtn:pressed {
+    -fx-background-color: #55585e;
+    -fx-text-fill: ivory;
+    -fx-background-radius: 10, 10;
+    -fx-background-insets: 2, 5;
+}
