@@ -11,13 +11,13 @@ public class TextMapFactory implements MapFactory {
     }
 
     private void createTerritoryList_2P(HashMap<String, Territory> m) {
-        Territory a1 = new Territory("a1");
-        Territory a2 = new Territory("a2");
-        Territory a3 = new Territory("a3");
+        Territory a1 = new Territory("a1", 10);
+        Territory a2 = new Territory("a2", 20);
+        Territory a3 = new Territory("a3", 30);
 
-        Territory b1 = new Territory("b1");
-        Territory b2 = new Territory("b2");
-        Territory b3 = new Territory("b3");
+        Territory b1 = new Territory("b1", 10);
+        Territory b2 = new Territory("b2", 20);
+        Territory b3 = new Territory("b3", 30);
 
         a1.addNeighbour(a3);
         a1.addNeighbour(b1);
@@ -58,17 +58,17 @@ public class TextMapFactory implements MapFactory {
     }
 
     private void createTerritoryList_3P(HashMap<String, Territory> m) {
-        Territory a1 = new Territory("a1");
-        Territory a2 = new Territory("a2");
-        Territory a3 = new Territory("a3");
+        Territory a1 = new Territory("a1", 10);
+        Territory a2 = new Territory("a2", 20);
+        Territory a3 = new Territory("a3", 30);
 
-        Territory b1 = new Territory("b1");
-        Territory b2 = new Territory("b2");
-        Territory b3 = new Territory("b3");
+        Territory b1 = new Territory("b1", 10);
+        Territory b2 = new Territory("b2", 20);
+        Territory b3 = new Territory("b3", 30);
 
-        Territory c1 = new Territory("c1");
-        Territory c2 = new Territory("c2");
-        Territory c3 = new Territory("c3");
+        Territory c1 = new Territory("c1", 10);
+        Territory c2 = new Territory("c2", 20);
+        Territory c3 = new Territory("c3", 30);
 
         a1.addNeighbour(a3);
         a1.addNeighbour(a2);
@@ -129,21 +129,21 @@ public class TextMapFactory implements MapFactory {
     }
 
     private void createTerritoryList_4P(HashMap<String, Territory> m) {
-        Territory a1 = new Territory("a1");
-        Territory a2 = new Territory("a2");
-        Territory a3 = new Territory("a3");
+        Territory a1 = new Territory("a1", 10);
+        Territory a2 = new Territory("a2", 20);
+        Territory a3 = new Territory("a3", 30);
 
-        Territory b1 = new Territory("b1");
-        Territory b2 = new Territory("b2");
-        Territory b3 = new Territory("b3");
+        Territory b1 = new Territory("b1", 10);
+        Territory b2 = new Territory("b2", 20);
+        Territory b3 = new Territory("b3", 30);
 
-        Territory c1 = new Territory("c1");
-        Territory c2 = new Territory("c2");
-        Territory c3 = new Territory("c3");
+        Territory c1 = new Territory("c1", 10);
+        Territory c2 = new Territory("c2", 20);
+        Territory c3 = new Territory("c3", 30);
 
-        Territory d1 = new Territory("d1");
-        Territory d2 = new Territory("d2");
-        Territory d3 = new Territory("d3");
+        Territory d1 = new Territory("d1", 10);
+        Territory d2 = new Territory("d2", 20);
+        Territory d3 = new Territory("d3", 30);
 
         a1.addNeighbour(c1);
         a1.addNeighbour(a3);
@@ -215,25 +215,25 @@ public class TextMapFactory implements MapFactory {
     }
 
     private void createTerritoryList_5P(HashMap<String, Territory> m) {
-        Territory a1 = new Territory("a1");
-        Territory a2 = new Territory("a2");
-        Territory a3 = new Territory("a3");
+        Territory a1 = new Territory("a1", 10);
+        Territory a2 = new Territory("a2", 20);
+        Territory a3 = new Territory("a3", 30);
 
-        Territory b1 = new Territory("b1");
-        Territory b2 = new Territory("b2");
-        Territory b3 = new Territory("b3");
+        Territory b1 = new Territory("b1", 10);
+        Territory b2 = new Territory("b2", 20);
+        Territory b3 = new Territory("b3", 30);
 
-        Territory c1 = new Territory("c1");
-        Territory c2 = new Territory("c2");
-        Territory c3 = new Territory("c3");
+        Territory c1 = new Territory("c1", 10);
+        Territory c2 = new Territory("c2", 20);
+        Territory c3 = new Territory("c3", 30);
 
-        Territory d1 = new Territory("d1");
-        Territory d2 = new Territory("d2");
-        Territory d3 = new Territory("d3");
+        Territory d1 = new Territory("d1", 10);
+        Territory d2 = new Territory("d2", 20);
+        Territory d3 = new Territory("d3", 30);
 
-        Territory e1 = new Territory("e1");
-        Territory e2 = new Territory("e2");
-        Territory e3 = new Territory("e3");
+        Territory e1 = new Territory("e1", 10);
+        Territory e2 = new Territory("e2", 20);
+        Territory e3 = new Territory("e3", 30);
 
         a1.addNeighbour(b1);
         a1.addNeighbour(a3);
