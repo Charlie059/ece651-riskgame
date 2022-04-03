@@ -76,6 +76,13 @@ public class PlayerHashMap {
         return this.playerHashMap.containsValue(player);
     }
 
-
+    /**
+     * Update all player's Tech Level
+     */
+    public void updatePlayersTechLevel(){
+        for(AccountID key:this.playerHashMap.keySet()){
+            this.playerHashMap.get(key).doUpgradeTech();
+        }
+    }
 
 }

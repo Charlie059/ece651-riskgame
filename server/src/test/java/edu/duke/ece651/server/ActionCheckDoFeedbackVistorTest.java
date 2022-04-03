@@ -418,10 +418,42 @@ class ActionCheckDoFeedbackVistorTest {
         mockClient.sendObject(deployAction);
         Response response2 = (Response) mockClient.recvObject();
         assertEquals(new RSPDeployFail().getClass(),response2.getClass());
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit8() {
+    void test_VisitCommit_VisitUpgradeTechLevel() throws IOException {
+        //==============================COMMUNICATOR==================================//
+        //new GameHashMap
+        GameHashMap gameHashMap = this.createGameHashMap();
+        //new AccountHashMap
+        AccountHashMap accountHashMap = this.createAccountHashMap();
+        //new SocketConnection
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        GameID currGameID = new GameID(2);
+        AccountID currAccountID = new AccountID("abcde");
+
+        //new Game numOfPlayer = 1 for testing, Start with host
+        Game currGame = new Game(1);
+        gameHashMap.put(new GameID(2),currGame);
+        Player host = new Player(currAccountID,currGameID,currGame.getMap());
+        currGame.getPlayerHashMap().put(currAccountID,host);
+        currGame.setOwnership(currAccountID);
+        host.assignMyTerritories();
+        currGame.getCommittedHashMap().put(currAccountID,false);
+        GameRunnable gameRunnable = new GameRunnable(gameHashMap,accountHashMap,currGameID);
+        Thread gameThread = new Thread(gameRunnable);
+        gameThread.start();
+
+        //new Communicator thread
+        CommunicatorRunnable task = new CommunicatorRunnable(currAccountID, currGameID, clientSocket, accountHashMap, gameHashMap,3);
+        Thread CommunicatorThread = new Thread(task);
+        CommunicatorThread.start();
+        ////==============================TESTBENCH==================================//
+
+
     }
 
     @Test
