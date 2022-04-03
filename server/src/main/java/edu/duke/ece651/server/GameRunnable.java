@@ -38,9 +38,7 @@ public class GameRunnable implements Runnable {
      */
     private void changeIsCommitted() {
         Game thisGame = this.gameHashMap.get(gameID);
-        for (AccountID key : thisGame.getCommittedHashMap().keySet()) {
-            thisGame.getCommittedHashMap().put(key, false);
-        }
+        thisGame.getCommittedHashMap().resetCommittedHashmap();
     }
 
     private void combatResolution() {
@@ -54,7 +52,7 @@ public class GameRunnable implements Runnable {
     public void run() {
         Game thisGame = this.gameHashMap.get(gameID);
 
-        //Wait Until All Player Joined
+
         while (thisGame.getPlayerHashMap().size() < thisGame.getNumOfPlayer()) {
         }
 

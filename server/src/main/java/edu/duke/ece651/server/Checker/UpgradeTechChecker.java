@@ -1,4 +1,4 @@
-package edu.duke.ece651.shared.Checker;
+package edu.duke.ece651.server.Checker;
 
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Account;
@@ -19,9 +19,9 @@ public class UpgradeTechChecker extends ActionChecker{
                               HashMap<AccountID, Account> playerHashMap,
                               Integer _nextLevel,
                               Integer _currTechResource,
-                              ArrayList<Integer> _TechLevelUpgradeList,
-                              ArrayList<Integer> _UnitLevelUpgradeList){
-        super( gameHashMap, playerHashMap,accountID);
+                              ArrayList<Integer> _TechLevelUpgradeList
+                              ){
+        super( gameHashMap,accountHashMap ,accountID);
         nextLevel = _nextLevel;
         currTechResource = _currTechResource;
         TechLevelUpgradeList = _TechLevelUpgradeList;

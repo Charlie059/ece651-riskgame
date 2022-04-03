@@ -1,17 +1,19 @@
-package edu.duke.ece651.shared.Checker;
+package edu.duke.ece651.server.Checker;
 
+import edu.duke.ece651.server.Wrapper.AccountHashMap;
+import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
-import edu.duke.ece651.shared.map.Map;
+import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AttackChecker extends MoveChecker{
-    public AttackChecker(AccountID accountID, HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> playerHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, int ID){
-        super(accountID,gameHashMap, playerHashMap, _moveUnits, from, to, ID);
+    public AttackChecker(AccountID accountID, GameHashMap gameHashMap, AccountHashMap accountHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, GameID ID){
+        super(accountID,gameHashMap, accountHashMap, _moveUnits, from, to, ID);
     }
     /**
      * check if ownerships are correct and if two territories are adjacent

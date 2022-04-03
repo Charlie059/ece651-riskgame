@@ -1,5 +1,8 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.server.Checker.*;
+import edu.duke.ece651.server.Wrapper.AccountHashMap;
+import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.*;
 import edu.duke.ece651.shared.Checker.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
@@ -13,7 +16,6 @@ import edu.duke.ece651.shared.map.Map;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Check Action correctness
@@ -25,9 +27,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     private volatile GameID gameID;
     private Socket clientSocket;
     //Global Database
-    private volatile HashMap<GameID, Game> gameHashMap;//GameID, Game
-    private volatile HashMap<AccountID, Account> accountHashMap;//AccountID Account
-
+    private volatile GameHashMap gameHashMap;
+    private volatile AccountHashMap accountHashMap;
     //private ArrayList<AttackAction> attackActionArrayList;
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
@@ -118,22 +119,29 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(DeployAction deployAction) {
+        DeployChecker deployChecker = new DeployChecker(this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                deployAction.getTo(),
+                deployAction.getDeployUnits(),
+                this.gameID);
+        if(deployChecker.doCheck()){
+            //TODO: implement deploy to server map
+            Player p = deployChecker.getPlayer();
+            p.DoDeploy(deployAction.getTo(), deployAction.getDeployUnits());
+            //send respond
 
-
+        }
     }
 
     @Override
     public void visit(JoinAction joinAction) {
-        JoinChecker joinChecker = new JoinChecker(this.gameHashMap, this.accountHashMap, this.accountID, joinAction.getGameID());
-        if (joinChecker.doCheck()) {
-            RSPJoinSuccess rspJoinSuccess = new RSPJoinSuccess();
-            sendResponse(rspJoinSuccess);
-            //TODO: Send Map back
-        } else {
-            RSPJoinFail rspJoinFail = new RSPJoinFail();
-            sendResponse(rspJoinFail);
-        }
-
+        //IF JOIN Action
+        //Find All Open Game List
+        ArrayList<GameID> gameIDArrayList=this.gameHashMap.findOpenGameList();
+        //Send back to Game LIST
+        RSPOpenGameList rspOpenGameList = new RSPOpenGameList(gameIDArrayList);
+        sendResponse(rspOpenGameList);
     }
 
     @Override
@@ -169,21 +177,24 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(MoveAction moveAction) {
         MoveChecker moveChecker = new MoveChecker(this.accountID, this.gameHashMap, this.accountHashMap, moveAction.getUnits(), moveAction.getFrom(), moveAction.getTo(), moveAction.getGameID());
         if (moveChecker.doCheck()) {
-            //Update Server Map
-            Map map = moveChecker.getMap();
-            //TODO:map.moveAction(from, to, ArrayList<ArrayList<Integer>> Units);
+            //Update Server this Game Map
+            Player player = moveChecker.getPlayer();
+            //server player update map
+            player.DoMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
+            //send response
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
         }
     }
 
+    //TODO: Player with map field
     @Override
     public void visit(NewGameAction newGameAction) {
 
         // Note: This DO NOT need Checker, because we assign a Unique GameID Once NewGame action
         //New GameID
         GameID newGameID = GameIDCounter.getInstance().getCurrent_id();
-        //New Game from numPlayer
+        //New Game from numPlayer(Null Owner Territory)
         Game game = new Game(newGameAction.getNumOfPlayer());
         //New Player
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
@@ -191,6 +202,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         Player player = new Player(this.accountID.getAccountID(), newGameAction.getNumOfPlayer(), bufferedReader, printStream);
         //Add New Player to New Game
         game.getPlayerHashMap().put(this.accountID, player);
+        game.setOwnership(this.accountID);
         //Add New Player Commit Track to New Game
         game.getCommittedHashMap().put(this.accountID, false);
         //Add Game to Database
@@ -234,19 +246,20 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(SwitchGameAction switchGameAction) {
 
+        ArrayList<GameID> gameIDArrayList = this.gameHashMap.findGameContainsKey(this.accountID);
+        RSPSwitchGameList rspSwitchGameList = new RSPSwitchGameList(gameIDArrayList);
+        sendResponse(rspSwitchGameList);
     }
 
+    //TODO:Player add Map field
     @Override
     public void visit(UpdateTechAction updateTechAction) {
-        UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(
-                this.accountID,
-                gameHashMap,
-                accountHashMap,
-                updateTechAction.getNextLevel(),
-                updateTechAction.getCurrTechResource(),
-                TechLevelUpgradeList,
-                UnitLevelUpgradeList
-        );
+        UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
+                                                            gameHashMap,
+                                                            accountHashMap,
+                                                            updateTechAction.getNextLevel(),
+                                                            updateTechAction.getCurrTechResource(),
+                                                            TechLevelUpgradeList);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
@@ -264,4 +277,47 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(UpdateUnitsAction updateUnitsAction) {
 
     }
+
+    //TODO:Player add map field
+    @Override
+    public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+        ChooseJoinGameChecker chooseGameChecker = new ChooseJoinGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, chooseJoinGameAction.getGameID());
+        if (chooseGameChecker.doCheck()) {
+            this.gameID = chooseJoinGameAction.getGameID();
+            //New Player add to current Game
+            Game currGame = this.gameHashMap.get(this.gameID);
+            Player player = new Player(this.accountID, this.gameID, currGame.getMap());
+            currGame.getPlayerHashMap().put(this.accountID,player);
+            //Set Territory Ownership to joined player
+            currGame.setOwnership(this.accountID);
+            //Add New Player Commit Track to New Game
+            currGame.getCommittedHashMap().put(this.accountID, false);
+            // Create response
+            RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess();
+            sendResponse(rspChooseJoinGameSuccess);
+        } else {
+            RSPChooseJoinGameFail rspChooseJoinGameFail = new RSPChooseJoinGameFail();
+            sendResponse(rspChooseJoinGameFail);
+        }
+
+    }
+
+
+    @Override
+    public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+        ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap,this.accountHashMap,this.accountID,this.gameID);
+        if(chooseSwitchGameChecker.doCheck()){
+            // Change the game
+            this.gameID =  chooseSwitchGameAction.getGameID();
+            // Send message
+            RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess();
+            sendResponse(rspChooseSwitchGameSuccess);
+        }
+        else{
+            RSPChooseSwitchGameFail rspChooseSwitchGameFail = new RSPChooseSwitchGameFail();
+            sendResponse(rspChooseSwitchGameFail);
+        }
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package edu.duke.ece651.server;
 
+import edu.duke.ece651.server.Wrapper.AccountHashMap;
+import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Game;
@@ -15,31 +17,69 @@ public class CommunicatorRunnable implements Runnable {
     private AccountID accountID;
     private GameID gameID;
     private Socket clientSocket;
-    private ObjectStream objectStream;
-    private HashMap<GameID, Game> gameHashMap;
-    private HashMap<AccountID, Account> accountHashMap;
+    private volatile GameHashMap gameHashMap;
+    private volatile AccountHashMap accountHashMap;
+    private Integer runtime = -1; //Diagnosis mode: 0 for inf loop else indicate num of loops
 
-    public CommunicatorRunnable(Socket clientSocket, HashMap<GameID, Game> gameHashMap, HashMap<AccountID, Account> accountHashMap) throws IOException {
+    /**
+     * Create Communicator thread to communicate socket one to one
+     *
+     * @param clientSocket   Current communicate Socket
+     * @param gameHashMap    Database contains all created Game
+     * @param accountHashMap Datebase contains all created Account
+     * @param runtime        Default -1 for normal mode, if runtime >= 0, Diagnosis Mode is on and is limited on while(runtime)
+     * @throws IOException
+     */
+    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, Integer runtime) throws IOException {
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         //TODO Extract ObjectStream Send Recv Method
         //TODO Everytime when use objectStream, construct
-        this.objectStream = new ObjectStream(this.clientSocket);
+        this.runtime = runtime;
+    }
+
+    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap) throws IOException {
+        this.clientSocket = clientSocket;
+        this.gameHashMap = gameHashMap;
+        this.accountHashMap = accountHashMap;
+        //TODO Extract ObjectStream Send Recv Method
+        //TODO Everytime when use objectStream, construct
+    }
+
+
+    public CommunicatorRunnable(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap, Integer runtime) throws IOException {
+        this.accountID = accountID;
+        this.gameID = gameID;
+        this.clientSocket = clientSocket;
+        this.gameHashMap = gameHashMap;
+        this.accountHashMap = accountHashMap;
+        this.runtime = runtime;
     }
 
     /**
      * Receive Client Action Object
+     *
      * @return Action Object or Null(to indicate error)
      */
     private Action recvAction() {
         try {
+            ObjectStream objectStream = new ObjectStream(this.clientSocket);
             return (Action) objectStream.recvObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+    public AccountID getAccountID() {
+        return accountID;
+    }
+
+    public GameID getGameID() {
+        return gameID;
+    }
+
 
     @Override
     public void run() {

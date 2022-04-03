@@ -1,4 +1,4 @@
-package edu.duke.ece651.shared.Checker;
+package edu.duke.ece651.server.Checker;
 
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.Game;
@@ -7,8 +7,6 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class LoginCheckerTest {
 
@@ -27,7 +25,7 @@ class LoginCheckerTest {
         String recvPassword = "123";
 
         LoginChecker loginChecker = new LoginChecker(accountID, gameHashMap, accountHashMap, recvAccount,recvPassword);
-        assertEquals(true, loginChecker.doCheck());
+        Assertions.assertEquals(true, loginChecker.doCheck());
     }
 
     @Test
@@ -45,7 +43,7 @@ class LoginCheckerTest {
         String recvPassword = "121";
 
         LoginChecker loginChecker = new LoginChecker(accountID, gameHashMap, accountHashMap, recvAccount,recvPassword);
-        assertEquals(false, loginChecker.doCheck());
+        Assertions.assertEquals(false, loginChecker.doCheck());
     }
 
     @Test
@@ -63,6 +61,6 @@ class LoginCheckerTest {
         String recvPassword = "123";
 
         LoginChecker loginChecker = new LoginChecker(accountID, gameHashMap, accountHashMap, recvAccount,recvPassword);
-        assertEquals(false, loginChecker.doCheck());
+        Assertions.assertEquals(false, loginChecker.doCheck());
     }
 }

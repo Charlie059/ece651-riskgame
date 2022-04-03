@@ -1,12 +1,13 @@
 package edu.duke.ece651.shared.IO.ClientActions;
 
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
+import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Unit;
 
 import java.util.ArrayList;
 
 public class MoveAction implements Action {
-    private Integer gameID;
+    private GameID gameID;
     private String from;
     private String to;
     private ArrayList<ArrayList<Integer>> units;
@@ -15,11 +16,11 @@ public class MoveAction implements Action {
         actionVisitor.visit(this);
     }
 
-    public Integer getGameID() {
+    public GameID getGameID() {
         return gameID;
     }
 
-    public MoveAction setGameID(Integer gameID) {
+    public MoveAction setGameID(GameID gameID) {
         this.gameID = gameID;
         return this;
     }

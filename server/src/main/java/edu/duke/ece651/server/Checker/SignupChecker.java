@@ -1,4 +1,4 @@
-package edu.duke.ece651.shared.Checker;
+package edu.duke.ece651.server.Checker;
 
 import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Account;

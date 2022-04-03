@@ -1,11 +1,13 @@
 package edu.duke.ece651.shared.IO.ClientActions;
 
+import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
+import edu.duke.ece651.shared.Wrapper.GameID;
 
 import java.util.ArrayList;
 
 public class UpdateTechAction implements Action {
-    private Integer gameID;
+    private GameID gameID;
     private Integer nextLevel;//upgrade tech level to nextLevel
     private Integer currTechResource; //tech resource of the player before upgrade
 
@@ -15,12 +17,12 @@ public class UpdateTechAction implements Action {
     }
 
 
-    public Integer getGameID(){return gameID;}
+    public GameID getGameID(){return gameID;}
     public Integer getNextLevel(){return nextLevel;}
     public Integer getCurrTechResource(){return currTechResource;}
 
 
-    public UpdateTechAction setGameID(Integer _gameID){
+    public UpdateTechAction setGameID(GameID _gameID){
         gameID= _gameID;
         return this;
     }

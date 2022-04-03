@@ -2,8 +2,13 @@ package edu.duke.ece651.shared;
 
 import edu.duke.ece651.shared.IO.ClientActions.AttackAction;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.AttackHashMap;
+import edu.duke.ece651.shared.Wrapper.CommittedHashMap;
+import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
+import edu.duke.ece651.shared.map.Map;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Game {
@@ -14,36 +19,42 @@ public class Game {
     private volatile Boolean gameOver;
     private volatile Boolean isCombatFinished;
     private volatile Boolean isBegin;
-    private volatile HashMap<AccountID, Boolean> committedHashMap;
 
+    private Map map;
 
     public Game(Integer numOfPlayer) {
         this.numOfPlayer = numOfPlayer;
-        this.playerHashMap = new HashMap<>();
-        this.attackHashMap = new HashMap<>();
+        this.playerHashMap = new PlayerHashMap();
+        this.attackHashMap = new AttackHashMap();
+        this.committedHashMap = new CommittedHashMap();
         this.gameOver = false;
-        this.isCombatFinished =false;
+        this.isCombatFinished = false;
         this.isBegin = false;
-        this.committedHashMap = new HashMap<>();
+        this.map = new Map(numOfPlayer);
     }
 
-    public HashMap<AccountID, Player> getPlayerHashMap() {
+    public void setOwnership(AccountID accountId){
+        ArrayList<ArrayList<String>> group = this.map.getGroups();
+        int groupNum = this.playerHashMap.size()-1;
+        for(String terrName: group.get(groupNum)){
+            this.map.getTerritoryList().get(terrName).setOwner(accountId);
+        }
+    }
+
+    public synchronized PlayerHashMap getPlayerHashMap() {
         return playerHashMap;
     }
 
-    public synchronized void setPlayerHashMap(HashMap<AccountID, Player> playerHashMap) {
-        this.playerHashMap = playerHashMap;
-    }
 
-    public Integer getNumOfPlayer() {
+    public synchronized Integer getNumOfPlayer() {
         return numOfPlayer;
     }
 
-    public HashMap<AccountID, ArrayList<AttackAction>> getAttackHashMap() {
+    public synchronized AttackHashMap getAttackHashMap() {
         return attackHashMap;
     }
 
-    public Boolean getGameOver() {
+    public synchronized Boolean getGameOver() {
         return gameOver;
     }
 
@@ -51,7 +62,7 @@ public class Game {
         this.gameOver = gameOver;
     }
 
-    public Boolean getCombatFinished() {
+    public synchronized Boolean getCombatFinished() {
         return isCombatFinished;
     }
 
@@ -59,7 +70,7 @@ public class Game {
         isCombatFinished = combatFinished;
     }
 
-    public Boolean getBegin() {
+    public synchronized Boolean getBegin() {
         return isBegin;
     }
 
@@ -67,10 +78,11 @@ public class Game {
         isBegin = begin;
     }
 
-    public HashMap<AccountID, Boolean> getCommittedHashMap() {
+    public synchronized CommittedHashMap getCommittedHashMap() {
         return committedHashMap;
     }
 
-
-
+    public Map getMap() {
+        return this.map;
+    }
 }
