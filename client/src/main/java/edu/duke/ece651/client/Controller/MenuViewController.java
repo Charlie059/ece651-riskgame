@@ -1,5 +1,6 @@
-package edu.duke.ece651.client;
+package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

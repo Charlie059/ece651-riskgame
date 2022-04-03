@@ -1,5 +1,7 @@
-package edu.duke.ece651.client;
+package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.gameInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
