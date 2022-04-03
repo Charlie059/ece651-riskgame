@@ -7,7 +7,8 @@ public class LoginAndSignUpModel {
         return true;
     }
 
-    public void signUp(){
-        // may be don't need to implement in evolution2
+    public boolean signUp(String userName, String passWord){
+        // TODO
+        return true;
     }
 }
