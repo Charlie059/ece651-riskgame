@@ -6,8 +6,6 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.*;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +15,9 @@ public class Player {
     private int numOfPlayers;
     private int foodResource;
     private int techResource;
-    private int techLevel;
+    private int currTechLevel;
+    private int nextTechLevel;
+    private boolean isTechUpgraded;
     private boolean isFirstRound; // deploy
     private boolean isLose; // commit
     private boolean isGameOver;
@@ -31,7 +31,7 @@ public class Player {
     private GameID currentGameID;
 
 
-    public Player(AccountID _id, GameID currentGameID,  Map _map) {
+    public Player(AccountID _id, GameID currentGameID, Map _map) {
         this.accountID = _id;
         isFirstRound = true;
         isLose = false;
@@ -41,18 +41,19 @@ public class Player {
         this.isNotDisplay = false;
         this.foodResource = 100;
         this.techResource = 100;
-        this.techLevel = 1;
+        this.currTechLevel = 1;
+        this.isTechUpgraded = false;
         this.currentGameID = currentGameID;
         this.wholeMap = _map;
         this.myTerritories = new HashMap<>();
-        this.totalDeployment = this.wholeMap.numOfPlayers*3;
+        this.totalDeployment = this.wholeMap.numOfPlayers * 3;
     }
 
-    public void setCurrentGameID(GameID gameID){
+    public void setCurrentGameID(GameID gameID) {
         currentGameID = gameID;
     }
 
-    public int getCurrentGameID(){
+    public int getCurrentGameID() {
         return currentGameID.getCurrGameID();
     }
 
@@ -67,13 +68,11 @@ public class Player {
                 // TODO: MOVE
             } else if (choice.equals("A")) {
                 // TODO: Attack
-            }else if (choice.equals("UT")){
+            } else if (choice.equals("UT")) {
                 // TODO: Upgrade Tech Level
-            }
-            else if(choice.equals("U")){
+            } else if (choice.equals("U")) {
                 //TODO: Upgrade Unit Level
-            }
-            else {
+            } else {
                 // TODO: Commit
                 break;
             }
@@ -83,10 +82,11 @@ public class Player {
 
     /**
      * temporally do deploy on player's map
+     *
      * @param to
      * @param moveUnits
      */
-    public void DoDeploy(String to, int moveUnits){
+    public void doDeploy(String to, int moveUnits) {
         Territory to_terr = this.getMyTerritories().get(to);
         to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
     }
@@ -99,30 +99,42 @@ public class Player {
      * @param to_name
      * @return
      */
-    public void DoMove(String from_name, String to_name, ArrayList<ArrayList<Integer>> moveUnits, int totalCost) {
+    public void doMove(String from_name, String to_name, ArrayList<ArrayList<Integer>> moveUnits, int totalCost) {
         this.wholeMap.getTerritoryList().get(from_name).removeUnitMultiLevels(moveUnits);
         this.wholeMap.getTerritoryList().get(to_name).addUnitMultiLevels(moveUnits);
         this.foodResource -= totalCost;
     }
 
     /**
-     * temporally upgrade player's techLevel
+     * temporally set player's nextTechLevel
+     * mark player has updated the techlevel
      * @param next_level
      * @param cost
      */
-    public void DoUpgradeTech(int next_level, int cost){
-        this.techLevel = next_level;
+    public void setUpgradeTech(int next_level, int cost) {
+        this.nextTechLevel = next_level;
+        this.isTechUpgraded = true;
         this.techResource -= cost;
     }
 
     /**
+     * Update Player's techlevel, refresh TechUpgrade status
+     * GameRunnable will call this function from Player itself in PlayerHashmap
+     */
+    public void doUpgradeTech()
+    {
+        this.currTechLevel = this.nextTechLevel;
+        this.isTechUpgraded = false;
+    }
+    /**
      * temporally upgrade player's units in Territory where
+     *
      * @param where
      * @param unitsToUpgrade
      */
-    public void DoUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
+    public void DoUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade) {
         Territory terr = this.myTerritories.get(where);
-        for(int i = 0; i < unitsToUpgrade.size(); i++){
+        for (int i = 0; i < unitsToUpgrade.size(); i++) {
             int level = unitsToUpgrade.get(i).get(0);
             int num = unitsToUpgrade.get(i).get(1);
             //max level: 6, cannot upgrade level-6 units
@@ -144,7 +156,6 @@ public class Player {
      */
     public boolean isTerrNameMatch(String terrName, HashMap<String, Territory> Territories) {
         if (Territories.get(terrName) != null) {
-            return true;
         }
         return false;
     }
@@ -170,13 +181,13 @@ public class Player {
     }
 
 
-    public void sendUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
+    public void sendUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade) {
         UpdateUnitsAction UpdateUnits_action = new UpdateUnitsAction();
         UpdateUnits_action.setWhere(where).
                 setUnitsToUpgrade(unitsToUpgrade);
     }
 
-    public void sendUpgradeTech(int next_level, int currTechResource){
+    public void sendUpgradeTech(int next_level, int currTechResource) {
         UpdateTechAction updateTechAction = new UpdateTechAction();
         updateTechAction.setNextLevel(next_level).
                 setCurrTechResource(currTechResource);
@@ -201,6 +212,7 @@ public class Player {
         }
         return true;
     }
+
     /**
      * move units from one territory to another territory
      *
@@ -233,25 +245,31 @@ public class Player {
         return wholeMap;
     }
 
-    public int getTotalDeployment(){return this.totalDeployment;}
+    public int getTotalDeployment() {
+        return this.totalDeployment;
+    }
 
-    public void setTotalDeployment(int new_totalDeployment){
+    public void setTotalDeployment(int new_totalDeployment) {
         this.totalDeployment = new_totalDeployment;
     }
 
-    public HashMap<String, Territory> getMyTerritories(){
+    public HashMap<String, Territory> getMyTerritories() {
         return this.myTerritories;
     }
 
     /**
      * assign my territories
      */
-    public void assignMyTerritories(){
-        for(String terr: wholeMap.getTerritoryList().keySet()){
+    public void assignMyTerritories() {
+        for (String terr : wholeMap.getTerritoryList().keySet()) {
             //if map owner equals the player's accountID
-            if (this.accountID.equals(wholeMap.getTerritoryList().get(terr).getOwnerId())){
+            if (this.accountID.equals(wholeMap.getTerritoryList().get(terr).getOwnerId())) {
                 this.myTerritories.put(terr, wholeMap.getTerritoryList().get(terr));
             }
         }
+    }
+
+    public Boolean isTechUpgraded(){
+        return this.isTechUpgraded;
     }
 }

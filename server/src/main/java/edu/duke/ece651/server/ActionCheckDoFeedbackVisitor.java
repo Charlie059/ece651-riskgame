@@ -10,7 +10,6 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.map.Map;
 
 import java.io.*;
 import java.net.Socket;
@@ -126,7 +125,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if(deployChecker.doCheck()){
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
-            p.DoDeploy(deployAction.getTo(), deployAction.getDeployUnits());
+            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             //send respond
             RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
             sendResponse(rspDeploySuccess);
@@ -188,7 +187,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //Update Server this Game Map
             Player player = moveChecker.getPlayer();
             //server player update map
-            player.DoMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
+            player.doMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
             //send response
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
@@ -265,6 +264,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
+                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
                                                             updateTechAction.getNextLevel(),
                                                             updateTechAction.getCurrTechResource(),
                                                             TechLevelUpgradeList);
@@ -272,8 +272,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //TODO: do update Technology level
             //This Player(me) in the currGame
             Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
-            //Player updateTech Level, decrease Tech resource
-            p.DoUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
+            //Player temperately set update level, and mark as updated
+            p.setUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
             //send response
             RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
             sendResponse(rspUpdateTechSuccess);
