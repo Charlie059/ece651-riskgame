@@ -3,17 +3,14 @@ package edu.duke.ece651.shared.map;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Stack;
+import java.util.*;
 
 public class Map {
     public int numOfPlayers; // number of player = 3
     private MapFactory myMapFactory;
     HashMap<String, Territory> territoryList;
     ArrayList<ArrayList<String>> groups; // initial territory groups
-
+    private HashMap<String, HashMap<String, Territory.Node> > shortestPathTable;
 
     /**
      * constructor
@@ -25,7 +22,7 @@ public class Map {
         myMapFactory = new TextMapFactory(numOfPlayers);
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
-
+        this.shortestPathTable = new HashMap<>();
     }
 
     public HashMap<String, Territory> getTerritoryList() {
@@ -36,19 +33,10 @@ public class Map {
         return groups;
     }
 
-    /**
-     * assign initial player IDs to each Territory
-     */
-    /*
-    public void assignInitialID(){
-        for(int i = 0; i < groups.size(); i++){
-            ArrayList<String> name_arr = groups.get(i);
-            for(int j = 0; j < name_arr.size(); j++){
-                territoryList.get(name_arr.get(j)).changeOwner(i+1);
-            }
-        }
+    public HashMap<String, HashMap<String, Territory.Node>> getShortestPathTable() {
+        return shortestPathTable;
     }
-    */
+
     /**
      * Used in Move action, check if there is a path between the two
      * territories(with names "from" and "to") of the player (playerID).
@@ -113,11 +101,47 @@ public class Map {
             if (it.getName().equals(Terr2))
                 return true;
         }
-
         return false;
     }
 
-
+    /**
+     * Dijkstra's Algorithm
+     * @param start
+     * @return
+     */
+    public void shortestPathFrom(String start){
+        Territory start_terr = this.territoryList.get(start);
+        HashMap<String, Territory.Node> res = new HashMap<>();
+        PriorityQueue<Territory> pQueue = new PriorityQueue<>();//min-heap
+        //add all territory of the graph to the priority queue
+        for(Territory terr: this.territoryList.values()){
+            //same reference to the start territory
+            if (terr.equals(start_terr)){
+                terr.setDist(0);
+            }
+            else {
+                terr.setDist(Integer.MAX_VALUE);
+            }
+            terr.setPrev(null);
+            pQueue.add(terr);
+        }
+        //loop while there are vertices left to visit
+        while(!pQueue.isEmpty()){
+            //find the next vertex to visit
+            Territory u = pQueue.poll();
+            Territory.Node n = new Territory.Node(u.getName(), u.getDist(), u.getPrev());
+            res.put(u.getName(), n);
+            //check each neighbors of u
+            //update predictions and previous vertex
+            for(Territory neigh: u.getNeighbour()){
+                if (neigh.getDist() > u.getDist() + neigh.getCost()){
+                    neigh.setDist(u.getDist() + neigh.getCost());
+                    neigh.setPrev(u.getName());
+                }
+            }
+        }
+        shortestPathTable.put(start, res);
+    }
 
     /**
      * display map information of the map for client.
