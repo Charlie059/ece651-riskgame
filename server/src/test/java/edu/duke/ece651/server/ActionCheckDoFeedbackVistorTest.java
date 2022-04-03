@@ -228,10 +228,13 @@ class ActionCheckDoFeedbackVistorTest {
         assertEquals(trueResponse.getClass(), new RSPNewGameSuccess().getClass());
         assertEquals(currGameID.getCurrGameID(), 1);
 
-        //assert Territory has been set
+
         Map currentMap = gameHashMap.get(new GameID(1)).getMap();
         String hostTerritoryName =currentMap.getGroups().get(0).get(0);
+        //assert Map's territory has been set
         assertEquals(currentMap.getTerritoryList().get(hostTerritoryName).getOwnerId(),new AccountID("mnbvc"));
+        //assert Player know his territory
+        assertEquals(gameHashMap.get(currGameID).getPlayerHashMap().get(currAccountID).getMyTerritories().size(),3);
         mockServer.closeSocket();
     }
 
@@ -365,7 +368,56 @@ class ActionCheckDoFeedbackVistorTest {
     }
 
     @Test
-    void testVisit7() {
+    void test_VisitDeploy() throws IOException, ClassNotFoundException {
+        //==============================COMMUNICATOR==================================//
+        //new GameHashMap
+        GameHashMap gameHashMap = this.createGameHashMap();
+        //new AccountHashMap
+        AccountHashMap accountHashMap = this.createAccountHashMap();
+        //new SocketConnection
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket = mockServer.acceptClient();
+        GameID currGameID = new GameID(1);
+        AccountID currAccountID = new AccountID("abcde");
+
+        //new Game Start with host
+        Game currGame = gameHashMap.get(currGameID);
+        Player host = new Player(currAccountID,currGameID,currGame.getMap());
+        currGame.getPlayerHashMap().put(currAccountID,host);
+        currGame.setOwnership(currAccountID);
+        host.assignMyTerritories();
+        currGame.getCommittedHashMap().put(currAccountID,false);
+        GameRunnable gameRunnable = new GameRunnable(gameHashMap,accountHashMap,currGameID);
+        Thread gameThread = new Thread(gameRunnable);
+        gameThread.start();
+
+        //new Communicator thread
+        CommunicatorRunnable task = new CommunicatorRunnable(currAccountID, currGameID, clientSocket, accountHashMap, gameHashMap,3);
+        Thread CommunicatorThread = new Thread(task);
+        CommunicatorThread.start();
+        ////==============================TESTBENCH==================================//
+
+        //DeploySuccess
+        DeployAction deployAction = new DeployAction();
+        deployAction.setDeployUnits(1).setTo("a1");
+        mockClient.sendObject(deployAction);
+        Response response = (Response) mockClient.recvObject();
+        //ASSERT
+        assertEquals(response.getClass(), new RSPDeploySuccess().getClass());
+        assertEquals(currGame.getMap().getTerritoryList().get("a1").getOwnerId(),currAccountID);
+
+        //Deploy Fail on Not my territory
+        deployAction.setDeployUnits(1).setTo("b1");
+        mockClient.sendObject(deployAction);
+        Response response1 = (Response) mockClient.recvObject();
+        assertEquals(new RSPDeployFail().getClass(),response1.getClass());
+
+        //Deploy Fail on Not enough Deployment
+        deployAction.setDeployUnits(40).setTo("a2");
+        mockClient.sendObject(deployAction);
+        Response response2 = (Response) mockClient.recvObject();
+        assertEquals(new RSPDeployFail().getClass(),response2.getClass());
     }
 
     @Test

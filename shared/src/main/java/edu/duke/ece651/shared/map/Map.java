@@ -11,6 +11,7 @@ public class Map {
     HashMap<String, Territory> territoryList;
     ArrayList<ArrayList<String>> groups; // initial territory groups
 
+
     /**
      * constructor
      *
@@ -21,6 +22,7 @@ public class Map {
         myMapFactory = new TextMapFactory(numOfPlayers);
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
+
     }
 
     public HashMap<String, Territory> getTerritoryList() {
@@ -96,6 +98,7 @@ public class Map {
             if (it.getName().equals(Terr2))
                 return true;
         }
+
         return false;
     }
 

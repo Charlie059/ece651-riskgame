@@ -25,3 +25,6 @@
 /shared/.project
 /shared/gradlew
 /shared/gradlew.bat
+/client/build/tmp/
+/server/build/tmp/
+/shared/build/tmp/

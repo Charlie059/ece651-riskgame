@@ -128,7 +128,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             Player p = deployChecker.getPlayer();
             p.DoDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             //send respond
-
+            RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
+            sendResponse(rspDeploySuccess);
+        }else{
+            RSPDeployFail rspDeployFail = new RSPDeployFail();
+            sendResponse(rspDeployFail);
         }
     }
 
@@ -205,6 +209,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Add New Player to New Game
         game.getPlayerHashMap().put(this.accountID, player);
         game.setOwnership(this.accountID);
+        //Announce Player to have Owned Territory
+        player.assignMyTerritories();
         //Add New Player Commit Track to New Game
         game.getCommittedHashMap().put(this.accountID, false);
         //Add Game to Database
@@ -294,6 +300,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             currGame.getPlayerHashMap().put(this.accountID,player);
             //Set Territory Ownership to joined player
             currGame.setOwnership(this.accountID);
+            //Announce Player to have Owned Territory
+            player.assignMyTerritories();
             //Add New Player Commit Track to New Game
             currGame.getCommittedHashMap().put(this.accountID, false);
             // Create response
