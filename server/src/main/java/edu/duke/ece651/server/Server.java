@@ -9,21 +9,16 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-  private final int portNum;
-
-  private final ServerSocket serversocket;
-  private ExecutorService service;
-  private ArrayList<Socket> clientSocketList;
+    private final int portNum;
+    private final ServerSocket serversocket;
 
 
-  public Server(int portNum) throws IOException {
-    this.portNum = portNum;
-    this.serversocket = new ServerSocket(this.portNum);
-    this.service = Executors.newFixedThreadPool(16); // The max number of threads by service
-    this.clientSocketList = new ArrayList<Socket>();
-  }
+    public Server(int portNum) throws IOException {
+        this.portNum = portNum;
+        this.serversocket = new ServerSocket(this.portNum);
+    }
 
-
-
-
+    public ServerSocket getServersocket() {
+        return serversocket;
+    }
 }

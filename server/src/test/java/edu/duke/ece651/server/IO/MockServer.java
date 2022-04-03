@@ -1,6 +1,6 @@
-package edu.duke.ece651.shared.IO;
+package edu.duke.ece651.server.IO;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 

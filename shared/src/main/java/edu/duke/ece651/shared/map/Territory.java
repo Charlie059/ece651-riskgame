@@ -1,12 +1,14 @@
 package edu.duke.ece651.shared.map;
 
+import edu.duke.ece651.shared.Wrapper.AccountID;
+
 import java.util.ArrayList;
 
 public class Territory {
     private String name;
-    private int ownerId;
+    private AccountID accountId;
     private int cost;
-    private ArrayList<Unit> Units;// 7 level, num of units of 6 level's
+    private ArrayList<Unit> Units;// key: 7 levels, value: num of units of each level
     private ArrayList<Territory> neighbours;
 
     public ArrayList<Territory> getNeighbour() {
@@ -18,8 +20,8 @@ public class Territory {
     public Territory(String name) {
         this.name = name;
         this.name = name;
-        this.ownerId = -1;
-        this.neighbours = new ArrayList<Territory>();
+        this.accountId = null;
+        this.neighbours = new ArrayList<>();
         this.Units = new ArrayList<>();
         //add level 0-6 to units list
         for(int i = 0; i <= 6; i++){
@@ -41,15 +43,17 @@ public class Territory {
         return name;
     }
 
-    public void setOwner(int playerId) {
-        ownerId = playerId;
+    public void setOwner(AccountID accountId) {
+        this.accountId = accountId;
     }
 
-    public int getOwnerId() {return ownerId;}
+    public AccountID getOwnerId() {return accountId;}
 
     public ArrayList<Unit> getUnits() {
         return Units;
     }
+
+    public int getCost(){return cost;}
 
     /**
      * add num level-l units
@@ -126,9 +130,9 @@ public class Territory {
         return true;
     }
 
-    public void changeOwner(int player_id) {
-        if (player_id != ownerId) {
-            ownerId = player_id;
+    public void changeOwner(AccountID accountid) {
+        if (!this.accountId.equals(accountid)) {
+            this.accountId = accountId;
         }
     }
 

@@ -9,11 +9,13 @@ public class MockClient {
     private final int portNum;
     private final Socket socket;
 
+
     public MockClient(int portNum, String host) throws IOException {
         this.portNum = portNum;
         this.host = host;
         this.socket = new Socket(this.host, this.portNum);
     }
+
 
     /**
      * Send object to server
@@ -30,7 +32,8 @@ public class MockClient {
      * @return true if success
      */
     public Object recvObject() throws IOException, ClassNotFoundException {
-        return new ObjectStream(this.socket).recvObject();
+        ObjectStream objectStream = new ObjectStream(this.socket);
+        return objectStream.recvObject();
     }
 
 

@@ -26,6 +26,7 @@ public class ObjectStream {
      */
     public boolean sendObject(Object object) throws IOException {
             this.objectOutputStream.writeObject(object);
+//            this.objectOutputStream.flush();
             return true;
     }
 

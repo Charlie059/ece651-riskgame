@@ -1,5 +1,7 @@
 package edu.duke.ece651.shared.map;
 
+import edu.duke.ece651.shared.Wrapper.AccountID;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +25,6 @@ public class Map {
         myMapFactory = new TextMapFactory(numOfPlayers);
         this.territoryList = myMapFactory.createMap();
         this.groups = myMapFactory.createGroupsForPlayer();
-        assignInitialID();
 
     }
 
@@ -38,6 +39,7 @@ public class Map {
     /**
      * assign initial player IDs to each Territory
      */
+    /*
     public void assignInitialID(){
         for(int i = 0; i < groups.size(); i++){
             ArrayList<String> name_arr = groups.get(i);
@@ -46,22 +48,22 @@ public class Map {
             }
         }
     }
-
+    */
     /**
      * Used in Move action, check if there is a path between the two
      * territories(with names "from" and "to") of the player (playerID).
      *
-     * @param playerID
+     * @param accountID
      * @param from
      * @param to
      * @return return true if path existed, else return false.
      */
-    public boolean isPathExist(int playerID, String from, String to) throws IllegalArgumentException {
+    public boolean isPathExist(AccountID accountID, String from, String to) throws IllegalArgumentException {
 
         Territory terrSrc = territoryList.get(from);
         Territory terrDst = territoryList.get(to);
 
-        if (terrSrc.getOwnerId() != playerID || terrDst.getOwnerId() != playerID) {
+        if ((!terrSrc.getOwnerId().equals(accountID)) || (!terrDst.getOwnerId().equals(accountID))) {
             throw new IllegalArgumentException(
                     "territory (from) and territory (to) belong to different(wrong) player.");
         }
@@ -78,13 +80,12 @@ public class Map {
                 return true;
 
             for (Territory t : cur_node.getNeighbour()) {
-                if (visited.contains(t) == false && t.getOwnerId() == playerID) {
+                if (visited.contains(t) == false && t.getOwnerId().equals(accountID)) {
                     visited.add(t);
                     s.push(t);
                 }
             }
         }
-
         return false;
     }
 
@@ -93,17 +94,17 @@ public class Map {
      * territory(Terr2) belongs to another player.
      * If yes, check whether these two territories are adjacent.
      *
-     * @param playerID
+     * @param accountID
      * @param Terr1
      * @param Terr2
      * @return check result
      */
-    public boolean isAdjacent(int playerID, String Terr1, String Terr2) throws IllegalArgumentException {
+    public boolean isAdjacent(AccountID accountID, String Terr1, String Terr2) throws IllegalArgumentException {
 
         Territory t1 = territoryList.get(Terr1);
         Territory t2 = territoryList.get(Terr2);
 
-        if (t1.getOwnerId() != playerID || t2.getOwnerId() == playerID) {
+        if (!(t1.getOwnerId().equals(accountID)) || t2.getOwnerId().equals(accountID)) {
             throw new IllegalArgumentException("Terr1 and Terr2 belong to the same(wrong) player.");
         }
 
@@ -115,6 +116,8 @@ public class Map {
 
         return false;
     }
+
+
 
     /**
      * display map information of the map for client.
