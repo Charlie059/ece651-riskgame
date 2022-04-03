@@ -121,23 +121,34 @@ class MapTest {
         assertEquals(m3.getGroups().size(), 5);
     }
 
-
     @Test
     void testShortestPath(){
         Map m = new Map(5);
         //get the shortest paths from terr to other territories
-        for(String terr: m.getTerritoryList().keySet()){
-            m.shortestPathFrom(terr);
+        AccountID acc1 = new AccountID("1");
+        AccountID acc2 = new AccountID("2");
+        AccountID acc3 = new AccountID("3");
+        AccountID acc4 = new AccountID("4");
+        AccountID acc5 = new AccountID("5");
+        //assign ownership
+        for(String terr: m.getGroups().get(0)){
+            m.getTerritoryList().get(terr).setOwner(acc1);
         }
-        System.out.println("after finding shortestpath");
-        for(Territory.Node p: m.getShortestPathTable().get("a1").values()){
-            System.out.println("name: "+p.terrName+
-                    "\ndist: "+p.cost+
-                    "\nprev: "+p.prev);
-            System.out.println("\n");
+        for(String terr: m.getGroups().get(1)){
+            m.getTerritoryList().get(terr).setOwner(acc2);
+        }
+        //assign ownership
+        for(String terr: m.getGroups().get(2)){
+            m.getTerritoryList().get(terr).setOwner(acc3);
+        }
+        for(String terr: m.getGroups().get(3)){
+            m.getTerritoryList().get(terr).setOwner(acc4);
+        }
+        for(String terr: m.getGroups().get(4)){
+            m.getTerritoryList().get(terr).setOwner(acc5);
         }
         //from -> to
-        assertEquals(m.getShortestPathTable().get("a1").get("a1").cost, 0);
-        assertEquals(m.getShortestPathTable().get("a1").get("a2").cost, 20);
+        assertEquals(m.shortestPathFrom(acc1, "a1", "a1"), 0);
+        assertEquals(m.shortestPathFrom(acc1, "a1", "a2"), 20);
     }
 }

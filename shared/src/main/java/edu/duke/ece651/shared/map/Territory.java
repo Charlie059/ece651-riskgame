@@ -14,16 +14,6 @@ public class Territory implements Comparable<Territory> {
     private String prev;
     private int dist;
 
-    static class Node{
-        public String terrName;
-        public int cost;
-        public String prev;
-        public Node(String terrName, int cost, String prev){
-            this.terrName = terrName;
-            this.cost = cost;
-            this.prev = prev;
-        }
-    }
 
     // create an isolated territory
     public Territory(String name) {
