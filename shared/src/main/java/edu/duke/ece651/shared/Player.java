@@ -1,6 +1,8 @@
 package edu.duke.ece651.shared;
 
 import edu.duke.ece651.shared.IO.ClientActions.*;
+import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.*;
 
 import java.io.BufferedReader;
@@ -11,79 +13,64 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player {
-    private String playerId; // player id
+    private AccountID accountID; // player id
     private int numOfPlayers;
     private int foodResource;
     private int techResource;
     private int techLevel;
-    private BufferedReader inputReader;
-    private PrintStream out;
     private boolean isFirstRound; // deploy
     private boolean isLose; // commit
     private boolean isGameOver;
     private boolean isWon;
     private HashMap<String, Territory> myTerritories;// all territories of the player
     private Map wholeMap;
-    private HashMap<Integer, Integer> totalDeployment; // totalUnits: key: level, value: num of units
-    private ArrayList<Action> ActionList;// list of actions
+    private int totalDeployment; // num of units
     public MapView myMapTextView;
     private boolean isLoserAsked;
     private boolean isNotDisplay;
-    private int currentGameID;
+    private GameID currentGameID;
 
 
-    public Player(String _id, int _numOfPlayer, BufferedReader _in, PrintStream _out) {
-        playerId = _id;
-        numOfPlayers = _numOfPlayer;
-        InputStreamReader myReader = new InputStreamReader(System.in);
+    public Player(AccountID _id, GameID currentGameID,  Map _map) {
+        this.accountID = _id;
         isFirstRound = true;
         isLose = false;
         isGameOver = false;
         isWon = false;
-        myTerritories = new HashMap<>();
-        wholeMap = new Map(numOfPlayers);
-
-        ActionList = new ArrayList<>();
-        inputReader = _in;
-        out = _out;
-        this.myMapTextView = new MapTextView(numOfPlayers, out);
         this.isLoserAsked = false;
         this.isNotDisplay = false;
         this.foodResource = 100;
         this.techResource = 100;
         this.techLevel = 1;
+        this.currentGameID = currentGameID;
+        this.wholeMap = _map;
+        this.myTerritories = new HashMap<>();
     }
 
-    public void setCurrentGameID(int gameID){
+    public void setCurrentGameID(GameID gameID){
         currentGameID = gameID;
     }
 
     public int getCurrentGameID(){
-        return currentGameID;
+        return currentGameID.getCurrGameID();
     }
 
     public void playerMakeChoice(BufferedReader inputReader, PrintStream out) throws Exception {
         String choice;
         while (true) {
-            out.println("You are Player " + playerId + ", what would you like to do?");
+            out.println("What would you like to do?");
             out.println("(M)ove\n(A)ttack\n(UT) upgrade Tech\n(U)pgrade Unit\n(D)one");
             choice = inputReader.readLine();
 
             if (choice.equals("M")) {
                 // TODO: MOVE
-                playerDoMove(inputReader, out);
-                wholeMap.displayMap(myMapTextView);
             } else if (choice.equals("A")) {
                 // TODO: Attack
-                playerDoAttack(inputReader, out);
-
             }else if (choice.equals("UT")){
                 // TODO: Upgrade Tech Level
-                playerDoUpgradeTech(inputReader, out);
             }
             else if(choice.equals("U")){
                 //TODO: Upgrade Unit Level
-                playerDoUpgradeUnit(inputReader, out);
             }
             else {
                 // TODO: Commit
@@ -93,222 +80,59 @@ public class Player {
         return;
     }
 
-    public void playerDoDeploy(BufferedReader inputReader, PrintStream out) throws IOException, Exception {
-        // player set the number of units
-        for (String t : myTerritories.keySet()) {
-            out.print(t + "\t");
-        }
-        out.print("\n");
-        //TODO: receive deployUnits from GUI
-        Integer unitNum = null;
-        Integer level = 0;
-        boolean isNumUnitsValid = false;
-
-        for (String terrName : this.myTerritories.keySet()) {
-            if (totalDeployment.get(level) == 0) {
-                break;
-            }
-            try {
-                int num = Integer.parseInt(inputReader.readLine());
-                unitNum = num;
-                if (totalDeployment.get(level) >= unitNum && unitNum >= 0) {
-                    isNumUnitsValid = true;
-                    // totalDeployment.replace(level, totalDeployment.get(level) - unitNum);
-                    out.println(
-                            "you have deployed " + unitNum + " level-" + level + " units to " + "Territory " + terrName + "!");
-                } else {
-                    out.println("Deployment Error: Number of level-" + level
-                            + " units cannot be less than o or exceed the total " + "number of deployment");
-                }
-
-            } catch (NumberFormatException e) {
-                isNumUnitsValid = false;
-                out.println("Deployment Error: " + e.getMessage());
-            }
-            ArrayList<Unit> deployUnits = new ArrayList<>();
-            deploy(unitNum, terrName, deployUnits);
-        }
-    }
-
-    public boolean deploy(int numOfDeployedUnits, String to_name, ArrayList<Unit> deployUnits) {
-        Territory to = myTerritories.get(to_name);
-
-        try {
-            DeployAction deploy_action = new DeployAction();
-            deploy_action.setGameID(currentGameID).setTo(to_name).setUnits(deployUnits).setPlayerID(playerId);
-            totalDeployment.replace(1, totalDeployment.get(1) - numOfDeployedUnits);
-            ActionList.add(deploy_action);
-        } catch (Exception excep) {
-            out.println("Deployment Error: " + excep.getMessage());
-            return false;
-        }
-        return true;
-    }
-
     /**
-     * player inputs parameters of move action
-     *
-     * @param inputReader
-     * @param out
-     * @throws IOException
-     */
-
-    public void playerDoMove(BufferedReader inputReader, PrintStream out) throws IOException {
-        String from_name, to_name;
-        ArrayList<ArrayList<Integer>> moveUnits = new ArrayList<>();
-
-        Integer level;
-        Integer unitNum;
-        //from name
-        from_name = inputReader.readLine();
-        //to name
-        to_name = inputReader.readLine();
-        //level
-        int l = Integer.parseInt(inputReader.readLine());
-        level = l;
-        //num
-        int num = Integer.parseInt(inputReader.readLine());
-        unitNum = num;
-        move(moveUnits, from_name, to_name);
-    }
-    /**
-     * move units from one territory to another territory
-     *
+     * temporally do deploy on player's map
+     * @param to
      * @param moveUnits
-     * @param from_name
-     * @param to_name
-     * @return
      */
-    public boolean move(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name) {
-        try {
-            //Territory from = myTerritories.get(from_name);
-            //Territory to = myTerritories.get(to_name);
-            MoveAction move_action = new MoveAction();
-            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits).setGameID(currentGameID);
-
-            ActionList.add(move_action);
-        } catch (Exception excep) {
-            System.out.println("Move Error: " + excep.getMessage());
-            return false;
-        }
-        return true;
+    public void DoDeploy(String to, int moveUnits){
+        Territory to_terr = this.getMyTerritories().get(to);
+        to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
     }
 
-
-    /**
-     * Receive player's inputs for attack action
-     *
-     * @param inputReader
-     * @param out
-     * @throws IOException
-     */
-    public void playerDoAttack(BufferedReader inputReader, PrintStream out) throws IOException {
-        String from_name, to_name;
-        ArrayList<Unit> attackUnits = new ArrayList<>();
-        // player chooses to_name
-        Integer level;
-        Integer unitNum;
-        from_name = inputReader.readLine();
-        int l = Integer.parseInt(inputReader.readLine());
-        level = l;
-        int num = 0;
-        unitNum = num;
-        to_name = inputReader.readLine();
-        attack(attackUnits, from_name, to_name);
-    }
-
-    /**
-     * send player's units to an adjacent territory controlled by a different
-     * player, in an attempt to gain control over that territory.
-     *
-     * @param attackUnits
-     * @param from_name
-     * @param to_name
-     * @return
-     */
-    public boolean attack(ArrayList<Unit> attackUnits, String from_name, String to_name) {
-        try {
-            AttackAction attack_action = new AttackAction();
-            attack_action.setFrom(from_name).setTo(to_name).setUnits(attackUnits).
-                    setGameID(currentGameID).setPlayerID(playerId);
-            ActionList.add(attack_action);
-        } catch (Exception excep) {
-            System.out.println("Attack Error: " + excep.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * player upgrades technology level
-     * @param inputReader
-     * @param out
-     * @throws IOException
-     * @throws Exception
-     */
-    public void playerDoUpgradeTech(BufferedReader inputReader, PrintStream out) throws IOException, Exception {
-        int next_level = techLevel + 1;
-        int currTechResource = techResource;
-        upgradeTech(next_level, currTechResource);
-    }
-
-    public void upgradeTech(int next_level, int currTechResource){
-        UpdateTechAction updateTechAction = new UpdateTechAction();
-        updateTechAction.setGameID(currentGameID).
-                setNextLevel(next_level).setCurrTechResource(currTechResource);
-        ActionList.add(updateTechAction);
-        //TODO: Return Action to client
-    }
-    public void playerDoUpgradeUnit(BufferedReader inputReader, PrintStream out) throws IOException {
-        String where;
-        ArrayList<ArrayList<Integer>> unitsToUpgrade = new ArrayList<>();
-        //{{oldlevel:0, leveltoupgrade: 1}, {1,2}, {0,1}}
-        // player chooses to_name
-        Integer level;
-        Integer unitNum;
-        where = inputReader.readLine();
-        int l = Integer.parseInt(inputReader.readLine());
-        level = l;
-        int num = 0;
-        unitNum = num;
-        upgradeUnit(where, unitsToUpgrade);
-    }
-
-    public void upgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
-        UpdateUnitsAction UpdateUnits_action = new UpdateUnitsAction();
-        UpdateUnits_action.setPlayerID(playerId).setGameID(currentGameID).setWhere(where).
-                setUnitsToUpgrade(unitsToUpgrade);
-        ActionList.add(UpdateUnits_action);
-    }
-
-////////////////////////////////Helper functions////////////////////////////////////////////////////
     /**
      * temporally update player's move action to player's own map
      *
      * @param moveUnits
      * @param from_name
      * @param to_name
-     * @param _map
-     * @param playerID
      * @return
      */
-    public boolean updateMove(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name, Map _map,
-                              int playerID) {
-        // rule checker
-        /*
-        MoveChecker moveChecker = new MoveChecker(_map, moveUnits, from_name, to_name, id);
-        if (moveChecker.doCheck(id, from_name, to_name) != null) {
-            out.println(moveChecker.doCheck(id, from_name, to_name));
-            return false;
-        } else {
-            _map.getTerritoryList().get(from_name).removeUnitMultiLevels(moveUnits);
-            _map.getTerritoryList().get(to_name).addUnitMultiLevels(moveUnits);
-            return true;
-        }
-
-         */
-        return false;
+    public void DoMove(String from_name, String to_name, ArrayList<ArrayList<Integer>> moveUnits, int totalCost) {
+        this.wholeMap.getTerritoryList().get(from_name).removeUnitMultiLevels(moveUnits);
+        this.wholeMap.getTerritoryList().get(to_name).addUnitMultiLevels(moveUnits);
+        this.foodResource -= totalCost;
     }
+
+    /**
+     * temporally upgrade player's techLevel
+     * @param next_level
+     * @param cost
+     */
+    public void DoUpgradeTech(int next_level, int cost){
+        this.techLevel = next_level;
+        this.techResource -= cost;
+    }
+
+    /**
+     * temporally upgrade player's units in Territory where
+     * @param where
+     * @param unitsToUpgrade
+     */
+    public void DoUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
+        Territory terr = this.myTerritories.get(where);
+        for(int i = 0; i < unitsToUpgrade.size(); i++){
+            int level = unitsToUpgrade.get(i).get(0);
+            int num = unitsToUpgrade.get(i).get(1);
+            //max level: 6, cannot upgrade level-6 units
+            if (level < 6) {
+                terr.removeUnitLevel(level, num, terr.getUnits());
+                terr.addUnitLevel(level, num, terr.getUnits());
+            }
+        }
+    }
+
+////////////////////////////////Helper functions////////////////////////////////////////////////////
 
     /**
      * helper function: check if input territory name matches names in myTerritories
@@ -344,7 +168,89 @@ public class Player {
         return false;
     }
 
+
+    public void sendUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
+        UpdateUnitsAction UpdateUnits_action = new UpdateUnitsAction();
+        UpdateUnits_action.setWhere(where).
+                setUnitsToUpgrade(unitsToUpgrade);
+    }
+
+    public void sendUpgradeTech(int next_level, int currTechResource){
+        UpdateTechAction updateTechAction = new UpdateTechAction();
+        updateTechAction.setNextLevel(next_level).
+                setCurrTechResource(currTechResource);
+    }
+
+    /**
+     * send player's units to an adjacent territory controlled by a different
+     * player, in an attempt to gain control over that territory.
+     *
+     * @param attackUnits
+     * @param from_name
+     * @param to_name
+     * @return
+     */
+    public boolean sendAttack(ArrayList<Unit> attackUnits, String from_name, String to_name) {
+        try {
+            AttackAction attack_action = new AttackAction();
+            attack_action.setFrom(from_name).setTo(to_name).setUnits(attackUnits);
+        } catch (Exception excep) {
+            System.out.println("Attack Error: " + excep.getMessage());
+            return false;
+        }
+        return true;
+    }
+    /**
+     * move units from one territory to another territory
+     *
+     * @param moveUnits
+     * @param from_name
+     * @param to_name
+     * @return
+     */
+    public boolean sendMove(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name) {
+        try {
+            MoveAction move_action = new MoveAction();
+            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits);
+
+        } catch (Exception excep) {
+            System.out.println("Move Error: " + excep.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean sendDeploy(int numOfDeployedUnits, String to_name) {
+        Territory to = myTerritories.get(to_name);
+        DeployAction deploy_action = new DeployAction();
+        deploy_action.setTo(to_name).setDeployUnits(numOfDeployedUnits);
+        return true;
+    }
+
+    /////////////////////////////////////getters and setters///////////////////////////////////////////////////
     public Map getWholeMap() {
         return wholeMap;
+    }
+
+    public int getTotalDeployment(){return this.totalDeployment;}
+
+    public void setTotalDeployment(int new_totalDeployment){
+        this.totalDeployment = new_totalDeployment;
+    }
+
+    public HashMap<String, Territory> getMyTerritories(){
+        return this.myTerritories;
+    }
+
+    /**
+     * assign my territories
+     */
+    public void assignMyTerritories(){
+        for(String terr: wholeMap.getTerritoryList().keySet()){
+            //if map owner equals the player's accountID
+            if (wholeMap.getTerritoryList().get(terr).getOwnerId().equals(this.accountID)){
+                this.myTerritories.put(terr, wholeMap.getTerritoryList().get(terr));
+            }
+        }
     }
 }

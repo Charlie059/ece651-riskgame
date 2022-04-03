@@ -29,11 +29,11 @@ public class MoveChecker extends ActionChecker{
         moveUnits = _moveUnits;
         from_name = from;
         to_name = to;
-        this.playerID = accountID.getAccountID();
         this.gameID = gameID;
         Game game = gameHashMap.get(this.gameID);
         player = game.getPlayerHashMap().get(accountID);
         this.map = player.getWholeMap();
+        totalCost = player.getMyTerritories().get(to_name).getCost() + player.getMyTerritories().get(from_name).getCost();
     }
 
     /**
@@ -44,7 +44,7 @@ public class MoveChecker extends ActionChecker{
     public boolean doCheck() {
         boolean isValid;
         try {
-            //isValid = map.isPathExist(playerID, from_name, to_name);
+            isValid = map.isPathExist(accountID, from_name, to_name);
         }
         catch(IllegalArgumentException illegalArg){
             //output = illegalArg.getMessage();
@@ -62,8 +62,11 @@ public class MoveChecker extends ActionChecker{
         return to_name;
     }
 
+    public Player getPlayer(){return player;}
 
     public Map getMap() {
         return map;
     }
+
+    public int getTotalCost(){return this.totalCost;}
 }

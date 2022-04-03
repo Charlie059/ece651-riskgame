@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class DeployAction implements Action {
     private Integer gameID;
     private String to;
-    private ArrayList<Unit> units;
+    private int deployUnits;
     private String playerID;
     @Override
     public void accept(ActionVisitor actionVisitor) {
@@ -29,12 +29,12 @@ public class DeployAction implements Action {
         return this;
     }
 
-    public ArrayList<Unit> getUnits() {
-        return units;
+    public int getDeployUnits() {
+        return deployUnits;
     }
 
-    public DeployAction setUnits(ArrayList<Unit> units) {
-        this.units = units;
+    public DeployAction setDeployUnits(int deploy_units) {
+        this.deployUnits = deploy_units;
         return this;
     }
 

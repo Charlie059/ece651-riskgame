@@ -158,7 +158,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPLoginFail rspLoginFail = new RSPLoginFail();
             sendResponse(rspLoginFail);
         }
-
     }
 
     /**
@@ -175,7 +174,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(MoveAction moveAction) {
-        MoveChecker moveChecker = new MoveChecker(this.accountID, this.gameHashMap, this.accountHashMap, moveAction.getUnits(), moveAction.getFrom(), moveAction.getTo(), moveAction.getGameID());
+        MoveChecker moveChecker = new MoveChecker(this.accountID,
+                this.gameHashMap,
+                this.accountHashMap,
+                moveAction.getUnits(),
+                moveAction.getFrom(),
+                moveAction.getTo(),
+                moveAction.getGameID());
         if (moveChecker.doCheck()) {
             //Update Server this Game Map
             Player player = moveChecker.getPlayer();
@@ -197,9 +202,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //New Game from numPlayer(Null Owner Territory)
         Game game = new Game(newGameAction.getNumOfPlayer());
         //New Player
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        PrintStream printStream = new PrintStream(System.out);
-        Player player = new Player(this.accountID.getAccountID(), newGameAction.getNumOfPlayer(), bufferedReader, printStream);
+        Player player = new Player(this.accountID, newGameID, game.getMap());
         //Add New Player to New Game
         game.getPlayerHashMap().put(this.accountID, player);
         game.setOwnership(this.accountID);
@@ -265,6 +268,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //This Player(me) in the currGame
             Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
             //Player updateTech Level, decrease Tech resource
+            p.DoUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
+            //send response
             RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
             sendResponse(rspUpdateTechSuccess);
         } else {

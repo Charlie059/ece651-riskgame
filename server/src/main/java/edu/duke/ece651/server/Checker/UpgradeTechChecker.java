@@ -12,8 +12,7 @@ public class UpgradeTechChecker extends ActionChecker{
     private Integer nextLevel;
     private Integer currTechResource;
     private ArrayList<Integer> TechLevelUpgradeList;
-    private ArrayList<Integer> UnitLevelUpgradeList;
-
+    private int cost;
     public UpgradeTechChecker(AccountID accountID,
                               HashMap<GameID, Game> gameHashMap,
                               HashMap<AccountID, Account> playerHashMap,
@@ -25,24 +24,19 @@ public class UpgradeTechChecker extends ActionChecker{
         nextLevel = _nextLevel;
         currTechResource = _currTechResource;
         TechLevelUpgradeList = _TechLevelUpgradeList;
-        UnitLevelUpgradeList = _UnitLevelUpgradeList;
+        cost = TechLevelUpgradeList.get(nextLevel);
     }
 
 
     @Override
     public boolean doCheck(){
-        if (nextLevel <= 6){
-            int cost = TechLevelUpgradeList.get(nextLevel);
-            if (cost > currTechResource){
-                //player don't have enough tech resource
-                return false;
-            }
-            else{
-                return true;
-            }
-        }else{
-            return false;
+        //valid iff nextLevel <= 6 and player has enough tech resource
+        if (nextLevel <= 6 && cost <= currTechResource) {
+            return true;
         }
+        return false;
     }
+
+    public int getCost(){return cost;}
 
 }
