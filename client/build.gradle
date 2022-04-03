@@ -13,7 +13,7 @@ plugins {
 }
 
 javafx {
-    sdk = '../javafx-sdk-18'
+    version = '18'
     modules = [ 'javafx.controls', 'javafx.fxml'  ]
 }
 
