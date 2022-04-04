@@ -2,6 +2,7 @@ package edu.duke.ece651.client.Controller;
 
 
 import edu.duke.ece651.client.Model.Model;
+import edu.duke.ece651.client.View.MainGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
