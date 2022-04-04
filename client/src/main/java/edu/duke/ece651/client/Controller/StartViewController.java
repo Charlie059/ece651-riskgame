@@ -2,20 +2,14 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Model.LoginModel;
 import edu.duke.ece651.client.Model.SignupModel;
-import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.View.MenuView;
 import edu.duke.ece651.client.View.SignupView;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 
 
 public class StartViewController {
@@ -41,7 +35,7 @@ public class StartViewController {
     public void clickOnLogin() {
         try {
             // Check the login result from server
-            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText());
+            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText(), true);
             if (res) new MenuView().show(this.window, null); // Enter into menu view
             else error_msg.setText("Error in UserName, Password or cannot connect to server. Please try again."); // Show the Error Message
         } catch (IOException e) {
