@@ -51,6 +51,7 @@ public class GameRunnable implements Runnable {
         //DO Attack
 
         //Do Tech Upgrade
+
         this.currGame.getPlayerHashMap().updatePlayersTechLevel();
     }
 

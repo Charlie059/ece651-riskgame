@@ -38,7 +38,6 @@ public class Player {
         this.foodResource = 100;
         this.techResource = 100;
         this.currTechLevel = 1;
-        this.nextTechLevel = this.currTechLevel;
         this.isTechLevelUpgrade = false;
         this.currentGameID = currentGameID;
         this.wholeMap = _map;
@@ -58,17 +57,19 @@ public class Player {
 
     /**
      * temporally do deploy on player's map
+     *
      * @param to
      * @param moveUnits
      */
     public void doDeploy(String to, int moveUnits) {
         Territory to_terr = this.getMyTerritories().get(to);
         to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
-        this.totalDeployment-=moveUnits;
+        this.totalDeployment -= moveUnits;
     }
 
     /**
      * temporally update player's move action to player's own map
+     *
      * @param moveUnits
      * @param from_name
      * @param to_name
@@ -83,11 +84,10 @@ public class Player {
     /**
      * temporally set player's nextTechLevel
      * mark player has updated the techlevel
-     * @param next_level
      * @param cost
      */
-    public void setUpgradeTech(int next_level, int cost) {
-        this.nextTechLevel = next_level;
+    public void setUpgradeTech(int cost) {
+        //Temp value to restore whether player has upgraded tech
         this.isTechLevelUpgrade = true;
         this.techResource -= cost;
     }
@@ -96,11 +96,13 @@ public class Player {
      * Update Player's techlevel, refresh TechUpgrade status
      * GameRunnable will call this function from Player itself in PlayerHashmap
      */
-    public void doUpgradeTech()
-    {
-        this.currTechLevel = this.nextTechLevel;
-        this.isTechLevelUpgrade = false;
+    public void doUpgradeTech() {
+        if (this.isTechLevelUpgrade == true) {
+            this.currTechLevel += 1;
+            this.isTechLevelUpgrade = false;
+        }
     }
+
     /**
      * temporally upgrade player's units in Territory where
      *
@@ -108,7 +110,7 @@ public class Player {
      * @param oldLevel
      * @param newLevel
      */
-    public void DoUpgradeUnit(String where, int oldLevel, int newLevel, int techCost){
+    public void DoUpgradeUnit(String where, int oldLevel, int newLevel, int techCost) {
         Territory terr = this.myTerritories.get(where);
         this.techResource -= techCost;
         terr.removeUnitLevel(oldLevel, 1, terr.getUnits());
@@ -152,14 +154,14 @@ public class Player {
     }
 
 
-    public void sendUpgradeUnit(String where,  int oldLevel, int newLevel){
+    public void sendUpgradeUnit(String where, int oldLevel, int newLevel) {
         UpgradeUnitsAction UpdateUnits_action = new UpgradeUnitsAction();
         UpdateUnits_action.setWhere(where).
                 setOldLevel(oldLevel).
                 setNewLevel(newLevel);
     }
 
-    public void sendUpgradeTech(int next_level, int currTechResource){
+    public void sendUpgradeTech(int next_level, int currTechResource) {
         UpgradeTechAction updateTechAction = new UpgradeTechAction();
 
     }
@@ -240,13 +242,10 @@ public class Player {
         return currTechLevel;
     }
 
-    public int getNextTechLevel() {
-        return this.nextTechLevel;
-    }
-
     public boolean isTechLevelUpgrade() {
         return isTechLevelUpgrade;
     }
+
     /**
      * assign my territories
      */

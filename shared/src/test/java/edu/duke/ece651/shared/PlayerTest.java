@@ -68,9 +68,8 @@ class PlayerTest {
         Player p = createPlayer();
         p.doDeploy("a1", 4);
         assertEquals(p.getTechResource(), 100);
-        p.setUpgradeTech(2, 50);
+        p.setUpgradeTech(50);
         assertEquals(p.getTechResource(), 50);
-        assertEquals(p.getNextTechLevel(), 2);
 
     }
 
@@ -78,7 +77,7 @@ class PlayerTest {
     void doUpgradeUnit() {
         Player p = createPlayer();
         p.doDeploy("a1", 4);
-        p.setUpgradeTech(2, 50);
+        p.setUpgradeTech(50);
         p.DoUpgradeUnit("a1", 0, 2, 11);
         assertEquals(p.getTechResource(), 39);
         assertEquals(p.getMyTerritories().get("a1").getUnits().get(0).getValue(), 3);

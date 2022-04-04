@@ -110,12 +110,12 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(CommitAction commitAction) {
-        CommitChecker commitChecker = new CommitChecker(this.gameHashMap,this.accountHashMap,this.accountID, this.gameID);
-        if(commitChecker.doCheck()){
-            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID,true);
+        CommitChecker commitChecker = new CommitChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
+        if (commitChecker.doCheck()) {
+            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
             RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
             sendResponse(rspCommitSuccess);
-        }else{
+        } else {
             RSPCommitFail rspCommitFail = new RSPCommitFail();
             sendResponse(rspCommitFail);
         }
@@ -129,14 +129,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 deployAction.getTo(),
                 deployAction.getDeployUnits(),
                 this.gameID);
-        if(deployChecker.doCheck()){
+        if (deployChecker.doCheck()) {
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
             p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             //send respond
             RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
             sendResponse(rspDeploySuccess);
-        }else{
+        } else {
             RSPDeployFail rspDeployFail = new RSPDeployFail();
             sendResponse(rspDeployFail);
         }
@@ -147,7 +147,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(JoinAction joinAction) {
         //IF JOIN Action
         //Find All Open Game List
-        ArrayList<GameID> gameIDArrayList=this.gameHashMap.findOpenGameList();
+        ArrayList<GameID> gameIDArrayList = this.gameHashMap.findOpenGameList();
         //Send back to Game LIST
         RSPOpenGameList rspOpenGameList = new RSPOpenGameList(gameIDArrayList);
         sendResponse(rspOpenGameList);
@@ -181,6 +181,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         sendResponse(rspLogoutSuccess);
     }
 
+
+    /////////
+    //TODO:
     @Override
     public void visit(MoveAction moveAction) {
         MoveChecker moveChecker = new MoveChecker(this.accountID,
@@ -198,8 +201,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //send response
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
-        }
-        else{
+        } else {
             RSPMoveFail rspMoveFail = new RSPMoveFail();
             sendResponse(rspMoveFail);
         }
@@ -273,18 +275,18 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(UpgradeTechAction upgradeTechAction) {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
-                                                            gameHashMap,
-                                                            accountHashMap,
-                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
-                                                            upgradeTechAction.getNextLevel(),
-                                                            upgradeTechAction.getCurrTechResource(),
-                                                            TechLevelUpgradeList);
+                gameHashMap,
+                accountHashMap,
+                gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechLevelUpgrade(),
+                this.gameID,
+                this.TechLevelUpgradeList.get(gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel()));
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
             Player p = gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
             //Player temperately set update level, and mark as updated
-            p.setUpgradeTech(updateTechChecker.getNextLevel(), updateTechChecker.getCost());
+            //Checker help Calculated the cost
+            p.setUpgradeTech(updateTechChecker.getCost());
             //send response
             RSPUpgradeTechSuccess rspUpgradeTechSuccess = new RSPUpgradeTechSuccess();
             sendResponse(rspUpgradeTechSuccess);
@@ -304,7 +306,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 updateUnitsAction.getOldLevel(),
                 gameID,
                 UnitLevelUpgradeList);
-        if (upgradeUnitsChecker.doCheck()){
+        if (upgradeUnitsChecker.doCheck()) {
             //Do UpgradeUnit
             Player p = upgradeUnitsChecker.getPlayer();
             p.DoUpgradeUnit(updateUnitsAction.getWhere(),
@@ -317,7 +319,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
             sendResponse(rspUpdateUnitsSuccess);
 
-        }else{
+        } else {
             RSPUpgradeUnitsFail rspUpdateUnitsFail = new RSPUpgradeUnitsFail();
             sendResponse(rspUpdateUnitsFail);
         }
@@ -332,7 +334,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //New Player add to current Game
             Game currGame = this.gameHashMap.get(this.gameID);
             Player player = new Player(this.accountID, this.gameID, currGame.getMap());
-            currGame.getPlayerHashMap().put(this.accountID,player);
+            currGame.getPlayerHashMap().put(this.accountID, player);
             //Set Territory Ownership to joined player
             currGame.setOwnership(this.accountID);
             //Announce Player to have Owned Territory
@@ -352,15 +354,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
-        ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap,this.accountHashMap,this.accountID,this.gameID);
-        if(chooseSwitchGameChecker.doCheck()){
+        ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
+        if (chooseSwitchGameChecker.doCheck()) {
             // Change the game
-            this.gameID =  chooseSwitchGameAction.getGameID();
+            this.gameID = chooseSwitchGameAction.getGameID();
             // Send message
             RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess();
             sendResponse(rspChooseSwitchGameSuccess);
-        }
-        else{
+        } else {
             RSPChooseSwitchGameFail rspChooseSwitchGameFail = new RSPChooseSwitchGameFail();
             sendResponse(rspChooseSwitchGameFail);
         }

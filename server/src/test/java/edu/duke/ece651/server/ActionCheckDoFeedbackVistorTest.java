@@ -470,7 +470,7 @@ class ActionCheckDoFeedbackVistorTest {
         GameRunnable gameRunnable = new GameRunnable(gameHashMap,accountHashMap,currGameID);
         Thread gameThread = new Thread(gameRunnable);
         gameThread.start();
-        CommunicatorRunnable task1 = new CommunicatorRunnable(hostAccountID, currGameID, clientSocket1, accountHashMap, gameHashMap,4);
+        CommunicatorRunnable task1 = new CommunicatorRunnable(hostAccountID, currGameID, clientSocket1, accountHashMap, gameHashMap,5);
         Thread CommunicatorThread1 = new Thread(task1);
         CommunicatorThread1.start();
         //Player joined
@@ -487,7 +487,7 @@ class ActionCheckDoFeedbackVistorTest {
 
         ////==============================TESTBENCH==================================//
 
-        //----------deploy----------/
+        //---------------deploy----------------/
         //player1
         DeployAction deployAction = new DeployAction();
         deployAction.setTo("a1").setDeployUnits(6);
@@ -499,7 +499,7 @@ class ActionCheckDoFeedbackVistorTest {
         mockClient2.sendObject(deployAction);
         Response response1_2 = (Response) mockClient2.recvObject();
         assertEquals(new RSPDeploySuccess().getClass(),response1_2.getClass());
-        //----------commit----------/
+        //----------------commit----------------/
         CommitAction commitAction = new CommitAction();
         mockClient1.sendObject(commitAction);
         Response response2_1 = (Response) mockClient1.recvObject();
@@ -509,11 +509,11 @@ class ActionCheckDoFeedbackVistorTest {
         Response response2_2 = (Response) mockClient2.recvObject();
         assertEquals(new RSPCommitSuccess().getClass(),response2_2.getClass());
 
+        //------------TechUpgrade------------/
         //Start Resource 100
-        //level 0 -> level 1 cost = 50
+        //level 1 -> level 2 cost = 50
         //Upgrade to level 1 success
         UpgradeTechAction upgradeTechAction = new UpgradeTechAction();
-        upgradeTechAction.setNextLevel(1)
         mockClient1.sendObject(upgradeTechAction);
         Response response3_1 = (Response)  mockClient1.recvObject();
         assertEquals(new RSPUpgradeTechSuccess().getClass(),response3_1.getClass());
@@ -523,17 +523,33 @@ class ActionCheckDoFeedbackVistorTest {
         Response response3_2 = (Response) mockClient1.recvObject();
         assertEquals(new RSPUpgradeTechFail().getClass(),response3_2.getClass());
 
-//        //Commit Success because has deployed all
-//        CommitAction commitAction = new CommitAction();
-//        mockClient1.sendObject(commitAction);
-//        Response response3 = (Response) mockClient1.recvObject();
-//        assertEquals(new RSPCommitSuccess().getClass(),response3.getClass());
+        //----------CurrLevel unchanged, Tech Resources decrease------/
+        //Host Upgrade 1 level
+        //Host Tech Resource decrease
+        //Host currLevel remain unchanged
+        //Joiner didn't upgrade
+        assertEquals(1,host.getCurrTechLevel());
+        assertEquals(1,joiner.getCurrTechLevel());
+        assertEquals(50,host.getTechResource());
+        assertEquals(100,joiner.getTechResource());
 
+        //----------Commit, CurrentLevel Changed------/
+        //host commit
+        mockClient1.sendObject(commitAction);
+        Response response4_1 =(Response) mockClient1.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(), response4_1.getClass());
+        //joiner commit
+        mockClient2.sendObject(commitAction);
+        Response response4_2 =(Response) mockClient2.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(), response4_2.getClass());
         mockServer.closeSocket();
+        //Current Tech level of host changed
+        assertEquals(2,host.getCurrTechLevel());
     }
 
+
     @Test
-    void testVisit9() {
+    void test_VisitUpgradeUnit() {
     }
 
     @Test

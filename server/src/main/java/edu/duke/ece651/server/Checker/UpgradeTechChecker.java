@@ -15,7 +15,6 @@ public class UpgradeTechChecker extends ActionChecker{
     private Integer nextLevel;
     private Integer currTechResource;
     private Boolean isTechUpgraded;
-    private ArrayList<Integer> TechLevelUpgradeList;
     private int cost;
     private Player player;
     private GameID gameID;
@@ -23,8 +22,8 @@ public class UpgradeTechChecker extends ActionChecker{
                               GameHashMap gameHashMap,
                               AccountHashMap accountHashMap,
                               Boolean isTechUpgraded,
-                              ArrayList<Integer> _TechLevelUpgradeList,
-                              GameID gameID
+                              GameID gameID,
+                              Integer cost
                               ){
         super( gameHashMap,accountHashMap ,accountID);
         this.isTechUpgraded = isTechUpgraded;
@@ -33,15 +32,14 @@ public class UpgradeTechChecker extends ActionChecker{
         this.player = game.getPlayerHashMap().get(this.accountID);
         this.nextLevel = this.player.getCurrTechLevel()+1;
         this.currTechResource = this.player.getTechResource();
-        this.TechLevelUpgradeList = _TechLevelUpgradeList;
-        this.cost = TechLevelUpgradeList.get(nextLevel);
+        this.cost = cost;
     }
 
 
     @Override
     public boolean doCheck(){
         //valid iff nextLevel <= 6 and player has enough tech resource
-        if (!this.isTechUpgraded && nextLevel <= 6 && cost <= currTechResource) {
+        if (!this.isTechUpgraded && this.nextLevel <= 6 && this.cost <= this.currTechResource) {
             return true;
         }
         return false;
