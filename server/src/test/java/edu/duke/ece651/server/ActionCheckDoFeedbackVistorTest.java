@@ -500,10 +500,14 @@ class ActionCheckDoFeedbackVistorTest {
         Response response1_2 = (Response) mockClient2.recvObject();
         assertEquals(new RSPDeploySuccess().getClass(),response1_2.getClass());
         //----------commit----------/
-//        CommitAction commitAction = new CommitAction();
-//        mockClient1.sendObject(commitAction);
-//        Response response2_1 = (Response) mockClient1.recvObject();
-//        assertEquals(new RSPDeploySuccess().getClass(),response2_1.getClass());
+        CommitAction commitAction = new CommitAction();
+        mockClient1.sendObject(commitAction);
+        Response response2_1 = (Response) mockClient1.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(),response2_1.getClass());
+
+        mockClient2.sendObject(commitAction);
+        Response response2_2 = (Response) mockClient2.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(),response2_2.getClass());
 
 //        //Start Resource 100
 //        //level 0 -> level 1 cost = 50
