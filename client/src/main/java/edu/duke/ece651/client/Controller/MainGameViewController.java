@@ -1,6 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.View.AttackDialogView;
+import edu.duke.ece651.client.View.MoveDialogView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -78,7 +79,9 @@ public class MainGameViewController implements Initializable {
         new AttackDialogView().show(new Stage(),null);
     }
     @FXML
-    public void clickOnMove(){}
+    public void clickOnMove() throws IOException {
+        new MoveDialogView().show(new Stage(), null);
+    }
     @FXML
     public void clickOnUpgradeUnitButton(){}
     @FXML
