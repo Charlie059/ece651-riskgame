@@ -33,7 +33,21 @@ public class MoveChecker extends ActionChecker{
         Game game = gameHashMap.get(this.gameID);
         player = game.getPlayerHashMap().get(accountID);
         this.map = player.getWholeMap();
-        totalCost = player.getMyTerritories().get(to_name).getCost() + player.getMyTerritories().get(from_name).getCost();
+        this.totalCost = calTotalCost();
+    }
+
+    public int calTotalCost(){
+            int path_cost = this.player.getWholeMap().shortestPathFrom(this.accountID, this.from_name, this.to_name);
+            if (path_cost > 0) {
+                int totalMoveUnitNum = 0;
+                for (int i = 0; i < this.moveUnits.size(); i++) {
+                    totalMoveUnitNum += this.moveUnits.get(i).get(1);
+                }
+                return totalMoveUnitNum * path_cost;
+            }
+            return -1;
+            //the cost of each
+            //move is (total size of territories moved through) * (number of units moved).
     }
 
     /**
@@ -44,14 +58,17 @@ public class MoveChecker extends ActionChecker{
     public boolean doCheck() {
         boolean isValid;
         try {
+            //check whether path exists
             isValid = map.isPathExist(accountID, from_name, to_name);
+            if (isValid && this.totalCost > 0){
+                return true;
+            }
+            return false;
         }
         catch(IllegalArgumentException illegalArg){
             //output = illegalArg.getMessage();
             return false;
         }
-        //return isValid;
-        return false;
     }
 
     public String getFrom_name() {

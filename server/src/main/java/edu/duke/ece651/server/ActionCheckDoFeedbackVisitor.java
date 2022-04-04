@@ -10,7 +10,6 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.map.Map;
 
 import java.io.*;
 import java.net.Socket;
@@ -31,7 +30,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     //private ArrayList<AttackAction> attackActionArrayList;
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
-
     /**
      * Construct Checker, all by Communicator Reference
      *
@@ -132,7 +130,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
     }
 
-
     @Override
     public void visit(JoinAction joinAction) {
         //IF JOIN Action
@@ -189,6 +186,10 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
         }
+        else{
+            RSPMoveFail rspMoveFail = new RSPMoveFail();
+            sendResponse(rspMoveFail);
+        }
     }
 
     //TODO: Player with map field
@@ -241,7 +242,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPSignupFail rspSignupFail = new RSPSignupFail();
             sendResponse(rspSignupFail);
         }
-
     }
 
 
@@ -255,19 +255,18 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     //TODO:Player add Map field
     @Override
-    public void visit(UpdateTechAction updateTechAction) {
-        UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
+    public void visit(UpgradeTechAction updateTechAction) {
+        UpgradeTechChecker upgradeTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
-                                                            updateTechAction.getNextLevel(),
-                                                            updateTechAction.getCurrTechResource(),
-                                                            TechLevelUpgradeList);
-        if (updateTechChecker.doCheck()) {
+                                                            TechLevelUpgradeList,
+                                                            gameID);
+        if (upgradeTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
-            Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
+            Player p = gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
             //Player updateTech Level, decrease Tech resource
-            p.DoUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
+            p.DoUpgradeTech(upgradeTechChecker.getNextLevel(), upgradeTechChecker.getCost());
             //send response
             RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
             sendResponse(rspUpdateTechSuccess);
@@ -278,8 +277,32 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     }
 
     @Override
-    public void visit(UpdateUnitsAction updateUnitsAction) {
+    public void visit(UpgradeUnitsAction updateUnitsAction) {
+        UpgradeUnitsChecker upgradeUnitsChecker = new UpgradeUnitsChecker(this.accountID,
+                gameHashMap,
+                accountHashMap,
+                updateUnitsAction.getWhere(),
+                updateUnitsAction.getNewLevel(),
+                updateUnitsAction.getOldLevel(),
+                gameID,
+                UnitLevelUpgradeList);
+        if (upgradeUnitsChecker.doCheck()){
+            //Do UpgradeUnit
+            Player p = upgradeUnitsChecker.getPlayer();
+            p.DoUpgradeUnit(updateUnitsAction.getWhere(),
+                    updateUnitsAction.getOldLevel(),
+                    updateUnitsAction.getNewLevel(),
+                    upgradeUnitsChecker.getTechCost());
+            RSPUpdateUnitsSuccess rspUpdateUnitsSuccess = new RSPUpdateUnitsSuccess();
+            rspUpdateUnitsSuccess.setNewLevel(updateUnitsAction.getNewLevel());
+            rspUpdateUnitsSuccess.setOldLevel(updateUnitsAction.getOldLevel());
+            rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
+            sendResponse(rspUpdateUnitsSuccess);
 
+        }else{
+            RSPUpdateUnitsFail rspUpdateUnitsFail = new RSPUpdateUnitsFail();
+            sendResponse(rspUpdateUnitsFail);
+        }
     }
 
     //TODO:Player add map field

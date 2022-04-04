@@ -34,8 +34,40 @@ class MapTest {
     }
 
     @Test
-    void testIsAdjacent() {
+    void testIsPathExist(){
+        Map m = new Map(5);
+        //get the shortest paths from terr to other territories
+        AccountID acc1 = new AccountID("1");
+        AccountID acc2 = new AccountID("2");
+        AccountID acc3 = new AccountID("3");
+        AccountID acc4 = new AccountID("4");
+        AccountID acc5 = new AccountID("5");
+        //assign ownership
+        for(String terr: m.getGroups().get(0)){
+            m.getTerritoryList().get(terr).setOwner(acc1);
+        }
+        for(String terr: m.getGroups().get(1)){
+            m.getTerritoryList().get(terr).setOwner(acc2);
+        }
+        //assign ownership
+        for(String terr: m.getGroups().get(2)){
+            m.getTerritoryList().get(terr).setOwner(acc3);
+        }
+        for(String terr: m.getGroups().get(3)){
+            m.getTerritoryList().get(terr).setOwner(acc4);
+        }
+        for(String terr: m.getGroups().get(4)){
+            m.getTerritoryList().get(terr).setOwner(acc5);
+        }
+        m.getTerritoryList().get("c1").setOwner(acc1);
+        assertTrue(m.isPathExist(acc1, "a1", "a2"));
+        assertFalse(m.isPathExist(acc1, "a1", "c1"));
+        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(acc1, "a1", "b1"));
 
+    }
+
+    @Test
+    void testIsAdjacent() {
         Map m = new Map(3);
         AccountID acc0 = new AccountID("0");
         AccountID acc1 = new AccountID("1");
@@ -46,7 +78,6 @@ class MapTest {
         assertThrows(IllegalArgumentException.class, () -> m.isAdjacent(acc0, "a1", "a3"));
         assertTrue(m.isAdjacent(acc0, "a1", "b1"));
         assertFalse(m.isAdjacent(acc0, "a1", "b3"));
-
     }
 
 

@@ -3,31 +3,32 @@ package edu.duke.ece651.server.Checker;
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.Account;
+import edu.duke.ece651.shared.Player;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
-import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class UpgradeTechChecker extends ActionChecker{
-    private Integer nextLevel;
-    private Integer currTechResource;
     private ArrayList<Integer> TechLevelUpgradeList;
     private int cost;
+    private int nextLevel;
+    private GameID gameID;
+    private int currTechResource;
     public UpgradeTechChecker(AccountID accountID,
                               GameHashMap gameHashMap,
                               AccountHashMap accountHashMap,
-                              Integer _nextLevel,
-                              Integer _currTechResource,
-                              ArrayList<Integer> _TechLevelUpgradeList
+                              ArrayList<Integer> _TechLevelUpgradeList,
+                              GameID gameID
                               ){
         super( gameHashMap,accountHashMap ,accountID);
-        nextLevel = _nextLevel;
-        currTechResource = _currTechResource;
-        TechLevelUpgradeList = _TechLevelUpgradeList;
-        cost = TechLevelUpgradeList.get(nextLevel);
+        this.gameID = gameID;
+        Game game = this.gameHashMap.get(this.gameID);
+        Player player = game.getPlayerHashMap().get(this.accountID);
+        this.nextLevel = player.getCurrTechLevel()+1;
+        this.currTechResource = player.getTechResource();
+        this.TechLevelUpgradeList = _TechLevelUpgradeList;
+        this.cost = TechLevelUpgradeList.get(nextLevel);
     }
 
 
@@ -42,4 +43,5 @@ public class UpgradeTechChecker extends ActionChecker{
 
     public int getCost(){return cost;}
 
+    public int getNextLevel(){return this.nextLevel;}
 }
