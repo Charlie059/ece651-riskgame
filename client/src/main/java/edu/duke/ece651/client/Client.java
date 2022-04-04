@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Client extends Application{
 
-  public static void main(String[] args) throws IOException, InterruptedException, Exception {
+  public static void main(String[] args) {
     launch(args);
   }
 
