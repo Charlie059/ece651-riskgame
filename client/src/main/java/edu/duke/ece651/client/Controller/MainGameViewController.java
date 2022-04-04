@@ -2,6 +2,7 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.View.AttackDialogView;
 import edu.duke.ece651.client.View.MoveDialogView;
+import edu.duke.ece651.client.View.UpgradeTechDialogView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -86,9 +87,13 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnUpgradeUnitButton(){}
     @FXML
-    public void clickOnUpgradeTechButton(){}
+    public void clickOnUpgradeTechButton() throws IOException {
+        new UpgradeTechDialogView().show(new Stage(),null);
+    }
     @FXML
-    public void clickOnDone(){}
+    public void clickOnDone(){
+        //upgrade everything
+    }
     @FXML
     public void clickOnExit(){
         window.close();

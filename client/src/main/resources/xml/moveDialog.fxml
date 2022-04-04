@@ -87,5 +87,10 @@
          </font>
       </Button>
       <ListView fx:id="moveList" prefHeight="221.0" prefWidth="196.0" GridPane.columnIndex="7" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.rowSpan="10" GridPane.vgrow="ALWAYS" />
+      <Text fx:id="error_msg" fill="#f50909" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </GridPane>

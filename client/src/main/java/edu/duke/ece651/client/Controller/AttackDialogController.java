@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -18,6 +19,8 @@ public class AttackDialogController implements Initializable {
     TextField terrFrom,terrTo,selectLevel,selectNum;
     @FXML
     ListView<String> attackList;
+    @FXML
+    Text error_msg;
 
     private Stage window;
     private ObservableList<String> list;
