@@ -27,12 +27,10 @@ public class StartViewController {
     Text error_msg;
 
     private final LoginModel loginModel;
-    private final SignupModel signupModel;
     private final Stage window;
 
-    public StartViewController(LoginModel loginModel, SignupModel signupModel, Stage window) {
-        this.loginModel = loginModel;
-        this.signupModel = signupModel;
+    public StartViewController(Stage window) {
+        this.loginModel = new LoginModel();
         this.window = window;
     }
 
@@ -57,7 +55,7 @@ public class StartViewController {
     @FXML
     public void clickOnSignUp(){
         try {
-            new SignupView().show(this.window, signupModel);
+            new SignupView().show(this.window, null);
         } catch (IOException e) {
             error_msg.setText("Cannot show signup view, Please enter again."); // Show the Error Message
         }

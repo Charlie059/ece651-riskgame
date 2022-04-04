@@ -22,7 +22,7 @@ public class StartView implements View{
 
         // use loader's setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(StartViewController.class, new StartViewController(new LoginModel(), new SignupModel(), window));
+        controllers.put(StartViewController.class, new StartViewController(window));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 
