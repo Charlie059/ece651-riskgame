@@ -19,8 +19,8 @@ public class SignUpViewController {
     private final Stage window;
     private final SignupModel signupModel;
 
-    public SignUpViewController(Model model, Stage window) {
-        this.signupModel = (SignupModel) model;
+    public SignUpViewController(Stage window) {
+        this.signupModel = new SignupModel();
         this.window = window;
     }
 
