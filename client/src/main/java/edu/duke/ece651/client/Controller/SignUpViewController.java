@@ -1,5 +1,6 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.Model.SignupModel;
 import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXML;
@@ -7,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.text.Text;
 
-public class signUpViewController {
+public class SignUpViewController {
     @FXML
     TextField userName;
     @FXML
@@ -18,8 +19,8 @@ public class signUpViewController {
     private final Stage window;
     private final SignupModel signupModel;
 
-    public signUpViewController(SignupModel signupModel, Stage window) {
-        this.signupModel = signupModel;
+    public SignUpViewController(Model model, Stage window) {
+        this.signupModel = (SignupModel) model;
         this.window = window;
     }
 
@@ -27,12 +28,6 @@ public class signUpViewController {
     public void clickOnBack(){
         this.window.setScene(SceneCollector.startView);
         this.window.show();
-
-        //If visit Object1{
-        // this.window1.show();
-        // }else object 2 {
-        // this.window2.show
-        // }
     }
 
     @FXML

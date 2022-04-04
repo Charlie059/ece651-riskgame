@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class joinGameViewController implements Initializable
+public class JoinGameViewController implements Initializable
 {
     @FXML
     private TableView<gameInfo> joinGameTable;
@@ -27,7 +27,7 @@ public class joinGameViewController implements Initializable
 
     private final Stage window;
 
-    public joinGameViewController(Stage window){
+    public JoinGameViewController(Stage window){
         this.window = window;
     }
 

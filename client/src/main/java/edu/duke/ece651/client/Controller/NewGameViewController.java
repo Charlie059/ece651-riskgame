@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class newGameViewController {
+public class NewGameViewController {
     @FXML
     TextField n_players;
     @FXML
@@ -23,7 +23,7 @@ public class newGameViewController {
 
     private final Stage window;
 
-    public newGameViewController(Stage window){
+    public NewGameViewController(Stage window){
         this.window = window;
     }
 
@@ -78,7 +78,7 @@ public class newGameViewController {
 
         // use loader's setControllerFactory to specify how to create controllers.
         //HashMap<Class<?>,Object> controllers = new HashMap<>();
-        //controllers.put(deployViewController.class, new deployViewController(window));
+        //controllers.put(DeployViewController.class, new DeployViewController(window));
         //loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 
