@@ -15,6 +15,7 @@ public class UpgradeTechChecker extends ActionChecker{
     private int nextLevel;
     private GameID gameID;
     private int currTechResource;
+    private Player player;
     public UpgradeTechChecker(AccountID accountID,
                               GameHashMap gameHashMap,
                               AccountHashMap accountHashMap,
@@ -24,7 +25,7 @@ public class UpgradeTechChecker extends ActionChecker{
         super( gameHashMap,accountHashMap ,accountID);
         this.gameID = gameID;
         Game game = this.gameHashMap.get(this.gameID);
-        Player player = game.getPlayerHashMap().get(this.accountID);
+        this.player = game.getPlayerHashMap().get(this.accountID);
         this.nextLevel = player.getCurrTechLevel()+1;
         this.currTechResource = player.getTechResource();
         this.TechLevelUpgradeList = _TechLevelUpgradeList;
@@ -35,7 +36,8 @@ public class UpgradeTechChecker extends ActionChecker{
     @Override
     public boolean doCheck(){
         //valid iff nextLevel <= 6 and player has enough tech resource
-        if (nextLevel <= 6 && cost <= currTechResource) {
+        //only upgrade tech level once for each round
+        if (nextLevel <= 6 && cost <= currTechResource && (!this.player.isTechLevelUpgrade())) {
             return true;
         }
         return false;
