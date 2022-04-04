@@ -1,7 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
 
-import edu.duke.ece651.client.View.MainGameView;
+import edu.duke.ece651.client.Model.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -29,6 +29,7 @@ public class DeployViewController implements Initializable {
     Text errorMsg;
 
     private final Stage window;
+    private Model model;
 
     // these three lists are used in choiceBox
     private ObservableList<String> terrList;
@@ -37,6 +38,9 @@ public class DeployViewController implements Initializable {
 
     @FXML
     public void clickOnViewMap(){
+        Stage mapWindow = new Stage();
+        // TODO load map view..
+        mapWindow.show();
     }
 
     @FXML
@@ -111,7 +115,6 @@ public class DeployViewController implements Initializable {
     }
 
     private void setUnitNumberText(int initNum){
-        // TODO: change it and get number of each units from server. remove initNum
         level1_n.setText("  "+ String.valueOf(initNum));
         level2_n.setText("  "+"0");
         level3_n.setText("  "+"0");
@@ -120,8 +123,9 @@ public class DeployViewController implements Initializable {
         level6_n.setText("  "+"0");
     }
     
-    public DeployViewController(Stage window){
+    public DeployViewController(Stage window, Model model){
         this.window = window;
+        this.model = model;
         levelList = FXCollections.observableArrayList();
         terrList = FXCollections.observableArrayList();
         numberList = FXCollections.observableArrayList();

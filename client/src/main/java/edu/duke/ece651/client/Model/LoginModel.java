@@ -25,7 +25,7 @@ public class LoginModel extends Model{
         LoginAction loginAction = new LoginAction(new AccountID(userName),passWord);
         // Send to Server to validate
         try {
-            ClientSocket clientSocket =  ClientSocket.getInstance();
+            ClientSocket clientSocket = ClientSocket.getInstance();
             clientSocket.sendObject(loginAction);
             Response response = (Response) ClientSocket.getInstance().recvObject();
             return response.getClass() == RSPLoginSuccess.class;
@@ -36,10 +36,10 @@ public class LoginModel extends Model{
 
 
     /**
-     * Validate
+     * Validate user login by passing info to server
      * @param userName
      * @param passWord
-     * @return
+     * @return true for login success
      */
     public boolean validateLogin(String userName, String passWord){
         // Create a new LoginAction
