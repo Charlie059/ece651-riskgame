@@ -1,5 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
+import javafx.fxml.FXML;
+
 public class DeployViewController {
 //    @FXML
 //    public void clickDeploy(){

@@ -36,23 +36,32 @@ public class StartViewController {
         this.window = window;
     }
 
+    /**
+     * Start View on click action
+     */
     @FXML
-    public void clickOnLogin() throws IOException {
-        boolean res = loginModel.validateLogin(userName.getText(),passWord.getText());
-        if(res){
-            new MenuView().show(this.window, null);
-        }else{
-            error_msg.setText("Error in UserName or Password, Please enter again.");
+    public void clickOnLogin() {
+        try {
+            // Check the login result from server
+            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText());
+            if (res) new MenuView().show(this.window, null); // Enter into menu view
+            else error_msg.setText("Error in UserName, Password or cannot connect to server. Please try again."); // Show the Error Message
+        } catch (IOException e) {
+            error_msg.setText("Cannot show Menu view, Please enter again."); // Show the Error Message
         }
     }
 
+    /**
+     * Show the signup page when clickOnSignUp
+     */
     @FXML
-    public void clickOnSignUp() throws IOException {
-        new SignupView().show(this.window, signupModel);
+    public void clickOnSignUp(){
+        try {
+            new SignupView().show(this.window, signupModel);
+        } catch (IOException e) {
+            error_msg.setText("Cannot show signup view, Please enter again."); // Show the Error Message
+        }
     }
-
-
-
 
 
 }

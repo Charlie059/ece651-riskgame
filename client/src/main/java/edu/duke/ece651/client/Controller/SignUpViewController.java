@@ -24,21 +24,25 @@ public class SignUpViewController {
         this.window = window;
     }
 
+    /**
+     * Show Start view when clickOnBack
+     */
     @FXML
     public void clickOnBack(){
         this.window.setScene(SceneCollector.startView);
         this.window.show();
     }
 
+    /**
+     * Validate user signup request from server
+     */
     @FXML
     public void clickOnSignUp(){
-
         boolean res = signupModel.signUp(userName.getText(),passWord.getText());
         if(res){
             msg.setText("Sign up a new account successfully!");
         }else{
-            msg.setText("Repeated UserName.");
+            msg.setText("Sign up a new account failure!");
         }
     }
-
 }

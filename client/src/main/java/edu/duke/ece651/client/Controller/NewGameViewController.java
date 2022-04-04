@@ -1,5 +1,6 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Checker.NewGameChecker;
 import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.gameInfo;
 import javafx.fxml.FXML;
@@ -27,12 +28,13 @@ public class NewGameViewController {
         this.window = window;
     }
 
+
     @FXML
     public void clickOnStart() throws IOException {
-        // check input format..
-        boolean res = checkInput(n_players.getText(),gameID.getText());
+        // Check input format
+        boolean res = new NewGameChecker().doCheck(new String[]{n_players.getText()});
         if(!res){
-            allert_T.setText("Invalid number of Players or gameID!");
+            allert_T.setText("Invalid number of Players!");
             return;
         }
 
@@ -49,27 +51,6 @@ public class NewGameViewController {
         window.show();
     }
 
-    private boolean checkInput(String n, String ID){
-        // check n_players
-        for(int i=0;i<n.length();i++){
-            if(!Character.isDigit(n.charAt(i))){
-                return false;
-            }
-        }
-        int N = Integer.parseInt(n);
-        if(N<2 || N>5){
-            return false;
-        }
-
-        // check game ID
-        for(int i=0;i<ID.length();i++){
-            if(!Character.isDigit(ID.charAt(i))){
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     private void showDeployView() throws IOException {
         // load start view fxml
