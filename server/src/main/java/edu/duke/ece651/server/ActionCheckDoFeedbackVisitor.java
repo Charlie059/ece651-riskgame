@@ -126,9 +126,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if(deployChecker.doCheck()){
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
-            p.DoDeploy(deployAction.getTo(), deployAction.getDeployUnits());
+            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             //send respond
-
+            RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
+            sendResponse(rspDeploySuccess);
+        }else{
+            RSPDeployFail rspDeployFail = new RSPDeployFail();
+            sendResponse(rspDeployFail);
         }
     }
 
@@ -184,10 +188,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //Update Server this Game Map
             Player player = moveChecker.getPlayer();
             //server player update map
-            player.DoMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
+            player.doMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
             //send response
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
+        }
+        else{
+            RSPMoveFail rspMoveFail = new RSPMoveFail();
+            sendResponse(rspMoveFail);
         }
     }
 
@@ -205,6 +213,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Add New Player to New Game
         game.getPlayerHashMap().put(this.accountID, player);
         game.setOwnership(this.accountID);
+        //Announce Player to have Owned Territory
+        player.assignMyTerritories();
         //Add New Player Commit Track to New Game
         game.getCommittedHashMap().put(this.accountID, false);
         //Add Game to Database
@@ -255,31 +265,55 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     //TODO:Player add Map field
     @Override
-    public void visit(UpdateTechAction updateTechAction) {
+    public void visit(UpgradeTechAction upgradeTechAction) {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
-                                                            updateTechAction.getNextLevel(),
-                                                            updateTechAction.getCurrTechResource(),
-                                                            TechLevelUpgradeList);
+                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechLevelUpgrade(),
+                                                            TechLevelUpgradeList,
+                                                            this.gameID);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
-            Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
-            //Player updateTech Level, decrease Tech resource
-            p.DoUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
+            Player p = gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+            //Player temperately set update level, and mark as updated
+            p.setUpgradeTech(updateTechChecker.getNextLevel(), updateTechChecker.getCost());
             //send response
-            RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
-            sendResponse(rspUpdateTechSuccess);
+            RSPUpgradeTechSuccess rspUpgradeTechSuccess = new RSPUpgradeTechSuccess();
+            sendResponse(rspUpgradeTechSuccess);
         } else {
-            RSPUpdateTechFail rspUpdateTechFail = new RSPUpdateTechFail();
-            sendResponse(rspUpdateTechFail);
+            RSPUpgradeTechFail rspUpgradeTechFail = new RSPUpgradeTechFail();
+            sendResponse(rspUpgradeTechFail);
         }
     }
 
     @Override
-    public void visit(UpdateUnitsAction updateUnitsAction) {
+    public void visit(UpgradeUnitsAction updateUnitsAction) {
+        UpgradeUnitsChecker upgradeUnitsChecker = new UpgradeUnitsChecker(this.accountID,
+                gameHashMap,
+                accountHashMap,
+                updateUnitsAction.getWhere(),
+                updateUnitsAction.getNewLevel(),
+                updateUnitsAction.getOldLevel(),
+                gameID,
+                UnitLevelUpgradeList);
+        if (upgradeUnitsChecker.doCheck()){
+            //Do UpgradeUnit
+            Player p = upgradeUnitsChecker.getPlayer();
+            p.DoUpgradeUnit(updateUnitsAction.getWhere(),
+                    updateUnitsAction.getOldLevel(),
+                    updateUnitsAction.getNewLevel(),
+                    upgradeUnitsChecker.getTechCost());
+            RSPUpgradeUnitsSuccess rspUpdateUnitsSuccess = new RSPUpgradeUnitsSuccess();
+            rspUpdateUnitsSuccess.setNewLevel(updateUnitsAction.getNewLevel());
+            rspUpdateUnitsSuccess.setOldLevel(updateUnitsAction.getOldLevel());
+            rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
+            sendResponse(rspUpdateUnitsSuccess);
 
+        }else{
+            RSPUpgradeUnitsFail rspUpdateUnitsFail = new RSPUpgradeUnitsFail();
+            sendResponse(rspUpdateUnitsFail);
+        }
     }
 
     //TODO:Player add map field
@@ -294,6 +328,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             currGame.getPlayerHashMap().put(this.accountID,player);
             //Set Territory Ownership to joined player
             currGame.setOwnership(this.accountID);
+            //Announce Player to have Owned Territory
+            player.assignMyTerritories();
             //Add New Player Commit Track to New Game
             currGame.getCommittedHashMap().put(this.accountID, false);
             // Create response

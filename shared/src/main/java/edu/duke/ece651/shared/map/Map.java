@@ -3,10 +3,7 @@ package edu.duke.ece651.shared.map;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Stack;
+import java.util.*;
 
 public class Map {
     public int numOfPlayers; // number of player = 3
@@ -28,27 +25,14 @@ public class Map {
 
     }
 
-    public HashMap<String, Territory> getTerritoryList() {
+    public synchronized HashMap<String, Territory> getTerritoryList() {
         return territoryList;
     }
-
-    public ArrayList<ArrayList<String>> getGroups() {
+    public synchronized ArrayList<ArrayList<String>> getGroups() {
         return groups;
     }
 
-    /**
-     * assign initial player IDs to each Territory
-     */
-    /*
-    public void assignInitialID(){
-        for(int i = 0; i < groups.size(); i++){
-            ArrayList<String> name_arr = groups.get(i);
-            for(int j = 0; j < name_arr.size(); j++){
-                territoryList.get(name_arr.get(j)).changeOwner(i+1);
-            }
-        }
-    }
-    */
+
     /**
      * Used in Move action, check if there is a path between the two
      * territories(with names "from" and "to") of the player (playerID).
@@ -117,7 +101,49 @@ public class Map {
         return false;
     }
 
-
+    /**
+     * Dijkstra's Algorithm
+     * @param start
+     * @return
+     */
+    public int shortestPathFrom(AccountID accountID, String start, String to){
+        Territory start_terr = this.territoryList.get(start);
+        //HashMap<String, Territory.Node> res = new HashMap<>();
+        int res = -1;
+        PriorityQueue<Territory> pQueue = new PriorityQueue<>();//min-heap
+        //add all territory of the graph to the priority queue
+        for(Territory terr: this.territoryList.values()){
+            //same reference to the start territory
+            if (terr.getOwnerId().equals(accountID)) {
+                if (terr.equals(start_terr)) {
+                    terr.setDist(0);
+                } else {
+                    terr.setDist(Integer.MAX_VALUE);
+                }
+                terr.setPrev(null);
+                pQueue.add(terr);
+            }
+        }
+        //loop while there are vertices left to visit
+        while(!pQueue.isEmpty()){
+            //find the next vertex to visit
+            Territory u = pQueue.poll();
+            //Territory.Node n = new Territory.Node(u.getName(), u.getDist(), u.getPrev());
+            if (u.getName().equals(to)){
+                res = u.getDist();
+                return res;
+            }
+            //check each neighbors of u
+            //update predictions and previous vertex
+            for(Territory neigh: u.getNeighbour()){
+                if (neigh.getOwnerId().equals(accountID) && neigh.getDist() > u.getDist() + neigh.getCost()){
+                    neigh.setDist(u.getDist() + neigh.getCost());
+                    neigh.setPrev(u.getName());
+                }
+            }
+        }
+        return res;
+    }
 
     /**
      * display map information of the map for client.

@@ -31,7 +31,7 @@ public class DeployChecker extends ActionChecker{
         this.accountID =  accountID;
         this.gameID = gameID;
         Game game = this.gameHashMap.get(this.gameID);
-        player = game.getPlayerHashMap().get(this.accountID);
+        this.player = game.getPlayerHashMap().get(this.accountID);
     }
 
     @Override

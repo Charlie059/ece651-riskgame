@@ -18,12 +18,13 @@ public class GameRunnable implements Runnable {
     private AccountHashMap accountHashMap;//AccountID Account
     private GameID gameID;
     private Boolean isCombatResolutionFinished;
-
+    private Game currGame;
 
     public GameRunnable(GameHashMap gameHashMap, AccountHashMap accountHashMap, GameID gameID) {
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         this.gameID = gameID;
+        this.currGame = this.gameHashMap.get(this.gameID);
     }
 
 
@@ -47,6 +48,10 @@ public class GameRunnable implements Runnable {
 
     private void combatResolution() {
 
+        //DO Attack
+
+        //Do Tech Upgrade
+        this.currGame.getPlayerHashMap().updatePlayersTechLevel();
     }
 
     /**
@@ -68,6 +73,7 @@ public class GameRunnable implements Runnable {
             }
             //Change isCommited to False
             this.changeIsCommitted();
+
             //Do Combat Resolution
             this.combatResolution();
             //Change Combat Resolution status finished

@@ -1,5 +1,6 @@
 package edu.duke.ece651.shared.map;
 
+import edu.duke.ece651.shared.Wrapper.AccountID;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,37 +31,72 @@ class MapTest {
                 System.out.print("\n");
             }
         }
+    }
+
+    @Test
+    void testIsPathExist(){
+        Map m = new Map(5);
+        //get the shortest paths from terr to other territories
+        AccountID acc1 = new AccountID("1");
+        AccountID acc2 = new AccountID("2");
+        AccountID acc3 = new AccountID("3");
+        AccountID acc4 = new AccountID("4");
+        AccountID acc5 = new AccountID("5");
+        //assign ownership
+        for(String terr: m.getGroups().get(0)){
+            m.getTerritoryList().get(terr).setOwner(acc1);
+        }
+        for(String terr: m.getGroups().get(1)){
+            m.getTerritoryList().get(terr).setOwner(acc2);
+        }
+        //assign ownership
+        for(String terr: m.getGroups().get(2)){
+            m.getTerritoryList().get(terr).setOwner(acc3);
+        }
+        for(String terr: m.getGroups().get(3)){
+            m.getTerritoryList().get(terr).setOwner(acc4);
+        }
+        for(String terr: m.getGroups().get(4)){
+            m.getTerritoryList().get(terr).setOwner(acc5);
+        }
+        m.getTerritoryList().get("c1").setOwner(acc1);
+        assertTrue(m.isPathExist(acc1, "a1", "a2"));
+        assertFalse(m.isPathExist(acc1, "a1", "c1"));
+        assertThrows(IllegalArgumentException.class, ()->m.isPathExist(acc1, "a1", "b1"));
 
     }
 
     @Test
     void testIsAdjacent() {
-        /*
         Map m = new Map(3);
-        assertThrows(IllegalArgumentException.class, () -> m.isAdjacent(1, "a1", "a3"));
-
-        m.territoryList.get("b1").setOwner(0);
-        m.territoryList.get("b3").setOwner(0);
-        assertTrue(m.isAdjacent(1, "a1", "b1"));
-        assertFalse(m.isAdjacent(1, "a1", "b3"));
-
-         */
+        AccountID acc0 = new AccountID("0");
+        AccountID acc1 = new AccountID("1");
+        m.territoryList.get("b1").setOwner(acc1);
+        m.territoryList.get("b3").setOwner(acc1);
+        m.territoryList.get("a1").setOwner(acc0);
+        m.territoryList.get("a3").setOwner(acc0);
+        assertThrows(IllegalArgumentException.class, () -> m.isAdjacent(acc0, "a1", "a3"));
+        assertTrue(m.isAdjacent(acc0, "a1", "b1"));
+        assertFalse(m.isAdjacent(acc0, "a1", "b3"));
     }
 
 
     @Test
     void testDisplayMap() {
-        /*
+
         Map m = new Map(3);
-        m.territoryList.get("a1").setOwner(1);
-        m.territoryList.get("a2").setOwner(1);
-        m.territoryList.get("a3").setOwner(1);
-        m.territoryList.get("b1").setOwner(2);
-        m.territoryList.get("b2").setOwner(2);
-        m.territoryList.get("b3").setOwner(2);
-        m.territoryList.get("c1").setOwner(3);
-        m.territoryList.get("c2").setOwner(3);
-        m.territoryList.get("c3").setOwner(3);
+        AccountID a1 = new AccountID("1");
+        AccountID a2 = new AccountID("2");
+        AccountID a3 = new AccountID("3");
+        m.territoryList.get("a1").setOwner(a1);
+        m.territoryList.get("a2").setOwner(a1);
+        m.territoryList.get("a3").setOwner(a1);
+        m.territoryList.get("b1").setOwner(a2);
+        m.territoryList.get("b2").setOwner(a2);
+        m.territoryList.get("b3").setOwner(a2);
+        m.territoryList.get("c1").setOwner(a3);
+        m.territoryList.get("c2").setOwner(a3);
+        m.territoryList.get("c3").setOwner(a3);
 
         ArrayList<ArrayList<Integer>> units_arr = new ArrayList<>();
         ArrayList<Integer> curr = new ArrayList<>();
@@ -77,7 +113,7 @@ class MapTest {
         m.territoryList.get("a1").addUnitMultiLevels(units_arr);
         MapView displayer = new MapTextView(3, System.out);
         m.displayMap(displayer);
-*/
+
     }
 
     /**
@@ -87,24 +123,63 @@ class MapTest {
     void createMap() {
         //players #: 2
         Map m = new Map(2);
+        AccountID acc1 = new AccountID("1");
+        AccountID acc2 = new AccountID("2");
+        //assign ownership
+        for(String terr: m.getGroups().get(0)){
+            m.getTerritoryList().get(terr).setOwner(acc1);
+        }
+        for(String terr: m.getGroups().get(1)){
+            m.getTerritoryList().get(terr).setOwner(acc2);
+        }
+        assertEquals(m.getTerritoryList().get("a1").getOwnerId(), acc1);
+        assertEquals(m.getTerritoryList().get("b1").getOwnerId(), acc2);
         assertEquals(m.getTerritoryList().size(), 6);
         assertEquals(m.getGroups().size(), 2);
 
         //test isAdjacent
-        //assertEquals(m.isAdjacent(1, "a2", "b2"), true);
-        //assertThrows(IllegalArgumentException.class, ()->m.isAdjacent(1, "a1", "a2"));
-
-
+        assertEquals(m.isAdjacent(acc1, "a2", "b2"), true);
+        assertThrows(IllegalArgumentException.class, ()->m.isAdjacent(acc1, "a1", "a2"));
 
         //players #: 4
         Map m2 = new Map(4);
         assertEquals(m2.getTerritoryList().size(), 12);
         assertEquals(m2.getGroups().size(), 4);
 
-
         //players #: 5
         Map m3= new Map(5);
         assertEquals(m3.getTerritoryList().size(), 15);
         assertEquals(m3.getGroups().size(), 5);
+    }
+
+    @Test
+    void testShortestPath(){
+        Map m = new Map(5);
+        //get the shortest paths from terr to other territories
+        AccountID acc1 = new AccountID("1");
+        AccountID acc2 = new AccountID("2");
+        AccountID acc3 = new AccountID("3");
+        AccountID acc4 = new AccountID("4");
+        AccountID acc5 = new AccountID("5");
+        //assign ownership
+        for(String terr: m.getGroups().get(0)){
+            m.getTerritoryList().get(terr).setOwner(acc1);
+        }
+        for(String terr: m.getGroups().get(1)){
+            m.getTerritoryList().get(terr).setOwner(acc2);
+        }
+        //assign ownership
+        for(String terr: m.getGroups().get(2)){
+            m.getTerritoryList().get(terr).setOwner(acc3);
+        }
+        for(String terr: m.getGroups().get(3)){
+            m.getTerritoryList().get(terr).setOwner(acc4);
+        }
+        for(String terr: m.getGroups().get(4)){
+            m.getTerritoryList().get(terr).setOwner(acc5);
+        }
+        //from -> to
+        assertEquals(m.shortestPathFrom(acc1, "a1", "a1"), 0);
+        assertEquals(m.shortestPathFrom(acc1, "a1", "a2"), 20);
     }
 }
