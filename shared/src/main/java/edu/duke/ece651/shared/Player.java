@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 public class Player {
     private AccountID accountID; // player id
-    private int numOfPlayers;
     private int foodResource;
     private int techResource;
     private int currTechLevel;

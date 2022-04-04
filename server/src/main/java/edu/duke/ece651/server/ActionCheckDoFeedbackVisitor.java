@@ -10,6 +10,7 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
+import edu.duke.ece651.shared.map.Map;
 
 import java.io.*;
 import java.net.Socket;
@@ -109,13 +110,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(CommitAction commitAction) {
-        CommitChecker commitChecker = new CommitChecker(this.gameHashMap,this.accountHashMap,this.accountID, this.gameID);
-        if(commitChecker.doCheck()){
-            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID,true);
-        }else{
-            RSPCommitFail rspCommitFail = new RSPCommitFail();
-            sendResponse(rspCommitFail);
-        }
+//        this.gameHashMap.get(this.accountID).getCommittedHashMap().put(this.accountID, true);
+//        RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
+//        sendResponse(rspCommitSuccess);
     }
 
     @Override
