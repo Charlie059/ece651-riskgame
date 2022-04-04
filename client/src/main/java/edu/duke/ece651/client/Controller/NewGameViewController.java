@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class NewGameViewController {
     @FXML
@@ -27,7 +28,6 @@ public class NewGameViewController {
     public NewGameViewController(Stage window){
         this.window = window;
     }
-
 
     @FXML
     public void clickOnStart() throws IOException {
@@ -57,10 +57,10 @@ public class NewGameViewController {
         URL xmlResource = getClass().getResource("/xml/deployView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader's setControllerFactory to specify how to create controllers.
-        //HashMap<Class<?>,Object> controllers = new HashMap<>();
-        //controllers.put(DeployViewController.class, new DeployViewController(window));
-        //loader.setControllerFactory(controllers::get);
+        // use hashMap to collect controllers.
+        HashMap<Class<?>,Object> controllers = new HashMap<>();
+        controllers.put(DeployViewController.class, new DeployViewController(window));
+        loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 
         // create scene and load css
