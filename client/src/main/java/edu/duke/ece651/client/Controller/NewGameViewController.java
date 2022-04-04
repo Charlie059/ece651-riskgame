@@ -2,6 +2,7 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Checker.NewGameChecker;
 import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.View.DeployView;
 import edu.duke.ece651.client.gameInfo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,9 +41,7 @@ public class NewGameViewController {
 
         // translate game info
         gameInfo newGame = new gameInfo(Integer.parseInt(gameID.getText()), Integer.parseInt(n_players.getText()),"this is a new game.");
-
-        showDeployView();
-        System.out.println("startNewGame");
+        new DeployView().show(window,null);
     }
 
     @FXML
@@ -52,24 +51,5 @@ public class NewGameViewController {
     }
 
 
-    private void showDeployView() throws IOException {
-        // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/deployView.fxml");
-        FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use hashMap to collect controllers.
-        HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(DeployViewController.class, new DeployViewController(window));
-        loader.setControllerFactory(controllers::get);
-        GridPane gp = loader.load();
-
-        // create scene and load css
-        Scene scene = new Scene(gp, 1280, 760);
-        URL cssResource = getClass().getResource("/css/button.css");
-        scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.continueGameView = scene;
-
-        this.window.setScene(scene);
-        this.window.show();
-    }
 }

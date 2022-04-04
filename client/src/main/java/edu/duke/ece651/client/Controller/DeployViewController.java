@@ -1,6 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
 
+import edu.duke.ece651.client.View.MainGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,6 +10,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -28,11 +30,13 @@ public class DeployViewController implements Initializable {
 
     private final Stage window;
 
+    // these three lists are used in choiceBox
+    private ObservableList<String> terrList;
+    private ObservableList<Integer> numberList;
+    private ObservableList<Integer> levelList;
+
     @FXML
     public void clickOnViewMap(){
-        Stage mapWindow = new Stage();
-        // TODO load map view..
-        mapWindow.show();
     }
 
     @FXML
@@ -52,26 +56,30 @@ public class DeployViewController implements Initializable {
     }
 
     @FXML
-    public void clickOnDone(){
-        // TODO: submit all deploy and enter gameView
+    public void clickOnDone() throws IOException {
+        // TODO: submit all deployment and get response from server, then enter the mainView
+        new MainGameView().show(window,null);
     }
 
-    private ObservableList<String> getTerritoryList(){
-        // TODO: get available territories from server
-        return FXCollections.observableArrayList("a1","a2","a3");
+    private void setTerritoryList(ObservableList<String>l){
+        // TODO: get available territories from server and then add them into observableArrayList
+        l.add("a1");
+        l.add("a2");
+        l.add("a3");
     }
 
-    private ObservableList<Integer>getLevelList(){
-        // TODO: get available levels from server
-        return FXCollections.observableArrayList(1,2,3,4,5,6);
+    private void setLevelList(ObservableList<Integer>l){
+        // TODO: get available levels from server and then add them into observableArrayList
+        l.add(1);
+        l.add(2);
+        l.add(3);
     }
 
-    private ObservableList<Integer>createAvailalbeNumList(int max){
-        ObservableList<Integer> l = FXCollections.observableArrayList();
+    private void createAvailalbeNumList(ObservableList<Integer> l, int max){
+        l.clear();
         for(int i=1; i<=max; i++){
             l.add(i);
         }
-        return l;
     }
 
     private int getInitalUnitsNumber(){
@@ -103,6 +111,7 @@ public class DeployViewController implements Initializable {
     }
 
     private void setUnitNumberText(int initNum){
+        // TODO: change it and get number of each units from server. remove initNum
         level1_n.setText("  "+ String.valueOf(initNum));
         level2_n.setText("  "+"0");
         level3_n.setText("  "+"0");
@@ -113,14 +122,17 @@ public class DeployViewController implements Initializable {
     
     public DeployViewController(Stage window){
         this.window = window;
+        levelList = FXCollections.observableArrayList();
+        terrList = FXCollections.observableArrayList();
+        numberList = FXCollections.observableArrayList();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         int initNum = getInitalUnitsNumber();
-        ObservableList<String> terrList = getTerritoryList();
-        ObservableList<Integer> numberList = createAvailalbeNumList(initNum);
-        ObservableList<Integer> levelList = getLevelList();
+        createAvailalbeNumList(numberList, initNum);
+        setTerritoryList(terrList);
+        setLevelList(levelList);
 
         territorySelect.setItems(terrList);
         levelSelect.setItems(levelList);

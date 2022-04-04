@@ -1,6 +1,6 @@
 package edu.duke.ece651.client.View;
 
-import edu.duke.ece651.client.Controller.MenuViewController;
+import edu.duke.ece651.client.Controller.DeployViewController;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXMLLoader;
@@ -12,24 +12,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class MenuView implements View{
+public class DeployView implements View {
     @Override
     public void show(Stage window, Model model) throws IOException {
         // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/menuView.fxml");
+        URL xmlResource = getClass().getResource("/xml/deployView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MenuViewController.class, new MenuViewController(window));
+        controllers.put(DeployViewController.class, new DeployViewController(window));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 
         // create scene and load css
-        Scene scene = new Scene(gp, 640, 480);
+        Scene scene = new Scene(gp, 1280, 760);
         URL cssResource = getClass().getResource("/css/button.css");
         scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.menuView = scene;
+        SceneCollector.continueGameView = scene;
 
         window.setScene(scene);
         window.show();
