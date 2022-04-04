@@ -3,6 +3,8 @@ package edu.duke.ece651.client.Controller;
 import edu.duke.ece651.client.Model.LoginModel;
 import edu.duke.ece651.client.Model.SignupModel;
 import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.View.MenuView;
+import edu.duke.ece651.client.View.SignupView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -37,8 +39,8 @@ public class StartViewController {
     @FXML
     public void clickOnLogin() throws IOException {
         boolean res = loginModel.validateLogin(userName.getText(),passWord.getText());
-        if(true){
-            showMenuView();
+        if(res){
+            new MenuView().show(this.window, null);
         }else{
             error_msg.setText("Error in UserName or Password, Please enter again.");
         }
@@ -46,50 +48,11 @@ public class StartViewController {
 
     @FXML
     public void clickOnSignUp() throws IOException {
-        showSignUpView();
-
+        new SignupView().show(this.window, signupModel);
     }
 
-    private void showMenuView() throws IOException {
-        // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/menuView.fxml");
-        FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
-        HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MenuViewController.class, new MenuViewController(window));
-        loader.setControllerFactory(controllers::get);
-        GridPane gp = loader.load();
 
-        // create scene and load css
-        Scene scene = new Scene(gp, 640, 480);
-        URL cssResource = getClass().getResource("/css/button.css");
-        scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.menuView = scene;
 
-        this.window.setScene(scene);
-        this.window.show();
-    }
-
-    private void showSignUpView() throws IOException{
-        // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/signUpView.fxml");
-        FXMLLoader loader = new FXMLLoader(xmlResource);
-
-        // use loader’s setControllerFactory to specify how to create controllers.
-        HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(signUpViewController.class, new signUpViewController(signupModel,window));
-        loader.setControllerFactory(controllers::get);
-        GridPane gp = loader.load();
-
-        // create scene and load css
-        Scene scene = new Scene(gp, 640, 480);
-        URL cssResource = getClass().getResource("/css/button.css");
-        scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.signUpView = scene;
-
-        this.window.setScene(scene);
-        this.window.show();
-    }
 
 }

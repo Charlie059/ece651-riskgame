@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class continueGameViewController implements Initializable
+public class ContinueGameViewController implements Initializable
 {
     @FXML
     private TableView<gameInfo> continueGameTable;
@@ -27,7 +27,7 @@ public class continueGameViewController implements Initializable
 
     private final Stage window;
 
-    public continueGameViewController(Stage window){
+    public ContinueGameViewController(Stage window){
         this.window = window;
     }
 

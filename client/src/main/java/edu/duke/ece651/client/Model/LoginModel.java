@@ -11,7 +11,7 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.io.IOException;
 
-public class LoginModel {
+public class LoginModel extends Model{
     public boolean validateLogin(String userName, String passWord){
 //        // TODO
 //

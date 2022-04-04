@@ -1,6 +1,9 @@
 package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.View.ContinueGameView;
+import edu.duke.ece651.client.View.JoinGameView;
+import edu.duke.ece651.client.View.NewGameView;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,12 +23,12 @@ public class MenuViewController {
 
     @FXML
     public void clickOnNewGame() throws IOException {
-        showNewGameView();
+        new NewGameView().show(this.window, null);
     }
 
     @FXML
     public void clickOnContinue() throws IOException {
-        showContinueView();
+        new ContinueGameView().show(this.window, null);
     }
 
     @FXML
@@ -36,71 +39,14 @@ public class MenuViewController {
 
     @FXML
     public void clickOnJoin() throws IOException {
-        showJoinGameView();
+        new JoinGameView().show(this.window, null);
     }
 
-    private void showNewGameView() throws IOException {
-        // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/newGameView.fxml");
-        FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
-        HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(newGameViewController.class, new newGameViewController(window));
-        loader.setControllerFactory(controllers::get);
-        GridPane gp = loader.load();
 
-        // create scene and load css
-        Scene scene = new Scene(gp, 640, 480);
-        URL cssResource = getClass().getResource("/css/button.css");
-        scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.newGameView = scene;
 
-        this.window.setScene(scene);
-        this.window.show();
-    }
 
-    private void showContinueView() throws IOException{
-        // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/continueGameView.fxml");
-        FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
-        HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(continueGameViewController.class, new continueGameViewController(window));
-        loader.setControllerFactory(controllers::get);
-        GridPane gp = loader.load();
-
-        // create scene and load css
-        Scene scene = new Scene(gp, 640, 480);
-        URL cssResource = getClass().getResource("/css/button.css");
-        scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.continueGameView = scene;
-
-        this.window.setScene(scene);
-        this.window.show();
-    }
-
-    private void showJoinGameView() throws IOException{
-        // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/JoinGameView.fxml");
-        FXMLLoader loader = new FXMLLoader(xmlResource);
-
-        // use loader’s setControllerFactory to specify how to create controllers.
-        HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(joinGameViewController.class, new joinGameViewController(window));
-        loader.setControllerFactory(controllers::get);
-        GridPane gp = loader.load();
-
-        // create scene and load css
-        Scene scene = new Scene(gp, 640, 480);
-        URL cssResource = getClass().getResource("/css/button.css");
-        scene.getStylesheets().add(cssResource.toString());
-        SceneCollector.joinGameView = scene;
-
-        this.window.setScene(scene);
-        this.window.show();
-    }
 }
 
 
