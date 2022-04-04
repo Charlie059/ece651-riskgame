@@ -64,7 +64,7 @@ public class Player {
     public void doDeploy(String to, int moveUnits) {
         Territory to_terr = this.getMyTerritories().get(to);
         to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
-        this.totalDeployment -= moveUnits;
+        this.totalDeployment-=moveUnits;
     }
 
     /**

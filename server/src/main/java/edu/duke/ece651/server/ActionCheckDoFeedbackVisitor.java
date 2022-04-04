@@ -133,6 +133,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
             p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
+            //send respond
             RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
             sendResponse(rspDeploySuccess);
         }else{
@@ -275,10 +276,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                                                             gameHashMap,
                                                             accountHashMap,
                                                             gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
-                                                            TechLevelUpgradeList,this.gameID);
-                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechLevelUpgrade(),
-                                                            TechLevelUpgradeList,
-                                                            this.gameID);
+                                                            upgradeTechAction.getNextLevel(),
+                                                            upgradeTechAction.getCurrTechResource(),
+                                                            TechLevelUpgradeList);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
