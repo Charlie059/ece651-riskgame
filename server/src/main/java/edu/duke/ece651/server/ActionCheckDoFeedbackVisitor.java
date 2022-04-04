@@ -129,7 +129,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if(deployChecker.doCheck()){
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
-            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
+//            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             //send respond
             RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
             sendResponse(rspDeploySuccess);
