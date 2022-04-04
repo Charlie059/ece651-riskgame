@@ -9,10 +9,7 @@ public class RSPVisitor implements ResponseVisitor{
 
     @Override
     public void visit(RSPMoveSuccess rspMoveSuccess) {
-        rspMoveSuccess.getFrom();
-                rspMoveSuccess.getTo();
-                rspMoveSuccess.getUnits();
-                //TODO:clientMap.moveUpdate(from, to, units);
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.LoginAndSignUpModel;
+import edu.duke.ece651.client.Model.LoginModel;
+import edu.duke.ece651.client.Model.SignupModel;
 import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,18 +24,20 @@ public class StartViewController {
     @FXML
     Text error_msg;
 
-    private final LoginAndSignUpModel lsM;
+    private final LoginModel loginModel;
+    private final SignupModel signupModel;
     private final Stage window;
 
-    public StartViewController(LoginAndSignUpModel lsM, Stage window) {
-        this.lsM = lsM;
+    public StartViewController(LoginModel loginModel, SignupModel signupModel, Stage window) {
+        this.loginModel = loginModel;
+        this.signupModel = signupModel;
         this.window = window;
     }
 
     @FXML
     public void clickOnLogin() throws IOException {
-        boolean res = lsM.validateLogin(userName.getText(),passWord.getText());
-        if(res){
+        boolean res = loginModel.validateLogin(userName.getText(),passWord.getText());
+        if(true){
             showMenuView();
         }else{
             error_msg.setText("Error in UserName or Password, Please enter again.");
@@ -43,7 +46,8 @@ public class StartViewController {
 
     @FXML
     public void clickOnSignUp() throws IOException {
-        showSignView();
+        showSignUpView();
+
     }
 
     private void showMenuView() throws IOException {
@@ -67,14 +71,14 @@ public class StartViewController {
         this.window.show();
     }
 
-    private void showSignView() throws IOException{
+    private void showSignUpView() throws IOException{
         // load start view fxml
         URL xmlResource = getClass().getResource("/xml/signUpView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(signUpViewController.class, new signUpViewController(lsM,window));
+        controllers.put(signUpViewController.class, new signUpViewController(signupModel,window));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 
