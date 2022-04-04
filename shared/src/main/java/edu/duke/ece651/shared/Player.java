@@ -42,6 +42,7 @@ public class Player {
         this.foodResource = 100;
         this.techResource = 100;
         this.currTechLevel = 1;
+        this.nextTechLevel = this.currTechLevel;
         this.isTechUpgraded = false;
         this.currentGameID = currentGameID;
         this.wholeMap = _map;
