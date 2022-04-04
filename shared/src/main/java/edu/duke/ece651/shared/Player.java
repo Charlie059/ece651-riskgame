@@ -14,7 +14,7 @@ public class Player {
     private int techResource;
     private int currTechLevel;
     private int nextTechLevel;
-    private boolean isTechUpgraded;
+    private boolean isTechLevelUpgrade;
     private boolean isFirstRound; // deploy
     private boolean isLose; // commit
     private boolean isGameOver;
@@ -39,11 +39,12 @@ public class Player {
         this.techResource = 100;
         this.currTechLevel = 1;
         this.nextTechLevel = this.currTechLevel;
-        this.isTechUpgraded = false;
+        this.isTechLevelUpgrade = false;
         this.currentGameID = currentGameID;
         this.wholeMap = _map;
         this.myTerritories = new HashMap<>();
         this.totalDeployment = this.wholeMap.numOfPlayers * 3;
+
     }
 
 
@@ -87,7 +88,7 @@ public class Player {
      */
     public void setUpgradeTech(int next_level, int cost) {
         this.nextTechLevel = next_level;
-        this.isTechUpgraded = true;
+        this.isTechLevelUpgrade = true;
         this.techResource -= cost;
     }
 
@@ -98,7 +99,7 @@ public class Player {
     public void doUpgradeTech()
     {
         this.currTechLevel = this.nextTechLevel;
-        this.isTechUpgraded = false;
+        this.isTechLevelUpgrade = false;
     }
     /**
      * temporally upgrade player's units in Territory where
@@ -256,10 +257,6 @@ public class Player {
                 this.myTerritories.put(terr, wholeMap.getTerritoryList().get(terr));
             }
         }
-    }
-
-    public Boolean isTechUpgraded(){
-        return this.isTechUpgraded;
     }
 
 }

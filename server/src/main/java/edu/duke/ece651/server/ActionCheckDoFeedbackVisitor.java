@@ -269,7 +269,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
-                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
+                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechLevelUpgrade(),
                                                             TechLevelUpgradeList,
                                                             this.gameID);
         if (updateTechChecker.doCheck()) {
