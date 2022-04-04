@@ -110,9 +110,15 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(CommitAction commitAction) {
-//        this.gameHashMap.get(this.accountID).getCommittedHashMap().put(this.accountID, true);
-//        RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
-//        sendResponse(rspCommitSuccess);
+        CommitChecker commitChecker = new CommitChecker(this.gameHashMap,this.accountHashMap,this.accountID, this.gameID);
+        if(commitChecker.doCheck()){
+            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID,true);
+            RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
+            sendResponse(rspCommitSuccess);
+        }else{
+            RSPCommitFail rspCommitFail = new RSPCommitFail();
+            sendResponse(rspCommitFail);
+        }
     }
 
     @Override
@@ -126,8 +132,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if(deployChecker.doCheck()){
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
-//            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
-            //send respond
+            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
             sendResponse(rspDeploySuccess);
         }else{
@@ -269,6 +274,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
+                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
+                                                            TechLevelUpgradeList,this.gameID);
                                                             gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechLevelUpgrade(),
                                                             TechLevelUpgradeList,
                                                             this.gameID);

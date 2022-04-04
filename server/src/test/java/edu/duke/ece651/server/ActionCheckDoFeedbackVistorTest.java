@@ -509,19 +509,20 @@ class ActionCheckDoFeedbackVistorTest {
         Response response2_2 = (Response) mockClient2.recvObject();
         assertEquals(new RSPCommitSuccess().getClass(),response2_2.getClass());
 
-//        //Start Resource 100
-//        //level 0 -> level 1 cost = 50
-//        //Upgrade to level 1 success
-//        UpgradeTechAction upgradeTechAction = new UpgradeTechAction();
-//        mockClient1.sendObject(upgradeTechAction);
-//        Response response1 = (Response)  mockClient1.recvObject();
-//        assertEquals(new RSPUpgradeTechSuccess().getClass(),response.getClass());
-//
-//        //Update Fail because has done one
-//        mockClient1.sendObject(upgradeTechAction);
-//        Response response2 = (Response) mockClient1.recvObject();
-//        assertEquals(new RSPUpgradeTechFail().getClass(),response1.getClass());
-//
+        //Start Resource 100
+        //level 0 -> level 1 cost = 50
+        //Upgrade to level 1 success
+        UpgradeTechAction upgradeTechAction = new UpgradeTechAction();
+        upgradeTechAction.setNextLevel(1)
+        mockClient1.sendObject(upgradeTechAction);
+        Response response3_1 = (Response)  mockClient1.recvObject();
+        assertEquals(new RSPUpgradeTechSuccess().getClass(),response3_1.getClass());
+
+        //Update Fail because has done one
+        mockClient1.sendObject(upgradeTechAction);
+        Response response3_2 = (Response) mockClient1.recvObject();
+        assertEquals(new RSPUpgradeTechFail().getClass(),response3_2.getClass());
+
 //        //Commit Success because has deployed all
 //        CommitAction commitAction = new CommitAction();
 //        mockClient1.sendObject(commitAction);
