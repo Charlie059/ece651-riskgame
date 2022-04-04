@@ -10,7 +10,6 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.map.Map;
 
 import java.io.*;
 import java.net.Socket;
@@ -110,9 +109,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(CommitAction commitAction) {
-//        this.gameHashMap.get(this.accountID).getCommittedHashMap().put(this.accountID, true);
-//        RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
-//        sendResponse(rspCommitSuccess);
+        CommitChecker commitChecker = new CommitChecker(this.gameHashMap,this.accountHashMap,this.accountID, this.gameID);
+        if(commitChecker.doCheck()){
+            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID,true);
+        }else{
+            RSPCommitFail rspCommitFail = new RSPCommitFail();
+            sendResponse(rspCommitFail);
+        }
     }
 
     @Override
@@ -126,9 +129,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if(deployChecker.doCheck()){
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
-            p.DoDeploy(deployAction.getTo(), deployAction.getDeployUnits());
+            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             //send respond
-
+            RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
+            sendResponse(rspDeploySuccess);
+        }else{
+            RSPDeployFail rspDeployFail = new RSPDeployFail();
+            sendResponse(rspDeployFail);
         }
     }
 
@@ -184,7 +191,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //Update Server this Game Map
             Player player = moveChecker.getPlayer();
             //server player update map
-            player.DoMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
+            player.doMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
             //send response
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
@@ -205,6 +212,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Add New Player to New Game
         game.getPlayerHashMap().put(this.accountID, player);
         game.setOwnership(this.accountID);
+        //Announce Player to have Owned Territory
+        player.assignMyTerritories();
         //Add New Player Commit Track to New Game
         game.getCommittedHashMap().put(this.accountID, false);
         //Add Game to Database
@@ -255,25 +264,26 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     //TODO:Player add Map field
     @Override
-    public void visit(UpdateTechAction updateTechAction) {
+    public void visit(UpgradeTechAction upgradeTechAction) {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
-                                                            updateTechAction.getNextLevel(),
-                                                            updateTechAction.getCurrTechResource(),
+                                                            gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
+                                                            upgradeTechAction.getNextLevel(),
+                                                            upgradeTechAction.getCurrTechResource(),
                                                             TechLevelUpgradeList);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
-            Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
-            //Player updateTech Level, decrease Tech resource
-            p.DoUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
+            Player p = gameHashMap.get(upgradeTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
+            //Player temperately set update level, and mark as updated
+            p.setUpgradeTech(upgradeTechAction.getNextLevel(), updateTechChecker.getCost());
             //send response
-            RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
-            sendResponse(rspUpdateTechSuccess);
+            RSPUpgradeTechSuccess rspUpgradeTechSuccess = new RSPUpgradeTechSuccess();
+            sendResponse(rspUpgradeTechSuccess);
         } else {
-            RSPUpdateTechFail rspUpdateTechFail = new RSPUpdateTechFail();
-            sendResponse(rspUpdateTechFail);
+            RSPUpgradeTechFail rspUpgradeTechFail = new RSPUpgradeTechFail();
+            sendResponse(rspUpgradeTechFail);
         }
     }
 
@@ -294,6 +304,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             currGame.getPlayerHashMap().put(this.accountID,player);
             //Set Territory Ownership to joined player
             currGame.setOwnership(this.accountID);
+            //Announce Player to have Owned Territory
+            player.assignMyTerritories();
             //Add New Player Commit Track to New Game
             currGame.getCommittedHashMap().put(this.accountID, false);
             // Create response
