@@ -49,7 +49,7 @@ public class StartViewController {
         URL xmlResource = getClass().getResource("/xml/menuView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(MenuViewController.class, new MenuViewController(window));
         loader.setControllerFactory(controllers::get);
@@ -70,7 +70,7 @@ public class StartViewController {
         URL xmlResource = getClass().getResource("/xml/signUpView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(signUpViewController.class, new signUpViewController(lsM,window));
         loader.setControllerFactory(controllers::get);

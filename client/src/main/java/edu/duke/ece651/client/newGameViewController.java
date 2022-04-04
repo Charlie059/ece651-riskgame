@@ -79,7 +79,7 @@ public class newGameViewController {
         URL xmlResource = getClass().getResource("/xml/deployView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(deployViewController.class, new deployViewController(window));
         loader.setControllerFactory(controllers::get);

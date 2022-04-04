@@ -43,7 +43,7 @@ public class MenuViewController {
         URL xmlResource = getClass().getResource("/xml/newGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(newGameViewController.class, new newGameViewController(window));
         loader.setControllerFactory(controllers::get);
@@ -64,7 +64,7 @@ public class MenuViewController {
         URL xmlResource = getClass().getResource("/xml/continueGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(continueGameViewController.class, new continueGameViewController(window));
         loader.setControllerFactory(controllers::get);
@@ -85,7 +85,7 @@ public class MenuViewController {
         URL xmlResource = getClass().getResource("/xml/JoinGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
+        // use hashMap to collect controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(joinGameViewController.class, new joinGameViewController(window));
         loader.setControllerFactory(controllers::get);
