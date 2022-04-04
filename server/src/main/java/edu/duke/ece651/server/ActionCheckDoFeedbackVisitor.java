@@ -112,6 +112,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         CommitChecker commitChecker = new CommitChecker(this.gameHashMap,this.accountHashMap,this.accountID, this.gameID);
         if(commitChecker.doCheck()){
             this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID,true);
+            RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
+            sendResponse(rspCommitSuccess);
         }else{
             RSPCommitFail rspCommitFail = new RSPCommitFail();
             sendResponse(rspCommitFail);
@@ -129,8 +131,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if(deployChecker.doCheck()){
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
-//            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
-            //send respond
+            p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
             RSPDeploySuccess rspDeploySuccess = new RSPDeploySuccess();
             sendResponse(rspDeploySuccess);
         }else{
@@ -269,9 +270,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                                                             gameHashMap,
                                                             accountHashMap,
                                                             gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
-                                                            upgradeTechAction.getNextLevel(),
-                                                            upgradeTechAction.getCurrTechResource(),
-                                                            TechLevelUpgradeList);
+                                                            TechLevelUpgradeList,this.gameID);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
