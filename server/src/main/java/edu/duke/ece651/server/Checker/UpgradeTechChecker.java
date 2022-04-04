@@ -26,6 +26,7 @@ public class UpgradeTechChecker extends ActionChecker{
                               ){
         super( gameHashMap,accountHashMap ,accountID);
         this.isTechUpgraded = isTechUpgraded;
+        this.gameID = gameID;
         Game game = this.gameHashMap.get(this.gameID);
         this.player = game.getPlayerHashMap().get(this.accountID);
         this.nextLevel = this.player.getCurrTechLevel()+1;
