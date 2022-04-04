@@ -13,11 +13,6 @@ import java.io.IOException;
 public class Client extends Application{
 
   public static void main(String[] args) throws IOException, InterruptedException, Exception {
-    // Create client and connect to the server
-    ClientSocket.getInstance();
-
-    //GUI
-    System.out.println("GUI begin running.");
     launch(args);
   }
 
