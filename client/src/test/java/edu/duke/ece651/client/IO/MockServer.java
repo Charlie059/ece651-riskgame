@@ -153,6 +153,16 @@ public class MockServer {
         return null;
     }
 
+
+    /**
+     * Close socket
+     * @throws IOException
+     */
+    public void close() throws IOException {
+        this.serversocket.close();
+    }
+
+
     public static void main(String[] args){
         MockServer mockServer = null;
         try {

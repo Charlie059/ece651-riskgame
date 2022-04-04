@@ -1,6 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Checker.NewGameChecker;
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.View.DeployView;
 import edu.duke.ece651.client.gameInfo;
@@ -25,23 +26,34 @@ public class NewGameViewController {
     Text allert_T;
 
     private final Stage window;
+    // Create new Game model
+    GameModel gameModel;
 
     public NewGameViewController(Stage window){
         this.window = window;
+        this.gameModel = new GameModel();
     }
 
+    /**
+     * Player clicks the new game button
+     */
     @FXML
-    public void clickOnStart() throws IOException {
+    public void clickOnStart() {
         // Check input format
-        boolean res = new NewGameChecker().doCheck(new String[]{n_players.getText()});
-        if(!res){
+        if(!new NewGameChecker().doCheck(new String[]{n_players.getText()})){
             allert_T.setText("Invalid number of Players!");
             return;
         }
 
-        // translate game info
-        gameInfo newGame = new gameInfo(Integer.parseInt(gameID.getText()), Integer.parseInt(n_players.getText()),"this is a new game.");
-        new DeployView().show(window,null);
+        // Pass userInput to GameModel (if model return false then return)
+        if(!this.gameModel.startNewGame(n_players.getText(), true)) return;
+
+        // If server accept request then show the deployment view
+        try {
+            new DeployView().show(this.window, this.gameModel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

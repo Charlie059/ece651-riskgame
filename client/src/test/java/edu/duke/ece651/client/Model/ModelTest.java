@@ -4,8 +4,10 @@ package edu.duke.ece651.client.Model;
 import edu.duke.ece651.client.ClientSocket;
 import edu.duke.ece651.client.IO.MockServer;
 import edu.duke.ece651.shared.IO.ClientActions.LoginAction;
+import edu.duke.ece651.shared.IO.ClientActions.NewGameAction;
 import edu.duke.ece651.shared.IO.ClientActions.SignUpAction;
 import edu.duke.ece651.shared.IO.ServerResponse.RSPLoginSuccess;
+import edu.duke.ece651.shared.IO.ServerResponse.RSPNewGameSuccess;
 import edu.duke.ece651.shared.IO.ServerResponse.RSPSignupSuccess;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import org.junit.jupiter.api.Test;
@@ -19,7 +21,6 @@ class ModelTest {
     @Test
     void validateLogin() throws IOException {
         MockServer mockServer = new MockServer(1651);
-
         // Create a new Thread
         Thread t = new Thread(new Runnable() {
             @Override
@@ -31,6 +32,9 @@ class ModelTest {
                     sendOtherObject(mockServer);
                     sendRSPSignUpSuccess(mockServer);
                     sendOtherObject(mockServer);
+                    sendRSPNewGameSuccess(mockServer);
+                    sendOtherObject(mockServer);
+
 
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -50,9 +54,17 @@ class ModelTest {
         SignupModel signupModel = new SignupModel();
         assertEquals(true, signupModel.signUp("123","abc"));
 
-
         // Client send Signup Action and recv other Response
         assertEquals(false, signupModel.signUp("123","abc"));
+
+        // Client send NewGame Action and recv RSPNewGameSuccess
+        GameModel gameModel = new GameModel();
+        assertEquals(true, gameModel.startNewGame("3"));
+
+        // Client send NewGame Action and recv RSPNewGameSuccess
+        assertEquals(false, gameModel.startNewGame("3"));
+
+        mockServer.close();
     }
 
 
@@ -73,6 +85,13 @@ class ModelTest {
         // Test send RSPLoginSuccess
         assertEquals(LoginAction.class, mockServer.recvObject().getClass());
         mockServer.sendObject(new RSPLoginSuccess());
+    }
+
+
+    private void sendRSPNewGameSuccess(MockServer mockServer) throws IOException, ClassNotFoundException {
+        // Test send RSPNewGameSuccess
+        assertEquals(NewGameAction.class, mockServer.recvObject().getClass());
+        mockServer.sendObject(new RSPNewGameSuccess());
     }
 
 
