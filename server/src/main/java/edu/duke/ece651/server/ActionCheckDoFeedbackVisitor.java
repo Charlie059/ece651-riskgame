@@ -109,9 +109,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(CommitAction commitAction) {
-//        this.gameHashMap.get(this.accountID).getCommittedHashMap().put(this.accountID, true);
-//        RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
-//        sendResponse(rspCommitSuccess);
+        CommitChecker commitChecker = new CommitChecker(this.gameHashMap,this.accountHashMap,this.accountID, this.gameID);
+        if(commitChecker.doCheck()){
+            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID,true);
+        }else{
+            RSPCommitFail rspCommitFail = new RSPCommitFail();
+            sendResponse(rspCommitFail);
+        }
     }
 
     @Override
@@ -260,26 +264,26 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     //TODO:Player add Map field
     @Override
-    public void visit(UpdateTechAction updateTechAction) {
+    public void visit(UpgradeTechAction upgradeTechAction) {
         UpgradeTechChecker updateTechChecker = new UpgradeTechChecker(this.accountID,
                                                             gameHashMap,
                                                             accountHashMap,
                                                             gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
-                                                            updateTechAction.getNextLevel(),
-                                                            updateTechAction.getCurrTechResource(),
+                                                            upgradeTechAction.getNextLevel(),
+                                                            upgradeTechAction.getCurrTechResource(),
                                                             TechLevelUpgradeList);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
-            Player p = gameHashMap.get(updateTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
+            Player p = gameHashMap.get(upgradeTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
             //Player temperately set update level, and mark as updated
-            p.setUpgradeTech(updateTechAction.getNextLevel(), updateTechChecker.getCost());
+            p.setUpgradeTech(upgradeTechAction.getNextLevel(), updateTechChecker.getCost());
             //send response
-            RSPUpdateTechSuccess rspUpdateTechSuccess = new RSPUpdateTechSuccess();
-            sendResponse(rspUpdateTechSuccess);
+            RSPUpgradeTechSuccess rspUpgradeTechSuccess = new RSPUpgradeTechSuccess();
+            sendResponse(rspUpgradeTechSuccess);
         } else {
-            RSPUpdateTechFail rspUpdateTechFail = new RSPUpdateTechFail();
-            sendResponse(rspUpdateTechFail);
+            RSPUpgradeTechFail rspUpgradeTechFail = new RSPUpgradeTechFail();
+            sendResponse(rspUpgradeTechFail);
         }
     }
 

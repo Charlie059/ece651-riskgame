@@ -49,6 +49,7 @@ public class Player {
         this.totalDeployment = this.wholeMap.numOfPlayers * 3;
     }
 
+
     public void setCurrentGameID(GameID gameID) {
         currentGameID = gameID;
     }
@@ -82,7 +83,6 @@ public class Player {
 
     /**
      * temporally do deploy on player's map
-     *
      * @param to
      * @param moveUnits
      */
@@ -93,7 +93,6 @@ public class Player {
 
     /**
      * temporally update player's move action to player's own map
-     *
      * @param moveUnits
      * @param from_name
      * @param to_name
@@ -188,8 +187,8 @@ public class Player {
     }
 
     public void sendUpgradeTech(int next_level, int currTechResource) {
-        UpdateTechAction updateTechAction = new UpdateTechAction();
-        updateTechAction.setNextLevel(next_level).
+        UpgradeTechAction upgradeTechAction = new UpgradeTechAction();
+        upgradeTechAction.setNextLevel(next_level).
                 setCurrTechResource(currTechResource);
     }
 
@@ -271,5 +270,9 @@ public class Player {
 
     public Boolean isTechUpgraded(){
         return this.isTechUpgraded;
+    }
+
+    public int getTechResource() {
+        return techResource;
     }
 }
