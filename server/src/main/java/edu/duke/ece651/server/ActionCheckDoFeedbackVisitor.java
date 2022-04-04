@@ -196,6 +196,10 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
             sendResponse(rspMoveSuccess);
         }
+        else{
+            RSPMoveFail rspMoveFail = new RSPMoveFail();
+            sendResponse(rspMoveFail);
+        }
     }
 
     //TODO: Player with map field
@@ -288,8 +292,32 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     }
 
     @Override
-    public void visit(UpdateUnitsAction updateUnitsAction) {
+    public void visit(UpgradeUnitsAction updateUnitsAction) {
+        UpgradeUnitsChecker upgradeUnitsChecker = new UpgradeUnitsChecker(this.accountID,
+                gameHashMap,
+                accountHashMap,
+                updateUnitsAction.getWhere(),
+                updateUnitsAction.getNewLevel(),
+                updateUnitsAction.getOldLevel(),
+                gameID,
+                UnitLevelUpgradeList);
+        if (upgradeUnitsChecker.doCheck()){
+            //Do UpgradeUnit
+            Player p = upgradeUnitsChecker.getPlayer();
+            p.DoUpgradeUnit(updateUnitsAction.getWhere(),
+                    updateUnitsAction.getOldLevel(),
+                    updateUnitsAction.getNewLevel(),
+                    upgradeUnitsChecker.getTechCost());
+            RSPUpdateUnitsSuccess rspUpdateUnitsSuccess = new RSPUpdateUnitsSuccess();
+            rspUpdateUnitsSuccess.setNewLevel(updateUnitsAction.getNewLevel());
+            rspUpdateUnitsSuccess.setOldLevel(updateUnitsAction.getOldLevel());
+            rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
+            sendResponse(rspUpdateUnitsSuccess);
 
+        }else{
+            RSPUpdateUnitsFail rspUpdateUnitsFail = new RSPUpdateUnitsFail();
+            sendResponse(rspUpdateUnitsFail);
+        }
     }
 
     //TODO:Player add map field

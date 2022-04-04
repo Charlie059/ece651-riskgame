@@ -3,13 +3,11 @@ package edu.duke.ece651.server.Checker;
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.Account;
+import edu.duke.ece651.shared.Player;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
-import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class UpgradeTechChecker extends ActionChecker{
     private Integer nextLevel;
@@ -45,4 +43,5 @@ public class UpgradeTechChecker extends ActionChecker{
 
     public int getCost(){return cost;}
 
+    public int getNextLevel(){return this.nextLevel;}
 }

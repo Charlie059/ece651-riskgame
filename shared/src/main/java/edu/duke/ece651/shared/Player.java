@@ -5,8 +5,6 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.*;
 
-import java.io.BufferedReader;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -25,7 +23,6 @@ public class Player {
     private HashMap<String, Territory> myTerritories;// all territories of the player
     private Map wholeMap;
     private int totalDeployment; // num of units
-    public MapView myMapTextView;
     private boolean isLoserAsked;
     private boolean isNotDisplay;
     private GameID currentGameID;
@@ -59,29 +56,6 @@ public class Player {
         return currentGameID.getCurrGameID();
     }
 
-    public void playerMakeChoice(BufferedReader inputReader, PrintStream out) throws Exception {
-        String choice;
-        while (true) {
-            out.println("What would you like to do?");
-            out.println("(M)ove\n(A)ttack\n(UT) upgrade Tech\n(U)pgrade Unit\n(D)one");
-            choice = inputReader.readLine();
-
-            if (choice.equals("M")) {
-                // TODO: MOVE
-            } else if (choice.equals("A")) {
-                // TODO: Attack
-            } else if (choice.equals("UT")) {
-                // TODO: Upgrade Tech Level
-            } else if (choice.equals("U")) {
-                //TODO: Upgrade Unit Level
-            } else {
-                // TODO: Commit
-                break;
-            }
-        }
-        return;
-    }
-
     /**
      * temporally do deploy on player's map
      * @param to
@@ -90,6 +64,7 @@ public class Player {
     public void doDeploy(String to, int moveUnits) {
         Territory to_terr = this.getMyTerritories().get(to);
         to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
+        this.totalDeployment -= moveUnits;
     }
 
     /**
@@ -130,19 +105,14 @@ public class Player {
      * temporally upgrade player's units in Territory where
      *
      * @param where
-     * @param unitsToUpgrade
+     * @param oldLevel
+     * @param newLevel
      */
-    public void DoUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade) {
+    public void DoUpgradeUnit(String where, int oldLevel, int newLevel, int techCost){
         Territory terr = this.myTerritories.get(where);
-        for (int i = 0; i < unitsToUpgrade.size(); i++) {
-            int level = unitsToUpgrade.get(i).get(0);
-            int num = unitsToUpgrade.get(i).get(1);
-            //max level: 6, cannot upgrade level-6 units
-            if (level < 6) {
-                terr.removeUnitLevel(level, num, terr.getUnits());
-                terr.addUnitLevel(level, num, terr.getUnits());
-            }
-        }
+        this.techResource -= techCost;
+        terr.removeUnitLevel(oldLevel, 1, terr.getUnits());
+        terr.addUnitLevel(newLevel, 1, terr.getUnits());
     }
 
 ////////////////////////////////Helper functions////////////////////////////////////////////////////
@@ -156,6 +126,7 @@ public class Player {
      */
     public boolean isTerrNameMatch(String terrName, HashMap<String, Territory> Territories) {
         if (Territories.get(terrName) != null) {
+            return true;
         }
         return false;
     }
@@ -181,16 +152,16 @@ public class Player {
     }
 
 
-    public void sendUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade) {
-        UpdateUnitsAction UpdateUnits_action = new UpdateUnitsAction();
+    public void sendUpgradeUnit(String where,  int oldLevel, int newLevel){
+        UpgradeUnitsAction UpdateUnits_action = new UpgradeUnitsAction();
         UpdateUnits_action.setWhere(where).
-                setUnitsToUpgrade(unitsToUpgrade);
+                setOldLevel(oldLevel).
+                setNewLevel(newLevel);
     }
 
-    public void sendUpgradeTech(int next_level, int currTechResource) {
-        UpgradeTechAction upgradeTechAction = new UpgradeTechAction();
-        upgradeTechAction.setNextLevel(next_level).
-                setCurrTechResource(currTechResource);
+    public void sendUpgradeTech(int next_level, int currTechResource){
+        UpgradeTechAction updateTechAction = new UpgradeTechAction();
+
     }
 
     /**
@@ -257,6 +228,21 @@ public class Player {
         return this.myTerritories;
     }
 
+    public int getTechResource() {
+        return techResource;
+    }
+
+    public int getFoodResource() {
+        return foodResource;
+    }
+
+    public int getCurrTechLevel() {
+        return currTechLevel;
+    }
+
+    public int getNextTechLevel() {
+        return this.nextTechLevel;
+    }
     /**
      * assign my territories
      */
@@ -273,7 +259,4 @@ public class Player {
         return this.isTechUpgraded;
     }
 
-    public int getTechResource() {
-        return techResource;
-    }
 }

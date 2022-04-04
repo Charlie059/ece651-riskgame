@@ -26,7 +26,7 @@ public interface ActionVisitor {
 
     void visit(UpgradeTechAction upgradeTechAction);
 
-    void visit(UpdateUnitsAction updateUnitsAction);
+    void visit(UpgradeUnitsAction updateUnitsAction);
 
     void visit(ChooseJoinGameAction chooseJoinGameAction);
 
