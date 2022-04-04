@@ -17,7 +17,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     Text playerID_t,territories_t,food_t,techResource_n;
     @FXML
-    Text level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
+    Text level0_n,level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
 
     private final Stage window;
     private ObservableList<String> terrList;
@@ -49,7 +49,8 @@ public class MainGameViewController implements Initializable {
 
     private void setUnitNumberText(int initNum){
         // TODO: change it and get number of each units from server. remove initNum
-        level1_n.setText("  "+ String.valueOf(initNum));
+        level0_n.setText("  "+ String.valueOf(initNum));
+        level1_n.setText("  "+"0");
         level2_n.setText("  "+"0");
         level3_n.setText("  "+"0");
         level4_n.setText("  "+"0");

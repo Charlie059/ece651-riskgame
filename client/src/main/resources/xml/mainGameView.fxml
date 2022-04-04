@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MainGameViewController" >
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MainGameViewController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -61,7 +61,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-      <Text fill="#b1994a" strokeType="OUTSIDE" strokeWidth="0.0" text="Deploy  Units" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Text fill="#b1994a" strokeType="OUTSIDE" strokeWidth="0.0" text="Play One Turn" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="48.0" />
          </font>
@@ -105,32 +105,32 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="level1_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+      <Text fx:id="level1_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="food_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="11" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.vgrow="ALWAYS">
+      <Text fx:id="food_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="11" GridPane.hgrow="ALWAYS" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Technology resource:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="17" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Technology resource:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="techResource_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="14" GridPane.hgrow="ALWAYS" GridPane.rowIndex="17" GridPane.vgrow="ALWAYS">
+      <Text fx:id="techResource_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="14" GridPane.hgrow="ALWAYS" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-1 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-1 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
@@ -153,52 +153,52 @@
             <String fx:value="numbtn" />
          </styleClass>
       </Button>
-      <Text fx:id="level2_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+      <Text fx:id="level2_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-2 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-2 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-3 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-3 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-4 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-4 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-5 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-5 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-6 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-6 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="level3_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+      <Text fx:id="level3_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="level5_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+      <Text fx:id="level5_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="level4_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+      <Text fx:id="level4_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text fx:id="level6_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+      <Text fx:id="level6_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
@@ -249,5 +249,15 @@
             <String fx:value="numbtn" />
          </styleClass>
       </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-0 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level0_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
    </children>
 </GridPane>
