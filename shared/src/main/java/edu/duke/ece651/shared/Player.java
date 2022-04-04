@@ -243,6 +243,10 @@ public class Player {
     public int getNextTechLevel() {
         return this.nextTechLevel;
     }
+
+    public boolean isTechLevelUpgrade() {
+        return isTechLevelUpgrade;
+    }
     /**
      * assign my territories
      */
