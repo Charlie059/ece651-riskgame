@@ -273,15 +273,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                                                             gameHashMap,
                                                             accountHashMap,
                                                             gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechUpgraded(),
-                                                            upgradeTechAction.getNextLevel(),
-                                                            upgradeTechAction.getCurrTechResource(),
-                                                            TechLevelUpgradeList);
+                                                            TechLevelUpgradeList,
+                                                            this.gameID);
         if (updateTechChecker.doCheck()) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
-            Player p = gameHashMap.get(upgradeTechAction.getGameID()).getPlayerHashMap().get(this.accountID);
+            Player p = gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
             //Player temperately set update level, and mark as updated
-            p.setUpgradeTech(upgradeTechAction.getNextLevel(), updateTechChecker.getCost());
+            p.setUpgradeTech(updateTechChecker.getNextLevel(), updateTechChecker.getCost());
             //send response
             RSPUpgradeTechSuccess rspUpgradeTechSuccess = new RSPUpgradeTechSuccess();
             sendResponse(rspUpgradeTechSuccess);
@@ -308,14 +307,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                     updateUnitsAction.getOldLevel(),
                     updateUnitsAction.getNewLevel(),
                     upgradeUnitsChecker.getTechCost());
-            RSPUpdateUnitsSuccess rspUpdateUnitsSuccess = new RSPUpdateUnitsSuccess();
+            RSPUpgradeUnitsSuccess rspUpdateUnitsSuccess = new RSPUpgradeUnitsSuccess();
             rspUpdateUnitsSuccess.setNewLevel(updateUnitsAction.getNewLevel());
             rspUpdateUnitsSuccess.setOldLevel(updateUnitsAction.getOldLevel());
             rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
             sendResponse(rspUpdateUnitsSuccess);
 
         }else{
-            RSPUpdateUnitsFail rspUpdateUnitsFail = new RSPUpdateUnitsFail();
+            RSPUpgradeUnitsFail rspUpdateUnitsFail = new RSPUpgradeUnitsFail();
             sendResponse(rspUpdateUnitsFail);
         }
     }

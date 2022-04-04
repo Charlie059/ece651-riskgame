@@ -15,18 +15,21 @@ public class UpgradeTechChecker extends ActionChecker{
     private Boolean isTechUpgraded;
     private ArrayList<Integer> TechLevelUpgradeList;
     private int cost;
+    private Player player;
+    private GameID gameID;
     public UpgradeTechChecker(AccountID accountID,
                               GameHashMap gameHashMap,
                               AccountHashMap accountHashMap,
                               Boolean isTechUpgraded,
-                              Integer _nextLevel,
-                              Integer _currTechResource,
-                              ArrayList<Integer> _TechLevelUpgradeList
+                              ArrayList<Integer> _TechLevelUpgradeList,
+                              GameID gameID
                               ){
         super( gameHashMap,accountHashMap ,accountID);
         this.isTechUpgraded = isTechUpgraded;
-        this.nextLevel = _nextLevel;
-        this.currTechResource = _currTechResource;
+        Game game = this.gameHashMap.get(this.gameID);
+        this.player = game.getPlayerHashMap().get(this.accountID);
+        this.nextLevel = this.player.getCurrTechLevel()+1;
+        this.currTechResource = this.player.getTechResource();
         this.TechLevelUpgradeList = _TechLevelUpgradeList;
         this.cost = TechLevelUpgradeList.get(nextLevel);
     }
