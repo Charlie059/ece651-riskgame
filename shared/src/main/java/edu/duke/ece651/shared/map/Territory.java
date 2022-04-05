@@ -107,6 +107,7 @@ public class Territory implements Comparable<Territory>, Serializable {
         return false;
     }
 
+
     /**
      * add multiple levels of units
      * @param arr: 2-D (n*2) array, arr[i][0] = level, arr[i][1] = num
