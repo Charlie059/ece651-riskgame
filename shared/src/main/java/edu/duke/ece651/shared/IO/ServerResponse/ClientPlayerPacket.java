@@ -121,5 +121,17 @@ public class ClientPlayerPacket {
     }
 
 
+    /**
+     * player temporarily reduces units in territory to and reduce food resource
+     * @param from_name
+     * @param to_name
+     * @param attackUnits
+     * @param totalCost
+     */
+    public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost){
+        this.getMyTerritories().get(from_name).removeUnitMultiLevels(attackUnits);
+        this.foodResource -= totalCost;
+    }
+
 
 }

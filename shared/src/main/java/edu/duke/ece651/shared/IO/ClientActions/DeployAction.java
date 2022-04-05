@@ -8,6 +8,16 @@ import java.util.ArrayList;
 public class DeployAction implements Action {
     private String to;
     private int deployUnits;
+    private String playerID;
+
+    public DeployAction(){}
+    public DeployAction(Integer gameID, String to, int deployUnits, String playerID) {
+        this.gameID = gameID;
+        this.to = to;
+        this.deployUnits = deployUnits;
+        this.playerID = playerID;
+    }
+
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);
