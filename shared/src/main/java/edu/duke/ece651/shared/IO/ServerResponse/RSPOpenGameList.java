@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class RSPOpenGameList implements Response{
+    public ArrayList<GameID> getGameIDArrayList() {
+        return gameIDArrayList;
+    }
+
     private ArrayList <GameID> gameIDArrayList;
 
     public RSPOpenGameList(ArrayList<GameID> gameIDArrayList) {
