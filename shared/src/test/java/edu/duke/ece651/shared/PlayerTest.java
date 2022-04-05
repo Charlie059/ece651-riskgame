@@ -84,5 +84,19 @@ class PlayerTest {
         assertEquals(p.getMyTerritories().get("a1").getUnits().get(2).getValue(), 1);
     }
 
+    @Test
+    void doAttack(){
+        Player p = createPlayer();
+        p.doDeploy("a1", 9);
+        ArrayList<Integer> a = new ArrayList<>();
+        a.add(0);
+        a.add(4);//level 0, num 4
+        ArrayList<ArrayList<Integer>>arr = new ArrayList<>();
+        arr.add(a);
+        //total cost = 4 * 10
+        p.doAttack("a1", "b1", arr, 40);
+        assertEquals(60, p.getFoodResource());
+        assertEquals(5 ,p.getMyTerritories().get("a1").getUnits().get(0).getValue());
+    }
 
 }

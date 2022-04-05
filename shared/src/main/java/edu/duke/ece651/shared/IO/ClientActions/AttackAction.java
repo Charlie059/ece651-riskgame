@@ -6,24 +6,14 @@ import edu.duke.ece651.shared.map.Unit;
 import java.util.ArrayList;
 
 public class AttackAction implements Action {
-    private Integer gameID;
-    private String playerID;
     private String from;
     private String to;
-    private ArrayList<Unit> units;
+    private ArrayList<ArrayList<Integer>> units;
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);
     }
 
-    public Integer getGameID() {
-        return gameID;
-    }
-
-    public AttackAction setGameID(Integer gameID) {
-        this.gameID = gameID;
-        return this;
-    }
 
     public String getFrom() {
         return from;
@@ -43,21 +33,13 @@ public class AttackAction implements Action {
         return this;
     }
 
-    public ArrayList<Unit> getUnits() {
+    public ArrayList<ArrayList<Integer>> getUnits() {
         return units;
     }
 
-    public AttackAction setUnits(ArrayList<Unit> units) {
+    public AttackAction setUnits(ArrayList<ArrayList<Integer>> units) {
         this.units = units;
         return this;
     }
 
-    public String getPlayerID(){
-        return playerID;
-    }
-
-    public AttackAction setPlayerID(String _playerID){
-        playerID = _playerID;
-        return this;
-    }
 }
