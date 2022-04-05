@@ -4,7 +4,7 @@ import edu.duke.ece651.shared.Visitor.ResponseVisitor;
 
 import java.util.ArrayList;
 
-public class RSPMoveSuccess implements Response{
+public class RSPAttackSuccess  implements Response{
     private String from;
     private String to;
     private ArrayList<ArrayList<Integer>> units;
@@ -15,10 +15,10 @@ public class RSPMoveSuccess implements Response{
 
     }
 
-    public RSPMoveSuccess(String from,
-                          String to,
-                          ArrayList<ArrayList<Integer>> units,
-                          int totalCost) {
+    public RSPAttackSuccess(String from,
+                            String to,
+                            ArrayList<ArrayList<Integer>> units,
+                            int totalCost) {
         this.from = from;
         this.to = to;
         this.units = units;

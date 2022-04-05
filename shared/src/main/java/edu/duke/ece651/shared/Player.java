@@ -82,6 +82,18 @@ public class Player {
     }
 
     /**
+     * player temporarily reduces units in territory to and reduce food resource
+     * @param from_name
+     * @param to_name
+     * @param attackUnits
+     * @param totalCost
+     */
+    public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost){
+        this.wholeMap.getTerritoryList().get(from_name).removeUnitMultiLevels(attackUnits);
+        this.foodResource -= totalCost;
+    }
+
+    /**
      * temporally set player's nextTechLevel
      * mark player has updated the techlevel
      * @param cost
@@ -175,7 +187,7 @@ public class Player {
      * @param to_name
      * @return
      */
-    public boolean sendAttack(ArrayList<Unit> attackUnits, String from_name, String to_name) {
+    public boolean sendAttack(ArrayList<ArrayList<Integer>> attackUnits, String from_name, String to_name) {
         try {
             AttackAction attack_action = new AttackAction();
             attack_action.setFrom(from_name).setTo(to_name).setUnits(attackUnits);

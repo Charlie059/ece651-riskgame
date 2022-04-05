@@ -6,6 +6,7 @@ import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
+import edu.duke.ece651.shared.Wrapper.AttackHashMap;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
@@ -28,7 +29,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     //Global Database
     private volatile GameHashMap gameHashMap;
     private volatile AccountHashMap accountHashMap;
-    //private ArrayList<AttackAction> attackActionArrayList;
+    private AttackHashMap attackHashMap;
+    //global tables for checking level-up cost
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
 
@@ -79,6 +81,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UnitLevelUpgradeList.add(50);//level 5->6: cost 50
     }
 
+    public AttackHashMap getAttackHashMap() {
+        return attackHashMap;
+    }
+
+    public void setAttackHashMap(AttackHashMap attackHashMap) {
+        this.attackHashMap = attackHashMap;
+    }
+
     /**
      * Send Response to Client
      *
@@ -96,16 +106,55 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(AttackAction attackAction) {
         //Check
-        //GameAvaliableChecker gameAvaliableChecker = new GameAvaliableChecker(this.gameHashMap,this.playerHashMap);
-        //Do
-
-        //Feedback
-//        Game currGame = this.gameHashMap.get(attackAction.getGameID());
-
-        //TODO:AttackActionArrayList field belongs to Player
-        //this.attackActionArrayList.add(attackAction);
-        //TODO map.attackUpdate(ArrayList<AttackAction> attackActions)
-
+        ArrayList<ArrayList<Integer>> attackUnits = attackAction.getUnits();
+        //calculate
+        int attackUnitsNum = 0;
+        for(int i = 0; i < attackUnits.size(); i++){
+            //attackUnits.get(i).get(0): level,
+            //attackUnits.get(i).get(1): value
+            attackUnitsNum += attackUnits.get(i).get(1);
+        }
+        Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        int to_cost = currplayer.getWholeMap().getTerritoryList().get(attackAction.getTo()).getCost();
+        int totalCost = attackUnitsNum * to_cost;
+        AttackChecker attackChecker = new AttackChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                attackAction.getUnits(),
+                attackAction.getFrom(),
+                attackAction.getTo(),
+                this.gameID,
+                totalCost
+        );
+        if (attackChecker.doCheck()){
+            //TODO:AttackActionArrayList field belongs to Player
+            //put attack action into attachHashMap
+            if (this.attackHashMap.containsKey(this.accountID)){
+                this.attackHashMap.get(this.accountID).add(attackAction);
+            }
+            else{
+                ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
+                attackActionArrayList.add(attackAction);
+                this.attackHashMap.put(this.accountID, attackActionArrayList);
+            }
+            //doAttack(): server's current player reduces her units in to territory
+            currplayer.doAttack(attackAction.getFrom(),
+                    attackAction.getTo(),
+                    attackAction.getUnits(),
+                    totalCost);
+            //send response to client
+            RSPAttackSuccess rspAttackSuccess = new RSPAttackSuccess(
+                    attackAction.getFrom(),
+                    attackAction.getTo(),
+                    attackAction.getUnits(),
+                    totalCost);
+            sendResponse(rspAttackSuccess);
+        }
+        else{
+            RSPAttackFail rspAttackFail = new RSPAttackFail();
+            sendResponse(rspAttackFail);
+        }
     }
 
     @Override
@@ -215,7 +264,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //server player update map
             player.doMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
             //send response
-            RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits());
+            RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess(
+                    moveAction.getFrom(),
+                    moveAction.getTo(),
+                    moveAction.getUnits(),
+                    totalCost);
             sendResponse(rspMoveSuccess);
         } else {
             RSPMoveFail rspMoveFail = new RSPMoveFail();
