@@ -1,8 +1,11 @@
 package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.GameInfo;
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.JoinGameModel;
+import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.View.DeployView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,6 +46,10 @@ public class JoinGameViewController implements Initializable
     }
 
 
+    /**
+     * Show the game table view to let user join
+     * @param gameList a list that user can join
+     */
     private void showGameTable(ObservableList<GameInfo> gameList){
         gameID_col.setCellValueFactory(new PropertyValueFactory<>("GameID"));
         nPlayers_col.setCellValueFactory(new PropertyValueFactory<>("NPlayer"));
@@ -58,11 +66,30 @@ public class JoinGameViewController implements Initializable
                         Button enterBtn = new Button("Enter");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
-                            GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
-                            // TODO: enter the game
-                            System.out.println("Enter Game ID: "+clickedInfo.getGameID());
-
+                            tryJoinGame();
                         });
+                    }
+                }
+
+                /**
+                 * Try to join game with game id by connecting to model
+                 */
+                private void tryJoinGame() {
+                    GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
+
+                    // Request model to join the game
+                    boolean joinResult =  GameModel.getInstance().joinGame(true);
+                    if(joinResult){
+                        // Create a new Deployment view
+                        try {
+                            new DeployView().show(window, null);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.out.println("Cannot join game");
+                        }
+                    }
+                    else {
+                        System.out.println("Cannot join game");
                     }
                 }
 

@@ -1,9 +1,11 @@
 package edu.duke.ece651.client.Controller;
 
 
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.View.MainGameView;
 import edu.duke.ece651.client.View.MapView;
+import edu.duke.ece651.shared.map.Territory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class DeployViewController implements Initializable {
@@ -37,6 +40,7 @@ public class DeployViewController implements Initializable {
     private ObservableList<String> terrList;
     private ObservableList<Integer> numberList;
     private ObservableList<Integer> levelList;
+    private int deployNum;
 
 
     /**
@@ -59,66 +63,107 @@ public class DeployViewController implements Initializable {
     }
 
     @FXML
-    public void clickOnCommit(){
+    public void clickOnCommit()  throws IOException {
+        // Send commit request to model
+        if(GameModel.getInstance().deCommit(true)){
+            new MainGameView().show(window,null);
+        }
+        else {
+            errorMsg.setText("Commit fail, you may have deployed unit or internet error");
+        }
+    }
+
+    /**
+     * When player finish one round of deployment send value to model
+     */
+    @FXML
+    public void clickOnDone(){
+        // Get user input
         String selectTerr = territorySelect.getValue();
         Integer selectLevel = levelSelect.getValue();
         Integer selectNumber = numberSelect.getValue();
 
-        // simple input check
+        // Simple input check
         if(selectLevel==null || selectNumber==null || selectTerr==null){
             errorMsg.setText("You choose wrong value.");
             return;
         }
 
-        // TODO: commit and record one deployment (double check with those already commit deployment?)
-        System.out.println(territorySelect.getValue()+" "+levelSelect.getValue()+" "+numberSelect.getValue());
+        // Send user select to model and get response
+        if(GameModel.getInstance().doDeploy(true)){
+            // Update the deployment view
+            this.deployNum -= selectNumber;
+            setUnitNumberText(this.deployNum);
+        }
+        else {
+            this.errorMsg.setText("Invalid deployment number");
+        }
     }
 
-    @FXML
-    public void clickOnDone() throws IOException {
-        // TODO: submit all deployment and get response from server, then enter the mainView
-        new MainGameView().show(window,null);
-    }
-
+    /**
+     * Set Territory List
+     * @param l ObservableList
+     */
     private void setTerritoryList(ObservableList<String>l){
-        // TODO: get available territories from server and then add them into observableArrayList
-        l.add("a1");
-        l.add("a2");
-        l.add("a3");
+        // Get available territories from server and then add them into observableArrayList
+        HashMap<String, Territory> myTerritories = GameModel.getInstance().getClientPlayerPacket().getMyTerritories();
+        for (String terrName : myTerritories.keySet()) {
+            l.add(terrName);
+        }
     }
 
+
+    /**
+     * Set the deployment level to the default 0
+     * @param l ObservableList
+     */
     private void setLevelList(ObservableList<Integer>l){
-        // TODO: get available levels from server and then add them into observableArrayList
-        l.add(1);
-        l.add(2);
-        l.add(3);
+        l.add(0);
     }
 
-    private void createAvailalbeNumList(ObservableList<Integer> l, int max){
+    /**
+     * Add the num of unit to the ObservableList
+     * @param l ObservableList
+     * @param deployNum
+     */
+    private void createAvailalbeNumList(ObservableList<Integer> l, int deployNum){
         l.clear();
-        for(int i=1; i<=max; i++){
+        for(int i=1; i<=deployNum; i++){
             l.add(i);
         }
     }
 
+    /**
+     * Get init total deployment number from the model
+     * @return total deployment from model
+     */
     private int getInitialUnitsDeployNumber(){
-        // Get total deployment number from
-        return 10;
+        // Get total deployment number from model
+        return GameModel.getInstance().getClientPlayerPacket().getTotalDeployment();
     }
 
-    private int getPlayerID(){
-        // TODO: get PlayerID of in this game
-        return 1;
+    /**
+     * Get PlayerID of in this game
+     * @return PlayerID
+     */
+    private String getPlayerID(){
+        return GameModel.getInstance().getClientPlayerPacket().getAccountID().getAccountID();
     }
 
-    private int getFood(){
-        // TODO: get Food resource in this game
-        return 1;
+    /**
+     * Get food from model
+     * @return food resource
+     */
+    private int getFoodResource(){
+        return GameModel.getInstance().getClientPlayerPacket().getFoodResource();
     }
 
+    /**
+     * Get tech resource
+     * @return tech resource
+     */
     private int getTechResource(){
-        // TODO: get TechResource of in this game
-        return 1;
+        return GameModel.getInstance().getClientPlayerPacket().getTechResource();
     }
 
     private void setTerrText(ObservableList<String>terrList){
@@ -129,8 +174,11 @@ public class DeployViewController implements Initializable {
         territories_t.setText(s.toString());
     }
 
+    /**
+     * Set the UnitNumber now
+     * @param initNum
+     */
     private void setUnitNumberText(int initNum){
-        // TODO: change it and get number of each units from server. remove initNum
         level0_n.setText("  "+ String.valueOf(initNum));
         level1_n.setText("  "+"0");
         level2_n.setText("  "+"0");
@@ -149,20 +197,24 @@ public class DeployViewController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        int initNum = getInitialUnitsDeployNumber();
-        createAvailalbeNumList(numberList, initNum);
+        // Get total deployment number form model and add them into list
+        this.deployNum = getInitialUnitsDeployNumber();
+        createAvailalbeNumList(this.numberList, deployNum);
 
+        // Set Territory List
+        setTerritoryList(this.terrList);
+        setLevelList(this.levelList);
 
-        setTerritoryList(terrList);
-        setLevelList(levelList);
+        // Set value from the view to select
+        this.territorySelect.setItems(this.terrList);
+        this.levelSelect.setItems(this.levelList);
+        this.numberSelect.setItems(this.numberList);
 
-        territorySelect.setItems(terrList);
-        levelSelect.setItems(levelList);
-        numberSelect.setItems(numberList);
-        playerID_t.setText("   " + getPlayerID());
-        food_t.setText("   " + getFood());
-        techResource_n.setText("   " + getTechResource());
-        setTerrText(terrList);
-        setUnitNumberText(initNum);
+        // Display player ID
+        this.playerID_t.setText("   " + getPlayerID());
+        this.food_t.setText("   " + getFoodResource());
+        this.techResource_n.setText("   " + getTechResource());
+        setTerrText(this.terrList); // Show terr text info
+        setUnitNumberText(deployNum);
     }
 }

@@ -58,7 +58,7 @@ class ModelTest {
         assertEquals(false, signupModel.signUp("123","abc"));
 
         // Client send NewGame Action and recv RSPNewGameSuccess
-        GameModel gameModel = new GameModel();
+        GameModel gameModel = GameModel.getInstance();
         assertEquals(true, gameModel.startNewGame("3",true));
 
         // Client send NewGame Action and recv RSPNewGameSuccess

@@ -17,7 +17,7 @@ public class ClientSocket {
     private final Socket socket;
 
 
-    public ClientSocket(String host) throws IOException {
+    private ClientSocket(String host) throws IOException {
         this.portNum = 1651;
         this.host = host;
         this.socket = new Socket(this.host, this.portNum);

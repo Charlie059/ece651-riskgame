@@ -1,6 +1,7 @@
 package edu.duke.ece651.client.View;
 
 import edu.duke.ece651.client.Controller.DeployViewController;
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,7 @@ public class DeployView implements View{
 
             // use hashMap to collect controllers.
             HashMap<Class<?>,Object> controllers = new HashMap<>();
-            controllers.put(DeployViewController.class, new DeployViewController(window, model));
+            controllers.put(DeployViewController.class, new DeployViewController(window, GameModel.getInstance()));
             loader.setControllerFactory(controllers::get);
             GridPane gp = loader.load();
 
