@@ -1,9 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.View.AttackDialogView;
-import edu.duke.ece651.client.View.MoveDialogView;
-import edu.duke.ece651.client.View.UpgradeTechDialogView;
-import edu.duke.ece651.client.View.UpgradeUnitDialogView;
+import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.View.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,7 +74,10 @@ public class MainGameViewController implements Initializable {
     }
 
     @FXML
-    public void clickOnViewMap(){}
+    public void clickOnViewMap() throws IOException {
+        // TODO: get n_players
+        new MapView().show(new Stage(),null,2);
+    }
     @FXML
     public void clickOnAttack() throws IOException {
         new AttackDialogView().show(new Stage(),null);
@@ -102,7 +103,10 @@ public class MainGameViewController implements Initializable {
         window.close();
     }
     @FXML
-    public void clickOnSwitchGame(){}
+    public void clickOnSwitchGame(){
+        window.setScene(SceneCollector.continueGameView);
+        window.show();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

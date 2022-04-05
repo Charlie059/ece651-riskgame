@@ -1,7 +1,6 @@
 package edu.duke.ece651.client.View;
 
 import edu.duke.ece651.client.Controller.DeployViewController;
-import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXMLLoader;
