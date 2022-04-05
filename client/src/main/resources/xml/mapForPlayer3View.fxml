@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -26,23 +27,68 @@
             <Line endX="112.0" endY="-0.500030517578125" layoutX="248.0" layoutY="319.0" startX="-96.08575439453125" startY="0.1666259765625" />
             <Line endX="103.00001525878906" endY="0.499969482421875" layoutX="152.0" layoutY="412.0" startX="-2.0" startY="-93.50003051757812" />
             <Line endX="-28.29290771484375" endY="-55.12628173828125" layoutX="389.0" layoutY="375.0" startX="-133.99998474121094" startY="37.499969482421875" />
-            <Button layoutX="109.0" layoutY="292.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c1" />
+            <Button fx:id="c1" layoutX="109.0" layoutY="292.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c1">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="143.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-            <Button layoutX="319.0" layoutY="292.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c2" />
+            <Button fx:id="c2" layoutX="319.0" layoutY="292.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c2">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="353.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-            <Button layoutX="214.0" layoutY="386.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c3" />
+            <Button fx:id="c3" layoutX="214.0" layoutY="386.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c3">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="248.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
-            <Button layoutX="109.0" layoutY="185.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a2" />
+            <Button fx:id="a2" layoutX="109.0" layoutY="185.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a2">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="143.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-            <Button layoutX="319.0" layoutY="185.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b2" />
+            <Button fx:id="b2" layoutX="319.0" layoutY="185.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b2">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="353.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-            <Button layoutX="401.0" layoutY="122.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b3" />
+            <Button fx:id="b3" layoutX="401.0" layoutY="122.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b3">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="435.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
-            <Button layoutX="319.0" layoutY="58.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b1" />
+            <Button fx:id="b1" layoutX="319.0" layoutY="58.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b1">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="353.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-            <Button layoutX="109.0" layoutY="58.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a1" />
+            <Button fx:id="a1" layoutX="109.0" layoutY="58.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a1">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="143.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-            <Button layoutX="27.0" layoutY="122.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a3" />
+            <Button fx:id="a3" layoutX="27.0" layoutY="122.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a3">
+               <styleClass>
+                  <String fx:value="expandable" />
+                  <String fx:value="numbtn" />
+               </styleClass>
+            </Button>
             <Text layoutX="61.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
          </children>
       </Pane>
