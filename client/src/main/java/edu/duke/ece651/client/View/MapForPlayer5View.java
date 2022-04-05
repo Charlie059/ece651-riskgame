@@ -11,7 +11,7 @@ public class MapForPlayer5View implements View{
     @Override
     public void show(Stage window, Model model) throws IOException {
         // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/mapForPlayer4.fxml");
+        URL xmlResource = getClass().getResource("/xml/mapForPlayer5.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
     }
 }
