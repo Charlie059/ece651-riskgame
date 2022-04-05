@@ -240,7 +240,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="switchUserButton" mnemonicParsing="false" onAction="#clickOnSwitchUser" prefHeight="63.0" prefWidth="185.0" text="Switch User" textFill="#c57d24" GridPane.columnIndex="14" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Button fx:id="switchGameButton" mnemonicParsing="false" onAction="#clickOnSwitchGame" prefHeight="63.0" prefWidth="185.0" text="Switch Game" textFill="#c57d24" GridPane.columnIndex="14" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
