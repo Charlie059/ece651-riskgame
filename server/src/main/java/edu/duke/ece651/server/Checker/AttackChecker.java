@@ -11,10 +11,11 @@ import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AttackChecker extends MoveChecker{
-    public AttackChecker(AccountID accountID, GameHashMap gameHashMap, AccountHashMap accountHashMap, ArrayList<ArrayList<Integer>> _moveUnits, String from, String to, GameID ID){
-        super(accountID,gameHashMap, accountHashMap, _moveUnits, from, to, ID);
+public class AttackChecker extends ActionChecker{
+    public AttackChecker(GameHashMap gameHashMap, AccountHashMap accountHashMap, AccountID accountID) {
+        super(gameHashMap, accountHashMap, accountID);
     }
+
     /**
      * check if ownerships are correct and if two territories are adjacent
      * @return

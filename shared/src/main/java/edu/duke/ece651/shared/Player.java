@@ -258,4 +258,11 @@ public class Player {
         }
     }
 
+
+    /**
+     * Helper function for Test
+     */
+    public void setCurrTechLevel(int currTechLevel) {
+        this.currTechLevel = currTechLevel;
+    }
 }

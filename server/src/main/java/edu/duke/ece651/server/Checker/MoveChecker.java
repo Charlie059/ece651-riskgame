@@ -15,8 +15,6 @@ public class MoveChecker extends ActionChecker{
     protected ArrayList<ArrayList<Integer>> moveUnits;
     protected final String from_name;
     protected final  String to_name;
-    protected GameID gameID;
-    protected Player player;
     protected int totalCost;
     public MoveChecker(AccountID accountID,
                        GameHashMap gameHashMap,
@@ -24,31 +22,16 @@ public class MoveChecker extends ActionChecker{
                        ArrayList<ArrayList<Integer>> _moveUnits,
                        String from,
                        String to,
-                       GameID gameID){
+                       GameID gameID,
+                       Integer totalCost){
         super(gameHashMap, accountHashMap, accountID);
-        moveUnits = _moveUnits;
-        from_name = from;
-        to_name = to;
-        this.gameID = gameID;
-        Game game = gameHashMap.get(this.gameID);
-        player = game.getPlayerHashMap().get(accountID);
-        this.map = player.getWholeMap();
-        this.totalCost = calTotalCost();
+        this.moveUnits = _moveUnits;
+        this.from_name = from;
+        this.to_name = to;
+        this.totalCost =totalCost;
+        this.map = this.gameHashMap.get(gameID).getMap();
     }
 
-    public int calTotalCost(){
-            int path_cost = this.player.getWholeMap().shortestPathFrom(this.accountID, this.from_name, this.to_name);
-            if (path_cost > 0) {
-                int totalMoveUnitNum = 0;
-                for (int i = 0; i < this.moveUnits.size(); i++) {
-                    totalMoveUnitNum += this.moveUnits.get(i).get(1);
-                }
-                return totalMoveUnitNum * path_cost;
-            }
-            return -1;
-            //the cost of each
-            //move is (total size of territories moved through) * (number of units moved).
-    }
 
     /**
      * check if ownerships are same and if path exists
@@ -60,6 +43,7 @@ public class MoveChecker extends ActionChecker{
         try {
             //check whether path exists
             isValid = map.isPathExist(accountID, from_name, to_name);
+            //If path Exist, and totalCost is not wrong
             if (isValid && this.totalCost > 0){
                 return true;
             }
@@ -79,7 +63,6 @@ public class MoveChecker extends ActionChecker{
         return to_name;
     }
 
-    public Player getPlayer(){return player;}
 
     public Map getMap() {
         return map;

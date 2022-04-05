@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class RSPOpenGameList implements Response{
+    //TODO: Change to HashMao<GameID, (Integer)Numofplayer>
     private ArrayList <GameID> gameIDArrayList;
 
     public RSPOpenGameList(ArrayList<GameID> gameIDArrayList) {

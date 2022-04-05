@@ -206,37 +206,60 @@ class ActionCheckDoFeedbackVistorTest {
     void test_VisitNewGameSuccess() throws IOException, ClassNotFoundException {
         //==============================COMMUNICATOR==================================//
         //new GameHashMap
-        GameHashMap gameHashMap = this.createGameHashMap();
+//        GameHashMap gameHashMap = this.createGameHashMap();
+        GameHashMap gameHashMap = new GameHashMap();
         //new AccountHashMap
         AccountHashMap accountHashMap = this.createAccountHashMap();
         //new SocketConnection
         MockServer mockServer = new MockServer(12345);
-        MockClient mockClient = new MockClient(12345, "127.0.0.1");
-        Socket clientSocket = mockServer.acceptClient();
-        GameID currGameID = new GameID(1);
-        AccountID currAccountID = new AccountID("abcde");
-        //new Communicator thread
-        CommunicatorRunnable task = new CommunicatorRunnable(currAccountID, currGameID, clientSocket, accountHashMap, gameHashMap,1);
-        Thread t = new Thread(task);
-        t.start();
+        MockClient mockClient1 = new MockClient(12345, "127.0.0.1");
+        MockClient mockClient2 = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket1 = mockServer.acceptClient();
+        Socket clientSocket2 = mockServer.acceptClient();
+        //Host
+        AccountID hostAccountID = new AccountID("abcde");
+        CommunicatorRunnable hostTask = new CommunicatorRunnable(hostAccountID, null, clientSocket1, accountHashMap, gameHashMap,5);
+        Thread CommunicatorThread1 = new Thread(hostTask);
+        CommunicatorThread1.start();
+        //Joiner
+        AccountID joinerAccountID = new AccountID("cdefg");
+        CommunicatorRunnable joinerTask = new CommunicatorRunnable(joinerAccountID, null, clientSocket2, accountHashMap, gameHashMap,5);
+        Thread CommunicatorThread2 = new Thread(joinerTask);
+        CommunicatorThread2.start();
+
         ////==============================TESTBENCH==================================//
-        currAccountID.setAccountID("mnbvc");
-        //Signin Action
-        NewGameAction newGameAction = new NewGameAction(5);
+        //New Game Action
+        NewGameAction newGameAction = new NewGameAction(2);
 
-        mockClient.sendObject(newGameAction);
-        Response trueResponse = (Response) mockClient.recvObject();
-        assertEquals(trueResponse.getClass(), new RSPNewGameSuccess().getClass());
-        assertEquals(currGameID.getCurrGameID(), 1);
+        //Host New Game
+        mockClient1.sendObject(newGameAction);
 
+        //Joiner join Game
+        JoinAction joinAction = new JoinAction();
+        mockClient2.sendObject(joinAction);
+        Response responsejoiner1 = (Response) mockClient2.recvObject();
+        ArrayList<GameID> gameIDArrayList = new ArrayList<>();
+        gameIDArrayList.add(new GameID(1));
+        gameIDArrayList.add(new GameID(2));
+        assertSame(new RSPOpenGameList(gameIDArrayList).getClass(),responsejoiner1.getClass());
+        //Join the Choose Game
+        ChooseJoinGameAction chooseJoinGameAction = new ChooseJoinGameAction(new GameID(1));
+        mockClient2.sendObject(chooseJoinGameAction);
+        Response responsejoiner2 = (Response) mockClient2.recvObject();
+        assertSame(new RSPChooseJoinGameSuccess().getClass(),responsejoiner2.getClass());
 
-        Map currentMap = gameHashMap.get(new GameID(1)).getMap();
-        String hostTerritoryName =currentMap.getGroups().get(0).get(0);
-        //assert Map's territory has been set
-        assertEquals(currentMap.getTerritoryList().get(hostTerritoryName).getOwnerId(),new AccountID("mnbvc"));
-        //assert Player know his territory
-        assertEquals(gameHashMap.get(currGameID).getPlayerHashMap().get(currAccountID).getMyTerritories().size(),3);
-        mockServer.closeSocket();
+        //========================Once all player joined==========================//
+        //once all player joined
+        Response Responsehost1 = (Response) mockClient1.recvObject();
+        assertEquals(Responsehost1.getClass(), new RSPNewGameSuccess().getClass());
+
+//        Map currentMap = gameHashMap.get(new GameID(1)).getMap();
+//        String hostTerritoryName =currentMap.getGroups().get(0).get(0);
+//        //assert Map's territory has been set
+//        assertEquals(currentMap.getTerritoryList().get(hostTerritoryName).getOwnerId(),new AccountID("mnbvc"));
+//        //assert Player know his territory
+//        assertEquals(gameHashMap.get(currGameID).getPlayerHashMap().get(currAccountID).getMyTerritories().size(),3);
+//        mockServer.closeSocket();
     }
 
 
@@ -476,12 +499,9 @@ class ActionCheckDoFeedbackVistorTest {
         //Player joined
         Player joiner = new Player(joinerAccountID,currGameID,currGame.getMap());
         currGame.getPlayerHashMap().put(joinerAccountID,joiner);
-        currGame.setOwnership(hostAccountID);
-        joiner.assignMyTerritories();
-        currGame.getPlayerHashMap().put(joinerAccountID,joiner);
         currGame.setOwnership(joinerAccountID);
         joiner.assignMyTerritories();
-        CommunicatorRunnable task2 = new CommunicatorRunnable(joinerAccountID, currGameID, clientSocket2, accountHashMap, gameHashMap,4);
+        CommunicatorRunnable task2 = new CommunicatorRunnable(joinerAccountID, currGameID, clientSocket2, accountHashMap, gameHashMap,5);
         Thread CommunicatorThread2 = new Thread(task2);
         CommunicatorThread2.start();
 
@@ -545,15 +565,199 @@ class ActionCheckDoFeedbackVistorTest {
         mockServer.closeSocket();
         //Current Tech level of host changed
         assertEquals(2,host.getCurrTechLevel());
+        mockServer.closeSocket();
     }
 
 
     @Test
-    void test_VisitUpgradeUnit() {
+    void test_VisitUpgradeUnit() throws IOException, ClassNotFoundException {
+        //==============================COMMUNICATOR==================================//
+        //new GameHashMap
+        GameHashMap gameHashMap = this.createGameHashMap();
+        //new AccountHashMap
+        AccountHashMap accountHashMap = this.createAccountHashMap();
+        //new SocketConnection
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient1 = new MockClient(12345, "127.0.0.1");
+        MockClient mockClient2 = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket1 = mockServer.acceptClient();
+        Socket clientSocket2 = mockServer.acceptClient();
+        GameID currGameID = new GameID(2);
+
+
+        //new Game numOfPlayer = 2 for testing,
+        AccountID hostAccountID = new AccountID("abcde");
+        AccountID joinerAccountID = new AccountID("cdefg");
+        //Host
+        Game currGame = new Game(2);
+        gameHashMap.put(new GameID(2),currGame);
+        Player host = new Player(hostAccountID,currGameID,currGame.getMap());
+        currGame.getPlayerHashMap().put(hostAccountID,host);
+        currGame.setOwnership(hostAccountID);
+        host.assignMyTerritories();
+        currGame.getCommittedHashMap().put(hostAccountID,false);
+        GameRunnable gameRunnable = new GameRunnable(gameHashMap,accountHashMap,currGameID);
+        Thread gameThread = new Thread(gameRunnable);
+        gameThread.start();
+        CommunicatorRunnable task1 = new CommunicatorRunnable(hostAccountID, currGameID, clientSocket1, accountHashMap, gameHashMap,5);
+        Thread CommunicatorThread1 = new Thread(task1);
+        CommunicatorThread1.start();
+        //Player joined
+        Player joiner = new Player(joinerAccountID,currGameID,currGame.getMap());
+        currGame.getPlayerHashMap().put(joinerAccountID,joiner);
+        currGame.setOwnership(joinerAccountID);
+        joiner.assignMyTerritories();
+        CommunicatorRunnable task2 = new CommunicatorRunnable(joinerAccountID, currGameID, clientSocket2, accountHashMap, gameHashMap,5);
+        Thread CommunicatorThread2 = new Thread(task2);
+        CommunicatorThread2.start();
+
+        ////==============================TESTBENCH==================================//
+        //---------------deploy----------------/
+        //player1
+        DeployAction deployAction = new DeployAction();
+        deployAction.setTo("a1").setDeployUnits(6);
+        mockClient1.sendObject(deployAction);
+        Response response1_1 = (Response) mockClient1.recvObject();
+        assertEquals(new RSPDeploySuccess().getClass(),response1_1.getClass());
+        //player2
+        deployAction.setTo("b1").setDeployUnits(6);
+        mockClient2.sendObject(deployAction);
+        Response response1_2 = (Response) mockClient2.recvObject();
+        assertEquals(new RSPDeploySuccess().getClass(),response1_2.getClass());
+        //----------------commit----------------/
+        CommitAction commitAction = new CommitAction();
+        mockClient1.sendObject(commitAction);
+        Response response2_1 = (Response) mockClient1.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(),response2_1.getClass());
+
+        mockClient2.sendObject(commitAction);
+        Response response2_2 = (Response) mockClient2.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(),response2_2.getClass());
+
+        //---------------Unit Upgrade--------------/
+        UpgradeUnitsAction hostUpgradeUnitsAction = new UpgradeUnitsAction();
+        hostUpgradeUnitsAction.setOldLevel(0).setNewLevel(1).setWhere("a1");
+        UpgradeUnitsAction joinerUpgradeUnitsAction = new UpgradeUnitsAction();
+        joinerUpgradeUnitsAction.setOldLevel(0).setNewLevel(1).setWhere("b1");
+        mockClient1.sendObject(hostUpgradeUnitsAction);
+        mockClient2.sendObject(joinerUpgradeUnitsAction);
+        Response hostResponse1 = (Response) mockClient1.recvObject();
+        Response joinerResponse1 = (Response) mockClient2.recvObject();
+        //Assert upgrade success
+        assertEquals(new RSPUpgradeUnitsSuccess().getClass(),hostResponse1.getClass());
+        assertEquals(new RSPUpgradeUnitsSuccess().getClass(),joinerResponse1.getClass());
+        host.setCurrTechLevel(6);
+        joiner.setCurrTechLevel(6);
+
+        //---------------Unit Upgrade do not have enough unit--------------/
+        hostUpgradeUnitsAction.setOldLevel(2).setNewLevel(3).setWhere("a1");
+        joinerUpgradeUnitsAction.setOldLevel(2).setNewLevel(3).setWhere("b1");
+        mockClient1.sendObject(hostUpgradeUnitsAction);
+        mockClient2.sendObject(joinerUpgradeUnitsAction);
+        Response hostResponse2 = (Response) mockClient1.recvObject();
+        Response joinerResponse2 = (Response) mockClient2.recvObject();
+        //Assert upgrade fail
+        assertEquals(new RSPUpgradeUnitsFail().getClass(),hostResponse2.getClass());
+        assertEquals(new RSPUpgradeUnitsFail().getClass(),joinerResponse2.getClass());
+
+        //---------------Unit Upgrade do not have enough resource--------------/
+        hostUpgradeUnitsAction.setOldLevel(0).setNewLevel(6).setWhere("a1");
+        joinerUpgradeUnitsAction.setOldLevel(0).setNewLevel(6).setWhere("b1");
+        mockClient1.sendObject(hostUpgradeUnitsAction);
+        mockClient2.sendObject(joinerUpgradeUnitsAction);
+        Response hostResponse3 = (Response) mockClient1.recvObject();
+        Response joinerResponse3 = (Response) mockClient2.recvObject();
+        //Assert upgrade fail
+        assertEquals(new RSPUpgradeUnitsFail().getClass(),hostResponse3.getClass());
+        assertEquals(new RSPUpgradeUnitsFail().getClass(),joinerResponse3.getClass());
+        mockServer.closeSocket();
     }
 
     @Test
-    void testVisit10() {
+    void testVisitMove() throws IOException, ClassNotFoundException {
+        //==============================COMMUNICATOR==================================//
+        //new GameHashMap
+        GameHashMap gameHashMap = this.createGameHashMap();
+        //new AccountHashMap
+        AccountHashMap accountHashMap = this.createAccountHashMap();
+        //new SocketConnection
+        MockServer mockServer = new MockServer(12345);
+        MockClient mockClient1 = new MockClient(12345, "127.0.0.1");
+        MockClient mockClient2 = new MockClient(12345, "127.0.0.1");
+        Socket clientSocket1 = mockServer.acceptClient();
+        Socket clientSocket2 = mockServer.acceptClient();
+        GameID currGameID = new GameID(2);
+
+
+        //new Game numOfPlayer = 2 for testing,
+        AccountID hostAccountID = new AccountID("abcde");
+        AccountID joinerAccountID = new AccountID("cdefg");
+        //Host
+        Game currGame = new Game(2);
+        gameHashMap.put(new GameID(2),currGame);
+        Player host = new Player(hostAccountID,currGameID,currGame.getMap());
+        currGame.getPlayerHashMap().put(hostAccountID,host);
+        currGame.setOwnership(hostAccountID);
+        host.assignMyTerritories();
+        currGame.getCommittedHashMap().put(hostAccountID,false);
+        GameRunnable gameRunnable = new GameRunnable(gameHashMap,accountHashMap,currGameID);
+        Thread gameThread = new Thread(gameRunnable);
+        gameThread.start();
+        CommunicatorRunnable task1 = new CommunicatorRunnable(hostAccountID, currGameID, clientSocket1, accountHashMap, gameHashMap,5);
+        Thread CommunicatorThread1 = new Thread(task1);
+        CommunicatorThread1.start();
+        //Player joined
+        Player joiner = new Player(joinerAccountID,currGameID,currGame.getMap());
+        currGame.getPlayerHashMap().put(joinerAccountID,joiner);
+        currGame.setOwnership(joinerAccountID);
+        joiner.assignMyTerritories();
+        CommunicatorRunnable task2 = new CommunicatorRunnable(joinerAccountID, currGameID, clientSocket2, accountHashMap, gameHashMap,5);
+        Thread CommunicatorThread2 = new Thread(task2);
+        CommunicatorThread2.start();
+
+        ////==============================TESTBENCH==================================//
+        //---------------deploy----------------/
+        //player1
+        DeployAction deployAction = new DeployAction();
+        deployAction.setTo("a1").setDeployUnits(6);
+        mockClient1.sendObject(deployAction);
+        Response response1_1 = (Response) mockClient1.recvObject();
+        assertEquals(new RSPDeploySuccess().getClass(),response1_1.getClass());
+        //player2
+        deployAction.setTo("b1").setDeployUnits(6);
+        mockClient2.sendObject(deployAction);
+        Response response1_2 = (Response) mockClient2.recvObject();
+        assertEquals(new RSPDeploySuccess().getClass(),response1_2.getClass());
+        //----------------commit----------------/
+        CommitAction commitAction = new CommitAction();
+        mockClient1.sendObject(commitAction);
+        Response response2_1 = (Response) mockClient1.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(),response2_1.getClass());
+
+        mockClient2.sendObject(commitAction);
+        Response response2_2 = (Response) mockClient2.recvObject();
+        assertEquals(new RSPCommitSuccess().getClass(),response2_2.getClass());
+        //----------------move-------------------/
+        ArrayList<Integer> level0Move=  new ArrayList<>();
+        level0Move.add(0);//level
+        level0Move.add(2);//num
+        ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+        units.add(level0Move);
+        MoveAction moveAction = new MoveAction();
+        moveAction.setFrom("a1").setTo("a2").setUnits(units);
+        mockClient1.sendObject(moveAction);
+        moveAction.setFrom("b1").setTo("b2").setUnits(units);
+        mockClient2.sendObject(moveAction);
+        Response hostResponse = (Response) mockClient1.recvObject();
+        Response joinerResponse = (Response) mockClient2.recvObject();
+        //assert move success
+        assertEquals(new RSPMoveSuccess("a1","a2",units).getClass(),hostResponse.getClass());
+        assertEquals(new RSPMoveSuccess("b1","b2",units).getClass(),joinerResponse.getClass());
+        assertEquals(4,host.getMyTerritories().get("a1").getUnits().get(0).getValue());
+        assertEquals(2,host.getMyTerritories().get("a2").getUnits().get(0).getValue());
+        //assert move fail
+        mockServer.closeSocket();
+
     }
 
     @Test

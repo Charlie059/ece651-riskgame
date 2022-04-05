@@ -21,15 +21,19 @@ public class TextMapFactory implements MapFactory {
 
         a1.addNeighbour(a3);
         a1.addNeighbour(b1);
+        a1.addNeighbour(a2);
         a2.addNeighbour(a3);
         a2.addNeighbour(b2);
+        a2.addNeighbour(a1);
         a3.addNeighbour(a1);
         a3.addNeighbour(a2);
 
         b1.addNeighbour(b3);
         b1.addNeighbour(a1);
+        b1.addNeighbour(b2);
         b2.addNeighbour(b3);
         b2.addNeighbour(a2);
+        b2.addNeighbour(b1);
         b3.addNeighbour(b1);
         b3.addNeighbour(b2);
 

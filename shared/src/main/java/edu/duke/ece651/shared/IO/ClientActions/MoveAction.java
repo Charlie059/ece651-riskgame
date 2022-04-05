@@ -7,23 +7,17 @@ import edu.duke.ece651.shared.map.Unit;
 import java.util.ArrayList;
 
 public class MoveAction implements Action {
-    private GameID gameID;
     private String from;
     private String to;
+    //<level<Level,Num>>
+    //<0,<index0(level),index1(number)>>
+
     private ArrayList<ArrayList<Integer>> units;
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);
     }
 
-    public GameID getGameID() {
-        return gameID;
-    }
-
-    public MoveAction setGameID(GameID gameID) {
-        this.gameID = gameID;
-        return this;
-    }
 
     public String getFrom() {
         return from;

@@ -93,6 +93,8 @@ public class CommunicatorRunnable implements Runnable {
             Action action = this.recvAction();
             //Check Do Feedback action
             action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap));
+
+
         }
     }
 }

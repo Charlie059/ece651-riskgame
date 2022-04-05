@@ -17,7 +17,7 @@ public class GameRunnable implements Runnable {
     private GameHashMap gameHashMap;//GameID, Game
     private AccountHashMap accountHashMap;//AccountID Account
     private GameID gameID;
-    private Boolean isCombatResolutionFinished;
+    private volatile Boolean isCombatResolutionFinished;
     private Game currGame;
 
     public GameRunnable(GameHashMap gameHashMap, AccountHashMap accountHashMap, GameID gameID) {
@@ -51,7 +51,6 @@ public class GameRunnable implements Runnable {
         //DO Attack
 
         //Do Tech Upgrade
-
         this.currGame.getPlayerHashMap().updatePlayersTechLevel();
     }
 
@@ -65,6 +64,12 @@ public class GameRunnable implements Runnable {
 
         while (thisGame.getPlayerHashMap().size() < thisGame.getNumOfPlayer()) {
         }
+        assert(thisGame.getPlayerHashMap().size() == thisGame.getNumOfPlayer());
+
+//        synchronized (this){
+            thisGame.setBegin(true);
+//            this.notifyAll();
+//        }
 
 
         //Do Game until thisGame is GameOver

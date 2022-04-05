@@ -11,52 +11,37 @@ import edu.duke.ece651.shared.map.Territory;
 import java.util.ArrayList;
 
 public class UpgradeUnitsChecker extends ActionChecker{
-    private String where;
     private Integer newLevel;
     private Integer oldLevel;
     private Integer currentTechResource;
-    private Player player;
-    private GameID gameID;
-    private ArrayList<Integer> UnitLevelUpgradeList;
     private int techCost;
+    private Territory where;
+    private Integer currTechLevel;
     public UpgradeUnitsChecker(AccountID accountID,
                               GameHashMap gameHashMap,
                               AccountHashMap accountHashMap,
-                              String where,
+                              Territory where,
                               Integer _newLevel,
                               Integer _oldLevel,
-                               GameID _gameID,
-                               ArrayList<Integer> _UnitLevelUpgradeList
+                               Integer techCost,
+                               Integer techResource,
+                               Integer currTechLevel
     ){
         super( gameHashMap,accountHashMap ,accountID);
         this.newLevel = _newLevel;
         this.oldLevel = _oldLevel;
-        this.gameID = _gameID;
-        Game game = gameHashMap.get(this.gameID);
-        this.player = game.getPlayerHashMap().get(accountID);
-        this.UnitLevelUpgradeList = _UnitLevelUpgradeList;
-        this.techCost = getCost(this.oldLevel, this.newLevel);
-        this.currentTechResource = this.player.getTechResource();
+        this.where = where;
+        this.techCost = techCost;
+        this.currentTechResource = techResource;
+        this.currTechLevel = currTechLevel;
     }
 
-    public int getCost(Integer oldLevel, Integer newLevel){
-        int total_cost = 0;
-        int count = oldLevel+1;
-        if (this.newLevel > this.oldLevel && this.newLevel<= 6) {
-            while (count <= newLevel) {
-                total_cost += this.UnitLevelUpgradeList.get(count);
-                count++;
-            }
-        }
-        return total_cost;
-    }
     @Override
     public boolean doCheck(){
         //max level: 6, cannot upgrade level-6 units
         boolean isEnoughTechResource = this.techCost <= this.currentTechResource;
-        Territory where_terr = this.player.getMyTerritories().get(where);
-        boolean isEnoughUnits = where_terr.getUnits().get(this.oldLevel).getValue() >= 1;
-        boolean isNewLevelValid = this.newLevel > this.oldLevel && this.newLevel<= this.player.getCurrTechLevel();
+        boolean isEnoughUnits = this.where.getUnits().get(this.oldLevel).getValue() >= 1;
+        boolean isNewLevelValid = this.newLevel > this.oldLevel && this.newLevel<= this.currTechLevel;
         if (isEnoughTechResource && isEnoughUnits && isNewLevelValid){
             return true;
         }
@@ -64,8 +49,4 @@ public class UpgradeUnitsChecker extends ActionChecker{
     }
 
     public int getTechCost(){return this.techCost;}
-
-    public Player getPlayer() {
-        return player;
-    }
 }

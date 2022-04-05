@@ -186,16 +186,32 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     //TODO:
     @Override
     public void visit(MoveAction moveAction) {
+        //currPlayer
+        Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        //calcualte Total cost
+        Integer totalCost = 0;
+        //Calcualte shortest path
+        //path_cost<0 or infinity if shortest path does not exist
+        //Example: fly land
+        int path_cost = currplayer.getWholeMap().shortestPathFrom(this.accountID, moveAction.getFrom(), moveAction.getTo());
+        int totalMoveUnitNum = 0;
+        for (int i = 0; i < moveAction.getUnits().size(); i++) {
+            totalMoveUnitNum += moveAction.getUnits().get(i).get(1);
+        }
+        totalCost = totalMoveUnitNum * path_cost;
+
+        //Move checker check
         MoveChecker moveChecker = new MoveChecker(this.accountID,
                 this.gameHashMap,
                 this.accountHashMap,
                 moveAction.getUnits(),
                 moveAction.getFrom(),
                 moveAction.getTo(),
-                moveAction.getGameID());
+                this.gameID,
+                totalCost);
         if (moveChecker.doCheck()) {
             //Update Server this Game Map
-            Player player = moveChecker.getPlayer();
+            Player player = currplayer;
             //server player update map
             player.doMove(moveAction.getFrom(), moveAction.getTo(), moveAction.getUnits(), moveChecker.getTotalCost());
             //send response
@@ -234,8 +250,12 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         GameRunnable gameRunnable = new GameRunnable(this.gameHashMap, this.accountHashMap, this.gameID);
         Thread thread = new Thread(gameRunnable);
         thread.start();
-
+        //Block until All Player Joined the Game and GameRunnable's isbegin is true
+            while (!game.getBegin()) {
+            }
+        //If All player joined
         RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess();
+        //TODO: Set Client player contructing method in new game response
         sendResponse(rspNewGameSuccess);
         //Wait Game thread to return
     }
@@ -298,27 +318,44 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(UpgradeUnitsAction updateUnitsAction) {
+        //Get Player
+        Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        Integer oldLevel = updateUnitsAction.getOldLevel();
+        Integer newLevel = updateUnitsAction.getNewLevel();
+
+        //Calculate Cost
+        int techCost = 0;
+        int count = oldLevel + 1;
+        if (newLevel > oldLevel && newLevel <= 6) {
+            while (count <= newLevel) {
+                techCost += this.UnitLevelUpgradeList.get(count);
+                count++;
+            }
+        }
+        //Find player's current techreousrce and curr Tech Level
+        Integer techResource = currplayer.getTechResource();
+        Integer currTechLevel = currplayer.getCurrTechLevel();
         UpgradeUnitsChecker upgradeUnitsChecker = new UpgradeUnitsChecker(this.accountID,
                 gameHashMap,
                 accountHashMap,
-                updateUnitsAction.getWhere(),
+                this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories().get(updateUnitsAction.getWhere()),
                 updateUnitsAction.getNewLevel(),
                 updateUnitsAction.getOldLevel(),
-                gameID,
-                UnitLevelUpgradeList);
+                techCost,
+                techResource,
+                currTechLevel
+        );
         if (upgradeUnitsChecker.doCheck()) {
             //Do UpgradeUnit
-            Player p = upgradeUnitsChecker.getPlayer();
-            p.DoUpgradeUnit(updateUnitsAction.getWhere(),
+            currplayer.DoUpgradeUnit(updateUnitsAction.getWhere(),
                     updateUnitsAction.getOldLevel(),
                     updateUnitsAction.getNewLevel(),
-                    upgradeUnitsChecker.getTechCost());
+                    techCost);
             RSPUpgradeUnitsSuccess rspUpdateUnitsSuccess = new RSPUpgradeUnitsSuccess();
             rspUpdateUnitsSuccess.setNewLevel(updateUnitsAction.getNewLevel());
             rspUpdateUnitsSuccess.setOldLevel(updateUnitsAction.getOldLevel());
             rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
             sendResponse(rspUpdateUnitsSuccess);
-
         } else {
             RSPUpgradeUnitsFail rspUpdateUnitsFail = new RSPUpgradeUnitsFail();
             sendResponse(rspUpdateUnitsFail);
@@ -341,6 +378,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             player.assignMyTerritories();
             //Add New Player Commit Track to New Game
             currGame.getCommittedHashMap().put(this.accountID, false);
+
+            //Block until All Player Joined the Game and GameRunnable's isbegin is true
+            while (!currGame.getBegin()) {
+            }
+            //If All player joined
             // Create response
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess();
             sendResponse(rspChooseJoinGameSuccess);
