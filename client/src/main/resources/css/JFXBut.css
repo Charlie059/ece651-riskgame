@@ -1,0 +1,8 @@
+*{
+    -fx-base: #1e90ff;
+}
+.button{
+    -fx-font-size: 16pt;
+    -fx-text-fill: white;
+    -fx-shape:"M 300 300 A 50 50 0 1 1 700 200 A 50 50 0 1 1 300 300"；
+}
