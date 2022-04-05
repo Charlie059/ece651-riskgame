@@ -55,6 +55,7 @@ public class DeployViewController implements Initializable {
 
     @FXML
     public void clickOnViewMap() throws IOException {
+        // TODO: get n_players
         new MapView().show(new Stage(),null,2);
     }
 
