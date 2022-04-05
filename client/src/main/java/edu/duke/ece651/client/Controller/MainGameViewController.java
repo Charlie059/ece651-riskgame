@@ -103,9 +103,13 @@ public class MainGameViewController implements Initializable {
         window.close();
     }
     @FXML
-    public void clickOnSwitchGame(){
-        window.setScene(SceneCollector.continueGameView);
-        window.show();
+    public void clickOnSwitchGame() throws IOException {
+        if(SceneCollector.continueGameView == null){
+            new ContinueGameView().show(window,null);
+        }else{
+            window.setScene(SceneCollector.continueGameView);
+            window.show();
+        }
     }
 
     @Override
