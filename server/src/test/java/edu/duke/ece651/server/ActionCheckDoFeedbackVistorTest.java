@@ -698,8 +698,8 @@ class ActionCheckDoFeedbackVistorTest {
         Response hostResponse = (Response) mockClient1.recvObject();
         Response joinerResponse = (Response) mockClient2.recvObject();
         //assert move success
-        assertEquals(new RSPMoveSuccess("a1", "a2", units).getClass(), hostResponse.getClass());
-        assertEquals(new RSPMoveSuccess("b1", "b2", units).getClass(), joinerResponse.getClass());
+        assertEquals(new RSPMoveSuccess("a1", "a2", units,3).getClass(), hostResponse.getClass());
+        assertEquals(new RSPMoveSuccess("b1", "b2", units,3).getClass(), joinerResponse.getClass());
         assertEquals(4, host.getMyTerritories().get("a1").getUnits().get(0).getValue());
         assertEquals(2, host.getMyTerritories().get("a2").getUnits().get(0).getValue());
         //assert move fail
