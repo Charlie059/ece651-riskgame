@@ -265,4 +265,13 @@ public class Player {
     public void setCurrTechLevel(int currTechLevel) {
         this.currTechLevel = currTechLevel;
     }
+
+
+    public boolean isLose() {
+        return isLose;
+    }
+
+    public boolean isWon() {
+        return isWon;
+    }
 }

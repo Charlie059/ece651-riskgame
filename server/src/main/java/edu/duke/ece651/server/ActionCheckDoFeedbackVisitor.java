@@ -245,16 +245,16 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         this.gameHashMap.put(newGameID, game);
         //Change this Client's currGameID to NewGame ID
         this.gameID = newGameID;
-
         //Throw New Game thread
         GameRunnable gameRunnable = new GameRunnable(this.gameHashMap, this.accountHashMap, this.gameID);
         Thread thread = new Thread(gameRunnable);
         thread.start();
         //Block until All Player Joined the Game and GameRunnable's isbegin is true
-            while (!game.getBegin()) {
-            }
+        while (!game.getBegin()) {
+        }
         //If All player joined
-        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess();
+        //Construct All Info Client need to showNewGameView
+        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(this.gameID, game.getNumOfPlayer(), player.getMyTerritories(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.isLose(), player.isWon());
         //TODO: Set Client player contructing method in new game response
         sendResponse(rspNewGameSuccess);
         //Wait Game thread to return
@@ -385,6 +385,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //If All player joined
             // Create response
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess();
+
             sendResponse(rspChooseJoinGameSuccess);
         } else {
             RSPChooseJoinGameFail rspChooseJoinGameFail = new RSPChooseJoinGameFail();

@@ -2,10 +2,11 @@ package edu.duke.ece651.shared.map;
 
 import edu.duke.ece651.shared.Wrapper.AccountID;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Territory implements Comparable<Territory> {
+public class Territory implements Comparable<Territory>, Serializable {
     private String name;
     private AccountID accountId;
     private int cost;
