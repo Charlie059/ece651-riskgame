@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class GameRunnable implements Runnable {
     // Database
     private GameHashMap gameHashMap;//GameID, Game
-    private AccountHashMap accountHashMap;//AccountID Account
+    private volatile AccountHashMap accountHashMap;//AccountID Account
     private GameID gameID;
     private volatile Boolean isCombatResolutionFinished;
     private Game currGame;

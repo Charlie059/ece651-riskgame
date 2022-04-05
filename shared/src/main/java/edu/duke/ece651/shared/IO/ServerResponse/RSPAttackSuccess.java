@@ -15,6 +15,13 @@ public class RSPAttackSuccess  implements Response{
 
     }
 
+    /**
+     *
+     * @param from
+     * @param to
+     * @param units
+     * @param totalCost
+     */
     public RSPAttackSuccess(String from,
                             String to,
                             ArrayList<ArrayList<Integer>> units,
