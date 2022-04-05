@@ -12,17 +12,7 @@ import java.io.IOException;
 
 public class SignupModel extends Model{
     public boolean signUp(String userName, String passWord, Boolean debugMode){
-        if(debugMode) return true;
-        // Create a new LoginAction
-        SignUpAction signUpAction = new SignUpAction(new AccountID(userName),passWord);
-        // Send to Server to validate
-        try {
-            ClientSocket.getInstance().sendObject(signUpAction);
-            Response response = (Response) ClientSocket.getInstance().recvObject();
-            return response.getClass() == RSPSignupSuccess.class;
-        } catch (IOException | ClassNotFoundException | ClassCastException e) {
-            return false;
-        }
+        return debugMode;
     }
 
     public boolean signUp(String userName, String passWord){
