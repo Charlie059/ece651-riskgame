@@ -3,7 +3,6 @@ package edu.duke.ece651.client.Controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -13,26 +12,25 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
-public class AttackDialogController implements Initializable {
+public class UpgradeUnitDialogController implements Initializable {
     @FXML
-    TextField terrFrom,terrTo,selectLevel,selectNum;
+    TextField terrFrom,selectCurLevel,selectLevel,selectNum,selectUpgradeLevel;
     @FXML
-    ListView<String> attackList;
+    ListView<String> upgradeList;
     @FXML
     Text error_msg;
 
-    private Stage window;
+    private final Stage window;
     private ObservableList<String> list;
 
-    public AttackDialogController(Stage window){this.window = window;}
+    public UpgradeUnitDialogController(Stage window){this.window = window;}
 
     @FXML
     public void clickOnAddButton(){
-        String record = "Use "+ selectNum.getText() + " Level "+selectLevel.getText() + " units to attack Territory " + terrTo.getText() + " From "+terrFrom.getText();
+        // add format check if it is null.
+        String record = "Update "+selectNum.getText()+" units to level "+selectUpgradeLevel.getText()+" from level "+selectCurLevel.getText()+" in "+terrFrom.getText();
         list.add(record);
         terrFrom.clear();
-        terrTo.clear();
         selectNum.clear();
         selectLevel.clear();
     }
@@ -46,6 +44,6 @@ public class AttackDialogController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         list = FXCollections.observableArrayList();
-        attackList.setItems(list);
+        upgradeList.setItems(list);
     }
 }

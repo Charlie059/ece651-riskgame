@@ -1,6 +1,9 @@
 package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.View.AttackDialogView;
+import edu.duke.ece651.client.View.MoveDialogView;
+import edu.duke.ece651.client.View.UpgradeTechDialogView;
+import edu.duke.ece651.client.View.UpgradeUnitDialogView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,7 +19,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     Text playerID_t,territories_t,food_t,techResource_n;
     @FXML
-    Text level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
+    Text level0_n,level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
 
     private final Stage window;
     private ObservableList<String> terrList;
@@ -48,7 +51,8 @@ public class MainGameViewController implements Initializable {
 
     private void setUnitNumberText(int initNum){
         // TODO: change it and get number of each units from server. remove initNum
-        level1_n.setText("  "+ String.valueOf(initNum));
+        level0_n.setText("  "+ initNum);
+        level1_n.setText("  "+"0");
         level2_n.setText("  "+"0");
         level3_n.setText("  "+"0");
         level4_n.setText("  "+"0");
@@ -78,19 +82,27 @@ public class MainGameViewController implements Initializable {
         new AttackDialogView().show(new Stage(),null);
     }
     @FXML
-    public void clickOnMove(){}
+    public void clickOnMove() throws IOException {
+        new MoveDialogView().show(new Stage(), null);
+    }
     @FXML
-    public void clickOnUpgradeUnitButton(){}
+    public void clickOnUpgradeUnitButton() throws IOException {
+        new UpgradeUnitDialogView().show(new Stage(),null);
+    }
     @FXML
-    public void clickOnUpgradeTechButton(){}
+    public void clickOnUpgradeTechButton() throws IOException {
+        new UpgradeTechDialogView().show(new Stage(),null);
+    }
     @FXML
-    public void clickOnDone(){}
+    public void clickOnDone(){
+        //upgrade everything
+    }
     @FXML
     public void clickOnExit(){
         window.close();
     }
     @FXML
-    public void clickOnSwitchUser(){}
+    public void clickOnSwitchGame(){}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
