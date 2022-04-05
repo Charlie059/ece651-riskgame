@@ -1,7 +1,8 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.GameInfo;
+import edu.duke.ece651.client.Model.JoinGameModel;
 import edu.duke.ece651.client.SceneCollector;
-import edu.duke.ece651.client.gameInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,11 +20,11 @@ import java.util.ResourceBundle;
 public class JoinGameViewController implements Initializable
 {
     @FXML
-    private TableView<gameInfo> joinGameTable;
+    private TableView<GameInfo> joinGameTable;
     @FXML
-    private TableColumn<gameInfo, Integer> gameID_col, nPlayers_col;
+    private TableColumn<GameInfo, Integer> gameID_col, nPlayers_col;
     @FXML
-    private TableColumn<gameInfo, String> note_col,button_col;
+    private TableColumn<GameInfo, String> note_col,button_col;
 
     private final Stage window;
 
@@ -31,25 +32,23 @@ public class JoinGameViewController implements Initializable
         this.window = window;
     }
 
-    /*
-        get gameInfo from player. Collect them into a ObservableList and return.
-    * */
-    private ObservableList<gameInfo> getGameData(){
-        /*
-            TODO: get the continue Game info from the player use a function, and then save them into the gameLists.
-        * */
-        // TEST
-        gameInfo g1 = new gameInfo(1,32,"new game");
-        return FXCollections.observableArrayList(g1);
+    /**
+     * Get available game list from the model
+     * @return ObservableList<GameInfo>
+     */
+    private ObservableList<GameInfo> getGameData(){
+        // Get data from the model
+        return new JoinGameModel().getGameLists(true);
     }
 
-    private void showGameTable(ObservableList<gameInfo> gameList){
+
+    private void showGameTable(ObservableList<GameInfo> gameList){
         gameID_col.setCellValueFactory(new PropertyValueFactory<>("GameID"));
         nPlayers_col.setCellValueFactory(new PropertyValueFactory<>("NPlayer"));
         note_col.setCellValueFactory(new PropertyValueFactory<>("Note"));
 
         button_col.setCellFactory((col) -> {
-            TableCell<gameInfo, String> cell = new TableCell<gameInfo, String>() {
+            TableCell<GameInfo, String> cell = new TableCell<GameInfo, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -59,9 +58,10 @@ public class JoinGameViewController implements Initializable
                         Button enterBtn = new Button("Enter");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
-                            gameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
-                            // TODO:get info based gameID in class player.
-                            System.out.println("Enter Game. INFO: "+clickedInfo.getGameID()+" "+clickedInfo.getNPlayer()+" "+clickedInfo.getNote());
+                            GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
+                            // TODO: enter the game
+                            System.out.println("Enter Game ID: "+clickedInfo.getGameID());
+
                         });
                     }
                 }

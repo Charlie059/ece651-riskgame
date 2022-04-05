@@ -4,18 +4,12 @@ import edu.duke.ece651.client.Checker.NewGameChecker;
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.View.DeployView;
-import edu.duke.ece651.client.gameInfo;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 
 public class NewGameViewController {
     @FXML
@@ -45,7 +39,7 @@ public class NewGameViewController {
             return;
         }
 
-        // Pass userInput to GameModel (if model return false then return)
+        // Pass userInput to GameModel (if model return false then return); else model will get data from server
         if(!this.gameModel.startNewGame(n_players.getText(), true)) return;
 
         // If server accept request then show the deployment view
