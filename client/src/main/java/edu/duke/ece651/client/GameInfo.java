@@ -1,14 +1,12 @@
 package edu.duke.ece651.client;
 
-public class gameInfo {
+public class GameInfo {
     private int GameID;
     private int NPlayer;
     private String Note;
 
-    public gameInfo(int id, int n, String note){
+    public GameInfo(int id, int n, String note){
         this.GameID = id;
-        this.Note = note;
-        this.NPlayer = n;
     }
 
     public String getNote() {

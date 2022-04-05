@@ -19,19 +19,7 @@ public class LoginModel extends Model{
      */
     public boolean validateLogin(String userName, String passWord, Boolean debugMode){
         // If in debug mode return true
-        if(debugMode) return true;
-
-        // Create a new LoginAction
-        LoginAction loginAction = new LoginAction(new AccountID(userName),passWord);
-        // Send to Server to validate
-        try {
-            ClientSocket clientSocket = ClientSocket.getInstance();
-            clientSocket.sendObject(loginAction);
-            Response response = (Response) ClientSocket.getInstance().recvObject();
-            return response.getClass() == RSPLoginSuccess.class;
-        } catch (IOException | ClassNotFoundException | ClassCastException e) {
-            return false;
-        }
+        return debugMode;
     }
 
 

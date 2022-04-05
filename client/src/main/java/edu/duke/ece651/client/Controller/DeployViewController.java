@@ -31,12 +31,27 @@ public class DeployViewController implements Initializable {
     Text errorMsg;
 
     private final Stage window;
+    // Passing Game Model
     private Model model;
-
     // these three lists are used in choiceBox
     private ObservableList<String> terrList;
     private ObservableList<Integer> numberList;
     private ObservableList<Integer> levelList;
+
+
+    /**
+     * Constructor of DeployViewController
+     * @param window Window
+     * @param model GameModel
+     */
+    public DeployViewController(Stage window, Model model){
+        this.window = window;
+        this.model = model;
+        levelList = FXCollections.observableArrayList();
+        terrList = FXCollections.observableArrayList();
+        numberList = FXCollections.observableArrayList();
+    }
+
 
     @FXML
     public void clickOnViewMap() throws IOException {
@@ -86,8 +101,8 @@ public class DeployViewController implements Initializable {
         }
     }
 
-    private int getInitalUnitsNumber(){
-        // TODO: get initial level 1 units number from server
+    private int getInitialUnitsDeployNumber(){
+        // Get total deployment number from
         return 10;
     }
 
@@ -125,18 +140,19 @@ public class DeployViewController implements Initializable {
         level6_n.setText("  "+"0");
     }
     
-    public DeployViewController(Stage window, Model model){
-        this.window = window;
-        this.model = model;
-        levelList = FXCollections.observableArrayList();
-        terrList = FXCollections.observableArrayList();
-        numberList = FXCollections.observableArrayList();
-    }
 
+
+    /**
+     * Init the view, get data from GameModel
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        int initNum = getInitalUnitsNumber();
+        int initNum = getInitialUnitsDeployNumber();
         createAvailalbeNumList(numberList, initNum);
+
+
         setTerritoryList(terrList);
         setLevelList(levelList);
 

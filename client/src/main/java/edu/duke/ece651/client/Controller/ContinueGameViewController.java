@@ -1,7 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.GameInfo;
 import edu.duke.ece651.client.SceneCollector;
-import edu.duke.ece651.client.gameInfo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,11 +19,11 @@ import java.util.ResourceBundle;
 public class ContinueGameViewController implements Initializable
 {
     @FXML
-    private TableView<gameInfo> continueGameTable;
+    private TableView<GameInfo> continueGameTable;
     @FXML
-    private TableColumn<gameInfo, Integer> gameID_col, nPlayers_col;
+    private TableColumn<GameInfo, Integer> gameID_col, nPlayers_col;
     @FXML
-    private TableColumn<gameInfo, String> note_col,button_col;
+    private TableColumn<GameInfo, String> note_col,button_col;
 
     private final Stage window;
 
@@ -32,24 +32,24 @@ public class ContinueGameViewController implements Initializable
     }
 
     /*
-        get gameInfo from player. Collect them into a ObservableList and return.
+        get GameInfo from player. Collect them into a ObservableList and return.
     * */
-    private ObservableList<gameInfo> getGameData(){
+    private ObservableList<GameInfo> getGameData(){
         /*
             TODO: get the continue Game info from the player use a function, and then save them into the gameLists.
         * */
         // TEST
-        gameInfo g1 = new gameInfo(1,32,"new game");
+        GameInfo g1 = new GameInfo(1,3,"");
         return FXCollections.observableArrayList(g1);
     }
 
-    private void showGameTable(ObservableList<gameInfo> gameList){
+    private void showGameTable(ObservableList<GameInfo> gameList){
         gameID_col.setCellValueFactory(new PropertyValueFactory<>("GameID"));
         nPlayers_col.setCellValueFactory(new PropertyValueFactory<>("NPlayer"));
         note_col.setCellValueFactory(new PropertyValueFactory<>("Note"));
 
         button_col.setCellFactory((col) -> {
-            TableCell<gameInfo, String> cell = new TableCell<gameInfo, String>() {
+            TableCell<GameInfo, String> cell = new TableCell<GameInfo, String>() {
                 @Override
                 public void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
@@ -59,8 +59,8 @@ public class ContinueGameViewController implements Initializable
                         Button enterBtn = new Button("Enter");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
-                            gameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
-                            System.out.println("Enter Game. INFO: "+clickedInfo.getGameID()+" "+clickedInfo.getNPlayer()+" "+clickedInfo.getNote());
+                            GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
+                            System.out.println("Enter Game. INFO: "+clickedInfo.getGameID());
                         });
                     }
                 }
