@@ -3,6 +3,7 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.View.MainGameView;
+import edu.duke.ece651.client.View.MapView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -38,10 +39,8 @@ public class DeployViewController implements Initializable {
     private ObservableList<Integer> levelList;
 
     @FXML
-    public void clickOnViewMap(){
-        Stage mapWindow = new Stage();
-        // TODO load map view..
-        mapWindow.show();
+    public void clickOnViewMap() throws IOException {
+        new MapView().show(new Stage(),null,2);
     }
 
     @FXML
