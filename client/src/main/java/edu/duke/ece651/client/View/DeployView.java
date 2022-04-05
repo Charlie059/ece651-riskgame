@@ -1,6 +1,7 @@
 package edu.duke.ece651.client.View;
 
 import edu.duke.ece651.client.Controller.DeployViewController;
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.SceneCollector;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +30,6 @@ public class DeployView implements View{
             Scene scene = new Scene(gp, 1280, 760);
             URL cssResource = getClass().getResource("/css/button.css");
             scene.getStylesheets().add(cssResource.toString());
-            SceneCollector.continueGameView = scene;
 
             window.setScene(scene);
             window.show();
