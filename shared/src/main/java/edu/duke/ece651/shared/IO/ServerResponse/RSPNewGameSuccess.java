@@ -11,6 +11,7 @@ public class RSPNewGameSuccess implements Response {
     private GameID gameID;
     private Integer numOfPlayer;
     private HashMap<String, Territory> myTerritories;
+    private clientPlayerPacket;
 
     //For Info
     private int foodResource;
@@ -70,5 +71,14 @@ public class RSPNewGameSuccess implements Response {
 
     public boolean isWon() {
         return isWon;
+    }
+
+
+    public RSPNewGameSuccess(ClientPlayerPacket clientPlayerPacket) {
+        this.clientPlayerPacket = clientPlayerPacket;
+    }
+
+    public ClientPlayerPacket getClientPlayerPacket() {
+        return clientPlayerPacket;
     }
 }
