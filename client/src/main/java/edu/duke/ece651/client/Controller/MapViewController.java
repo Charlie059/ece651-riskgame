@@ -61,7 +61,6 @@ public class MapViewController implements Initializable {
         l.add(0);
         l.add(0);
         l.add(0);
-
         return l;
     }
 

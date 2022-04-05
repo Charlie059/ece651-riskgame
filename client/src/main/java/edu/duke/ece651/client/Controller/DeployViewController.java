@@ -57,9 +57,16 @@ public class DeployViewController implements Initializable {
     }
 
 
+    /**
+     * Show the map when user click map
+     * @throws IOException
+     */
     @FXML
     public void clickOnViewMap() throws IOException {
-        new MapView().show(new Stage(),null,2);
+        // Get the numOfPlayers
+        int numOfPlayer =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
+        // Show the map
+        new MapView().show(new Stage(),null, numOfPlayer);
     }
 
     @FXML

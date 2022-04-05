@@ -30,7 +30,6 @@ public class DeployView implements View{
             Scene scene = new Scene(gp, 1280, 760);
             URL cssResource = getClass().getResource("/css/button.css");
             scene.getStylesheets().add(cssResource.toString());
-            SceneCollector.continueGameView = scene;
 
             window.setScene(scene);
             window.show();
