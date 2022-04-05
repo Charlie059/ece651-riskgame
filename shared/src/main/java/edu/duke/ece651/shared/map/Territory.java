@@ -126,6 +126,34 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
 
     /**
+     * add units by hash map
+     * @param unitsHashMap
+     */
+    public void addUnitMultiLevelsHashMap(HashMap<Integer, Integer> unitsHashMap) {
+        ArrayList<Unit> U =new ArrayList<>();
+        Unit u0 = new Unit().setLevel(0).setValue(0);
+        Unit u1 = new Unit().setLevel(1).setValue(0);
+        Unit u2 = new Unit().setLevel(2).setValue(0);
+        Unit u3 = new Unit().setLevel(3).setValue(0);
+        Unit u4 = new Unit().setLevel(4).setValue(0);
+        Unit u5 = new Unit().setLevel(5).setValue(0);
+        Unit u6 = new Unit().setLevel(6).setValue(0);
+        U.add(u0);
+        U.add(u1);
+        U.add(u2);
+        U.add(u3);
+        U.add(u4);
+        U.add(u5);
+        U.add(u6);
+        for(Integer level: unitsHashMap.keySet()){
+            U.get(level).setValue(unitsHashMap.get(level));
+        }
+        this.Units = U;
+
+    }
+
+
+    /**
      * remove num level-l units from territory
      * set 0 if num exceeds old num
      * @param l
