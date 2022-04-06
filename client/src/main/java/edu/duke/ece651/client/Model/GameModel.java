@@ -89,9 +89,16 @@ public class GameModel extends Model{
             String level = attackInfo[2];
             String num = attackInfo[3];
 
+            // Add attack unit to array
+            ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+            ArrayList<Integer> levelAndNum = new ArrayList<>();
+            levelAndNum.add(Integer.parseInt(level));
+            levelAndNum.add(Integer.parseInt(num));
+            units.add(levelAndNum);
+
             // Send a join action to server
-//            AttackAction attackAction = new AttackAction(this.clientPlayerPacket.getCurrentGameID(),this.clientPlayerPacket.getAccountID(), from, to, );
-//            ClientSocket.getInstance().sendObject(attackAction);
+            AttackAction attackAction = new AttackAction(from, to, units);
+            ClientSocket.getInstance().sendObject(attackAction);
 
             // Recv server response
             Response response = (Response) ClientSocket.getInstance().recvObject();
@@ -99,8 +106,11 @@ public class GameModel extends Model{
             // If response is RSPAttackSuccess
             if(response.getClass() == RSPAttackSuccess.class) return true;
 
+            // Cast and Get the response filed
+            RSPAttackSuccess rspAttackSuccess = (RSPAttackSuccess) response;
+
             // Change the model
-//            this.clientPlayerPacket.doAttack();
+            this.clientPlayerPacket.doAttack(rspAttackSuccess.getFrom(), rspAttackSuccess.getTo(), rspAttackSuccess.getUnits(), rspAttackSuccess.getTotalCost());
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
