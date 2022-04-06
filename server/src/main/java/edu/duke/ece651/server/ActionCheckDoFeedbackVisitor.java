@@ -1,17 +1,14 @@
 package edu.duke.ece651.server;
 
 import edu.duke.ece651.server.Checker.*;
-import edu.duke.ece651.server.Wrapper.AccountHashMap;
-import edu.duke.ece651.server.Wrapper.GameHashMap;
+import edu.duke.ece651.server.Wrapper.*;
 import edu.duke.ece651.shared.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
-import edu.duke.ece651.shared.Wrapper.AttackHashMap;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
-import edu.duke.ece651.shared.map.Map;
 import edu.duke.ece651.shared.map.Unit;
 
 import java.io.*;
@@ -81,7 +78,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UnitLevelUpgradeList.add(50);//level 5->6: cost 50
     }
 
-//
 
     /**
      * Send Response to Client
@@ -160,6 +156,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         CommitChecker commitChecker = new CommitChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
         if (commitChecker.doCheck()) {
             this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
+//            while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
+//            this.gameHashMap.get(this.gameID).setCombatFinished(false);
             RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
             sendResponse(rspCommitSuccess);
         } else {
@@ -305,10 +303,20 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
         //If All player joined
         //Construct All Info Client need to showNewGameView
-        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, game.getNumOfPlayer(),player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.getTotalDeployment(), player.getMyTerritories(), null, player.isLose(), player.isWon());
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
+                this.gameID,
+                this.accountID,
+                game.getNumOfPlayer(),
+                player.getFoodResource(),
+                player.getTechResource(),
+                player.getCurrTechLevel(),
+                player.getTotalDeployment(),
+                player.getMyTerritories(),
+                game.getPlayerHashMap().getEnemyTerritories(this.accountID),
+                player.isLose(),
+                player.isWon());
         RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(clientPlayerPacket);
-//        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(this.gameID, game.getNumOfPlayer(), player.getMyTerritories(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.isLose(), player.isWon());
-//        //TODO: Set Client player contructing method in new game response
+       //TODO: Set Client player contructing method in new game response
         sendResponse(rspNewGameSuccess);
         //Wait Game thread to return
     }

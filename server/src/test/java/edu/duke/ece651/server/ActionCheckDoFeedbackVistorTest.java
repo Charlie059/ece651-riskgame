@@ -4,18 +4,15 @@ import edu.duke.ece651.server.IO.MockClient;
 import edu.duke.ece651.server.IO.MockServer;
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
-import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Account;
-import edu.duke.ece651.shared.Player;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.map.Map;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -695,6 +692,16 @@ class ActionCheckDoFeedbackVistorTest {
         mockClient1.sendObject(moveAction);
         moveAction.setFrom("b1").setTo("b2").setUnits(units);
         mockClient2.sendObject(moveAction);
+
+//        //----------------commit----------------/
+//        mockClient1.sendObject(commitAction);
+//        Response responseHostCommit = (Response) mockClient1.recvObject();
+//        assertEquals(new RSPCommitSuccess().getClass(), response2_1.getClass());
+//
+//        mockClient2.sendObject(commitAction);
+//        Response responseJoinerCommit = (Response) mockClient2.recvObject();
+//        assertEquals(new RSPCommitSuccess().getClass(), response2_2.getClass());
+//        //---------------
         Response hostResponse = (Response) mockClient1.recvObject();
         Response joinerResponse = (Response) mockClient2.recvObject();
         //assert move success

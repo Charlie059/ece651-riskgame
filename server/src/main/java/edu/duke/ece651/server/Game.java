@@ -1,15 +1,12 @@
-package edu.duke.ece651.shared;
+package edu.duke.ece651.server;
 
-import edu.duke.ece651.shared.IO.ClientActions.AttackAction;
+import edu.duke.ece651.server.Wrapper.AttackHashMap;
+import edu.duke.ece651.server.Wrapper.CommittedHashMap;
+import edu.duke.ece651.server.Wrapper.PlayerHashMap;
 import edu.duke.ece651.shared.Wrapper.AccountID;
-import edu.duke.ece651.shared.Wrapper.AttackHashMap;
-import edu.duke.ece651.shared.Wrapper.CommittedHashMap;
-import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
 import edu.duke.ece651.shared.map.Map;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class Game {
     // All player joined this game

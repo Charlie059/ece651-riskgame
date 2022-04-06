@@ -2,14 +2,7 @@ package edu.duke.ece651.server;
 
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
-import edu.duke.ece651.shared.Account;
-import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.IO.ClientActions.AttackAction;
-import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Deal with Combat Resolution
@@ -70,7 +63,7 @@ public class GameRunnable implements Runnable {
 
         //Do Game until thisGame is GameOver
         do {
-            //thisGame.setCombatFinished(false);
+            thisGame.setCombatFinished(false);
             //Wait until all players are isCommitted
             while (!isCommitted()) {
             }

@@ -1,4 +1,4 @@
-package edu.duke.ece651.shared;
+package edu.duke.ece651.server;
 
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.Wrapper.AccountID;

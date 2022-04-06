@@ -1,7 +1,6 @@
 package edu.duke.ece651.server.Wrapper;
 
-import edu.duke.ece651.shared.Account;
-import edu.duke.ece651.shared.Game;
+import edu.duke.ece651.server.Game;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 

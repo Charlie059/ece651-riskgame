@@ -1,10 +1,7 @@
-package edu.duke.ece651.shared.Wrapper;
+package edu.duke.ece651.server.Wrapper;
 
-import edu.duke.ece651.shared.Account;
-import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.IO.ClientActions.AttackAction;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 

@@ -1,7 +1,9 @@
-package edu.duke.ece651.shared.Wrapper;
+package edu.duke.ece651.server.Wrapper;
 
-import edu.duke.ece651.shared.Game;
-import edu.duke.ece651.shared.Player;
+import edu.duke.ece651.server.Player;
+import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
+import edu.duke.ece651.shared.map.Territory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +11,7 @@ import java.util.Set;
 
 public class PlayerHashMap {
 
-    private HashMap<AccountID,Player> playerHashMap;
+    private HashMap<AccountID, Player> playerHashMap;
 
     // Create an empty hashmap
     public PlayerHashMap() {
@@ -79,10 +81,28 @@ public class PlayerHashMap {
     /**
      * Update all player's Tech Level
      */
-    public void updatePlayersTechLevel(){
-        for(AccountID key:this.playerHashMap.keySet()){
+    public void updatePlayersTechLevel() {
+        for (AccountID key : this.playerHashMap.keySet()) {
             this.playerHashMap.get(key).doUpgradeTech();
         }
+    }
+
+    /**
+     * @param myAccountID
+     * @return
+     */
+    public HashMap<String, ArrayList<String>> getEnemyTerritories(AccountID myAccountID) {
+        HashMap<String, ArrayList<String>> result = new HashMap<>();
+        for (AccountID key : this.playerHashMap.keySet()) {
+            if (key != myAccountID) {
+                ArrayList<String> territoryNameList = new ArrayList<>();
+                for (String territoryName : this.playerHashMap.get(key).getMyTerritories().keySet()) {
+                    territoryNameList.add(territoryName);
+                }
+                result.put(key.getAccountID(), territoryNameList);
+            }
+        }
+        return result;
     }
 
 }

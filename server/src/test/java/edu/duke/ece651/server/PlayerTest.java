@@ -1,4 +1,4 @@
-package edu.duke.ece651.shared;
+package edu.duke.ece651.server;
 
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PlayerTest {
 
