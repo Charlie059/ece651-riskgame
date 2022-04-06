@@ -16,13 +16,15 @@ public class ClientPlayerPacket implements Serializable {
     private int techResource;
     private int techLevel;
     private int totalDeployment; // num of units
+    private Boolean isLose;
+    private Boolean isWin;
     private HashMap<String, Territory> myTerritories;// all territories of the player
 
     private HashMap<String, ArrayList<String>> enemyTerritories; // HashMap<String -> AccountID String, ArrayList<String> -> ArrayList of Territories>
 
 
 
-    public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories) {
+    public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories, Boolean isLose, Boolean isWin) {
         this.currentGameID = currentGameID;
         this.accountID = accountID;
         this.numOfPlayers = numOfPlayers;
@@ -32,6 +34,8 @@ public class ClientPlayerPacket implements Serializable {
         this.totalDeployment = totalDeployment;
         this.myTerritories = myTerritories;
         this.enemyTerritories = enemyTerritories;
+        this.isLose = isLose;
+        this.isWin = isWin;
     }
 
 

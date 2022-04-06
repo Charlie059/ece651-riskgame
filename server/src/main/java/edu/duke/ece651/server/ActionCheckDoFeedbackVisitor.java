@@ -81,13 +81,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UnitLevelUpgradeList.add(50);//level 5->6: cost 50
     }
 
-//    public AttackHashMap getAttackHashMap() {
-//        return attackHashMap;
-//    }
 //
-//    public void setAttackHashMap(AttackHashMap attackHashMap) {
-//        this.attackHashMap = attackHashMap;
-//    }
 
     /**
      * Send Response to Client
@@ -311,9 +305,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
         //If All player joined
         //Construct All Info Client need to showNewGameView
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, game.getNumOfPlayer(),player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.getTotalDeployment(), player.getMyTerritories(), null, player.isLose(), player.isWon());
+        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(clientPlayerPacket);
 //        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(this.gameID, game.getNumOfPlayer(), player.getMyTerritories(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.isLose(), player.isWon());
 //        //TODO: Set Client player contructing method in new game response
-//        sendResponse(rspNewGameSuccess);
+        sendResponse(rspNewGameSuccess);
         //Wait Game thread to return
     }
 
