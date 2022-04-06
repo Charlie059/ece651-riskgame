@@ -118,6 +118,26 @@ class MapTest {
 
     }
 
+    @Test
+    void testDisplayMapErr(){
+        Map m = new Map(3);
+        AccountID a1 = new AccountID("1");
+        AccountID a2 = new AccountID("2");
+        AccountID a3 = new AccountID("3");
+        m.territoryList.get("a1");
+        m.territoryList.get("a2");
+        m.territoryList.get("a3");
+        m.territoryList.get("b1");
+        m.territoryList.get("b2");
+        m.territoryList.get("b3");
+        m.territoryList.get("c1");
+        m.territoryList.get("c2");
+        m.territoryList.get("c3");
+        MapView displayer = new MapTextView(3, System.out);
+        m.displayMap(displayer);
+
+    }
+
     /**
      * test map with multiple players(2-5)
      */
@@ -183,5 +203,10 @@ class MapTest {
         //from -> to
         assertEquals(m.shortestPathFrom(acc1, "a1", "a1"), 0);
         assertEquals(m.shortestPathFrom(acc1, "a1", "a2"), 20);
+        //wrong owner
+        assertEquals(-1, m.shortestPathFrom(acc1, "a1", "e1"));
+        //cannot arrive
+        m.getTerritoryList().get("c1").setOwner(acc1);
+        assertEquals(Integer.MAX_VALUE, m.shortestPathFrom(acc1, "a1", "c1"));
     }
 }
