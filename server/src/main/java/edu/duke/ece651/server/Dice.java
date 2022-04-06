@@ -8,7 +8,7 @@ import java.util.Random;
 public class Dice {
     private Random random;
     private ArrayList<Integer> Result;// 2-d result of 2 unit
-    private Boolean debugMode = false;//random.nextInt(20)+1
+    private Integer debugMode = 0;//random.nextInt(20)+1
     private ArrayList<Integer> bonusTable;
     private Integer attackUnitLevel;
     private Integer defenderUnitLevel;
@@ -27,12 +27,21 @@ public class Dice {
     /**
      * Calculate the dice result
      * ***Note for Debug Mode:
-     * if debug is on, dice will force add 100 extra bonus to attacker to make it always win
+     * if debug is 1, dice will force add 100 extra bonus to attacker to make it always win
+     * if debug >1, dice will force add 100 extra bonus to defender to make it always win
      */
     private void doDice(){
-        Integer debugBonus = this.debugMode?100:0;
-        Integer attackerResult = this.random.nextInt(20)+this.bonusTable.get(this.attackUnitLevel)+debugBonus;
+        Integer attackerResult = this.random.nextInt(20)+this.bonusTable.get(this.attackUnitLevel);
         Integer defenderResult = this.random.nextInt(20)+this.bonusTable.get(this.defenderUnitLevel);
+        /************** Debug Mode **********/
+        Integer debugBonus;
+        if (this.debugMode!=0) debugBonus = 100;
+        else debugBonus = 0;
+        if(this.debugMode==1){
+            attackerResult+=debugBonus;
+        }else{
+            defenderResult+=debugBonus;
+        }
         this.Result.add(attackerResult);
         this.Result.add(defenderResult);
     }
@@ -55,9 +64,9 @@ public class Dice {
      * Constructor of Dice with debug mode
      * @param attackUnitLevel attacker unit level
      * @param defenderUnitLevel defender unit level
-     * @param debugMode if debugmode is true, attacker always win
+     * @param debugMode if debugmode is 1, attacker always win, otherwise defender always win
      */
-    public Dice(Integer attackUnitLevel, Integer defenderUnitLevel,Boolean debugMode) {
+    public Dice(Integer attackUnitLevel, Integer defenderUnitLevel,Integer debugMode) {
         this.debugMode = debugMode;
         this.attackUnitLevel = attackUnitLevel;
         this.defenderUnitLevel=defenderUnitLevel;

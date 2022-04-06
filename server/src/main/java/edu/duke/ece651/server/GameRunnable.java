@@ -70,13 +70,16 @@ public class GameRunnable implements Runnable {
                                 // [ [4,1], [1,2], [0,1] ]
                         //Round 3: Defender win | Attacker win
                                 //[(0,0),(1,2),(2,0),(3,0),(4,0),(5,0),(6,0)]
-                                // [ [4,0], [1,2], [0,1] ]
+                                // [ (delete), [1,2], [0,1] ]
                         //Round 4: Defender win | Attacker win
                                 //[(0,0),(1,1),(2,0),(3,0),(4,0),(5,0),(6,0)]
-                                // [ [4,0], [1,1], [0,1] ]
-                        //Round 4: Defender win | Attacker win
+                                // [ (delete), [1,1], [0,1] ]
+                        //Round 4: Defender win | Attacker win attack the same level
                                 //[(0,0),(1,1),(2,0),(3,0),(4,0),(5,0),(6,0)]
-                                // [ [4,0], [1,1], [0,1] ]
+                                // [ (delete), [1,1], [0,1] ]
+                        //Round 4: Attacker Win | all 0 return
+                                //[(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0)]
+                                // [ (delete), [1,1], [0,1] ]
 
         //Do Tech Upgrade
         this.currGame.getPlayerHashMap().updatePlayersTechLevel();
