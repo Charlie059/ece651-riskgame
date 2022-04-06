@@ -16,6 +16,8 @@ class TerritoryTest {
         assertEquals(t1.getOwnerId(), null);
         assertEquals(t1.getUnits().size(), 7);
         assertEquals(t1.getCost(), 10);
+        assertEquals(t1.getDist(), Integer.MAX_VALUE);
+        assertNull(t1.getPrev());
         //add settings
         //set account ID
         AccountID acc = new AccountID("1");
@@ -37,6 +39,14 @@ class TerritoryTest {
         //remove 2 level-0 units
         t1.removeUnitLevel(0, 2, t1.getUnits());
         assertEquals(t1.getUnits().get(0).getValue(), 1);
+
+        //test constructor with neighbor list
+        Territory t2 = createTerritory();
+        ArrayList<Territory> terrs = new ArrayList<>();
+        terrs.add(t2);
+        terrs.add(t1);
+        Territory t3 = new Territory("a3", terrs);
+        assertEquals(2, t3.getNeighbour().size());
     }
 
 
@@ -128,7 +138,11 @@ class TerritoryTest {
     @Test
     void testInvalidAddUnits(){
         Territory t1 = createTerritory();
-
+        //add 3 level-0 units
+        //add 3 level-1 units
+        assertFalse(t1.removeUnitLevel(-1, 4, t1.getUnits()));
+        assertFalse(t1.removeUnitLevel(0, 4, t1.getUnits()));
+        assertEquals(0, t1.getUnits().get(0).getValue());
     }
 
     @Test
