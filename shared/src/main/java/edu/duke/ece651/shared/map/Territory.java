@@ -108,6 +108,37 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
 
     /**
+     * add units by hash map (!!!!make sure this territory is EMPTY!!!!)
+     * after combat resolution, if attack wins, add her attack units (in hashmap)
+     * to the occupied territory
+     * @param unitsHashMap
+     */
+    public void addUnitMultiLevelsHashMap(HashMap<Integer, Integer> unitsHashMap) {
+        ArrayList<Unit> U =new ArrayList<>();
+        Unit u0 = new Unit().setLevel(0).setValue(0);
+        Unit u1 = new Unit().setLevel(1).setValue(0);
+        Unit u2 = new Unit().setLevel(2).setValue(0);
+        Unit u3 = new Unit().setLevel(3).setValue(0);
+        Unit u4 = new Unit().setLevel(4).setValue(0);
+        Unit u5 = new Unit().setLevel(5).setValue(0);
+        Unit u6 = new Unit().setLevel(6).setValue(0);
+        U.add(u0);
+        U.add(u1);
+        U.add(u2);
+        U.add(u3);
+        U.add(u4);
+        U.add(u5);
+        U.add(u6);
+        for(Integer level: unitsHashMap.keySet()){
+            U.get(level).setValue(unitsHashMap.get(level));
+        }
+        this.Units = U;
+
+    }
+
+
+
+    /**
      * add multiple levels of units
      * @param arr: 2-D (n*2) array, arr[i][0] = level, arr[i][1] = num
      */
@@ -124,6 +155,20 @@ public class Territory implements Comparable<Territory>, Serializable {
         Units = (ArrayList<Unit>) U.clone();
         return true;
     }
+
+    /**
+     * check if this territory is empty
+     * @return
+     */
+    public boolean isEmpty(){
+        for(Unit u: this.getUnits()){
+            if (u.getValue() != 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * remove num level-l units from territory
@@ -169,7 +214,7 @@ public class Territory implements Comparable<Territory>, Serializable {
 
     public void changeOwner(AccountID accountid) {
         if (!this.accountId.equals(accountid)) {
-            this.accountId = accountId;
+            this.accountId = accountid;
         }
     }
 
