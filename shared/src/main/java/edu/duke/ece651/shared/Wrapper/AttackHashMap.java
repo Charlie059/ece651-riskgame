@@ -54,6 +54,13 @@ public class AttackHashMap {
         return this.attackHashmap.keySet();
     }
 
+    /**
+     * For GameRunnable to do iteration without synchronization thread safe
+     * @return this true attackHashMap
+     */
+    public HashMap<AccountID, ArrayList<AttackAction>> getAttackHashmap(){
+        return  this.attackHashmap;
+    }
 
     /**
      * Check if hashmap contains key
