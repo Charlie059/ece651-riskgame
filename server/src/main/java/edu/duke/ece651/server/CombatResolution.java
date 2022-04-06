@@ -238,6 +238,10 @@ public class CombatResolution {
 
     }
 
+    //doCombat(DiceDebugMode, )
+    public void doCombat(){
+
+    }
     //doCombat(DiceDebugMode)
 
     /**
