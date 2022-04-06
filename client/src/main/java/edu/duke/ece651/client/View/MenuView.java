@@ -19,7 +19,6 @@ public class MenuView implements View{
         URL xmlResource = getClass().getResource("/xml/menuView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(MenuViewController.class, new MenuViewController(window));
         loader.setControllerFactory(controllers::get);

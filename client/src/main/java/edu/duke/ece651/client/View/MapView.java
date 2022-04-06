@@ -39,7 +39,6 @@ public class MapView {
         URL xmlResource = getClass().getResource(fxmlPath);
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(MapViewController.class, new MapViewController(window));
         loader.setControllerFactory(controllers::get);
