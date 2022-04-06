@@ -78,6 +78,8 @@ class MapTest {
         assertThrows(IllegalArgumentException.class, () -> m.isAdjacent(acc0, "a1", "a3"));
         assertTrue(m.isAdjacent(acc0, "a1", "b1"));
         assertFalse(m.isAdjacent(acc0, "a1", "b3"));
+        assertFalse(m.isAdjacent(acc0, "ssss1", "b3"));
+        assertFalse(m.isAdjacent(acc0, "a1", "dsfsffg3"));
     }
 
 

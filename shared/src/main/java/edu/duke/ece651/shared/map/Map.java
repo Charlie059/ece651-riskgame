@@ -84,10 +84,13 @@ public class Map {
      * @return check result
      */
     public boolean isAdjacent(AccountID accountID, String Terr1, String Terr2) throws IllegalArgumentException {
-
-        Territory t1 = territoryList.get(Terr1);
-        Territory t2 = territoryList.get(Terr2);
-
+        Territory t1;
+        Territory t2;
+         t1 = territoryList.get(Terr1);
+         t2 = territoryList.get(Terr2);
+        if (t1 == null || t2 == null){
+            return false;
+        }
         if (!(t1.getOwnerId().equals(accountID)) || t2.getOwnerId().equals(accountID)) {
             throw new IllegalArgumentException("Terr1 and Terr2 belong to the same(wrong) player.");
         }
@@ -97,8 +100,8 @@ public class Map {
             if (it.getName().equals(Terr2))
                 return true;
         }
-
         return false;
+
     }
 
     /**
