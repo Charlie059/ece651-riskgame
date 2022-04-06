@@ -207,4 +207,12 @@ public class Territory implements Comparable<Territory>, Serializable {
         }
     }
 
+    public boolean isEmpty() {
+        for(Unit u: this.getUnits()){
+            if (u.getValue() != 0){
+                return false;
+            }
+        }
+        return true;
+    }
 }
