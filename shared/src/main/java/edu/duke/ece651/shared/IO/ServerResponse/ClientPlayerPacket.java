@@ -84,20 +84,20 @@ public class ClientPlayerPacket {
      *
      * @param moveUnits
      * @param from_name
+     * @param to_name
      * @return
      */
-    public void DoMove(String from_name, ArrayList<ArrayList<Integer>> moveUnits, int totalCost) {
+    public void doMove(String from_name, String to_name, ArrayList<ArrayList<Integer>> moveUnits, int totalCost) {
         this.myTerritories.get(from_name).removeUnitMultiLevels(moveUnits);
-        this.myTerritories.get(from_name).addUnitMultiLevels(moveUnits);
+        this.myTerritories.get(to_name).addUnitMultiLevels(moveUnits);
         this.foodResource -= totalCost;
     }
-
     /**
      * temporally upgrade player's techLevel
      * @param next_level
      * @param cost
      */
-    public void DoUpgradeTech(int next_level, int cost){
+    public void doUpgradeTech(int next_level, int cost){
         this.techLevel = next_level;
         this.techResource -= cost;
     }
@@ -107,7 +107,7 @@ public class ClientPlayerPacket {
      * @param where
      * @param unitsToUpgrade
      */
-    public void DoUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
+    public void doUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
         Territory terr = this.myTerritories.get(where);
         for(int i = 0; i < unitsToUpgrade.size(); i++){
             int level = unitsToUpgrade.get(i).get(0);

@@ -11,6 +11,13 @@ public class MoveAction implements Action {
     private String to;
     //<level<Level,Num>>
     //<0,<index0(level),index1(number)>>
+    public MoveAction(){}
+
+    public MoveAction(String from, String to, ArrayList<ArrayList<Integer>> units) {
+        this.from = from;
+        this.to = to;
+        this.units = units;
+    }
 
     private ArrayList<ArrayList<Integer>> units;
     @Override

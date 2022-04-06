@@ -1,5 +1,8 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Checker.AttackChecker;
+import edu.duke.ece651.client.Checker.MoveChecker;
+import edu.duke.ece651.client.Model.GameModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,19 +30,27 @@ public class MoveDialogController implements Initializable {
 
     public MoveDialogController(Stage window){this.window = window;}
 
+    //DO NOTHING
     @FXML
-    public void clickOnAddButton(){
-        String record = "Move "+ selectNum.getText() + " Level "+selectLevel.getText() + " units from Territory " + terrFrom.getText() + " to "+terrTo.getText();
-        list.add(record);
-        terrFrom.clear();
-        terrTo.clear();
-        selectNum.clear();
-        selectLevel.clear();
-    }
+    public void clickOnAddButton(){}
 
     @FXML
     public void clickOnSubmitButton(){
-        //TODO: submit all the records in list to server
+        // Local checker
+        MoveChecker moveChecker = new MoveChecker();
+        if(!moveChecker.doCheck(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()})){
+            this.error_msg.setText("Invalid value");
+            return;
+        }
+
+        // if pass local checker, then send request to model
+        if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, true)){
+            this.error_msg.setText("Invalid value (Server check)");
+        }
+        else {
+            String record = "Use "+ selectNum.getText() + " Level "+selectLevel.getText() + " units to attack Territory " + terrTo.getText() + " From "+terrFrom.getText();
+            System.out.println(record);
+        }
         window.close();
     }
 

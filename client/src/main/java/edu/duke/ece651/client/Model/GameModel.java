@@ -78,7 +78,12 @@ public class GameModel extends Model{
         }
     }
 
-    //new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()})
+    /**
+     * doAtack action, send req to server and get response then change view
+     * @param attackInfo
+     * @param debugMode
+     * @return true for success
+     */
     public boolean doAttack(String[] attackInfo, boolean debugMode){
         // For Debug only
         if(debugMode) return true;
@@ -111,12 +116,59 @@ public class GameModel extends Model{
 
             // Change the model
             this.clientPlayerPacket.doAttack(rspAttackSuccess.getFrom(), rspAttackSuccess.getTo(), rspAttackSuccess.getUnits(), rspAttackSuccess.getTotalCost());
-
+            return true;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return false;
     }
+
+
+    /**
+     * Plyaer do move action, send server to check
+     * @param moveInfo
+     * @param debugMode
+     * @return true for success
+     */
+    public boolean doMove(String[] moveInfo, boolean debugMode){
+        // For Debug only
+        if(debugMode) return true;
+
+        try {
+            String from = moveInfo[0];
+            String to = moveInfo[1];
+            String level = moveInfo[2];
+            String num = moveInfo[3];
+
+            // Add move unit to array
+            ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+            ArrayList<Integer> levelAndNum = new ArrayList<>();
+            levelAndNum.add(Integer.parseInt(level));
+            levelAndNum.add(Integer.parseInt(num));
+            units.add(levelAndNum);
+
+            // Send a join action to server
+            MoveAction moveAction = new MoveAction(from, to, units);
+            ClientSocket.getInstance().sendObject(moveAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is RSPMoveSuccess
+            if(response.getClass() == RSPMoveSuccess.class) return true;
+
+            // Cast and Get the response filed
+            RSPMoveSuccess rspMoveSuccess = (RSPMoveSuccess) response;
+
+            // Change the model
+            this.clientPlayerPacket.doMove(rspMoveSuccess.getFrom(), rspMoveSuccess.getTo(), rspMoveSuccess.getUnits(), rspMoveSuccess.getTotalCost());
+            return true;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 
     /**
