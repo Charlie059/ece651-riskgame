@@ -26,6 +26,7 @@ class TerritoryTest {
         //set cost
         t1.setCost(30);
         assertEquals(t1.getCost(), 30);
+        t1.setDist(0);
         //set units
         //add 3 level-0 units
         //add 3 level-1 units
@@ -47,6 +48,13 @@ class TerritoryTest {
         terrs.add(t1);
         Territory t3 = new Territory("a3", terrs);
         assertEquals(2, t3.getNeighbour().size());
+        t1.setPrev("a3");
+        t1.addNeighbour(t2);
+        assertEquals(1, t1.getNeighbour().size());
+        //change name
+        assertEquals("a1", t1.getName());
+        t2.setDist(10);
+        assertEquals(-10, t1.compareTo(t2));
     }
 
 
@@ -136,13 +144,27 @@ class TerritoryTest {
     }
 
     @Test
-    void testInvalidAddUnits(){
+    void testInvalidRMUnits(){
         Territory t1 = createTerritory();
         //add 3 level-0 units
         //add 3 level-1 units
         assertFalse(t1.removeUnitLevel(-1, 4, t1.getUnits()));
         assertFalse(t1.removeUnitLevel(0, 4, t1.getUnits()));
         assertEquals(0, t1.getUnits().get(0).getValue());
+    }
+
+    @Test
+    void testInvalidAddUnits(){
+        Territory t1 = createTerritory();
+        //add 3 level-0 units
+        //add 3 level-1 units
+        assertFalse(t1.addUnitLevel(-1, 4, t1.getUnits()));
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
+        ArrayList<Integer> a0 = new ArrayList<>();
+        a0.add(-1);
+        a0.add(2);
+        arr.add(a0);
+        assertFalse(t1.addUnitMultiLevels(arr));
     }
 
     @Test
