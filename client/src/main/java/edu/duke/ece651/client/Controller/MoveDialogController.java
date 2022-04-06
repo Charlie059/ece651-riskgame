@@ -44,14 +44,14 @@ public class MoveDialogController implements Initializable {
         }
 
         // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, true)){
+        if(!GameModel.getInstance().doMove(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, true)){
             this.error_msg.setText("Invalid value (Server check)");
         }
         else {
             String record = "Use "+ selectNum.getText() + " Level "+selectLevel.getText() + " units to attack Territory " + terrTo.getText() + " From "+terrFrom.getText();
             System.out.println(record);
+            window.close();
         }
-        window.close();
     }
 
     @Override

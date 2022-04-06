@@ -106,6 +106,8 @@ public class MainGameViewController implements Initializable {
     public void clickOnAttack() {
         try {
             new AttackDialogView().show(new Stage(),null);
+            // Update view
+            updateView();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -118,6 +120,8 @@ public class MainGameViewController implements Initializable {
     public void clickOnMove(){
         try {
             new MoveDialogView().show(new Stage(), null);
+            // Update view
+            updateView();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -130,6 +134,8 @@ public class MainGameViewController implements Initializable {
     public void clickOnUpgradeUnitButton(){
         try {
             new UpgradeUnitDialogView().show(new Stage(),null);
+            // Update view
+            updateView();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,11 +146,9 @@ public class MainGameViewController implements Initializable {
      */
     @FXML
     public void clickOnUpgradeTechButton() {
-        try {
-            new UpgradeTechDialogView().show(new Stage(),null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // Update view
+        updateView();
     }
 
 
@@ -154,6 +158,9 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnDone(){
         //upgrade everything
+
+        // Update view
+        updateView();
     }
 
     /**
@@ -179,12 +186,9 @@ public class MainGameViewController implements Initializable {
     }
 
     /**
-     * Init the Main Game Vew
-     * @param location
-     * @param resources
+     * Update view
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private void updateView(){
         // Set my Terr list
         setMyTerritoryList(terrList);
 
@@ -194,5 +198,14 @@ public class MainGameViewController implements Initializable {
         techResource_n.setText("   " + getTechResource());
         setTerrText(terrList);
         setUnitNumberText();
+    }
+    /**
+     * Init the Main Game Vew
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        updateView();
     }
 }

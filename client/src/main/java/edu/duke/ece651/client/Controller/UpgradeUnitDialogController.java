@@ -1,5 +1,8 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Checker.MoveChecker;
+import edu.duke.ece651.client.Checker.UpgradeChecker;
+import edu.duke.ece651.client.Model.GameModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class UpgradeUnitDialogController implements Initializable {
     @FXML
-    TextField terrFrom,selectCurLevel,selectLevel,selectNum,selectUpgradeLevel;
+    TextField terrFrom,selectCurLevel,selectNum,selectUpgradeLevel;
     @FXML
     ListView<String> upgradeList;
     @FXML
@@ -25,20 +28,30 @@ public class UpgradeUnitDialogController implements Initializable {
 
     public UpgradeUnitDialogController(Stage window){this.window = window;}
 
+    // DO NOTHING
     @FXML
-    public void clickOnAddButton(){
-        // add format check if it is null.
-        String record = "Update "+selectNum.getText()+" units to level "+selectUpgradeLevel.getText()+" from level "+selectCurLevel.getText()+" in "+terrFrom.getText();
-        list.add(record);
-        terrFrom.clear();
-        selectNum.clear();
-        selectLevel.clear();
-    }
+    public void clickOnAddButton(){}
 
+    // User click submit button
     @FXML
     public void clickOnSubmitButton(){
-        //TODO: submit all the records in list to server
-        window.close();
+        // Local checker
+        UpgradeChecker upgradeChecker = new UpgradeChecker();
+        if(!upgradeChecker.doCheck(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(), selectUpgradeLevel.getText()})){
+            this.error_msg.setText("Invalid value, you may upgrade one unit one times");
+            return;
+        }
+
+        // if pass local checker, then send request to model
+        if(!GameModel.getInstance().doUpgradeUnits(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, true)){
+            this.error_msg.setText("Invalid value (Server check)");
+        }
+        else {
+            String record = "Upgrade "+ selectNum.getText() + " Level "+selectCurLevel.getText() + " units From "+terrFrom.getText() + " to level " + selectUpgradeLevel.getText();
+            System.out.println(record);
+            window.close();
+        }
+
     }
 
     @Override

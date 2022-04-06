@@ -58,8 +58,9 @@ public class AttackDialogController implements Initializable {
         else {
             String record = "Use "+ selectNum.getText() + " Level "+selectLevel.getText() + " units to attack Territory " + terrTo.getText() + " From "+terrFrom.getText();
             System.out.println(record);
+            window.close();
         }
-        window.close();
+
     }
 
     @Override

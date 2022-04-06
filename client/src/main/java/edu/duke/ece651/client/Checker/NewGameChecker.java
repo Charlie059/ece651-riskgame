@@ -1,6 +1,6 @@
 package edu.duke.ece651.client.Checker;
 
-public class NewGameChecker implements Checker{
+public class NewGameChecker extends Checker{
 
     @Override
     public boolean doCheck(String[] userInput) {

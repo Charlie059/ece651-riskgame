@@ -6,6 +6,14 @@ public class UpgradeUnitsAction implements Action {
     private String where;//which territory to upgrade
     private int oldLevel;
     private int newLevel;
+
+    public UpgradeUnitsAction(){}
+    public UpgradeUnitsAction(String where, int oldLevel, int newLevel) {
+        this.where = where;
+        this.oldLevel = oldLevel;
+        this.newLevel = newLevel;
+    }
+
     @Override
     public void accept(ActionVisitor actionVisitor) {
         actionVisitor.visit(this);

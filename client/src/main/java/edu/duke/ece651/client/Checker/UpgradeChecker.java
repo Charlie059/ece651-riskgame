@@ -4,8 +4,7 @@ import edu.duke.ece651.client.Model.GameModel;
 
 import java.util.HashSet;
 
-public class MoveChecker extends Checker {
-
+public class UpgradeChecker extends Checker{
     @Override
     public boolean doCheck(String[] userInput) {
         // Check null
@@ -16,12 +15,10 @@ public class MoveChecker extends Checker {
         HashSet<String> myTerrList = GameModel.getInstance().getMyTerrList();
 
         if(!myTerrList.contains(userInput[0])) return false; // check terrFrom
-        if(!myTerrList.contains(userInput[1])) return false; // check terrTo
 
-
-        if(!checkNum(userInput[2], 0, 7)) return false; // check if level between 0 - 7
-        if(!checkNum(userInput[3], 1, Integer.MAX_VALUE)) return false; // check if num is positive
+        if(!checkNum(userInput[1], 0, 7)) return false; // check if selectCurLevel is between 0 - 7
+        if(!checkNum(userInput[2], 1, 1)) return false; // check if num is 1
+        if(!checkNum(userInput[3], 0, 7)) return false; // check if selectUpgradeLevel is between 0 - 7
         return true;
     }
-
 }

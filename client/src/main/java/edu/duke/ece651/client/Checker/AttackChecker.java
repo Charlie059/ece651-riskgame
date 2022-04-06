@@ -4,7 +4,7 @@ import edu.duke.ece651.client.Model.GameModel;
 
 import java.util.HashSet;
 
-public class AttackChecker implements Checker {
+public class AttackChecker extends Checker {
 
     /**
      * Check if user input attack action is valid
@@ -30,22 +30,4 @@ public class AttackChecker implements Checker {
         return true;
     }
 
-
-    private boolean checkNum(String userInputNumber, int left, int right){
-        // Check if user input contains char
-        for(int i = 0; i < userInputNumber.length() ; i++){
-            if(!Character.isDigit(userInputNumber.charAt(i))) return false;
-        }
-        // Try to convert userInput to Int and check the range between left to right
-        try {
-            int N = Integer.parseInt(userInputNumber);
-            if(N < left || N > right){
-                return false;
-            }
-        } // If NumberFormatException
-        catch (NumberFormatException n){
-            return false;
-        }
-        return true;
-    }
 }

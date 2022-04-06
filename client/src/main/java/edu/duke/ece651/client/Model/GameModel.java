@@ -86,7 +86,15 @@ public class GameModel extends Model{
      */
     public boolean doAttack(String[] attackInfo, boolean debugMode){
         // For Debug only
-        if(debugMode) return true;
+        if(debugMode){
+            ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+            ArrayList<Integer> unit = new ArrayList<>();
+            unit.add(0);
+            unit.add(1);
+            units.add(unit);
+            this.clientPlayerPacket.doAttack(attackInfo[0], attackInfo[1], units, 10);
+            return true;
+        }
 
         try {
             String from = attackInfo[0];
@@ -108,8 +116,8 @@ public class GameModel extends Model{
             // Recv server response
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
-            // If response is RSPAttackSuccess
-            if(response.getClass() == RSPAttackSuccess.class) return true;
+            // If response is not RSPAttackSuccess
+            if(response.getClass() != RSPAttackSuccess.class) return false;
 
             // Cast and Get the response filed
             RSPAttackSuccess rspAttackSuccess = (RSPAttackSuccess) response;
@@ -123,6 +131,43 @@ public class GameModel extends Model{
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
+    public boolean doUpgradeUnits(String[] upgradeInfo, boolean debugMode){
+        if(debugMode){
+            this.clientPlayerPacket.doUpgradeUnit("b1", 0,1,10);
+            return true;
+        }
+
+        try {
+            String from = upgradeInfo[0];
+            String selectCurLevel = upgradeInfo[1];
+            String selectNum = upgradeInfo[2];
+            String selectUpgradeLevel = upgradeInfo[3];
+
+            // Send a join action to server
+            UpgradeUnitsAction upgradeUnitsAction = new UpgradeUnitsAction(from, Integer.parseInt(selectCurLevel),Integer.parseInt(selectUpgradeLevel));
+            ClientSocket.getInstance().sendObject(upgradeUnitsAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is RSPUpgradeUnitsSuccess
+            if(response.getClass() != RSPUpgradeUnitsSuccess.class) return false;
+
+            // Cast and Get the response filed
+            RSPUpgradeUnitsSuccess rspUpgradeUnitsSuccess = (RSPUpgradeUnitsSuccess) response;
+
+            // Change the model
+            this.clientPlayerPacket.doUpgradeUnit(rspUpgradeUnitsSuccess.getWhere(), rspUpgradeUnitsSuccess.getOldLevel(), rspUpgradeUnitsSuccess.getNewLevel(), rspUpgradeUnitsSuccess.getTechCost());
+            return true;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     /**
      * Plyaer do move action, send server to check
@@ -132,7 +177,15 @@ public class GameModel extends Model{
      */
     public boolean doMove(String[] moveInfo, boolean debugMode){
         // For Debug only
-        if(debugMode) return true;
+        if(debugMode){
+            ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+            ArrayList<Integer> unit = new ArrayList<>();
+            unit.add(0);
+            unit.add(1);
+            units.add(unit);
+            this.clientPlayerPacket.doMove(moveInfo[0], moveInfo[1], units, 10);
+            return true;
+        }
 
         try {
             String from = moveInfo[0];
@@ -154,8 +207,8 @@ public class GameModel extends Model{
             // Recv server response
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
-            // If response is RSPMoveSuccess
-            if(response.getClass() == RSPMoveSuccess.class) return true;
+            // If response is not RSPMoveSuccess
+            if(response.getClass() != RSPMoveSuccess.class) return false;
 
             // Cast and Get the response filed
             RSPMoveSuccess rspMoveSuccess = (RSPMoveSuccess) response;
@@ -214,7 +267,7 @@ public class GameModel extends Model{
     public boolean doDeploy(String to, int deployUnits, boolean debugMode){
         // Debug use only
         if (debugMode){
-            this.clientPlayerPacket.DoDeploy(to, deployUnits);
+            this.clientPlayerPacket.doDeploy(to, deployUnits);
             return true;
         }
         // func
@@ -229,7 +282,7 @@ public class GameModel extends Model{
             // If response is RSPDeploySuccess
             if(response.getClass() == RSPDeploySuccess.class){
                 // Update the GameModel
-                this.clientPlayerPacket.DoDeploy(to, deployUnits);
+                this.clientPlayerPacket.doDeploy(to, deployUnits);
                 // Return true
                 return true;
             }

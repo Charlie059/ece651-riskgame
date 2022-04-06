@@ -74,7 +74,7 @@ public class ClientPlayerPacket {
      * @param to
      * @param moveUnits
      */
-    public void DoDeploy(String to, int moveUnits){
+    public void doDeploy(String to, int moveUnits){
         Territory to_terr = this.getMyTerritories().get(to);
         to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
     }
@@ -92,6 +92,7 @@ public class ClientPlayerPacket {
         this.myTerritories.get(to_name).addUnitMultiLevels(moveUnits);
         this.foodResource -= totalCost;
     }
+
     /**
      * temporally upgrade player's techLevel
      * @param next_level
@@ -104,22 +105,17 @@ public class ClientPlayerPacket {
 
     /**
      * temporally upgrade player's units in Territory where
+     *
      * @param where
-     * @param unitsToUpgrade
+     * @param oldLevel
+     * @param newLevel
      */
-    public void doUpgradeUnit(String where, ArrayList<ArrayList<Integer>> unitsToUpgrade){
+    public void doUpgradeUnit(String where, int oldLevel, int newLevel, int techCost) {
         Territory terr = this.myTerritories.get(where);
-        for(int i = 0; i < unitsToUpgrade.size(); i++){
-            int level = unitsToUpgrade.get(i).get(0);
-            int num = unitsToUpgrade.get(i).get(1);
-            //max level: 6, cannot upgrade level-6 units
-            if (level < 6) {
-                terr.removeUnitLevel(level, num, terr.getUnits());
-                terr.addUnitLevel(level, num, terr.getUnits());
-            }
-        }
+        this.techResource -= techCost;
+        terr.removeUnitLevel(oldLevel, 1, terr.getUnits());
+        terr.addUnitLevel(newLevel, 1, terr.getUnits());
     }
-
 
     /**
      * player temporarily reduces units in territory to and reduce food resource
