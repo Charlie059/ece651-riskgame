@@ -55,18 +55,18 @@ public class MoveChecker extends ActionChecker{
         }
     }
 
-    public String getFrom_name() {
-        return from_name;
-    }
-
-    public String getTo_name() {
-        return to_name;
-    }
-
-
-    public Map getMap() {
-        return map;
-    }
+//    public String getFrom_name() {
+//        return from_name;
+//    }
+//
+//    public String getTo_name() {
+//        return to_name;
+//    }
+//
+//
+//    public Map getMap() {
+//        return map;
+//    }
 
     public int getTotalCost(){return this.totalCost;}
 }

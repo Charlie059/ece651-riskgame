@@ -8,6 +8,7 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.PlayerHashMap;
 import edu.duke.ece651.shared.map.Map;
+import edu.duke.ece651.shared.map.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class AttackChecker extends ActionChecker{
     protected final String from_name;
     protected final  String to_name;
     protected int totalCost;
-
+    protected ArrayList<Unit> currFromUnits;
     public AttackChecker(GameHashMap gameHashMap,
                          AccountHashMap accountHashMap,
                          AccountID accountID,
@@ -26,13 +27,15 @@ public class AttackChecker extends ActionChecker{
                          String from,
                          String to,
                          GameID gameID,
-                         Integer totalCost) {
+                         Integer totalCost,
+                         ArrayList<Unit> currFromUnits) {
         super(gameHashMap, accountHashMap, accountID);
         this.attackUnits = _attackUnits;
         this.from_name = from;
         this.to_name = to;
         this.totalCost =totalCost;
         this.map = this.gameHashMap.get(gameID).getMap();
+        this.currFromUnits = currFromUnits;
     }
 
     /**
@@ -44,7 +47,16 @@ public class AttackChecker extends ActionChecker{
         boolean isValid = false;
         try {
             //check if from and to are adjacent
-            isValid = map.isAdjacent(this.accountID, from_name, to_name);
+            if(isValid = map.isAdjacent(this.accountID, from_name, to_name)){
+                //if From has enough units
+                for (int i=0;i<this.attackUnits.size();i++){
+                    //for level i
+                    int level = this.attackUnits.get(i).get(0);
+                    if(this.currFromUnits.get(level).getValue()< this.attackUnits.get(i).get(1)) {
+                        return false;
+                    }
+                }
+            }
             return isValid;
         }
         //incorrect ownerships
