@@ -1,7 +1,11 @@
 package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.GameInfo;
+import edu.duke.ece651.client.Model.GameModel;
+import edu.duke.ece651.client.Model.SwitchGameModel;
 import edu.duke.ece651.client.SceneCollector;
+import edu.duke.ece651.client.View.DeployView;
+import edu.duke.ece651.client.View.MainGameView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,12 +40,8 @@ public class ContinueGameViewController implements Initializable
         get GameInfo from player. Collect them into a ObservableList and return.
     * */
     private ObservableList<GameInfo> getGameData(){
-        /*
-            TODO: get the continue Game info from the player use a function, and then save them into the gameLists.
-        * */
-        // TEST
-        GameInfo g1 = new GameInfo(1,3,"");
-        return FXCollections.observableArrayList(g1);
+        // Get continues game list form the model
+        return new SwitchGameModel().getGameLists(true);
     }
 
     private void showGameTable(ObservableList<GameInfo> gameList){
@@ -59,9 +60,33 @@ public class ContinueGameViewController implements Initializable
                         Button enterBtn = new Button("Enter");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
-                            GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
-                            System.out.println("Enter Game. INFO: "+clickedInfo.getGameID());
+                            trySwitchGame();
+
+
                         });
+                    }
+                }
+
+                /**
+                 * Try switch game
+                 */
+                private void trySwitchGame() {
+                    GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
+                    System.out.println("Enter Game. INFO: "+clickedInfo.getGameID());
+
+                    // Request model to join the game
+                    boolean switchResult =  GameModel.getInstance().switchGame(clickedInfo.getGameID(),true);
+                    if(switchResult){
+                        // Create a new Deployment view
+                        try {
+                            new MainGameView().show(window, null);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.out.println("Cannot switch game");
+                        }
+                    }
+                    else {
+                        System.out.println("Cannot switch game");
                     }
                 }
 

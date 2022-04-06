@@ -55,6 +55,14 @@ public class GameModel extends Model{
     }
 
 
+    /**
+     * Get tech level
+     * @return tech level
+     */
+    public int getTechlevel(){
+        return this.clientPlayerPacket.getTechLevel();
+    }
+
 
     /**
      * Get terr's units list from terrName
@@ -321,6 +329,47 @@ public class GameModel extends Model{
 
 
 
+    /**
+     * User choose to sitch game with specific gameID
+     * @param gameID int
+     * @return ture for join game success
+     */
+    public Boolean switchGame(int gameID, boolean debugMode){
+        // Debug use only
+        if(debugMode){
+            mockData();
+            return true;
+        }
+
+        // func
+        try {
+            // Send a join action to server
+            ChooseSwitchGameAction chooseSwitchGameAction= new ChooseSwitchGameAction(new GameID(gameID));
+            ClientSocket.getInstance().sendObject(chooseSwitchGameAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is RSPChooseJoinGameSuccess
+            if(response.getClass() == RSPChooseSwitchGameSuccess.class){
+                // Get the player obj from response
+                ClientPlayerPacket clientPlayerPacket = ((RSPChooseJoinGameSuccess) response).getClientPlayerPacket();
+
+                // If clientPlayerPacket is null return false
+                if(clientPlayerPacket == null) return false;
+
+                // Update the GameModel
+                this.clientPlayerPacket = clientPlayerPacket;
+                // Return true
+                return true;
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     /**
      * User choose to join game with specific gameID
@@ -434,7 +483,7 @@ public class GameModel extends Model{
 
         enemyTerritories.put("p1", enemyTerrName);
 
-        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,100, 9, myTerr,enemyTerritories);
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories);
         this.clientPlayerPacket = clientPlayerPacket;
     }
 

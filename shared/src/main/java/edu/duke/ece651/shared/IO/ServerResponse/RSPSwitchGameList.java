@@ -9,6 +9,10 @@ import java.util.Objects;
 public class RSPSwitchGameList implements Response{
     ArrayList<GameID>gameIDArrayList;
 
+    public ArrayList<GameID> getGameIDArrayList() {
+        return gameIDArrayList;
+    }
+
     @Override
     public void accept(ResponseVisitor responseVisitor) {
 

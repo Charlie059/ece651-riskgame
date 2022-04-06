@@ -84,6 +84,13 @@ public class MainGameViewController implements Initializable {
         return GameModel.getInstance().getTechRes();
     }
 
+    /**
+     * Get tech level
+     * @return tech level
+     */
+    private int getTechLevel(){
+        return GameModel.getInstance().getTechlevel();
+    }
 
     /**
      * When user click the map view (need numOfPlayers)
@@ -147,7 +154,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnUpgradeTechButton() {
        if(!GameModel.getInstance().doUpgradeTech(true)) {
-//           errMsg...
+            this.errorMsg.setText("Cannot upgrade, Server Check");
        }
         // Update view
         updateView();
@@ -161,7 +168,7 @@ public class MainGameViewController implements Initializable {
     public void clickOnDone(){
         //upgrade everything
         if(!GameModel.getInstance().doCommit(true)){
-//            errMsg...
+            this.errorMsg.setText("Cannot commit, this should not happened");
         }
         // Update view
         updateView();
@@ -200,7 +207,7 @@ public class MainGameViewController implements Initializable {
         playerID_t.setText("   " + getPlayerID());
         food_t.setText("   " + getFood());
         techResource_n.setText("   " + getTechResource());
-        techLevel.setText("   "+"1234");
+        techLevel.setText("   "+ getTechLevel());
         setTerrText(terrList);
         setUnitNumberText();
     }
