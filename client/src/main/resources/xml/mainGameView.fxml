@@ -226,7 +226,7 @@
             <String fx:value="numbtn" />
          </styleClass>
       </Button>
-      <Button fx:id="doneButton" mnemonicParsing="false" onAction="#clickOnDone" prefHeight="63.0" prefWidth="185.0" text="Done" textFill="#c57d24" GridPane.columnIndex="10" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Button fx:id="doneButton" mnemonicParsing="false" onAction="#clickOnDone" prefHeight="63.0" prefWidth="185.0" text="Done" textFill="#c57d24" GridPane.columnIndex="10" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="22" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
@@ -240,7 +240,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Button fx:id="switchGameButton" mnemonicParsing="false" onAction="#clickOnSwitchGame" prefHeight="63.0" prefWidth="185.0" text="Switch Game" textFill="#c57d24" GridPane.columnIndex="14" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Button fx:id="switchGameButton" mnemonicParsing="false" onAction="#clickOnSwitchGame" prefHeight="63.0" prefWidth="185.0" text="Switch Game" textFill="#c57d24" GridPane.columnIndex="14" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="22" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
          </font>
@@ -257,6 +257,21 @@
       <Text fx:id="level0_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Technology level:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="20" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="techLevel" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="14" GridPane.hgrow="ALWAYS" GridPane.rowIndex="20" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="errorMsg" fill="#f20404" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="24" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="27.0" />
          </font>
       </Text>
    </children>

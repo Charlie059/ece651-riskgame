@@ -20,7 +20,6 @@ public class AttackDialogView implements View {
         URL xmlResource = getClass().getResource("/xml/attackDialog.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(AttackDialogController.class, new AttackDialogController(window));
         loader.setControllerFactory(controllers::get);

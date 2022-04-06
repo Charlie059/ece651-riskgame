@@ -19,7 +19,6 @@ public class SignupView implements View{
         URL xmlResource = getClass().getResource("/xml/signUpView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(SignUpViewController.class, new SignUpViewController(window));
         loader.setControllerFactory(controllers::get);

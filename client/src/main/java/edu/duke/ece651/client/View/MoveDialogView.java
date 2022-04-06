@@ -20,7 +20,6 @@ public class MoveDialogView implements View {
         URL xmlResource = getClass().getResource("/xml/moveDialog.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(MoveDialogController.class, new MoveDialogController(window));
         loader.setControllerFactory(controllers::get);

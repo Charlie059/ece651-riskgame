@@ -18,7 +18,7 @@ import java.util.ResourceBundle;
 
 public class MainGameViewController implements Initializable {
     @FXML
-    Text playerID_t,territories_t,food_t,techResource_n;
+    Text playerID_t,territories_t,food_t,techResource_n,errorMsg,techLevel;
     @FXML
     Text level0_n,level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
 
@@ -200,6 +200,7 @@ public class MainGameViewController implements Initializable {
         playerID_t.setText("   " + getPlayerID());
         food_t.setText("   " + getFood());
         techResource_n.setText("   " + getTechResource());
+        techLevel.setText("   "+"1234");
         setTerrText(terrList);
         setUnitNumberText();
     }

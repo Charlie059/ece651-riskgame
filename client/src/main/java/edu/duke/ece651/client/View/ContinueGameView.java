@@ -19,7 +19,6 @@ public class ContinueGameView implements View{
         URL xmlResource = getClass().getResource("/xml/continueGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader's setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(ContinueGameViewController.class, new ContinueGameViewController(window));
         loader.setControllerFactory(controllers::get);

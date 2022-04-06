@@ -19,7 +19,6 @@ public class JoinGameView implements View{
         URL xmlResource = getClass().getResource("/xml/JoinGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(JoinGameViewController.class, new JoinGameViewController(window));
         loader.setControllerFactory(controllers::get);

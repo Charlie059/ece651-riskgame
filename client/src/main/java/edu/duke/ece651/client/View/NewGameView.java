@@ -19,7 +19,6 @@ public class NewGameView implements View{
         URL xmlResource = getClass().getResource("/xml/newGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
-        // use loader’s setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
         controllers.put(NewGameViewController.class, new NewGameViewController(window));
         loader.setControllerFactory(controllers::get);
