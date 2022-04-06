@@ -174,5 +174,4 @@ class TerritoryTest {
         assertEquals(t1.getOwnerId(),new AccountID("2"));
     }
 
-
 }

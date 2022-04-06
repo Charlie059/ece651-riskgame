@@ -209,4 +209,5 @@ class MapTest {
         m.getTerritoryList().get("c1").setOwner(acc1);
         assertEquals(Integer.MAX_VALUE, m.shortestPathFrom(acc1, "a1", "c1"));
     }
+
 }
