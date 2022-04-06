@@ -12,6 +12,7 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
 import edu.duke.ece651.shared.map.Map;
+import edu.duke.ece651.shared.map.Unit;
 
 import java.io.*;
 import java.net.Socket;
@@ -29,7 +30,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     //Global Database
     private volatile GameHashMap gameHashMap;
     private volatile AccountHashMap accountHashMap;
-    private AttackHashMap attackHashMap;
+    private volatile AttackHashMap attackHashMap;
     //global tables for checking level-up cost
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
@@ -50,6 +51,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
+        this.attackHashMap = new AttackHashMap();
         setTechLevelUpgradeList();
         setUnitLevelUpgradeList();
     }
@@ -81,13 +83,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         UnitLevelUpgradeList.add(50);//level 5->6: cost 50
     }
 
-    public AttackHashMap getAttackHashMap() {
-        return attackHashMap;
-    }
-
-    public void setAttackHashMap(AttackHashMap attackHashMap) {
-        this.attackHashMap = attackHashMap;
-    }
+//    public AttackHashMap getAttackHashMap() {
+//        return attackHashMap;
+//    }
+//
+//    public void setAttackHashMap(AttackHashMap attackHashMap) {
+//        this.attackHashMap = attackHashMap;
+//    }
 
     /**
      * Send Response to Client
@@ -117,6 +119,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
         int to_cost = currplayer.getWholeMap().getTerritoryList().get(attackAction.getTo()).getCost();
         int totalCost = attackUnitsNum * to_cost;
+
+        //Current From Value
+        ArrayList<Unit> currFromUnits = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(attackAction.getFrom()).getUnits();
         AttackChecker attackChecker = new AttackChecker(
                 this.gameHashMap,
                 this.accountHashMap,
@@ -125,7 +130,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 attackAction.getFrom(),
                 attackAction.getTo(),
                 this.gameID,
-                totalCost
+                totalCost,
+                currFromUnits
         );
         if (attackChecker.doCheck()){
             //TODO:AttackActionArrayList field belongs to Player
