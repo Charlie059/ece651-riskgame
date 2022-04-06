@@ -69,6 +69,7 @@ public class GameRunnable implements Runnable {
 
         //Do Game until thisGame is GameOver
         do {
+            //thisGame.setCombatFinished(false);
             //Wait until all players are isCommitted
             while (!isCommitted()) {
             }
@@ -82,7 +83,12 @@ public class GameRunnable implements Runnable {
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
             //Change Combat Resolution status finished
             thisGame.setCombatFinished(true);
+            //check win or lose-> if some one wins, set gameOver
+
         } while (!thisGame.getGameOver());
+
+            //if game over
+            //TODO: broadcast gameover RSP
 
     }
 }

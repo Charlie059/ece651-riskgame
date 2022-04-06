@@ -4,10 +4,11 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Territory;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ClientPlayerPacket {
+public class ClientPlayerPacket implements Serializable {
     private GameID currentGameID;
     private AccountID accountID;
     private int numOfPlayers;

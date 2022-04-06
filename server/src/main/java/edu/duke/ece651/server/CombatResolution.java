@@ -238,10 +238,12 @@ public class CombatResolution {
 
     }
 
-    //doCombat(DiceDebugMode, )
-    public void doCombat(){
+    //doCombat(DiceDebugMode)
 
-    }
+    /**
+     * DiceDebugMode: 0, default; 1, attacker wins; others defender wins
+     * @param DiceDebugMode
+     */
     public void doCombat(Integer DiceDebugMode){
         combatResolution(DiceDebugMode);
     }
