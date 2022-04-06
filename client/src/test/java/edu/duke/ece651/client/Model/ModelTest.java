@@ -35,7 +35,6 @@ class ModelTest {
                     sendRSPNewGameSuccess(mockServer);
                     sendOtherObject(mockServer);
 
-
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +61,7 @@ class ModelTest {
         assertEquals(true, gameModel.startNewGame("3",true));
 
         // Client send NewGame Action and recv RSPNewGameSuccess
-        assertEquals(false, gameModel.startNewGame("3"));
+        assertEquals(false, gameModel.startNewGame("3",false));
 
         mockServer.close();
     }

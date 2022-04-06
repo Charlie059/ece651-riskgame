@@ -78,7 +78,7 @@ public class JoinGameViewController implements Initializable
                     GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
 
                     // Request model to join the game
-                    boolean joinResult =  GameModel.getInstance().joinGame(true);
+                    boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),true);
                     if(joinResult){
                         // Create a new Deployment view
                         try {

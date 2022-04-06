@@ -1,7 +1,9 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.View.*;
+import edu.duke.ece651.shared.map.Territory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class MainGameViewController implements Initializable {
@@ -27,17 +30,14 @@ public class MainGameViewController implements Initializable {
         terrList = FXCollections.observableArrayList();
     }
 
-    private void setTerritoryList(ObservableList<String>l){
-        // TODO: get available territories from server and then add them into observableArrayList
-        l.add("a1");
-        l.add("a2");
-        l.add("a3");
+    private void setMyTerritoryList(ObservableList<String>l){
+        // Clear the list
+        l.clear();
+        // Get my terr list from model
+        HashMap<String, Territory> myTerritories = GameModel.getInstance().getClientPlayerPacket().getMyTerritories();
+        l.addAll(myTerritories.keySet());
     }
 
-    private int getInitalUnitsNumber(){
-        // TODO: get initial level 1 units number from server
-        return 10;
-    }
 
     private void setTerrText(ObservableList<String>terrList){
         StringBuilder s = new StringBuilder("   ");
@@ -47,9 +47,11 @@ public class MainGameViewController implements Initializable {
         territories_t.setText(s.toString());
     }
 
-    private void setUnitNumberText(int initNum){
-        // TODO: change it and get number of each units from server. remove initNum
-        level0_n.setText("  "+ initNum);
+    /**
+     * Set deployment unit num to 0
+     */
+    private void setUnitNumberText(){
+        level0_n.setText("  "+"0");
         level1_n.setText("  "+"0");
         level2_n.setText("  "+"0");
         level3_n.setText("  "+"0");
@@ -58,50 +60,114 @@ public class MainGameViewController implements Initializable {
         level6_n.setText("  "+"0");
     }
 
-    private int getPlayerID(){
-        // TODO: get PlayerID of in this game
-        return 1;
+    /**
+     * Get PlayerID
+     * @return PlayerID
+     */
+    private String getPlayerID(){
+        return GameModel.getInstance().getPlayerID();
     }
 
+    /**
+     * Get food Resource
+     * @return food Resource
+     */
     private int getFood(){
-        // TODO: get Food resource in this game
-        return 1;
+        return GameModel.getInstance().getFoodRes();
     }
 
+    /**
+     * Get Tech Resource
+     * @return tech Resource
+     */
     private int getTechResource(){
-        // TODO: get TechResource of in this game
-        return 1;
+        return GameModel.getInstance().getTechRes();
     }
 
+
+    /**
+     * When user click the map view (need numOfPlayers)
+     */
     @FXML
-    public void clickOnViewMap() throws IOException {
-        // TODO: get n_players
-        new MapView().show(new Stage(),null,2);
+    public void clickOnViewMap(){
+        // Get numOfPlayer from the Model
+        int numOfPlayers =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
+        try {
+            new MapView().show(new Stage(),null,numOfPlayers);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Enter the AttackDialogView
+     */
     @FXML
-    public void clickOnAttack() throws IOException {
-        new AttackDialogView().show(new Stage(),null);
+    public void clickOnAttack() {
+        try {
+            new AttackDialogView().show(new Stage(),null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Enter the MoveDialogView
+     */
     @FXML
-    public void clickOnMove() throws IOException {
-        new MoveDialogView().show(new Stage(), null);
+    public void clickOnMove(){
+        try {
+            new MoveDialogView().show(new Stage(), null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Enter UpgradeUnitDialogView
+     */
     @FXML
-    public void clickOnUpgradeUnitButton() throws IOException {
-        new UpgradeUnitDialogView().show(new Stage(),null);
+    public void clickOnUpgradeUnitButton(){
+        try {
+            new UpgradeUnitDialogView().show(new Stage(),null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    /**
+     * Enter UpgradeTechDialogView
+     */
     @FXML
-    public void clickOnUpgradeTechButton() throws IOException {
-        new UpgradeTechDialogView().show(new Stage(),null);
+    public void clickOnUpgradeTechButton() {
+        try {
+            new UpgradeTechDialogView().show(new Stage(),null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    /**
+     * Commit button
+     */
     @FXML
     public void clickOnDone(){
         //upgrade everything
     }
+
+    /**
+     * Close the game
+     */
     @FXML
     public void clickOnExit(){
         window.close();
     }
+
+    /**
+     * Show continueGameView
+     * @throws IOException
+     */
     @FXML
     public void clickOnSwitchGame() throws IOException {
         if(SceneCollector.continueGameView == null){
@@ -112,15 +178,21 @@ public class MainGameViewController implements Initializable {
         }
     }
 
+    /**
+     * Init the Main Game Vew
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        int initNum = getInitalUnitsNumber();
-        setTerritoryList(terrList);
+        // Set my Terr list
+        setMyTerritoryList(terrList);
 
+        // Set init playerID, food and tech resource
         playerID_t.setText("   " + getPlayerID());
         food_t.setText("   " + getFood());
         techResource_n.setText("   " + getTechResource());
         setTerrText(terrList);
-        setUnitNumberText(initNum);
+        setUnitNumberText();
     }
 }
