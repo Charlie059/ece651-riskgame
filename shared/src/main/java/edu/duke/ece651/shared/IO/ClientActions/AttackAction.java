@@ -9,9 +9,11 @@ public class AttackAction implements Action {
     private String from;
     private String to;
     private ArrayList<ArrayList<Integer>> units;
+    private Integer gameID;
+    private String playerID;
 
     public AttackAction(){}
-    public AttackAction(Integer gameID, String playerID, String from, String to, ArrayList<Unit> units) {
+    public AttackAction(Integer gameID, String playerID, String from, String to, ArrayList<ArrayList<Integer>> units) {
         this.gameID = gameID;
         this.playerID = playerID;
         this.from = from;

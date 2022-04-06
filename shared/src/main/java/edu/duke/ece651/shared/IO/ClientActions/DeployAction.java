@@ -11,8 +11,7 @@ public class DeployAction implements Action {
     private String playerID;
 
     public DeployAction(){}
-    public DeployAction(Integer gameID, String to, int deployUnits, String playerID) {
-        this.gameID = gameID;
+    public DeployAction(String to, int deployUnits, String playerID) {
         this.to = to;
         this.deployUnits = deployUnits;
         this.playerID = playerID;

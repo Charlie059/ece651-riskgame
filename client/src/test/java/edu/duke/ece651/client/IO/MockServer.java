@@ -107,7 +107,7 @@ public class MockServer {
                 ArrayList units = new ArrayList<>();
 
                 arrayLists.add(units);
-                return new RSPMoveSuccess("a1","a2",arrayLists);
+                return new RSPMoveSuccess("a1","a2",arrayLists,10);
             }
 
             // RSPNewGameSuccess
@@ -141,12 +141,12 @@ public class MockServer {
 
             // RSPUpdateTechFail
             case "16":{
-                return new RSPUpdateTechFail();
+                return new RSPUpgradeTechFail();
             }
 
             // RSPUpdateTechSuccess
             case "17":{
-                return new RSPUpdateTechSuccess();
+                return new RSPUpgradeTechSuccess();
             }
         }
 

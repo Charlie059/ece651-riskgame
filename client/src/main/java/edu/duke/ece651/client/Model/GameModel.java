@@ -158,7 +158,7 @@ public class GameModel extends Model{
         // func
         try {
             // Send DeployAction to server
-            DeployAction deployAction = new DeployAction(getClientPlayerPacket().getCurrentGameID().getCurrGameID(), to,deployUnits,getClientPlayerPacket().getAccountID().getAccountID());
+            DeployAction deployAction = new DeployAction(to,deployUnits,getClientPlayerPacket().getAccountID().getAccountID());
             ClientSocket.getInstance().sendObject(deployAction);
 
             // Recv Response form server

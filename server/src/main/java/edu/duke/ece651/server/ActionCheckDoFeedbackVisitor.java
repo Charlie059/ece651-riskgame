@@ -313,9 +313,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
         //If All player joined
         //Construct All Info Client need to showNewGameView
-        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(this.gameID, game.getNumOfPlayer(), player.getMyTerritories(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.isLose(), player.isWon());
-        //TODO: Set Client player contructing method in new game response
-        sendResponse(rspNewGameSuccess);
+//        RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(this.gameID, game.getNumOfPlayer(), player.getMyTerritories(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.isLose(), player.isWon());
+//        //TODO: Set Client player contructing method in new game response
+//        sendResponse(rspNewGameSuccess);
         //Wait Game thread to return
     }
 
