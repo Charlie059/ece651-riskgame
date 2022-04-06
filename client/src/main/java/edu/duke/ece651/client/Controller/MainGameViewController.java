@@ -146,7 +146,9 @@ public class MainGameViewController implements Initializable {
      */
     @FXML
     public void clickOnUpgradeTechButton() {
-
+       if(!GameModel.getInstance().doUpgradeTech(true)) {
+//           errMsg...
+       }
         // Update view
         updateView();
     }
@@ -158,7 +160,9 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnDone(){
         //upgrade everything
-
+        if(!GameModel.getInstance().doCommit(true)){
+//            errMsg...
+        }
         // Update view
         updateView();
     }

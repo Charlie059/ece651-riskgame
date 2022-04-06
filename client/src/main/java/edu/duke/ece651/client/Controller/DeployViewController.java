@@ -78,7 +78,7 @@ public class DeployViewController implements Initializable {
     @FXML
     public void clickOnCommit(){
         // Send commit request to model
-        if(GameModel.getInstance().deCommit(true)){
+        if(GameModel.getInstance().doCommit(true)){
             try {
                 new MainGameView().show(window,null);
             } catch (IOException e) {

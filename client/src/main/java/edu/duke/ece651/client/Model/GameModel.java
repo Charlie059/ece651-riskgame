@@ -55,6 +55,7 @@ public class GameModel extends Model{
     }
 
 
+
     /**
      * Get terr's units list from terrName
      * @param terrName String
@@ -78,6 +79,32 @@ public class GameModel extends Model{
         }
     }
 
+    public boolean doUpgradeTech(boolean debugMode){
+        if (debugMode){
+            this.clientPlayerPacket.doUpgradeTech(1,10);
+            return true;
+        }
+
+        try {
+            // Send upgradeTech action to server
+            UpgradeTechAction upgradeTechAction = new UpgradeTechAction();
+            ClientSocket.getInstance().sendObject(upgradeTechAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPUpgradeTechSuccess
+            if(response.getClass() != RSPUpgradeTechSuccess.class) return false;
+
+            //TODO
+            // Update model
+//            this.clientPlayerPacket
+            return true;
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
     /**
      * doAtack action, send req to server and get response then change view
      * @param attackInfo
@@ -132,10 +159,10 @@ public class GameModel extends Model{
     }
 
     /**
-     *
-     * @return
+     * Upgrade one unit
+     * @return true for success
      */
-    public boolean doUpgradeUnits(String[] upgradeInfo, boolean debugMode){
+    public boolean doUpgradeUnit(String[] upgradeInfo, boolean debugMode){
         if(debugMode){
             this.clientPlayerPacket.doUpgradeUnit("b1", 0,1,10);
             return true;
@@ -228,7 +255,7 @@ public class GameModel extends Model{
      * Try to send commit request to server
      * @return true for commit successful
      */
-    public boolean deCommit(Boolean debugMode){
+    public boolean doCommit(Boolean debugMode){
         // For debug only
         if(debugMode) return true;
         // func
@@ -304,7 +331,7 @@ public class GameModel extends Model{
         // Debug use only
         if(debugMode){
             mockData();
-            return null;
+            return true;
         }
 
         // func

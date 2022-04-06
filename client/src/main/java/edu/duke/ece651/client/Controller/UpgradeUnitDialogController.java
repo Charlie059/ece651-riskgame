@@ -1,6 +1,5 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.Checker.MoveChecker;
 import edu.duke.ece651.client.Checker.UpgradeChecker;
 import edu.duke.ece651.client.Model.GameModel;
 import javafx.collections.FXCollections;
@@ -43,7 +42,7 @@ public class UpgradeUnitDialogController implements Initializable {
         }
 
         // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doUpgradeUnits(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, true)){
+        if(!GameModel.getInstance().doUpgradeUnit(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, true)){
             this.error_msg.setText("Invalid value (Server check)");
         }
         else {
