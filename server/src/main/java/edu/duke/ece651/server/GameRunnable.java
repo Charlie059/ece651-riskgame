@@ -7,6 +7,7 @@ import edu.duke.ece651.shared.Game;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -48,7 +49,34 @@ public class GameRunnable implements Runnable {
 
     private void combatResolution() {
 
-        //DO Attack
+        //One Attack
+            //Game->AttackHashMap:<AccountID, ArrayList<AttackActions>>
+                    //AttackActions-> from, to , units
+                        //units->ArrayList<ArrayList<Integer>>
+                            // [ [0,3], [4,2], [1,2]]
+                                // [level,number_of_units_in_this_level]
+                    //Defender GameHashMap->Game->Map->TerritoryList->to.getUnits()
+                        //Units-> ArrayList<Unit>, Unit->level, value
+                            //[(0,0),(1,3),(2,1),(3,0),(4,0),(5,0),(6,0)]//Ascending Order with full level
+            //DO SORT
+                    //Attack units->
+                        // [  [4,2], [1,2], [0,3] ]
+
+                        //Round 1: Defender win | Defender win
+                                //[(0,0),(1,3),(2,1),(3,0),(4,0),(5,0),(6,0)]
+                                // [ [4,1], [1,2], [0,2] ]
+                        //Round 2: Attacker win | Defender win
+                                //[(0,0),(1,2),(2,1),(3,0),(4,0),(5,0),(6,0)]
+                                // [ [4,1], [1,2], [0,1] ]
+                        //Round 3: Defender win | Attacker win
+                                //[(0,0),(1,2),(2,0),(3,0),(4,0),(5,0),(6,0)]
+                                // [ [4,0], [1,2], [0,1] ]
+                        //Round 4: Defender win | Attacker win
+                                //[(0,0),(1,1),(2,0),(3,0),(4,0),(5,0),(6,0)]
+                                // [ [4,0], [1,1], [0,1] ]
+                        //Round 4: Defender win | Attacker win
+                                //[(0,0),(1,1),(2,0),(3,0),(4,0),(5,0),(6,0)]
+                                // [ [4,0], [1,1], [0,1] ]
 
         //Do Tech Upgrade
         this.currGame.getPlayerHashMap().updatePlayersTechLevel();

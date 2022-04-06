@@ -30,7 +30,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     //Global Database
     private volatile GameHashMap gameHashMap;
     private volatile AccountHashMap accountHashMap;
-    private volatile AttackHashMap attackHashMap;
     //global tables for checking level-up cost
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
@@ -51,7 +50,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
-        this.attackHashMap = new AttackHashMap();
         setTechLevelUpgradeList();
         setUnitLevelUpgradeList();
     }
@@ -136,13 +134,13 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if (attackChecker.doCheck()){
             //TODO:AttackActionArrayList field belongs to Player
             //put attack action into attachHashMap
-            if (this.attackHashMap.containsKey(this.accountID)){
-                this.attackHashMap.get(this.accountID).add(attackAction);
+            if (this.gameHashMap.get(this.gameID).getAttackHashMap().containsKey(this.accountID)){
+                this.gameHashMap.get(this.gameID).getAttackHashMap().get(this.accountID).add(attackAction);
             }
             else{
                 ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
                 attackActionArrayList.add(attackAction);
-                this.attackHashMap.put(this.accountID, attackActionArrayList);
+                this.gameHashMap.get(this.gameID).getAttackHashMap().put(this.accountID, attackActionArrayList);
             }
             //doAttack(): server's current player reduces her units in to territory
             currplayer.doAttack(attackAction.getFrom(),
