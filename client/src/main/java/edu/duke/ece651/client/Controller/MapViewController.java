@@ -1,16 +1,21 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.GameModel;
+import edu.duke.ece651.shared.map.Territory;
+import edu.duke.ece651.shared.map.Unit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class MapViewController implements Initializable {
@@ -18,11 +23,14 @@ public class MapViewController implements Initializable {
     Label terrOwner,terrName,n_level0,n_level1,n_level2,n_level3,n_level4,n_level5,n_level6;
 
     private Stage window;
-
     public MapViewController(Stage window){
         this.window = window;
     }
 
+    /**
+     * If user click terr
+     * @param ae ActionEvent
+     */
     @FXML
     public void clickOnTerr(ActionEvent ae){
         Object source = ae.getSource();
@@ -38,32 +46,53 @@ public class MapViewController implements Initializable {
                     source +
                     " for ActionEvent");
         }
-
     }
 
     /**
-     * get owner of the specific territory based on its name. return playerID(1,2,3,4,5). Each Player ID corresponding a color?
-     * or directly return a color(in string format)
+     * Get owner of the specific territory based on its name. Return playerID
+     * @param terrName String
+     * @return PlayID
      */
     private String getTerrOwner(String terrName){
-        return "fff";
+        // Get data from the model
+        HashMap<String, Territory> myTerritories = GameModel.getInstance().getClientPlayerPacket().getMyTerritories();
+        if (myTerritories.containsKey(terrName)){
+            return GameModel.getInstance().getClientPlayerPacket().getAccountID().getAccountID();
+        }
+        else{
+            // Get data from the model
+            HashMap<String, ArrayList<String>> enemyTerritories =  GameModel.getInstance().getClientPlayerPacket().getEnemyTerritories();
+            // iterate hashmap
+            for (String playerID : enemyTerritories.keySet()) {
+               ArrayList<String> terrs =  enemyTerritories.get(playerID);
+                // get terrs name
+                for (int i = 0; i < terrs.size(); i++) {
+                    if(terrs.get(i).equals(terrName)){
+                        return playerID;
+                    }
+                }
+            }
+
+        }
+        return "Enemy";
     }
 
     /**
-     * get units number of the specific territory based on its name. return in a list, correspoing to the number of each level.
+     * Get units number of the specific territory based on its name. return in a list, correspoing to the number of each level.
+     * @param terrName String
+     * @return ArrayList<Integer> of Units
      */
     private ArrayList<Integer> getTerrUnits(String terrName) {
-        ArrayList<Integer>l = new ArrayList<Integer>();
-        l.add(3);
-        l.add(0);
-        l.add(0);
-        l.add(0);
-        l.add(0);
-        l.add(0);
-        l.add(0);
-        return l;
+        // TerrUnits ans
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        GameModel.getInstance().getTerrUnits(terrName, ans);
+        return ans;
     }
 
+    /**
+     * Display units in view
+     * @param l
+     */
     private void showTerrUnitsInText(ArrayList<Integer>l){
         n_level0.setText(String.valueOf(l.get(0)));
         n_level1.setText(String.valueOf(l.get(1)));
@@ -72,9 +101,13 @@ public class MapViewController implements Initializable {
         n_level4.setText(String.valueOf(l.get(4)));
         n_level5.setText(String.valueOf(l.get(5)));
         n_level6.setText(String.valueOf(l.get(6)));
-
     }
 
+    /**
+     * Init the map in view
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         terrOwner.setText("");

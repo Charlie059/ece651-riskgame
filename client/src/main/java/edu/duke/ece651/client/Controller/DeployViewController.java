@@ -59,21 +59,31 @@ public class DeployViewController implements Initializable {
 
     /**
      * Show the map when user click map
-     * @throws IOException
      */
     @FXML
-    public void clickOnViewMap() throws IOException {
-        // Get the numOfPlayers
-        int numOfPlayer =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
-        // Show the map
-        new MapView().show(new Stage(),null, numOfPlayer);
+    public void clickOnViewMap() {
+        try {
+            // Get the numOfPlayers
+            int numOfPlayer =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
+            // Show the map
+            new MapView().show(new Stage(),null, numOfPlayer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * When user click commit
+     */
     @FXML
-    public void clickOnCommit()  throws IOException {
+    public void clickOnCommit(){
         // Send commit request to model
         if(GameModel.getInstance().deCommit(true)){
-            new MainGameView().show(window,null);
+            try {
+                new MainGameView().show(window,null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else {
             errorMsg.setText("Commit fail, you may have deployed unit or internet error");
@@ -97,10 +107,12 @@ public class DeployViewController implements Initializable {
         }
 
         // Send user select to model and get response
-        if(GameModel.getInstance().doDeploy(true)){
+        if(GameModel.getInstance().doDeploy(selectTerr, selectNumber, true)){
             // Update the deployment view
             this.deployNum -= selectNumber;
             setUnitNumberText(this.deployNum);
+            // Refresh UI
+            createAvailalbeNumList(this.numberList, this.deployNum);
         }
         else {
             this.errorMsg.setText("Invalid deployment number");
