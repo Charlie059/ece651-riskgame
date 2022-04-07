@@ -10,7 +10,7 @@ public class GameIDCounter {
         /**
          * Private Constructor
          */
-        private GameIDCounter(){
+        public GameIDCounter(){
             next_counter = 1;
         }
 

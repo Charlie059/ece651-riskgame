@@ -1,6 +1,6 @@
 package edu.duke.ece651.shared.IO;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -29,22 +29,23 @@ public class MockServer {
     }
 
 
-//    /**
-//     * Send object to client
-//     * @return true on success
-//     */
-//    public boolean sendObject(ObjectStream objectStream ,Object object) throws IOException {
-//        return objectStream.sendObject(object);
-//    }
-//
-//
-//    /**
-//     * Recv object from client
-//     * @return true on success
-//     */
-//    public Object recvObject(ObjectStream objectStream) throws IOException, ClassNotFoundException {
-//        return objectStream.recvObject();
-//    }
+    /**
+     * Send object to server
+     * @return true if success
+     */
+    public boolean sendObject(Object object) throws IOException {
+        ObjectStream objectStream = new ObjectStream(this.clientSocket);
+        return objectStream.sendObject(object);
+    }
 
+
+    /**
+     * Recv object from server
+     * @return true if success
+     */
+    public Object recvObject() throws IOException, ClassNotFoundException {
+        ObjectStream objectStream = new ObjectStream(this.clientSocket);
+        return objectStream.recvObject();
+    }
 
 }
