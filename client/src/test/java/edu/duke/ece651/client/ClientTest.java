@@ -138,13 +138,6 @@ class ClientTest {
         robot.clickOn("Switch Game");
         robot.clickOn("Back");
 
-        // Test Continues
-        robot.clickOn("Continue");
-        robot.clickOn("Back");
-        robot.clickOn("Join");
-        robot.clickOn("Back");
-        robot.clickOn("Exit");
-
 
     }
 
@@ -207,17 +200,24 @@ class ClientTest {
 //
 //    }
 //
-//    @Test
-//    void test_menu(FxRobot robot){
-//        Enter_menu(robot);
-//        robot.clickOn("New Game");
-//        robot.clickOn("Back");
-//        robot.clickOn("Continue");
-//        robot.clickOn("Back");
-//        robot.clickOn("Join");
-//        robot.clickOn("Back");
-//        robot.clickOn("Exit");
-//    }
+    @Test
+    void test_menu(FxRobot robot){
+        // Test Login
+        robot.clickOn("#userName");
+        robot.write("admin");
+        robot.clickOn("#passWord");
+        robot.write("12345");
+        robot.clickOn("Login");
+
+        // Test Continues
+        robot.clickOn("New Game");
+        robot.clickOn("Back");
+        robot.clickOn("Continue");
+        robot.clickOn("Back");
+        robot.clickOn("Join");
+        robot.clickOn("Back");
+        robot.clickOn("Exit");
+    }
 //
 //    @Test
 //    void test_newGame(FxRobot robot){
