@@ -200,147 +200,157 @@ class CombatResolutionTest {
         assertEquals(result.get("b1").get(5).get(1),0);
     }
 
-//    @Test
-//    public void test_combatResolution_AtkWin(){
-//        HashMap<AccountID,ArrayList<AttackAction>> attackActionHashMap = new HashMap<>();
-//        AttackAction attackAction = new AttackAction();
-//        ArrayList<Integer> level0attack = new ArrayList<>();
-//        level0attack.add(0);//level
-//        level0attack.add(3);//num
-//        ArrayList<Integer> level1attack = new ArrayList<>();
-//        level1attack.add(1);
-//        level1attack.add(2);
-//        ArrayList<Integer> level4attack1 = new ArrayList<>();
-//        level4attack1.add(4);
-//        level4attack1.add(1);
-//        ArrayList<Integer> level4attack2 = new ArrayList<>();
-//        level4attack2.add(4);
-//        level4attack2.add(2);
-//        ArrayList<ArrayList<Integer>> units = new ArrayList<>();
-//        units.add(level0attack);
-//        units.add(level1attack);
-//        units.add(level4attack1);
-//        units.add(level4attack2);
-//        attackAction.setUnits(units).setFrom("a1").setTo("b1");
-//        ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
-//        attackActionArrayList.add(attackAction);
-//        attackAction.setUnits(units).setFrom("a3").setTo("b1");
-//        attackActionArrayList.add(attackAction);
-//
-//        GameHashMap gameHashMap = new GameHashMap();
-//        Game game = new Game(3);
-//        Map m = game.getMap();
-//        //manualy assign accountID to territory
-//        Territory t_b1 = m.getTerritoryList().get("b1");
-//        t_b1.setOwner(new AccountID("Tenshi Drew"));
-//        //add units to territory b1
-//        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
-//        ArrayList<Integer> a = new ArrayList<>();
-//        //add 1 lv2 units
-//        a.add(2);
-//        a.add(1);
-//        arr.add(a);
-//        //add 2 lv4 units
-//        a = new ArrayList<>();
-//        a.add(4);
-//        a.add(2);
-//        arr.add(a);
-//        t_b1.addUnitMultiLevels(arr);
-//
-//        game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
-//        gameHashMap.put(new GameID(1),game);
-//
-//        CombatResolution combatResolution = new CombatResolution(gameHashMap,new GameID(1));
-//        combatResolution.combatResolution(1); //Attacker always wins
-//        //expected attackerUnits after attack: ((0, 6) (1, 4) (2, 0) (3, 0) (4, 6) (5, 0) (6, 0))
-//        assertEquals(new AccountID("Akuma Drew"), t_b1.getOwnerId());
-//        for(int i = 0; i< t_b1.getUnits().size(); i++){
-//            System.out.println("Level: "+ t_b1.getUnits().get(i).getLevel() + ", Value: "+ t_b1.getUnits().get(i).getValue());
-//        }
-//        assertEquals(6, t_b1.getUnits().get(0).getValue());
-//        assertEquals(4, t_b1.getUnits().get(1).getValue());
-//        assertEquals(6, t_b1.getUnits().get(4).getValue());
-//        assertEquals(0, t_b1.getUnits().get(6).getValue());
-//
-//        HashMap<String, ArrayList<ArrayList<Integer>>> result = combatResolution.getAttackUnitListHashMap();
-//        assertEquals(result.get("b1").get(0).get(0),6);
-//        assertEquals(result.get("b1").get(2).get(0),4);
-//        assertEquals(result.get("b1").get(2).get(1),6);
-//        assertEquals(result.get("b1").get(5).get(1),4);
-//    }
+    @Test
+    public void test_combatResolution_AtkWin(){
+        HashMap<AccountID,ArrayList<AttackAction>> attackActionHashMap = new HashMap<>();
+        AttackAction attackAction = new AttackAction();
+        ArrayList<Integer> level0attack = new ArrayList<>();
+        level0attack.add(0);//level
+        level0attack.add(3);//num
+        ArrayList<Integer> level1attack = new ArrayList<>();
+        level1attack.add(1);
+        level1attack.add(2);
+        ArrayList<Integer> level4attack1 = new ArrayList<>();
+        level4attack1.add(4);
+        level4attack1.add(1);
+        ArrayList<Integer> level4attack2 = new ArrayList<>();
+        level4attack2.add(4);
+        level4attack2.add(2);
+        ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+        units.add(level0attack);
+        units.add(level1attack);
+        units.add(level4attack1);
+        units.add(level4attack2);
+        attackAction.setUnits(units).setFrom("a1").setTo("b1");
+        ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
+        attackActionArrayList.add(attackAction);
+        attackAction.setUnits(units).setFrom("a3").setTo("b1");
+        attackActionArrayList.add(attackAction);
 
-//    @Test
-//    public void test_combatResolution_random(){
-//        HashMap<AccountID,ArrayList<AttackAction>> attackActionHashMap = new HashMap<>();
-//        AttackAction attackAction = new AttackAction();
-//        ArrayList<Integer> level0attack = new ArrayList<>();
-//        level0attack.add(0);//level
-//        level0attack.add(3);//num
-//        ArrayList<Integer> level1attack = new ArrayList<>();
-//        level1attack.add(1);
-//        level1attack.add(2);
-//        ArrayList<Integer> level4attack1 = new ArrayList<>();
-//        level4attack1.add(4);
-//        level4attack1.add(1);
-//        ArrayList<Integer> level4attack2 = new ArrayList<>();
-//        level4attack2.add(4);
-//        level4attack2.add(2);
-//
-//        ArrayList<ArrayList<Integer>> units = new ArrayList<>();
-//        units.add(level0attack);
-//        units.add(level1attack);
-//        units.add(level4attack1);
-//        units.add(level4attack2);
-//
-//        attackAction.setUnits(units).setFrom("a1").setTo("b1");
-//        ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
-//        attackActionArrayList.add(attackAction);
-//        attackAction.setUnits(units).setFrom("a3").setTo("b1");
-//        attackActionArrayList.add(attackAction);
-//
-//        GameHashMap gameHashMap = new GameHashMap();
-//        Game game = new Game(3);
-//        Map m = game.getMap();
-//        //manualy assign accountID to territory
-//        Territory t_b1 = m.getTerritoryList().get("b1");
-//        t_b1.setOwner(new AccountID("Tenshi Drew"));
-//        //add units to territory b1
-//        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
-//        ArrayList<Integer> a = new ArrayList<>();
-//        //add 1 lv2 units
-//        a.add(2);
-//        a.add(1);
-//        arr.add(a);
-//        //add 2 lv4 units
-//        a = new ArrayList<>();
-//        a.add(4);
-//        a.add(2);
-//        arr.add(a);
-//        //add 3 lv5 units
-//        a = new ArrayList<>();
-//        a.add(5);
-//        a.add(3);
-//        arr.add(a);
-//        //add 1 lv6 units
-//        a = new ArrayList<>();
-//        a.add(6);
-//        a.add(1);
-//        arr.add(a);
-//        t_b1.addUnitMultiLevels(arr);
-//
-//        game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
-//        gameHashMap.put(new GameID(1),game);
-//
-//        CombatResolution combatResolution = new CombatResolution(gameHashMap,new GameID(1));
-//        combatResolution.combatResolution(0); //random
-//        //attackerUnits before attack: ((0, 6) (1, 4) (2, 0) (3, 0) (4, 6) (5, 0) (6, 0))
-//        //defenderUnits before attack: ((0, 0) (1, 0) (2, 1) (3, 0) (4, 2) (5, 3) (6, 1))
-//
-//        System.out.println("Owner: " + t_b1.getOwnerId().getAccountID());
-//        for(int i = 0; i< t_b1.getUnits().size(); i++){
-//            System.out.println("Level: "+ t_b1.getUnits().get(i).getLevel() + ", Value: "+ t_b1.getUnits().get(i).getValue());
-//        }
-//
-//    }
+        GameHashMap gameHashMap = new GameHashMap();
+        Game game = new Game(3);
+
+        Map m = game.getMap();
+        AccountID attackerID = new AccountID("Akuma Drew");
+        Player attackPlayer = new Player(attackerID,new GameID(1), m);
+        AccountID defenderID = new AccountID("Tenshi Drew");
+        Player defendPlayer = new Player(defenderID,new GameID(1), m);
+        //manualy assign accountID to territory
+        Territory t_b1 = m.getTerritoryList().get("b1");
+        t_b1.setOwner(new AccountID("Tenshi Drew"));
+        //add units to territory b1
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
+        ArrayList<Integer> a = new ArrayList<>();
+        //add 1 lv2 units
+        a.add(2);
+        a.add(1);
+        arr.add(a);
+        //add 2 lv4 units
+        a = new ArrayList<>();
+        a.add(4);
+        a.add(2);
+        arr.add(a);
+        t_b1.addUnitMultiLevels(arr);
+
+        defendPlayer.getMyTerritories().put("b1",t_b1);
+        game.getPlayerHashMap().put(attackerID, attackPlayer);
+        game.getPlayerHashMap().put(defenderID, defendPlayer);
+
+
+        game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
+        gameHashMap.put(new GameID(1),game);
+
+        CombatResolution combatResolution = new CombatResolution(gameHashMap,new GameID(1));
+        combatResolution.combatResolution(1); //Attacker always wins
+        //expected attackerUnits after attack: ((0, 6) (1, 4) (2, 0) (3, 0) (4, 6) (5, 0) (6, 0))
+        assertEquals(new AccountID("Akuma Drew"), t_b1.getOwnerId());
+        for(int i = 0; i< t_b1.getUnits().size(); i++){
+            System.out.println("Level: "+ t_b1.getUnits().get(i).getLevel() + ", Value: "+ t_b1.getUnits().get(i).getValue());
+        }
+        assertEquals(6, t_b1.getUnits().get(0).getValue());
+        assertEquals(4, t_b1.getUnits().get(1).getValue());
+        assertEquals(6, t_b1.getUnits().get(4).getValue());
+        assertEquals(0, t_b1.getUnits().get(6).getValue());
+
+        HashMap<String, ArrayList<ArrayList<Integer>>> result = combatResolution.getAttackUnitListHashMap();
+        assertEquals(result.get("b1").get(0).get(0),6);
+        assertEquals(result.get("b1").get(2).get(0),4);
+        assertEquals(result.get("b1").get(2).get(1),6);
+        assertEquals(result.get("b1").get(5).get(1),4);
+    }
+
+    @Test
+    public void test_combatResolution_random(){
+        HashMap<AccountID,ArrayList<AttackAction>> attackActionHashMap = new HashMap<>();
+        AttackAction attackAction = new AttackAction();
+        ArrayList<Integer> level0attack = new ArrayList<>();
+        level0attack.add(0);//level
+        level0attack.add(3);//num
+        ArrayList<Integer> level1attack = new ArrayList<>();
+        level1attack.add(1);
+        level1attack.add(2);
+        ArrayList<Integer> level4attack1 = new ArrayList<>();
+        level4attack1.add(4);
+        level4attack1.add(1);
+        ArrayList<Integer> level4attack2 = new ArrayList<>();
+        level4attack2.add(4);
+        level4attack2.add(2);
+
+        ArrayList<ArrayList<Integer>> units = new ArrayList<>();
+        units.add(level0attack);
+        units.add(level1attack);
+        units.add(level4attack1);
+        units.add(level4attack2);
+
+        attackAction.setUnits(units).setFrom("a1").setTo("b1");
+        ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
+        attackActionArrayList.add(attackAction);
+        attackAction.setUnits(units).setFrom("a3").setTo("b1");
+        attackActionArrayList.add(attackAction);
+
+        GameHashMap gameHashMap = new GameHashMap();
+        Game game = new Game(3);
+
+        Map m = game.getMap();
+        AccountID attackerID = new AccountID("Akuma Drew");
+        Player attackPlayer = new Player(attackerID,new GameID(1), m);
+        AccountID defenderID = new AccountID("Tenshi Drew");
+        Player defendPlayer = new Player(defenderID,new GameID(1), m);
+        //manualy assign accountID to territory
+        Territory t_b1 = m.getTerritoryList().get("b1");
+        t_b1.setOwner(new AccountID("Tenshi Drew"));
+        //add units to territory b1
+        ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
+        ArrayList<Integer> a = new ArrayList<>();
+        //add 1 lv2 units
+        a.add(2);
+        a.add(1);
+        arr.add(a);
+        //add 2 lv4 units
+        a = new ArrayList<>();
+        a.add(4);
+        a.add(2);
+        arr.add(a);
+        t_b1.addUnitMultiLevels(arr);
+
+        defendPlayer.getMyTerritories().put("b1",t_b1);
+        game.getPlayerHashMap().put(attackerID, attackPlayer);
+        game.getPlayerHashMap().put(defenderID, defendPlayer);
+
+
+        game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
+        gameHashMap.put(new GameID(1),game);
+
+        CombatResolution combatResolution = new CombatResolution(gameHashMap,new GameID(1));
+        combatResolution.combatResolution(0); //random
+        //attackerUnits before attack: ((0, 6) (1, 4) (2, 0) (3, 0) (4, 6) (5, 0) (6, 0))
+        //defenderUnits before attack: ((0, 0) (1, 0) (2, 1) (3, 0) (4, 2) (5, 3) (6, 1))
+
+        System.out.println("Owner: " + t_b1.getOwnerId().getAccountID());
+        for(int i = 0; i< t_b1.getUnits().size(); i++){
+            System.out.println("Level: "+ t_b1.getUnits().get(i).getLevel() + ", Value: "+ t_b1.getUnits().get(i).getValue());
+        }
+
+    }
 
 }
