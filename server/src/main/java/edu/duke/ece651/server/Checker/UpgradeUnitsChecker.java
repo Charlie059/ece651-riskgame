@@ -42,6 +42,4 @@ public class UpgradeUnitsChecker extends ActionChecker{
         }
         return false;
     }
-
-    public int getTechCost(){return this.techCost;}
 }
