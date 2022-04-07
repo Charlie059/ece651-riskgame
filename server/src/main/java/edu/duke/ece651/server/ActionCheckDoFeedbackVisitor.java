@@ -14,6 +14,8 @@ import edu.duke.ece651.shared.map.Unit;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Thread.sleep;
 
@@ -166,10 +168,12 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
             this.gameHashMap.get(this.gameID).setCombatFinished(false);
 
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
@@ -326,9 +330,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         GameRunnable gameRunnable = new GameRunnable(this.gameHashMap, this.accountHashMap, this.gameID);
         Thread thread = new Thread(gameRunnable);
         thread.start();
+
         //Block until All Player Joined the Game and GameRunnable's isbegin is true
-        while (!game.getBegin()) {
-        }
+        while (!game.getBegin()) {}
         //If All player joined
         //Construct All Info Client need to showNewGameView
         ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
@@ -471,8 +475,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             currGame.getCommittedHashMap().put(this.accountID, false);
 
             //Block until All Player Joined the Game and GameRunnable's isbegin is true
-            while (!currGame.getBegin()) {
-            }
+            while (!currGame.getBegin()) {}
             //If All player joined
             // Create response
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,currGame.getNumOfPlayer(),player.getFoodResource(),player.getTechResource(),player.getCurrTechLevel(),player.getTotalDeployment(),player.getMyTerritories(),currGame.getPlayerHashMap().getEnemyTerritories(this.accountID),player.isLose(),player.isWon());

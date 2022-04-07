@@ -123,14 +123,14 @@ public class GameRunnable implements Runnable {
         //Do Game until thisGame is GameOver
         do {
             //Wait until all players are isCommitted
-            while (!isCommitted()) {
-            }
+            while (!isCommitted()) {}
+
             //Change isCommited to False
             this.changeIsCommitted();
 
             //Do Combat Resolution
             CombatResolution combatResolution = new CombatResolution(this.gameHashMap,this.gameID);
-            combatResolution.doCombat(0);//1: attacker wins, -1: defender wins, 0: random
+            combatResolution.doCombat(1);//1: attacker wins, -1: defender wins, 0: random
             //Do Upgrade Tech Level
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
             //check win or lose-> decide whether to set game over
