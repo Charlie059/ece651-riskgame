@@ -43,5 +43,4 @@ public class UpgradeTechChecker extends ActionChecker{
 
     public int getCost(){return cost;}
 
-    public int getNextLevel(){return this.nextLevel;}
 }

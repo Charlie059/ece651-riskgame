@@ -502,7 +502,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             // Create response
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,currGame.getNumOfPlayer(),player.getFoodResource(),player.getTechResource(),player.getCurrTechLevel(),player.getTotalDeployment(),player.getMyTerritories(),currGame.getPlayerHashMap().getEnemyTerritories(this.accountID),player.isLose(),player.isWon());
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess(clientPlayerPacket);
-
             sendResponse(rspChooseJoinGameSuccess);
         } else {
             RSPChooseJoinGameFail rspChooseJoinGameFail = new RSPChooseJoinGameFail();
