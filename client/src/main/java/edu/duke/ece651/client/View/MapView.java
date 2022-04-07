@@ -27,7 +27,7 @@ public class MapView {
         return "#83ae52";
     }
 
-    public void show(Stage window, Model model, int n_players) throws IOException {
+    public void show(Stage window, Model model, int n_players, boolean debug) throws IOException {
         String fxmlPath = "";
         if(n_players == 2){
             fxmlPath = "/xml/mapForPlayer2View.fxml";
@@ -47,7 +47,7 @@ public class MapView {
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MapViewController.class, new MapViewController(window));
+        controllers.put(MapViewController.class, new MapViewController(window,debug));
         loader.setControllerFactory(controllers::get);
         Pane p = loader.load();
 

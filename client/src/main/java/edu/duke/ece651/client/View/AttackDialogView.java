@@ -15,13 +15,13 @@ import java.util.HashMap;
 public class AttackDialogView implements View {
 
     @Override
-    public void show(Stage window, Model model) throws IOException {
+    public void show(Stage window, Model model, boolean debug) throws IOException {
         // load start view fxml
         URL xmlResource = getClass().getResource("/xml/attackDialog.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(AttackDialogController.class, new AttackDialogController(window));
+        controllers.put(AttackDialogController.class, new AttackDialogController(window,debug));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 

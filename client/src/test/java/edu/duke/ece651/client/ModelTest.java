@@ -1,8 +1,9 @@
-package edu.duke.ece651.client.Model;
+package edu.duke.ece651.client;
 
 
 import edu.duke.ece651.client.ClientSocket;
 import edu.duke.ece651.client.IO.MockServer;
+import edu.duke.ece651.client.Model.*;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Wrapper.AccountID;

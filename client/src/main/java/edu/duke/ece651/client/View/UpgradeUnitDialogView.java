@@ -13,14 +13,14 @@ import java.util.HashMap;
 
 public class UpgradeUnitDialogView implements View{
     @Override
-    public void show(Stage window, Model model) throws IOException {
+    public void show(Stage window, Model model, boolean debug) throws IOException {
         // load start view fxml
         URL xmlResource = getClass().getResource("/xml/upgradeUnitDialog.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         // use loader setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(UpgradeUnitDialogController.class, new UpgradeUnitDialogController(window));
+        controllers.put(UpgradeUnitDialogController.class, new UpgradeUnitDialogController(window,debug));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 

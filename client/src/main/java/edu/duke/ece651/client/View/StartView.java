@@ -16,13 +16,13 @@ import java.util.HashMap;
 
 public class StartView implements View{
     @Override
-    public void show(Stage window, Model model) throws IOException {
+    public void show(Stage window, Model model, boolean debug) throws IOException {
         URL xmlResource = getClass().getResource("/xml/startView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         // use loader's setControllerFactory to specify how to create controllers.
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(StartViewController.class, new StartViewController(window));
+        controllers.put(StartViewController.class, new StartViewController(window, debug));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 

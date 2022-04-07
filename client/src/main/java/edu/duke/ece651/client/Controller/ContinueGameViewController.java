@@ -31,9 +31,11 @@ public class ContinueGameViewController implements Initializable
     private TableColumn<GameInfo, String> note_col,button_col;
 
     private final Stage window;
+    private boolean debug;
 
-    public ContinueGameViewController(Stage window){
+    public ContinueGameViewController(Stage window, boolean debug){
         this.window = window;
+        this.debug = debug;
     }
 
     /*
@@ -41,7 +43,7 @@ public class ContinueGameViewController implements Initializable
     * */
     private ObservableList<GameInfo> getGameData(){
         // Get continues game list form the model
-        return new SwitchGameModel().getGameLists(false);
+        return new SwitchGameModel().getGameLists(debug);
     }
 
     private void showGameTable(ObservableList<GameInfo> gameList){
@@ -75,11 +77,11 @@ public class ContinueGameViewController implements Initializable
                     System.out.println("Enter Game. INFO: "+clickedInfo.getGameID());
 
                     // Request model to join the game
-                    boolean switchResult =  GameModel.getInstance().switchGame(clickedInfo.getGameID(),false);
+                    boolean switchResult =  GameModel.getInstance().switchGame(clickedInfo.getGameID(),debug);
                     if(switchResult){
                         // Create a new Deployment view
                         try {
-                            new MainGameView().show(window, null);
+                            new MainGameView().show(window, null,debug);
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println("Cannot switch game");

@@ -16,19 +16,21 @@ import java.util.HashMap;
 
 public class MenuViewController {
     private final Stage window;
+    private boolean debug;
 
-    public MenuViewController(Stage window){
+    public MenuViewController(Stage window, boolean debug){
         this.window = window;
+        this.debug = debug;
     }
 
     @FXML
     public void clickOnNewGame() throws IOException {
-        new NewGameView().show(this.window, null);
+        new NewGameView().show(this.window, null, debug);
     }
 
     @FXML
     public void clickOnContinue() throws IOException {
-        new ContinueGameView().show(this.window, null);
+        new ContinueGameView().show(this.window, null, debug);
     }
 
     @FXML
@@ -39,7 +41,7 @@ public class MenuViewController {
 
     @FXML
     public void clickOnJoin() throws IOException {
-        new JoinGameView().show(this.window, null);
+        new JoinGameView().show(this.window, null, debug);
     }
 
 

@@ -13,13 +13,13 @@ import java.util.HashMap;
 
 public class MainGameView implements View{
     @Override
-    public void show(Stage window, Model model) throws IOException {
+    public void show(Stage window, Model model, boolean debug) throws IOException {
         // load start view fxml
         URL xmlResource = getClass().getResource("/xml/mainGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MainGameViewController.class, new MainGameViewController(window));
+        controllers.put(MainGameViewController.class, new MainGameViewController(window,debug));
         loader.setControllerFactory(controllers::get);
         GridPane gp = loader.load();
 

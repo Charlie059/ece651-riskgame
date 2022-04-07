@@ -31,9 +31,11 @@ public class JoinGameViewController implements Initializable
     private TableColumn<GameInfo, String> note_col,button_col;
 
     private final Stage window;
+    private boolean debug;
 
-    public JoinGameViewController(Stage window){
+    public JoinGameViewController(Stage window, boolean debug){
         this.window = window;
+        this.debug = debug;
     }
 
     /**
@@ -42,7 +44,7 @@ public class JoinGameViewController implements Initializable
      */
     private ObservableList<GameInfo> getGameData(){
         // Get data from the model
-        return new JoinGameModel().getGameLists(false);
+        return new JoinGameModel().getGameLists(debug);
     }
 
 
@@ -78,11 +80,11 @@ public class JoinGameViewController implements Initializable
                     GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
 
                     // Request model to join the game
-                    boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),false);
+                    boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),debug);
                     if(joinResult){
                         // Create a new Deployment view
                         try {
-                            new DeployView().show(window, null);
+                            new DeployView().show(window, null, debug);
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println("Cannot join game");

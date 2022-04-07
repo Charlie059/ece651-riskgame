@@ -22,10 +22,12 @@ public class StartViewController {
 
     private final LoginModel loginModel;
     private final Stage window;
+    private boolean debug;
 
-    public StartViewController(Stage window) {
+    public StartViewController(Stage window, boolean debug) {
         this.loginModel = new LoginModel();
         this.window = window;
+        this.debug = debug;
     }
 
     /**
@@ -35,8 +37,8 @@ public class StartViewController {
     public void clickOnLogin() {
         try {
             // Check the login result from server
-            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText(),false);
-            if (res) new MenuView().show(this.window, null); // Enter into menu view
+            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText(),debug);
+            if (res) new MenuView().show(this.window, null, debug); // Enter into menu view
             else error_msg.setText("Error in UserName, Password or cannot connect to server. Please try again."); // Show the Error Message
         } catch (IOException e) {
             error_msg.setText("Cannot show Menu view, Please enter again."); // Show the Error Message
@@ -49,7 +51,7 @@ public class StartViewController {
     @FXML
     public void clickOnSignUp(){
         try {
-            new SignupView().show(this.window, null);
+            new SignupView().show(this.window, null, debug);
         } catch (IOException e) {
             error_msg.setText("Cannot show signup view, Please enter again."); // Show the Error Message
         }

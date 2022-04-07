@@ -18,10 +18,12 @@ public class SignUpViewController {
 
     private final Stage window;
     private final SignupModel signupModel;
+    private boolean debug;
 
-    public SignUpViewController(Stage window) {
+    public SignUpViewController(Stage window, boolean debug) {
         this.signupModel = new SignupModel();
         this.window = window;
+        this.debug = debug;
     }
 
     /**
@@ -38,7 +40,7 @@ public class SignUpViewController {
      */
     @FXML
     public void clickOnSignUp(){
-        boolean res = signupModel.signUp(userName.getText(),passWord.getText(),false);
+        boolean res = signupModel.signUp(userName.getText(),passWord.getText(),debug);
         if(res){
             msg.setText("Sign up a new account successfully!");
         }else{
