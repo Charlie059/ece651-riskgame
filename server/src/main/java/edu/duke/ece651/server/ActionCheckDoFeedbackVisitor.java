@@ -156,9 +156,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(CommitAction commitAction) {
         CommitChecker commitChecker = new CommitChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
         if (commitChecker.doCheck()) {
+
             //Change my commit status to true
             this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
             //Check if Game's Combat Resolution is finished
+
             while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
             this.gameHashMap.get(this.gameID).setCombatFinished(false);
 

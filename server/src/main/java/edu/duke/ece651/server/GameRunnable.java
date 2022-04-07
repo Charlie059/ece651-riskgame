@@ -119,7 +119,6 @@ public class GameRunnable implements Runnable {
 //            this.notifyAll();
 //        }
 
-
         //Do Game until thisGame is GameOver
         do {
             thisGame.setCombatFinished(false);
