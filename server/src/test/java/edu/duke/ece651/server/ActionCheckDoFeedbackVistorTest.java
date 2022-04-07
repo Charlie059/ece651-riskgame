@@ -212,79 +212,6 @@ class ActionCheckDoFeedbackVistorTest {
         mockServer.closeSocket();
     }
 
-//    @Test
-//    void test_VisitNewGameJoinChooseSuccess() throws IOException, ClassNotFoundException, InterruptedException {
-//        //==============================COMMUNICATOR==================================//
-//        //new GameHashMap
-////        GameHashMap gameHashMap = this.createGameHashMap();
-//        GameHashMap gameHashMap = new GameHashMap();
-//        //new AccountHashMap
-//        AccountHashMap accountHashMap = this.createAccountHashMap();
-//        //new SocketConnection
-//        MockServer mockServer = new MockServer(12309);
-//        MockClient mockClient1 = new MockClient(12309, "127.0.0.1");
-//        MockClient mockClient2 = new MockClient(12309, "127.0.0.1");
-//        Socket clientSocket1 = mockServer.acceptClient();
-//        Socket clientSocket2 = mockServer.acceptClient();
-//        //Host
-//        AccountID hostAccountID = new AccountID("abcde");
-//        CommunicatorRunnable hostTask = new CommunicatorRunnable(hostAccountID, new GameID(1), clientSocket1, accountHashMap, gameHashMap, new GameRunnableHashMap(), 1);
-//        Thread CommunicatorThread1 = new Thread(hostTask);
-//        CommunicatorThread1.start();
-//        //Joiner
-//        AccountID joinerAccountID = new AccountID("cdefg");
-//        CommunicatorRunnable joinerTask = new CommunicatorRunnable(joinerAccountID, new GameID(1), clientSocket2, accountHashMap, gameHashMap, new GameRunnableHashMap(), 2);
-//        Thread CommunicatorThread2 = new Thread(joinerTask);
-//        CommunicatorThread2.start();
-//
-//        ////==============================TESTBENCH==================================//
-//        //New Game Action
-//        NewGameAction newGameAction = new NewGameAction(2);
-////H1        //Host New Game
-//        mockClient1.sendObject(newGameAction);
-//
-////J1       //Joiner join Game
-//        JoinAction joinAction = new JoinAction();
-//        mockClient2.sendObject(joinAction);
-//        Response responsejoiner1 = (Response) mockClient2.recvObject();
-//        ArrayList<GameID> gameIDArrayList = new ArrayList<>();
-//        gameIDArrayList.add(new GameID(1));
-//        gameIDArrayList.add(new GameID(2));
-//        assertSame(new RSPOpenGameList(gameIDArrayList).getClass(), responsejoiner1.getClass());
-//        //Join the Choose Game
-//        ChooseJoinGameAction chooseJoinGameAction = new ChooseJoinGameAction(new GameID(1));
-////J2
-//        mockClient2.sendObject(chooseJoinGameAction);
-//        Response responsejoiner2 = (Response) mockClient2.recvObject();
-//        //assertEquals(new RSPChooseJoinGameSuccess().getClass(), responsejoiner2.getClass());
-//        //========================Once all player joined==========================//
-//        //once all player joined
-////H1
-//        RSPNewGameSuccess Responsehost1 = (RSPNewGameSuccess) mockClient1.recvObject();
-//        assertEquals(Responsehost1.getClass(), new RSPNewGameSuccess().getClass());
-//        assertEquals(new GameID(1),Responsehost1.getClientPlayerPacket().getCurrentGameID());
-//        assertEquals(2,Responsehost1.getClientPlayerPacket().getNumOfPlayers());
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(hostAccountID).getMyTerritories().getClass(),Responsehost1.getClientPlayerPacket().getMyTerritories().getClass());
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(hostAccountID).getFoodResource(),Responsehost1.getClientPlayerPacket().getFoodResource());
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(hostAccountID).getTechResource(),Responsehost1.getClientPlayerPacket().getTechResource());
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(hostAccountID).getCurrTechLevel(),Responsehost1.getClientPlayerPacket().getTechLevel());
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(hostAccountID).isLose(),Responsehost1.getClientPlayerPacket().getLose());
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(hostAccountID).isWon(),Responsehost1.getClientPlayerPacket().getWin());
-//
-//        Map currentMap = gameHashMap.get(new GameID(1)).getMap();
-//        String hostTerritoryName = currentMap.getGroups().get(0).get(0);
-//        //assert Map's territory has been set
-//        assertEquals(currentMap.getTerritoryList().get(hostTerritoryName).getOwnerId(), hostAccountID);
-//        //assert Player know his territory
-//        CommunicatorThread1.join();
-//        CommunicatorThread2.join();
-//        assertEquals(gameHashMap.get(new GameID(1)).getPlayerHashMap().get(joinerAccountID).getMyTerritories().size(),3);
-//        mockServer.closeSocket();
-//    }
-
-
-
-
     @Test
     void test_VisitSwitchChooseGame() throws IOException, ClassNotFoundException, InterruptedException {
 
@@ -305,7 +232,7 @@ class ActionCheckDoFeedbackVistorTest {
         gameHashMap.get(currGameID).getPlayerHashMap().put(currAccountID, host1);
 
         //new Communicator thread
-        CommunicatorRunnable task = new CommunicatorRunnable(currAccountID, currGameID, clientSocket, accountHashMap, gameHashMap, new GameRunnableHashMap(), 2);
+        CommunicatorRunnable task = new CommunicatorRunnable(currAccountID, currGameID, clientSocket, accountHashMap, gameHashMap, new GameRunnableHashMap(), 3);
         Thread t = new Thread(task);
         t.start();
         ////==============================TESTBENCH==================================//
@@ -332,6 +259,14 @@ class ActionCheckDoFeedbackVistorTest {
         //assertEquals(response.getClass(), new RSPSwitchGameList(gameIDArrayList));
         //Before Switch, currGameID is still gameID 1
         assertEquals(task.getGameID().getCurrGameID(), new GameID(1).getCurrGameID());
+
+
+        //Client Send ChooseSwitchGameAction to Choose Game ID(5)
+        //This Game Does Not Exist
+        ChooseSwitchGameAction chooseSwitchGameAction1 = new ChooseSwitchGameAction(new GameID(5));
+        mockClient.sendObject(chooseSwitchGameAction1);
+        Response responsefail = (Response) mockClient.recvObject();
+        assertEquals(new RSPChooseSwitchGameFail().getClass(), responsefail.getClass());
 
 
         //Client Send ChooseSwitchGameAction to CHoose GameID(2)

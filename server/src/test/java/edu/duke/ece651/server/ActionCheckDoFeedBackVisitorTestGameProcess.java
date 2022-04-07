@@ -46,7 +46,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         Thread CommunicatorThread1 = new Thread(task1);
         CommunicatorThread1.start();
         //Joiner
-        CommunicatorRunnable task2 = new CommunicatorRunnable(clientSocket2,gameHashMap,accountHashMap,gameRunnableHashMap,18);
+        CommunicatorRunnable task2 = new CommunicatorRunnable(clientSocket2,gameHashMap,accountHashMap,gameRunnableHashMap,22);
         Thread CommunicatorThread2 = new Thread(task2);
         CommunicatorThread2.start();
         ////==============================TESTBENCH==================================//
@@ -60,21 +60,38 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         mockClient2.sendObject(signUpAction1);
         Response responseSignup1 = (Response) mockClient2.recvObject();
 
-//H2 J2        //---------------------------Signin--------------------------------------/ H2 J2
+//H2 J2        //---------------------------Signin--------------------------------------/ H2 J2 +1
         LoginAction loginAction = new LoginAction(hostAccountID,"1");
         mockClient1.sendObject(loginAction);
         Response responseSignin = (Response) mockClient1.recvObject();
 
+        //Login Fail
+        LoginAction loginActionFail = new LoginAction(new AccountID("abdhj"),"12345");
+        mockClient2.sendObject(loginActionFail);
+        mockClient2.recvObject();
+
+        //Login Success
         LoginAction loginAction1 = new LoginAction(joinerAccountID,"2");
         mockClient2.sendObject(loginAction1);
         Response responseSignin1 = (Response) mockClient2.recvObject();
 
-//H3 J3 J4        //---------------------------New Game Join Game------------------------/ H3 J3 J4
+//H3 J3 J4        //---------------------------New Game Join Game------------------------/ H3 J3 J4 +2
         NewGameAction newGameAction = new NewGameAction(2);
         mockClient1.sendObject(newGameAction);
         //Note that New Game does not require Response
         //mockClient1.recvObject();
         Thread.sleep(1000);
+
+        JoinAction joinAction = new JoinAction();
+        mockClient2.sendObject(joinAction);
+        mockClient2.recvObject();
+
+        //Choose Join Game Fail
+        ChooseJoinGameAction chooseJoinGameActionFail = new ChooseJoinGameAction(new GameID(5));
+        mockClient2.sendObject(chooseJoinGameActionFail);
+        mockClient2.recvObject();
+
+        //Choose Join Game Success
         ChooseJoinGameAction chooseJoinGameAction = new ChooseJoinGameAction(new GameID(1));
         mockClient2.sendObject(chooseJoinGameAction);
         Response responseJoinGame = (Response) mockClient2.recvObject();
@@ -248,6 +265,9 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         assertEquals(1, host.getMyTerritories().get("a1").getUnits().get(0).getValue());
         assertEquals(3, host.getMyTerritories().get("a2").getUnits().get(0).getValue());
         //assert move fail
+        moveAction.setFrom("a1").setTo("b3").setUnits(units);
+        mockClient2.sendObject(moveAction);
+        mockClient2.recvObject();
 //H23 J18        //--------------------move Fail of Not Enough---/H23 J18
         mockClient1.sendObject(moveAction);
         mockClient2.sendObject(moveAction);

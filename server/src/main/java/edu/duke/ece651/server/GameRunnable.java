@@ -49,7 +49,8 @@ public class GameRunnable implements Runnable {
      *
      * @param thisGame
      */
-    private void checkWinOrLost(Game thisGame) {
+    //TODO: back to private
+    public void checkWinOrLost(Game thisGame) {
         //check win
         boolean findWinner = true;
         Map map = thisGame.getMap();
@@ -65,12 +66,12 @@ public class GameRunnable implements Runnable {
                 break;
             }
         }
-        if (findWinner) {
-            //TODO: set this isWin of this player as true
-            Player winner = thisGame.getPlayerHashMap().getPlayerHashMap().get(firstAcc);
-            winner.setWon(true);
-            thisGame.setGameOver(true);
-        }
+//        if (findWinner) {
+//            //TODO: set this isWin of this player as true
+//            Player winner = thisGame.getPlayerHashMap().getPlayerHashMap().get(firstAcc);
+//            winner.setWon(true);
+//            thisGame.setGameOver(true);
+//        }
 
         //check lose for each player
         for (AccountID accountID : thisGame.getPlayerHashMap().getPlayerHashMap().keySet()) {
