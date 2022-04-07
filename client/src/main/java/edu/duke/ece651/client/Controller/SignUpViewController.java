@@ -38,7 +38,7 @@ public class SignUpViewController {
      */
     @FXML
     public void clickOnSignUp(){
-        boolean res = signupModel.signUp(userName.getText(),passWord.getText(), true);
+        boolean res = signupModel.signUp(userName.getText(),passWord.getText());
         if(res){
             msg.setText("Sign up a new account successfully!");
         }else{

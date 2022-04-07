@@ -41,7 +41,7 @@ public class ContinueGameViewController implements Initializable
     * */
     private ObservableList<GameInfo> getGameData(){
         // Get continues game list form the model
-        return new SwitchGameModel().getGameLists(true);
+        return new SwitchGameModel().getGameLists(false);
     }
 
     private void showGameTable(ObservableList<GameInfo> gameList){
@@ -75,7 +75,7 @@ public class ContinueGameViewController implements Initializable
                     System.out.println("Enter Game. INFO: "+clickedInfo.getGameID());
 
                     // Request model to join the game
-                    boolean switchResult =  GameModel.getInstance().switchGame(clickedInfo.getGameID(),true);
+                    boolean switchResult =  GameModel.getInstance().switchGame(clickedInfo.getGameID(),false);
                     if(switchResult){
                         // Create a new Deployment view
                         try {

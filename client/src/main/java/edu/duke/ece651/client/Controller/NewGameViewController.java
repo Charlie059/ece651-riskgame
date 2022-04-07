@@ -38,7 +38,7 @@ public class NewGameViewController {
         }
 
         // Pass userInput to GameModel (if model return false then return); else model will get data from server
-        if(!GameModel.getInstance().startNewGame(n_players.getText(), true)) return;
+        if(!GameModel.getInstance().startNewGame(n_players.getText(), false)) return;
 
         // If server accept request then show the deployment view
         try {

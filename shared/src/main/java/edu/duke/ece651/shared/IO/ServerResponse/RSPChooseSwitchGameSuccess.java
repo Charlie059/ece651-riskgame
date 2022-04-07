@@ -5,6 +5,10 @@ import edu.duke.ece651.shared.Visitor.ResponseVisitor;
 
 public class RSPChooseSwitchGameSuccess implements Response{
 
+    public ClientPlayerPacket getClientPlayerPacket() {
+        return clientPlayerPacket;
+    }
+
     private ClientPlayerPacket clientPlayerPacket;
 
     public RSPChooseSwitchGameSuccess(){}

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class AccountID implements Serializable {
-    private String accountID= null;
+    private String accountID;
 
     public AccountID(String accountID) {
         this.accountID = accountID;

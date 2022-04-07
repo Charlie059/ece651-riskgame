@@ -144,7 +144,7 @@ public class GameModel extends Model{
             levelAndNum.add(Integer.parseInt(num));
             units.add(levelAndNum);
 
-            // Send a join action to server
+            // Send a attackAction to server
             AttackAction attackAction = new AttackAction(from, to, units);
             ClientSocket.getInstance().sendObject(attackAction);
 
@@ -343,7 +343,7 @@ public class GameModel extends Model{
 
         // func
         try {
-            // Send a join action to server
+            // Send a chooseSwitchGameAction  to server
             ChooseSwitchGameAction chooseSwitchGameAction= new ChooseSwitchGameAction(new GameID(gameID));
             ClientSocket.getInstance().sendObject(chooseSwitchGameAction);
 
@@ -353,7 +353,7 @@ public class GameModel extends Model{
             // If response is RSPChooseJoinGameSuccess
             if(response.getClass() == RSPChooseSwitchGameSuccess.class){
                 // Get the player obj from response
-                ClientPlayerPacket clientPlayerPacket = ((RSPChooseJoinGameSuccess) response).getClientPlayerPacket();
+                ClientPlayerPacket clientPlayerPacket = ((RSPChooseSwitchGameSuccess) response).getClientPlayerPacket();
 
                 // If clientPlayerPacket is null return false
                 if(clientPlayerPacket == null) return false;
@@ -483,7 +483,7 @@ public class GameModel extends Model{
 
         enemyTerritories.put("p1", enemyTerrName);
 
-        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories);
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories, false,false);
         this.clientPlayerPacket = clientPlayerPacket;
     }
 

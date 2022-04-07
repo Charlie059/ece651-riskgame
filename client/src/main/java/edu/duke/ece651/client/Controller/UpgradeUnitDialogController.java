@@ -42,7 +42,7 @@ public class UpgradeUnitDialogController implements Initializable {
         }
 
         // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doUpgradeUnit(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, true)){
+        if(!GameModel.getInstance().doUpgradeUnit(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, false)){
             this.error_msg.setText("Invalid value (Server check)");
         }
         else {

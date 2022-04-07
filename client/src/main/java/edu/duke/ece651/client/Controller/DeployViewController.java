@@ -78,7 +78,7 @@ public class DeployViewController implements Initializable {
     @FXML
     public void clickOnCommit(){
         // Send commit request to model
-        if(GameModel.getInstance().doCommit(true)){
+        if(GameModel.getInstance().doCommit(false)){
             try {
                 new MainGameView().show(window,null);
             } catch (IOException e) {
@@ -107,7 +107,7 @@ public class DeployViewController implements Initializable {
         }
 
         // Send user select to model and get response
-        if(GameModel.getInstance().doDeploy(selectTerr, selectNumber, true)){
+        if(GameModel.getInstance().doDeploy(selectTerr, selectNumber, false)){
             // Update the deployment view
             this.deployNum -= selectNumber;
             setUnitNumberText(this.deployNum);

@@ -52,7 +52,7 @@ public class AttackDialogController implements Initializable {
         }
 
         // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, true)){
+        if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, false)){
             this.error_msg.setText("Invalid value (Server check)");
         }
         else {

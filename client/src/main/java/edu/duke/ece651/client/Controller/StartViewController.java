@@ -35,7 +35,7 @@ public class StartViewController {
     public void clickOnLogin() {
         try {
             // Check the login result from server
-            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText(), true);
+            boolean res = loginModel.validateLogin(userName.getText(), passWord.getText());
             if (res) new MenuView().show(this.window, null); // Enter into menu view
             else error_msg.setText("Error in UserName, Password or cannot connect to server. Please try again."); // Show the Error Message
         } catch (IOException e) {

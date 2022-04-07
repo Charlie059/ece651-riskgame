@@ -153,7 +153,7 @@ public class MainGameViewController implements Initializable {
      */
     @FXML
     public void clickOnUpgradeTechButton() {
-       if(!GameModel.getInstance().doUpgradeTech(true)) {
+       if(!GameModel.getInstance().doUpgradeTech(false)) {
             this.errorMsg.setText("Cannot upgrade, Server Check");
        }
         // Update view
@@ -167,7 +167,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnDone(){
         //upgrade everything
-        if(!GameModel.getInstance().doCommit(true)){
+        if(!GameModel.getInstance().doCommit(false)){
             this.errorMsg.setText("Cannot commit, this should not happened");
         }
         // Update view

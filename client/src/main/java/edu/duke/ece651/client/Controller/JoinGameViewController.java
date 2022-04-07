@@ -42,7 +42,7 @@ public class JoinGameViewController implements Initializable
      */
     private ObservableList<GameInfo> getGameData(){
         // Get data from the model
-        return new JoinGameModel().getGameLists(true);
+        return new JoinGameModel().getGameLists(false);
     }
 
 
@@ -78,7 +78,7 @@ public class JoinGameViewController implements Initializable
                     GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
 
                     // Request model to join the game
-                    boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),true);
+                    boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),false);
                     if(joinResult){
                         // Create a new Deployment view
                         try {

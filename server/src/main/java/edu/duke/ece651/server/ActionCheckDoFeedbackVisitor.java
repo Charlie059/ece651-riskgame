@@ -21,8 +21,8 @@ import java.util.ArrayList;
  */
 public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
-    private volatile AccountID accountID;
-    private volatile GameID gameID;
+    private AccountID accountID;
+    private GameID gameID;
     private Socket clientSocket;
     //Global Database
     private volatile GameHashMap gameHashMap;
@@ -158,7 +158,20 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
 //            while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
 //            this.gameHashMap.get(this.gameID).setCombatFinished(false);
-            RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess();
+
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
+                    this.gameID,
+                    this.accountID,
+                    this.gameHashMap.get(this.gameID).getNumOfPlayer(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(),
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
+            RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess(clientPlayerPacket);
             sendResponse(rspCommitSuccess);
         } else {
             RSPCommitFail rspCommitFail = new RSPCommitFail();
@@ -293,7 +306,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Add Game to Database
         this.gameHashMap.put(newGameID, game);
         //Change this Client's currGameID to NewGame ID
-        this.gameID = newGameID;
+        this.gameID.setCurrGameID(newGameID.getCurrGameID());
         //Throw New Game thread
         GameRunnable gameRunnable = new GameRunnable(this.gameHashMap, this.accountHashMap, this.gameID);
         Thread thread = new Thread(gameRunnable);
@@ -332,6 +345,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             Account account = new Account();
             account.setPassword(signUpAction.getPassword());
             this.accountHashMap.put(signUpAction.getAccount(), account);
+            this.accountID.setAccountID(signUpAction.getAccount().getAccountID());
             //Successful Response
             RSPSignupSuccess rspSignupSuccess = new RSPSignupSuccess();
             sendResponse(rspSignupSuccess);
@@ -428,7 +442,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(ChooseJoinGameAction chooseJoinGameAction) {
         ChooseJoinGameChecker chooseGameChecker = new ChooseJoinGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, chooseJoinGameAction.getGameID());
         if (chooseGameChecker.doCheck()) {
-            this.gameID = chooseJoinGameAction.getGameID();
+            this.gameID.setCurrGameID(chooseJoinGameAction.getGameID().getCurrGameID());
             //New Player add to current Game
             Game currGame = this.gameHashMap.get(this.gameID);
             Player player = new Player(this.accountID, this.gameID, currGame.getMap());
@@ -445,7 +459,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             }
             //If All player joined
             // Create response
-            RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess();
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,currGame.getNumOfPlayer(),player.getFoodResource(),player.getTechResource(),player.getCurrTechLevel(),player.getTotalDeployment(),player.getMyTerritories(),currGame.getPlayerHashMap().getEnemyTerritories(this.accountID),player.isLose(),player.isWon());
+            RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess(clientPlayerPacket);
 
             sendResponse(rspChooseJoinGameSuccess);
         } else {

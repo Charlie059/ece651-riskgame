@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class CommunicatorRunnable implements Runnable {
-    private AccountID accountID;
-    private GameID gameID;
+    private  AccountID accountID;
+    private  GameID gameID;
     private Socket clientSocket;
     private volatile GameHashMap gameHashMap;
     private volatile AccountHashMap accountHashMap;
@@ -36,7 +36,10 @@ public class CommunicatorRunnable implements Runnable {
         this.runtime = runtime;
     }
 
+    // main
     public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap) throws IOException {
+        this.accountID = new AccountID("");
+        this.gameID = new GameID(0);
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
@@ -90,8 +93,6 @@ public class CommunicatorRunnable implements Runnable {
             Action action = this.recvAction();
             //Check Do Feedback action
             action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap));
-
-
         }
     }
 }
