@@ -252,8 +252,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         LoginChecker loginChecker = new LoginChecker(this.accountID, this.gameHashMap, this.accountHashMap, loginAction.getEnterAccount(), loginAction.getEnterPassword());
         //IF SUCCESS
         if (loginChecker.doCheck()) {
-            //DO change current accountID warpper class
-            this.accountID = loginAction.getEnterAccount();
+            //DO change current accountID wrapper class
+            this.accountID.setAccountID(loginAction.getEnterAccount().getAccountID());
             RSPLoginSuccess rspLoginSuccess = new RSPLoginSuccess();
             sendResponse(rspLoginSuccess);
         } else {
@@ -382,6 +382,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if (signupChecker.doCheck()) {
             //DO Create New Account
             Account account = new Account();
+            account.setPassword("12345");
             account.setPassword(signUpAction.getPassword());
             this.accountHashMap.put(signUpAction.getAccount(), account);
             this.accountID.setAccountID(signUpAction.getAccount().getAccountID());
@@ -423,6 +424,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             p.setUpgradeTech(updateTechChecker.getCost());
             //send response
             RSPUpgradeTechSuccess rspUpgradeTechSuccess = new RSPUpgradeTechSuccess();
+            rspUpgradeTechSuccess.setTechCost(updateTechChecker.getCost());
             sendResponse(rspUpgradeTechSuccess);
         } else {
             RSPUpgradeTechFail rspUpgradeTechFail = new RSPUpgradeTechFail();
@@ -512,7 +514,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
-        ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
+        ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, chooseSwitchGameAction.getGameID());
         if (chooseSwitchGameChecker.doCheck()) {
             // Change the game
             this.gameID.setCurrGameID(chooseSwitchGameAction.getGameID().getCurrGameID());

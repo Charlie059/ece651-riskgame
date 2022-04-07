@@ -23,7 +23,6 @@ public class ClientPlayerPacket implements Serializable {
     private HashMap<String, ArrayList<String>> enemyTerritories; // HashMap<String -> AccountID String, ArrayList<String> -> ArrayList of Territories>
 
 
-
     public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories, Boolean isLose, Boolean isWin) {
         this.currentGameID = currentGameID;
         this.accountID = accountID;
@@ -74,12 +73,22 @@ public class ClientPlayerPacket implements Serializable {
     public HashMap<String, ArrayList<String>> getEnemyTerritories() {
         return enemyTerritories;
     }
+
+    public Boolean getLose() {
+        return isLose;
+    }
+
+    public Boolean getWin() {
+        return isWin;
+    }
+
     /**
      * temporally do deploy on player's map
+     *
      * @param to
      * @param moveUnits
      */
-    public void doDeploy(String to, int moveUnits){
+    public void doDeploy(String to, int moveUnits) {
         Territory to_terr = this.getMyTerritories().get(to);
         to_terr.addUnitLevel(0, moveUnits, to_terr.getUnits());
     }
@@ -100,10 +109,11 @@ public class ClientPlayerPacket implements Serializable {
 
     /**
      * temporally upgrade player's techLevel
+     *
      * @param next_level
      * @param cost
      */
-    public void doUpgradeTech(int next_level, int cost){
+    public void doUpgradeTech(int next_level, int cost) {
         this.techLevel = next_level;
         this.techResource -= cost;
     }
@@ -124,12 +134,13 @@ public class ClientPlayerPacket implements Serializable {
 
     /**
      * player temporarily reduces units in territory to and reduce food resource
+     *
      * @param from_name
      * @param to_name
      * @param attackUnits
      * @param totalCost
      */
-    public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost){
+    public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost) {
         this.getMyTerritories().get(from_name).removeUnitMultiLevels(attackUnits);
         this.foodResource -= totalCost;
     }

@@ -31,10 +31,13 @@ public class CommunicatorRunnable implements Runnable {
      * @param runtime        Default -1 for normal mode, if runtime >= 0, Diagnosis Mode is on and is limited on while(runtime)
      * @throws IOException
      */
-    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, Integer runtime) throws IOException {
+    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, GameRunnableHashMap gameRunnableHashMap,Integer runtime) throws IOException {
+        this.accountID = new AccountID("");
+        this.gameID = new GameID(0);
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
+        this.gameRunnableHashMap = gameRunnableHashMap;
         //TODO Extract ObjectStream Send Recv Method
         //TODO Everytime when use objectStream, construct
         this.runtime = runtime;
@@ -53,13 +56,14 @@ public class CommunicatorRunnable implements Runnable {
     }
 
 
-    public CommunicatorRunnable(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap, Integer runtime) throws IOException {
+    public CommunicatorRunnable(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap, GameRunnableHashMap gameRunnableHashMap, Integer runtime) throws IOException {
         this.accountID = accountID;
         this.gameID = gameID;
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         this.runtime = runtime;
+        this.gameRunnableHashMap = gameRunnableHashMap;
     }
 
     /**
