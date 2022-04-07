@@ -8,9 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.6346227499042514" prefHeight="495.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/18"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="edu.duke.ece651.client.Controller.MapViewController">
+<SplitPane dividerPositions="0.6346227499042514" prefHeight="495.0" prefWidth="873.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MapViewController">
    <items>
       <Pane prefHeight="527.0" prefWidth="802.0">
          <children>
@@ -94,8 +92,8 @@
       </Pane>
       <Pane prefHeight="523.0" prefWidth="447.0">
          <children>
-            <Label layoutX="108.0" layoutY="67.0" prefHeight="17.0" prefWidth="75.0" text="Label" />
-            <Text layoutX="64.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Size:" />
+            <Label fx:id="terrOwner" layoutX="120.0" layoutY="67.0" prefHeight="17.0" prefWidth="75.0" text="Label" />
+            <Text layoutX="64.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Owner:" />
             <Text layoutX="64.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Units:" />
             <Text layoutX="103.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 0:" />
             <Text layoutX="103.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 1:" />
@@ -105,14 +103,14 @@
             <Text layoutX="103.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 5:" />
             <Text layoutX="103.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 6:" />
             <Text layoutX="40.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Territory name" />
-            <Label layoutX="136.0" layoutY="30.0" prefHeight="17.0" prefWidth="75.0" text="a1" />
-            <Label layoutX="158.0" layoutY="122.0" prefHeight="17.0" prefWidth="75.0" text="3" />
-            <Label layoutX="158.0" layoutY="139.0" prefHeight="17.0" prefWidth="75.0" text="1" />
-            <Label layoutX="158.0" layoutY="220.0" prefHeight="17.0" prefWidth="75.0" text="0" />
-            <Label layoutX="158.0" layoutY="203.0" prefHeight="17.0" prefWidth="75.0" text="0" />
-            <Label layoutX="158.0" layoutY="186.0" prefHeight="17.0" prefWidth="75.0" text="0" />
-            <Label layoutX="158.0" layoutY="169.0" prefHeight="17.0" prefWidth="75.0" text="0" />
-            <Label layoutX="158.0" layoutY="155.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+            <Label fx:id="terrName" layoutX="136.0" layoutY="30.0" prefHeight="17.0" prefWidth="75.0" text="a1" />
+            <Label fx:id="n_level0" layoutX="158.0" layoutY="122.0" prefHeight="17.0" prefWidth="75.0" text="3" />
+            <Label fx:id="n_level1" layoutX="158.0" layoutY="139.0" prefHeight="17.0" prefWidth="75.0" text="1" />
+            <Label fx:id="n_level6" layoutX="158.0" layoutY="220.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+            <Label fx:id="n_level5" layoutX="158.0" layoutY="203.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+            <Label fx:id="n_level4" layoutX="158.0" layoutY="186.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+            <Label fx:id="n_level3" layoutX="158.0" layoutY="169.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+            <Label fx:id="n_level2" layoutX="158.0" layoutY="155.0" prefHeight="17.0" prefWidth="75.0" text="0" />
          </children>
       </Pane>
    </items>
