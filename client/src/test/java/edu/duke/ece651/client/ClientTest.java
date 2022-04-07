@@ -145,8 +145,9 @@ class ClientTest {
         robot.clickOn("#numberSelect");
         robot.clickOn("9");
 
-        robot.clickOn("Done");
         robot.clickOn("Commit");
+        robot.clickOn("Done");
+
 
     }
 
