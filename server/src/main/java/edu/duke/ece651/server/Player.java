@@ -294,4 +294,12 @@ public class Player {
     public void setWon(boolean won) {
         isWon = won;
     }
+
+    public void setFoodResource(int foodResource) {
+        this.foodResource = foodResource;
+    }
+
+    public void setTechResource(int techResource) {
+        this.techResource = techResource;
+    }
 }

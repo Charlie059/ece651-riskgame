@@ -156,9 +156,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(CommitAction commitAction) {
         CommitChecker commitChecker = new CommitChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
         if (commitChecker.doCheck()) {
+            //Change my commit status to true
             this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
-//            while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
-//            this.gameHashMap.get(this.gameID).setCombatFinished(false);
+            //Check if Game's Combat Resolution is finished
+            while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
+            this.gameHashMap.get(this.gameID).setCombatFinished(false);
 
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
                     this.gameID,
@@ -462,6 +464,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             }
             //If All player joined
             // Create response
+
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,currGame.getNumOfPlayer(),player.getFoodResource(),player.getTechResource(),player.getCurrTechLevel(),player.getTotalDeployment(),player.getMyTerritories(),currGame.getPlayerHashMap().getEnemyTerritories(this.accountID),player.isLose(),player.isWon());
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess(clientPlayerPacket);
 
@@ -481,7 +484,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             // Change the game
             this.gameID = chooseSwitchGameAction.getGameID();
             // Send message
-            RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess();
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,this.gameHashMap.get(this.gameID).getNumOfPlayer(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(),this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
+            RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess(clientPlayerPacket);
             sendResponse(rspChooseSwitchGameSuccess);
         } else {
             RSPChooseSwitchGameFail rspChooseSwitchGameFail = new RSPChooseSwitchGameFail();

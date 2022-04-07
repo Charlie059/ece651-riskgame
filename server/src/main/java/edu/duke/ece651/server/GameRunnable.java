@@ -81,6 +81,26 @@ public class GameRunnable implements Runnable {
             }
         }
     }
+    private void breed(){
+        //Each territory add one level 0 unit
+        for(Territory key : this.currGame.getMap().getTerritoryList().values()){
+            key.getUnits().get(0).setValue(key.getUnits().get(0).getValue()+1);
+        }
+
+        //Each Food Resource increasing owned territories * cost * 4
+
+        //Each Tech Resource increasing owned territories * cost * 8
+        for(Player player : this.currGame.getPlayerHashMap().getPlayerHashMap().values()){
+                Integer foodBreed = 0;
+                Integer techBreed = 0;
+                for(Territory territory:player.getMyTerritories().values()){
+                    foodBreed += territory.getCost() * 4;
+                    techBreed += territory.getCost() * 8;
+                }
+                player.setFoodResource(player.getFoodResource()+foodBreed);
+                player.setTechResource(player.getTechResource()+techBreed);
+        }
+    }
 
     /**
      * Define the game runnable thread
@@ -114,10 +134,12 @@ public class GameRunnable implements Runnable {
             combatResolution.doCombat(0);//1: attacker wins, -1: defender wins, 0: random
             //Do Upgrade Tech Level
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
-            //Change Combat Resolution status finished
-            thisGame.setCombatFinished(true);
             //check win or lose-> decide whether to set game over
             checkWinOrLost(thisGame);
+            //Breed
+            this.breed();
+            //Change Combat Resolution status finished
+            thisGame.setCombatFinished(true);
         } while (!thisGame.getGameOver());
 
 
