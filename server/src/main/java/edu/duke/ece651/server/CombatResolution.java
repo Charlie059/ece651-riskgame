@@ -139,10 +139,13 @@ public class CombatResolution {
         for(String terrToAttack: attackUnitListHashMap.keySet()){
             //find Territory to
             Territory attackTerr = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(terrToAttack);
+            AccountID defenderID = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(terrToAttack).getOwnerId();
+            Player attackPlayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(accountID);
+            Player defendPlayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(defenderID);
             //find defender's units
             ArrayList<Unit> defenderUnits = attackTerr.getUnits();
             //do attack
-            attackP2P(accountID, attackTerr, attackUnitListHashMap.get(terrToAttack), defenderUnits, diceDebugMode);
+            attackP2P(accountID, attackTerr, attackUnitListHashMap.get(terrToAttack), defenderUnits, diceDebugMode, attackPlayer, defendPlayer, terrToAttack);
         }
     }
 
@@ -153,12 +156,17 @@ public class CombatResolution {
      * @param attackerUnits in descending order, padding: ((6,1) (5, 0) (4, 1) (3, 0) (2, 0) (1, 1) (0, 1))
      * @param defenderUnits in ascending order, padding ((0, 0) (1, 0) (2, 1) (3, 0) (4, 2) (5, 0) (6, 0))
      * @param diceDebugMode if debugmode is 1, attacker always win; if -1, defender always win; if 0, random
+     * @param attackPlayer attackPlayer
+     * @param defendPlayer defendPlayer
      */
     public void attackP2P(AccountID attackerID,
                                Territory attackTerr,
                                ArrayList<ArrayList<Integer>> attackerUnits,
                                ArrayList<Unit> defenderUnits,
-                               Integer diceDebugMode){
+                               Integer diceDebugMode,
+                          Player attackPlayer,
+                          Player defendPlayer,
+                          String terrToAttack){
         //TWO POINTER method:
         //initialize attackUnits' pointers: atkH->highest level index, atkL->lowest level index
         int atkH = 0;
@@ -171,6 +179,8 @@ public class CombatResolution {
             if (dfnL > dfnH){ // if defender lose
                 //change ownership, reset units
                 attackTerr.changeOwner(attackerID);
+                attackPlayer.getMyTerritories().put(terrToAttack, attackTerr);
+                defendPlayer.getMyTerritories().remove(terrToAttack, attackTerr);
                 attackTerr.addUnitMultiLevels(attackerUnits);
                 return;
             }
