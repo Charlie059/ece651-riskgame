@@ -119,10 +119,9 @@ public class GameRunnable implements Runnable {
 //            this.notifyAll();
 //        }
 
-
+        int counter = 0;//Loop Counter
         //Do Game until thisGame is GameOver
         do {
-            thisGame.setCombatFinished(false);
             //Wait until all players are isCommitted
             while (!isCommitted()) {
             }
@@ -137,7 +136,10 @@ public class GameRunnable implements Runnable {
             //check win or lose-> decide whether to set game over
             checkWinOrLost(thisGame);
             //Breed
-            this.breed();
+            //If first Loop, do not breed
+//            if(counter !=0){
+//            this.breed();}
+            counter++;
             //Change Combat Resolution status finished
             thisGame.setCombatFinished(true);
         } while (!thisGame.getGameOver());

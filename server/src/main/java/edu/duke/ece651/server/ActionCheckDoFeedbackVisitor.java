@@ -15,6 +15,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Check Action correctness
  * FeedBack Success or Failed
@@ -156,10 +158,18 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(CommitAction commitAction) {
         CommitChecker commitChecker = new CommitChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
         if (commitChecker.doCheck()) {
+
             //Change my commit status to true
             this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
             //Check if Game's Combat Resolution is finished
+
             while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             this.gameHashMap.get(this.gameID).setCombatFinished(false);
 
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
@@ -435,6 +445,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             rspUpdateUnitsSuccess.setNewLevel(updateUnitsAction.getNewLevel());
             rspUpdateUnitsSuccess.setOldLevel(updateUnitsAction.getOldLevel());
             rspUpdateUnitsSuccess.setWhere(updateUnitsAction.getWhere());
+            rspUpdateUnitsSuccess.setTechCost(techCost);
             sendResponse(rspUpdateUnitsSuccess);
         } else {
             RSPUpgradeUnitsFail rspUpdateUnitsFail = new RSPUpgradeUnitsFail();
@@ -464,7 +475,6 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             }
             //If All player joined
             // Create response
-
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,currGame.getNumOfPlayer(),player.getFoodResource(),player.getTechResource(),player.getCurrTechLevel(),player.getTotalDeployment(),player.getMyTerritories(),currGame.getPlayerHashMap().getEnemyTerritories(this.accountID),player.isLose(),player.isWon());
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess(clientPlayerPacket);
 
