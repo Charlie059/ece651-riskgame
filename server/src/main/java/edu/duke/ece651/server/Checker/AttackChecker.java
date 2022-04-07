@@ -16,6 +16,7 @@ public class AttackChecker extends ActionChecker{
     protected final  String to_name;
     protected int totalCost;
     protected ArrayList<Unit> currFromUnits;
+    protected int currFoodResource;
     public AttackChecker(GameHashMap gameHashMap,
                          AccountHashMap accountHashMap,
                          AccountID accountID,
@@ -24,7 +25,8 @@ public class AttackChecker extends ActionChecker{
                          String to,
                          GameID gameID,
                          Integer totalCost,
-                         ArrayList<Unit> currFromUnits) {
+                         ArrayList<Unit> currFromUnits,
+                         int currFoodResource) {
         super(gameHashMap, accountHashMap, accountID);
         this.attackUnits = _attackUnits;
         this.from_name = from;
@@ -32,6 +34,7 @@ public class AttackChecker extends ActionChecker{
         this.totalCost =totalCost;
         this.map = this.gameHashMap.get(gameID).getMap();
         this.currFromUnits = currFromUnits;
+        this.currFoodResource = currFoodResource;
     }
 
     /**
@@ -42,15 +45,19 @@ public class AttackChecker extends ActionChecker{
     public boolean doCheck() {
         boolean isValid = false;
         try {
-            //check if from and to are adjacent
+            //1: check if from and to are adjacent
             if(isValid = map.isAdjacent(this.accountID, from_name, to_name)){
-                //if From has enough units
+                //2: if From has enough units
                 for (int i=0;i<this.attackUnits.size();i++){
                     //for level i
                     int level = this.attackUnits.get(i).get(0);
                     if(this.currFromUnits.get(level).getValue()< this.attackUnits.get(i).get(1)) {
                         return false;
                     }
+                }
+                //3: if 0 > total cost or total cost > currFoodResource
+                if(this.totalCost < 0 || this.totalCost > this.currFoodResource){
+                    return false;
                 }
             }
             return isValid;

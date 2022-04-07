@@ -2,7 +2,10 @@ package edu.duke.ece651.server;
 
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
+import edu.duke.ece651.shared.map.Map;
+import edu.duke.ece651.shared.map.Territory;
 
 /**
  * Deal with Combat Resolution
@@ -41,7 +44,43 @@ public class GameRunnable implements Runnable {
         thisGame.getCommittedHashMap().resetCommittedHashmap();
     }
 
+    /**
+     * check if this game has winner or loser(s)
+     * @param thisGame
+     */
+    private void checkWinOrLost(Game thisGame){
+        //check win
+        boolean findWinner = true;
+        Map map = thisGame.getMap();
+        AccountID firstAcc = null;
+        for(Territory t: map.getTerritoryList().values()){
+            //first iteration: set initial account
+            if (firstAcc == null){
+                firstAcc = t.getOwnerId();
+                continue;
+            }
+            if (t.getOwnerId() != firstAcc ){
+                findWinner = false;
+                break;
+            }
+        }
+        if (findWinner) {
+            //TODO: set this isWin of this player as true
+            Player winner = thisGame.getPlayerHashMap().getPlayerHashMap().get(firstAcc);
+            winner.setWon(true);
+            thisGame.setGameOver(true);
+        }
 
+        //check lose for each player
+        for(AccountID accountID: thisGame.getPlayerHashMap().getPlayerHashMap().keySet()){
+            Player player = thisGame.getPlayerHashMap().getPlayerHashMap().get(accountID);
+            //check if the player owns any territory
+            if (player.getMyTerritories().isEmpty() || player.getMyTerritories().size() == 0){
+                //TODO: set this isLose of this player as true
+                player.setLose(true);
+            }
+        }
+    }
 
     /**
      * Define the game runnable thread
@@ -77,12 +116,11 @@ public class GameRunnable implements Runnable {
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
             //Change Combat Resolution status finished
             thisGame.setCombatFinished(true);
-            //check win or lose-> if some one wins, set gameOver
-
+            //check win or lose-> decide whether to set game over
+            checkWinOrLost(thisGame);
         } while (!thisGame.getGameOver());
 
-            //if game over
-            //TODO: broadcast gameover RSP
+
 
     }
 }

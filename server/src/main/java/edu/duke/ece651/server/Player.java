@@ -286,4 +286,12 @@ public class Player {
     public boolean isWon() {
         return isWon;
     }
+
+    public void setLose(boolean lose) {
+        isLose = lose;
+    }
+
+    public void setWon(boolean won) {
+        isWon = won;
+    }
 }

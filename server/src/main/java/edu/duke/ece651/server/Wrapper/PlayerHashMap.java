@@ -58,6 +58,10 @@ public class PlayerHashMap {
     }
 
 
+    public HashMap<AccountID, Player> getPlayerHashMap() {
+        return playerHashMap;
+    }
+
     /**
      * Check if hashmap contains key
      *

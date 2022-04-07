@@ -14,6 +14,7 @@ public class MoveChecker extends ActionChecker{
     protected final String from_name;
     protected final  String to_name;
     protected int totalCost;
+    protected int currFoodResource;
     public MoveChecker(AccountID accountID,
                        GameHashMap gameHashMap,
                        AccountHashMap accountHashMap,
@@ -21,15 +22,16 @@ public class MoveChecker extends ActionChecker{
                        String from,
                        String to,
                        GameID gameID,
-                       Integer totalCost){
+                       Integer totalCost,
+                       Integer currFoodResource){
         super(gameHashMap, accountHashMap, accountID);
         this.moveUnits = _moveUnits;
         this.from_name = from;
         this.to_name = to;
         this.totalCost =totalCost;
         this.map = this.gameHashMap.get(gameID).getMap();
+        this.currFoodResource = currFoodResource;
     }
-
 
     /**
      * check if ownerships are same and if path exists
@@ -41,8 +43,8 @@ public class MoveChecker extends ActionChecker{
         try {
             //check whether path exists
             isValid = map.isPathExist(accountID, from_name, to_name);
-            //If path Exist, and totalCost is not wrong
-            if (isValid && this.totalCost > 0){
+            //If path Exist, and 0 <= totalCost <= currFoodResource
+            if (isValid && this.totalCost > 0 && this.totalCost <= currFoodResource){
                 return true;
             }
             return false;

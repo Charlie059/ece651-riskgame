@@ -107,7 +107,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
         int to_cost = currplayer.getWholeMap().getTerritoryList().get(attackAction.getTo()).getCost();
         int totalCost = attackUnitsNum * to_cost;
-
+        int currFoodResource = currplayer.getFoodResource();
         //Current From Value
         ArrayList<Unit> currFromUnits = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(attackAction.getFrom()).getUnits();
         AttackChecker attackChecker = new AttackChecker(
@@ -119,7 +119,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 attackAction.getTo(),
                 this.gameID,
                 totalCost,
-                currFromUnits
+                currFromUnits,
+                currFoodResource
         );
         if (attackChecker.doCheck()){
             //TODO:AttackActionArrayList field belongs to Player
@@ -251,6 +252,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Calcualte shortest path
         //path_cost<0 or infinity if shortest path does not exist
         //Example: fly land
+        int currFoodResource = currplayer.getFoodResource();
         int path_cost = currplayer.getWholeMap().shortestPathFrom(this.accountID, moveAction.getFrom(), moveAction.getTo());
         int totalMoveUnitNum = 0;
         for (int i = 0; i < moveAction.getUnits().size(); i++) {
@@ -266,7 +268,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 moveAction.getFrom(),
                 moveAction.getTo(),
                 this.gameID,
-                totalCost);
+                totalCost,
+                currFoodResource);
         if (moveChecker.doCheck()) {
             //Update Server this Game Map
             Player player = currplayer;
