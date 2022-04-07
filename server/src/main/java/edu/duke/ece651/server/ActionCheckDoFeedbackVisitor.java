@@ -25,8 +25,8 @@ import static java.lang.Thread.sleep;
  */
 public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
-    private AccountID accountID;
-    private GameID gameID;
+    private volatile AccountID accountID;
+    private volatile GameID gameID;
     private Socket clientSocket;
     //Global Database
     private volatile GameHashMap gameHashMap;
@@ -34,23 +34,26 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     //global tables for checking level-up cost
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
-
+    private volatile GameRunnableHashMap gameRunnableHashMap;
     /**
      * Construct Checker, all by Communicator Reference
-     *
+     * Note: if the value is reference, it can only be set rather than new
+     * Note: if the hashmap is putting new key, this key can only be new rather than use reference
+     * the pickup from reference key in Hashmap should be done by overwrite HashMethod
      * @param accountID      PlayerID Object reference
      * @param gameID         CurrGameID Object reference
      * @param clientSocket   ClientSocket Object referece
      * @param accountHashMap PlayerHashMap Object reference
      * @param gameHashMap    GameHashMap Object reference
      */
-    public ActionCheckDoFeedbackVisitor(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap) {
+    public ActionCheckDoFeedbackVisitor(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap, GameRunnableHashMap gameRunnableHashMap) {
         //Communicate Reference
         this.accountID = accountID;
         this.gameID = gameID;
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
+        this.gameRunnableHashMap = gameRunnableHashMap;
         setTechLevelUpgradeList();
         setUnitLevelUpgradeList();
     }
@@ -162,16 +165,31 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if (commitChecker.doCheck()) {
 
             //Change my commit status to true
-            this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
+            synchronized (this.gameRunnableHashMap.get(this.gameID)){
+                this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
+                this.gameRunnableHashMap.get(this.gameID).notify();
+            }
+
             //Check if Game's Combat Resolution is finished
 
-            while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
+
+            //while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
 
             try {
-                Thread.sleep(5000);
+                this.gameHashMap.get(this.gameID).getCountDownLatch().await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            if(this.gameHashMap.get(this.gameID).getCountDownLatch().getCount()==0) {
+                this.gameHashMap.get(this.gameID).setCountDownLatch(new CountDownLatch(1));
+            }
+
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
 
             this.gameHashMap.get(this.gameID).setCombatFinished(false);
@@ -310,7 +328,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
         // Note: This DO NOT need Checker, because we assign a Unique GameID Once NewGame action
         //New GameID
-        GameID newGameID = GameIDCounter.getInstance().getCurrent_id();
+        GameID newGameID = new GameID(GameIDCounter.getInstance().getCurrent_id().getCurrGameID());
         //New Game from numPlayer(Null Owner Territory)
         Game game = new Game(newGameAction.getNumOfPlayer());
         //New Player
@@ -328,6 +346,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         this.gameID.setCurrGameID(newGameID.getCurrGameID());
         //Throw New Game thread
         GameRunnable gameRunnable = new GameRunnable(this.gameHashMap, this.accountHashMap, this.gameID);
+        this.gameRunnableHashMap.put(newGameID,gameRunnable);
+        game.setCountDownLatch(new CountDownLatch(1));
         Thread thread = new Thread(gameRunnable);
         thread.start();
 
@@ -495,7 +515,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
         if (chooseSwitchGameChecker.doCheck()) {
             // Change the game
-            this.gameID = chooseSwitchGameAction.getGameID();
+            this.gameID.setCurrGameID(chooseSwitchGameAction.getGameID().getCurrGameID());
             // Send message
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,this.gameHashMap.get(this.gameID).getNumOfPlayer(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(),this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
             RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess(clientPlayerPacket);

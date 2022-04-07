@@ -2,6 +2,7 @@ package edu.duke.ece651.server;
 
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
+import edu.duke.ece651.server.Wrapper.GameRunnableHashMap;
 import edu.duke.ece651.shared.IO.ClientActions.CommitAction;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
@@ -10,6 +11,7 @@ import edu.duke.ece651.shared.IO.ObjectStream;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class CommunicatorRunnable implements Runnable {
     private  AccountID accountID;
@@ -17,6 +19,7 @@ public class CommunicatorRunnable implements Runnable {
     private Socket clientSocket;
     private volatile GameHashMap gameHashMap;
     private volatile AccountHashMap accountHashMap;
+    private volatile GameRunnableHashMap gameRunnableHashMap;
     private Integer runtime = -1; //Diagnosis mode: 0 for inf loop else indicate num of loops
 
     /**
@@ -38,12 +41,13 @@ public class CommunicatorRunnable implements Runnable {
     }
 
     // main
-    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap) throws IOException {
+    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, GameRunnableHashMap gameRunnableHashMap) throws IOException {
         this.accountID = new AccountID("");
         this.gameID = new GameID(0);
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
+        this.gameRunnableHashMap = gameRunnableHashMap;
         //TODO Extract ObjectStream Send Recv Method
         //TODO Everytime when use objectStream, construct
     }
@@ -95,11 +99,11 @@ public class CommunicatorRunnable implements Runnable {
 
             // Test if socket is closed
             if(this.clientSocket.isClosed() || action == null){
-                action = new CommitAction();
+                return;
             }
 
             //Check Do Feedback action
-            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap));
+            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap, this.gameRunnableHashMap));
         }
     }
 }

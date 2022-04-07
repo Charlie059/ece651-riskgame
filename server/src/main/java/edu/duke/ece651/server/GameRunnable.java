@@ -123,7 +123,16 @@ public class GameRunnable implements Runnable {
         //Do Game until thisGame is GameOver
         do {
             //Wait until all players are isCommitted
-            while (!isCommitted()) {}
+            synchronized (this){
+                while (!isCommitted()) {
+                    try {
+                        this.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
 
             //Change isCommited to False
             this.changeIsCommitted();
@@ -141,7 +150,8 @@ public class GameRunnable implements Runnable {
 //            this.breed();}
             counter++;
             //Change Combat Resolution status finished
-            thisGame.setCombatFinished(true);
+            thisGame.getCountDownLatch().countDown();
+            //thisGame.setCombatFinished(true);
         } while (!thisGame.getGameOver());
 
 
