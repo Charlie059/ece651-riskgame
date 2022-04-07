@@ -104,13 +104,13 @@ public class GameModel extends Model{
             // If response is not RSPUpgradeTechSuccess
             if(response.getClass() != RSPUpgradeTechSuccess.class) return false;
 
-            //TODO
-            // Update model
-//            this.clientPlayerPacket
+            // Cast the response
+            RSPUpgradeTechSuccess rspUpgradeTechSuccess = (RSPUpgradeTechSuccess) response;
+
+            //Update model
+            this.clientPlayerPacket.doUpgradeTech(this.clientPlayerPacket.getTechLevel(), rspUpgradeTechSuccess.getTechCost());
             return true;
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
     /**
@@ -160,9 +160,7 @@ public class GameModel extends Model{
             // Change the model
             this.clientPlayerPacket.doAttack(rspAttackSuccess.getFrom(), rspAttackSuccess.getTo(), rspAttackSuccess.getUnits(), rspAttackSuccess.getTotalCost());
             return true;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
 
@@ -198,9 +196,7 @@ public class GameModel extends Model{
             // Change the model
             this.clientPlayerPacket.doUpgradeUnit(rspUpgradeUnitsSuccess.getWhere(), rspUpgradeUnitsSuccess.getOldLevel(), rspUpgradeUnitsSuccess.getNewLevel(), rspUpgradeUnitsSuccess.getTechCost());
             return true;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
 
@@ -251,9 +247,7 @@ public class GameModel extends Model{
             // Change the model
             this.clientPlayerPacket.doMove(rspMoveSuccess.getFrom(), rspMoveSuccess.getTo(), rspMoveSuccess.getUnits(), rspMoveSuccess.getTotalCost());
             return true;
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
 
@@ -289,9 +283,7 @@ public class GameModel extends Model{
                  return true;
              }
 
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
          return false;
     }
 
@@ -321,9 +313,7 @@ public class GameModel extends Model{
                 // Return true
                 return true;
             }
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
 
@@ -364,9 +354,7 @@ public class GameModel extends Model{
                 return true;
             }
 
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
 
@@ -406,9 +394,7 @@ public class GameModel extends Model{
                 return true;
             }
 
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
         return false;
     }
 
@@ -464,7 +450,7 @@ public class GameModel extends Model{
     /**
      * Mock clientPlayerPacket FOR TESTING ONLY
      */
-    private void mockData() {
+    public ClientPlayerPacket mockData() {
         // Create mock data
         HashMap<String, Territory> myTerr = new HashMap<>();
         Territory territory1 = new Territory("b1");
@@ -485,6 +471,7 @@ public class GameModel extends Model{
 
         ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories, false,false);
         this.clientPlayerPacket = clientPlayerPacket;
+        return clientPlayerPacket;
     }
 
 

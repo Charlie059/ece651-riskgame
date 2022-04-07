@@ -15,17 +15,17 @@ import java.util.List;
 
 public class JoinGameModel extends Model{
 
+
+
     public ObservableList<GameInfo> getGameLists(Boolean debugMode){
-        // If in debug mode return true
-        ObservableList<GameInfo> observableList = FXCollections.observableArrayList();
+        if(debugMode){
+            // If in debug mode return true
+            ObservableList<GameInfo> observableList = FXCollections.observableArrayList();
 
-        GameInfo g1 = new GameInfo(1,2,"");
-        observableList.add(g1);
-        return observableList;
-    }
-
-
-    public ObservableList<GameInfo> getGameLists(){
+            GameInfo g1 = new GameInfo(1,2,"");
+            observableList.add(g1);
+            return observableList;
+        }
         // Create ans
         ObservableList<GameInfo> observableList = FXCollections.observableArrayList();
 

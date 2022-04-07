@@ -7,6 +7,8 @@ public class GameInfo {
 
     public GameInfo(int id, int n, String note){
         this.GameID = id;
+        this.NPlayer = n;
+        this.Note = note;
     }
 
     public String getNote() {
@@ -21,15 +23,4 @@ public class GameInfo {
         return NPlayer;
     }
 
-    public void setGameID(int gameID) {
-        GameID = gameID;
-    }
-
-    public void setNote(String note) {
-        Note = note;
-    }
-
-    public void setNPlayer(int NPlayer) {
-        this.NPlayer = NPlayer;
-    }
 }

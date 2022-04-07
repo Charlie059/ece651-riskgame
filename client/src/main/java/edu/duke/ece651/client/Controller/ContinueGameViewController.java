@@ -41,7 +41,7 @@ public class ContinueGameViewController implements Initializable
     * */
     private ObservableList<GameInfo> getGameData(){
         // Get continues game list form the model
-        return new SwitchGameModel().getGameLists();
+        return new SwitchGameModel().getGameLists(false);
     }
 
     private void showGameTable(ObservableList<GameInfo> gameList){

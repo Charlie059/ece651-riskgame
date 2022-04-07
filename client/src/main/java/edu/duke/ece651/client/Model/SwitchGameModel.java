@@ -15,24 +15,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SwitchGameModel extends Model{
-    /**
-     * Get switch game list
-     * @param debugMode
-     * @return ObservableList<GameInfo>
-     */
+
+
     public ObservableList<GameInfo> getGameLists(Boolean debugMode){
-        // If in debug mode return true
-        ObservableList<GameInfo> observableList = FXCollections.observableArrayList();
+        if(debugMode){
+            // If in debug mode return true
+            ObservableList<GameInfo> observableList = FXCollections.observableArrayList();
 
-        GameInfo g1 = new GameInfo(1,2,"");
-        GameInfo g2 = new GameInfo(2,2,"");
-        observableList.add(g1);
-        observableList.add(g2);
-        return observableList;
-    }
-
-
-    public ObservableList<GameInfo> getGameLists(){
+            GameInfo g1 = new GameInfo(1,2,"");
+            GameInfo g2 = new GameInfo(2,2,"");
+            observableList.add(g1);
+            observableList.add(g2);
+            return observableList;
+        }
         // Create ans
         ObservableList<GameInfo> observableList = FXCollections.observableArrayList();
 

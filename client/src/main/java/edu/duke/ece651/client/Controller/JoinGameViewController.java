@@ -42,7 +42,7 @@ public class JoinGameViewController implements Initializable
      */
     private ObservableList<GameInfo> getGameData(){
         // Get data from the model
-        return new JoinGameModel().getGameLists();
+        return new JoinGameModel().getGameLists(false);
     }
 
 

@@ -10,18 +10,6 @@ import java.io.IOException;
 
 public class LoginModel extends Model{
 
-    /**
-     * Debug mode
-     * @param userName
-     * @param passWord
-     * @param debugMode
-     * @return
-     */
-    public boolean validateLogin(String userName, String passWord, Boolean debugMode){
-        // If in debug mode return true
-        return debugMode;
-    }
-
 
     /**
      * Validate user login by passing info to server
@@ -29,7 +17,8 @@ public class LoginModel extends Model{
      * @param passWord
      * @return true for login success
      */
-    public boolean validateLogin(String userName, String passWord){
+    public boolean validateLogin(String userName, String passWord, Boolean debugMode){
+        if(debugMode) return true;
         // Create a new LoginAction
         LoginAction loginAction = new LoginAction(new AccountID(userName),passWord);
         // Send to Server to validate
