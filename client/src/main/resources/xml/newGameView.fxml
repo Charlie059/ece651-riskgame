@@ -80,7 +80,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Text fx:id="allert_T" fill="#e80808" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="13">
+      <Text fx:id="allert_T" fill="#e80808" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="5" GridPane.rowIndex="17">
          <font>
             <Font size="18.0" />
          </font>
