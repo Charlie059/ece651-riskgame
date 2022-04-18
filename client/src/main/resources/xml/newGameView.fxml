@@ -56,7 +56,7 @@
             <Font size="48.0" />
          </font>
       </Text>
-      <Button mnemonicParsing="false" onAction="#clickOnStart" prefHeight="59.0" prefWidth="158.0" text="Start" textFill="#c57d24" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="15" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Button mnemonicParsing="false" onAction="#clickOnStart" prefHeight="59.0" prefWidth="158.0" text="Start" textFill="#c57d24" GridPane.columnIndex="7" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="17.0" />
          </font>
@@ -65,18 +65,12 @@
             <String fx:value="numbtn" />
          </styleClass>
       </Button>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How many Players?" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="How many Players?" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="n_players" prefHeight="38.0" prefWidth="195.0" style="-fx-border-color: #000000;" GridPane.columnIndex="6" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a Game ID" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
-      <TextField fx:id="gameID" prefHeight="38.0" prefWidth="195.0" style="-fx-border-color: #000000;" GridPane.columnIndex="6" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+      <TextField fx:id="n_players" prefHeight="38.0" prefWidth="195.0" style="-fx-border-color: #000000;" GridPane.columnIndex="6" GridPane.columnSpan="5" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
       <Button mnemonicParsing="false" onAction="#clickOnBack" prefHeight="45.0" prefWidth="78.0" text="Back" textFill="#c57d24" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <styleClass>
             <String fx:value="expandable" />

@@ -15,8 +15,6 @@ public class NewGameViewController {
     @FXML
     TextField n_players;
     @FXML
-    TextField gameID;
-    @FXML
     Text allert_T;
 
     private final Stage window;

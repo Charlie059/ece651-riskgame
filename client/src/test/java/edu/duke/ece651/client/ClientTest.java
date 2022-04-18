@@ -18,129 +18,129 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClientTest {
     Client c;
 
-    @Start
-    public void start(Stage window) throws Exception {
-        c = new Client();
-        c.setDebug(true);
-        c.start(window);
-    }
-
-    @Test
-    void test_all(FxRobot robot) {
-
-        // Test sign up
-        robot.clickOn("Sign up");
-        robot.clickOn("#userName");
-        robot.write("admin");
-        robot.clickOn("#passWord");
-        robot.write("12345");
-        robot.clickOn("Sign Up");
-        robot.clickOn("Back");
-
-        // Test Login
-        robot.clickOn("#userName");
-        robot.write("admin");
-        robot.clickOn("#passWord");
-        robot.write("12345");
-        robot.clickOn("Login");
-
-        // Test New Game
-        robot.clickOn("New Game");
-
-        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText(""));
-        FxAssert.verifyThat("#gameID", TextInputControlMatchers.hasText(""));
-
-        robot.clickOn("#n_players");
-        robot.write("0");
-        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText("0"));
-        robot.clickOn("#gameID");
-        robot.write("12345");
-        FxAssert.verifyThat("#gameID", TextInputControlMatchers.hasText("12345"));
-        robot.clickOn("Start");
-
-        robot.clickOn("#n_players");
-        robot.write("2");
-        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText("02"));
-        robot.clickOn("Start");
-
-        // Test deploy
-        robot.clickOn("#territorySelect");
-        robot.clickOn("b1");
-        robot.clickOn("#levelSelect");
-        robot.clickOn("0");
-
-        robot.clickOn("#numberSelect");
-        robot.clickOn("9");
-
-        robot.clickOn("Done");
-        robot.clickOn("Commit");
-
-
-        // Test attack
-        robot.clickOn("Attack");
-
-        FxAssert.verifyThat("#attackList", ListViewMatchers.isEmpty());
-
-        robot.clickOn("#terrFrom");
-        robot.write("b1");
-        robot.clickOn("#terrTo");
-        robot.write("a1");
-        robot.clickOn("#selectLevel");
-        robot.write("0");
-        robot.clickOn("#selectNum");
-        robot.write("1");
-
-        robot.clickOn("Add");
-        robot.clickOn("Submit");
-
-        // Test Move
-
-        robot.clickOn("Move");
-        robot.clickOn("#terrFrom");
-        robot.write("b1");
-        robot.clickOn("#terrTo");
-        robot.write("b2");
-        robot.clickOn("#selectLevel");
-        robot.write("0");
-        robot.clickOn("#selectNum");
-        robot.write("1");
-
-        robot.clickOn("Add");
-        robot.clickOn("Submit");
-
-
-        // Test Upgrade Units
-        robot.clickOn("Upgrade Units");
-
-        FxAssert.verifyThat("#upgradeList", ListViewMatchers.isEmpty());
-
-        robot.clickOn("#terrFrom");
-        robot.write("b1");
-        robot.clickOn("#selectCurLevel");
-        robot.write("0");
-        robot.clickOn("#selectNum");
-        robot.write("1");
-        robot.clickOn("#selectUpgradeLevel");
-        robot.write("1");
-
-        robot.clickOn("Add");
-        robot.clickOn("Submit");
-
-        // Test Upgrade Tech
-        robot.clickOn("Upgrade Tech");
-
-        // View Map
-        robot.clickOn("View Map");
-        robot.clickOn("a1");
-        robot.clickOn("b1");
-
-        // Test switch game
-        robot.clickOn("Switch Game");
-        robot.clickOn("Back");
-
-
-    }
-
+//    @Start
+//    public void start(Stage window) throws Exception {
+//        c = new Client();
+//        c.setDebug(true);
+//        c.start(window);
+//    }
+//
+//    @Test
+//    void test_all(FxRobot robot) {
+//
+//        // Test sign up
+//        robot.clickOn("Sign up");
+//        robot.clickOn("#userName");
+//        robot.write("admin");
+//        robot.clickOn("#passWord");
+//        robot.write("12345");
+//        robot.clickOn("Sign Up");
+//        robot.clickOn("Back");
+//
+//        // Test Login
+//        robot.clickOn("#userName");
+//        robot.write("admin");
+//        robot.clickOn("#passWord");
+//        robot.write("12345");
+//        robot.clickOn("Login");
+//
+//        // Test New Game
+//        robot.clickOn("New Game");
+//
+//        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText(""));
+//        FxAssert.verifyThat("#gameID", TextInputControlMatchers.hasText(""));
+//
+//        robot.clickOn("#n_players");
+//        robot.write("0");
+//        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText("0"));
+//        robot.clickOn("#gameID");
+//        robot.write("12345");
+//        FxAssert.verifyThat("#gameID", TextInputControlMatchers.hasText("12345"));
+//        robot.clickOn("Start");
+//
+//        robot.clickOn("#n_players");
+//        robot.write("2");
+//        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText("02"));
+//        robot.clickOn("Start");
+//
+//        // Test deploy
+//        robot.clickOn("#territorySelect");
+//        robot.clickOn("b1");
+//        robot.clickOn("#levelSelect");
+//        robot.clickOn("0");
+//
+//        robot.clickOn("#numberSelect");
+//        robot.clickOn("9");
+//
+//        robot.clickOn("Done");
+//        robot.clickOn("Commit");
+//
+//
+//        // Test attack
+//        robot.clickOn("Attack");
+//
+//        FxAssert.verifyThat("#attackList", ListViewMatchers.isEmpty());
+//
+//        robot.clickOn("#terrFrom");
+//        robot.write("b1");
+//        robot.clickOn("#terrTo");
+//        robot.write("a1");
+//        robot.clickOn("#selectLevel");
+//        robot.write("0");
+//        robot.clickOn("#selectNum");
+//        robot.write("1");
+//
+//        robot.clickOn("Add");
+//        robot.clickOn("Submit");
+//
+//        // Test Move
+//
+//        robot.clickOn("Move");
+//        robot.clickOn("#terrFrom");
+//        robot.write("b1");
+//        robot.clickOn("#terrTo");
+//        robot.write("b2");
+//        robot.clickOn("#selectLevel");
+//        robot.write("0");
+//        robot.clickOn("#selectNum");
+//        robot.write("1");
+//
+//        robot.clickOn("Add");
+//        robot.clickOn("Submit");
+//
+//
+//        // Test Upgrade Units
+//        robot.clickOn("Upgrade Units");
+//
+//        FxAssert.verifyThat("#upgradeList", ListViewMatchers.isEmpty());
+//
+//        robot.clickOn("#terrFrom");
+//        robot.write("b1");
+//        robot.clickOn("#selectCurLevel");
+//        robot.write("0");
+//        robot.clickOn("#selectNum");
+//        robot.write("1");
+//        robot.clickOn("#selectUpgradeLevel");
+//        robot.write("1");
+//
+//        robot.clickOn("Add");
+//        robot.clickOn("Submit");
+//
+//        // Test Upgrade Tech
+//        robot.clickOn("Upgrade Tech");
+//
+//        // View Map
+//        robot.clickOn("View Map");
+//        robot.clickOn("a1");
+//        robot.clickOn("b1");
+//
+//        // Test switch game
+//        robot.clickOn("Switch Game");
+//        robot.clickOn("Back");
+//
+//
+//    }
+//
 //    private void Enter_menu(FxRobot robot){
 //        robot.clickOn("#userName");
 //        robot.write("admin");
@@ -200,24 +200,24 @@ class ClientTest {
 //
 //    }
 //
-    @Test
-    void test_menu(FxRobot robot){
-        // Test Login
-        robot.clickOn("#userName");
-        robot.write("admin");
-        robot.clickOn("#passWord");
-        robot.write("12345");
-        robot.clickOn("Login");
-
-        // Test Continues
-        robot.clickOn("New Game");
-        robot.clickOn("Back");
-        robot.clickOn("Continue");
-        robot.clickOn("Back");
-        robot.clickOn("Join");
-        robot.clickOn("Back");
-        robot.clickOn("Exit");
-    }
+//    @Test
+//    void test_menu(FxRobot robot){
+//        // Test Login
+//        robot.clickOn("#userName");
+//        robot.write("admin");
+//        robot.clickOn("#passWord");
+//        robot.write("12345");
+//        robot.clickOn("Login");
+//
+//        // Test Continues
+//        robot.clickOn("New Game");
+//        robot.clickOn("Back");
+//        robot.clickOn("Continue");
+//        robot.clickOn("Back");
+//        robot.clickOn("Join");
+//        robot.clickOn("Back");
+//        robot.clickOn("Exit");
+//    }
 //
 //    @Test
 //    void test_newGame(FxRobot robot){
@@ -368,7 +368,7 @@ class ClientTest {
 //        Enter_Main(robot);
 //        robot.clickOn("Upgrade Tech");
 //    }
-//
+
 
 
 }
