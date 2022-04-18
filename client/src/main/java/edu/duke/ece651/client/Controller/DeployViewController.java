@@ -56,6 +56,7 @@ public class DeployViewController implements Initializable {
         levelList = FXCollections.observableArrayList();
         terrList = FXCollections.observableArrayList();
         numberList = FXCollections.observableArrayList();
+
     }
 
 
