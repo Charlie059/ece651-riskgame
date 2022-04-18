@@ -96,20 +96,6 @@ public class MainGameViewController implements Initializable {
     }
 
     /**
-     * When user click the map view (need numOfPlayers)
-     */
-    @FXML
-    public void clickOnViewMap(){
-        // Get numOfPlayer from the Model
-        int numOfPlayers =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
-        try {
-            new MapView().show(new Stage(),null,numOfPlayers, debug);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Enter the AttackDialogView
      */
     @FXML

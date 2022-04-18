@@ -78,13 +78,14 @@ public class JoinGameViewController implements Initializable
                  */
                 private void tryJoinGame() {
                     GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
+                    int n_Player = this.getTableView().getItems().get(this.getIndex()).getNPlayer();
 
                     // Request model to join the game
                     boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),debug);
                     if(joinResult){
                         // Create a new Deployment view
                         try {
-                            new DeployView().show(window, null, debug);
+                            new DeployView().show(window, null, n_Player, debug);
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println("Cannot join game");
