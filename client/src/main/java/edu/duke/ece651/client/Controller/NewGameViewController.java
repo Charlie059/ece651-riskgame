@@ -42,7 +42,7 @@ public class NewGameViewController {
 
         // If server accept request then show the deployment view
         try {
-            new DeployView().show(this.window, null, debug);
+            new DeployView().show(this.window, null, Integer.parseInt(n_players.getText()), debug);
         } catch (IOException e) {
             e.printStackTrace();
         }
