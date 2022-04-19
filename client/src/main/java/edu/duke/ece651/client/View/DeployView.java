@@ -15,7 +15,7 @@ import java.util.HashMap;
 public class DeployView {
     public void show(Stage window, Model model, int n_Player, boolean debug) throws IOException {
         // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/DeployView.fxml");
+        URL xmlResource = getClass().getResource("/xml/deployView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
