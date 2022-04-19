@@ -33,6 +33,7 @@ public class StartView implements View{
         SceneCollector.startView = scene;
 
         window.setScene(scene);
+        window.setTitle("Login");
         window.show();
     }
 }
