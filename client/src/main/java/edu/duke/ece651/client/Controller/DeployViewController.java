@@ -105,7 +105,7 @@ public class DeployViewController implements Initializable {
     }
 
     private void loadMap() throws IOException {
-        mapPane.getChildren().add(new MapView(null,debug).loadMap(n_Player,null));
+        mapPane.getChildren().add(new MapView(null,debug).loadMap(n_Player,null,"deployView"));
     }
 
     /**

@@ -26,7 +26,7 @@ public class MapView {
         this.model = model;
     }
 
-    public Pane loadMap(int n_players, Communication outsideController) throws IOException {
+    public Pane loadMap(int n_players, Communication outsideController, String callFrom) throws IOException {
         String fxmlPath = "";
         if(n_players == 2){
             fxmlPath = "/xml/mapForPlayer2View.fxml";
@@ -46,7 +46,7 @@ public class MapView {
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MapViewController.class, new MapViewController(outsideController, n_players, debug));
+        controllers.put(MapViewController.class, new MapViewController(outsideController, n_players, debug, callFrom));
         loader.setControllerFactory(controllers::get);
 
         return loader.load();
