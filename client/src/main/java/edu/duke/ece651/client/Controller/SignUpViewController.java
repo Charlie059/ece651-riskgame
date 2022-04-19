@@ -30,6 +30,7 @@ public class SignUpViewController {
     @FXML
     public void clickOnBack(){
         this.window.setScene(SceneCollector.startView);
+        window.setTitle("Login");
         this.window.show();
     }
 
