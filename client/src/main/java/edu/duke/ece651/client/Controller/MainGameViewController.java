@@ -136,7 +136,6 @@ public class MainGameViewController implements Initializable {
     public void clickOnAttack() {
         try {
             new AttackDialogView().show(new Stage(),null,debug);
-            // Update view
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
@@ -150,7 +149,6 @@ public class MainGameViewController implements Initializable {
     public void clickOnMove(){
         try {
             new MoveDialogView().show(new Stage(), null, debug);
-            // Update view
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
@@ -164,16 +162,12 @@ public class MainGameViewController implements Initializable {
     public void clickOnUpgradeUnits(){
         try {
             new UpgradeUnitDialogView().show(new Stage(),null, debug);
-            // Update view
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Enter UpgradeTechDialogView
-     */
     @FXML
     public void clickOnUpgradeTech() {
        if(!GameModel.getInstance().doUpgradeTech(debug)) {
@@ -200,6 +194,7 @@ public class MainGameViewController implements Initializable {
             new ContinueGameView().show(window,null, debug);
         }else{
             window.setScene(SceneCollector.continueGameView);
+            window.setTitle("Continue Game");
             window.show();
         }
     }
@@ -208,9 +203,18 @@ public class MainGameViewController implements Initializable {
     public void clickOnTool(){}
 
     @FXML
-    public void clickOnSpy(){}
+    public void clickOnSpy(){
+        try {
+            new SpyView().show(new Stage(), null, debug);
+            updateView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
-    public void clickOnCommit(){}
+    public void clickOnCommit(){
+        responses.add("Click On Commit");
+    }
 
 }

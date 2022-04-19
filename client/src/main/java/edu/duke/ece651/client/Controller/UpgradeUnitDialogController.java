@@ -1,62 +1,109 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.Checker.UpgradeChecker;
+
 import edu.duke.ece651.client.Model.GameModel;
+import edu.duke.ece651.client.View.MapView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class UpgradeUnitDialogController implements Initializable {
+
+public class UpgradeUnitDialogController implements Initializable,Communication {
     @FXML
-    TextField terrFrom,selectCurLevel,selectNum,selectUpgradeLevel;
+    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
     @FXML
-    ListView<String> upgradeList;
+    ChoiceBox<String> selectLvFrom,selectLvTo;
     @FXML
-    Text error_msg;
+    ChoiceBox<Integer> selectNum;
+    @FXML
+    Text cost_t;
+    @FXML
+    Pane mapPane;
 
     private final Stage window;
-    private ObservableList<String> list;
-    private boolean debug;
+    private final boolean debug;
+    private final int n_player;
+    private final ObservableList<String> toList;
+    private final ObservableList<String> fromList;
+    private final ObservableList<Integer> numList;
 
-    public UpgradeUnitDialogController(Stage window, boolean debug){this.window = window;this.debug = debug;}
 
-    // DO NOTHING
-    @FXML
-    public void clickOnAddButton(){}
-
-    // User click submit button
-    @FXML
-    public void clickOnSubmitButton(){
-        // Local checker
-        UpgradeChecker upgradeChecker = new UpgradeChecker();
-        if(!upgradeChecker.doCheck(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(), selectUpgradeLevel.getText()})){
-            this.error_msg.setText("Invalid value, you may upgrade one unit one times");
-            return;
-        }
-
-        // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doUpgradeUnit(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, debug)){
-            this.error_msg.setText("Invalid value (Server check)");
-        }
-        else {
-            String record = "Upgrade "+ selectNum.getText() + " Level "+selectCurLevel.getText() + " units From "+terrFrom.getText() + " to level " + selectUpgradeLevel.getText();
-            System.out.println(record);
-            window.close();
-        }
-
+    public UpgradeUnitDialogController(Stage window, boolean debug){
+        this.window = window;
+        this.debug = debug;
+        this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
+        this.toList = FXCollections.observableArrayList();
+        this.fromList = FXCollections.observableArrayList();
+        this.numList = FXCollections.observableArrayList();
     }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        list = FXCollections.observableArrayList();
-        upgradeList.setItems(list);
+        terrName.setText("");
+        lv0_n.setText("");
+        lv1_n.setText("");
+        lv2_n.setText("");
+        lv3_n.setText("");
+        lv4_n.setText("");
+        lv5_n.setText("");
+        lv6_n.setText("");
+        spy_n.setText("");
+        cost_t.setText("Unknown");
+        selectLvTo.setItems(toList);
+        selectLvFrom.setItems(fromList);
+        selectNum.setItems(numList);
+
+        //set map
+        try {
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "upgradeUnitDialogView"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void clickOnConfirm(ActionEvent actionEvent) {
+        window.close();
+    }
+
+    @FXML
+    public void clickOnGetCost(ActionEvent actionEvent) {
+        cost_t.setText("123");
+    }
+
+    @Override
+    public void setTerrInfo(String clickTerr) {
+        toList.clear();
+        fromList.clear();
+        numList.clear();
+
+        terrName.setText(clickTerr);
+        lv0_n.setText(clickTerr);
+        lv1_n.setText(clickTerr);
+        lv2_n.setText(clickTerr);
+        lv3_n.setText(clickTerr);
+        lv4_n.setText(clickTerr);
+        lv5_n.setText(clickTerr);
+        lv6_n.setText(clickTerr);
+        spy_n.setText(clickTerr);
+
+        // set choiceboxes based on which territory you click.
+        toList.add(clickTerr);
+        toList.add("spy");
+        fromList.add(clickTerr);
+        fromList.add("spy");
+        numList.add(1);
+
     }
 }

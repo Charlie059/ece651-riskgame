@@ -71,7 +71,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="switchButton" mnemonicParsing="false" onAction="#clickOnSwitchGame" prefHeight="66.0" prefWidth="185.0" text="Switch Game" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="16" GridPane.rowSpan="2">
+                  <Button fx:id="switchButton" mnemonicParsing="false" onAction="#clickOnSwitchGame" prefHeight="66.0" prefWidth="185.0" text="Switch Game" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="17">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -141,7 +141,7 @@
                         <Font name="System Bold" size="42.0" />
                      </font>
                   </Text>
-                  <Button fx:id="moveButton" mnemonicParsing="false" onAction="#clickOnMove" prefHeight="66.0" prefWidth="185.0" text="Move" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2">
+                  <Button fx:id="moveButton" mnemonicParsing="false" onAction="#clickOnMove" prefHeight="66.0" prefWidth="185.0" text="Move" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="13">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -150,7 +150,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="attackButton" mnemonicParsing="false" onAction="#clickOnAttack" prefHeight="66.0" prefWidth="185.0" text="Attack" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
+                  <Button fx:id="attackButton" mnemonicParsing="false" onAction="#clickOnAttack" prefHeight="66.0" prefWidth="185.0" text="Attack" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="11">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -159,7 +159,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="toolButton" mnemonicParsing="false" onAction="#clickOnTool" prefHeight="66.0" prefWidth="185.0" text="Tool" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
+                  <Button fx:id="toolButton" mnemonicParsing="false" onAction="#clickOnTool" prefHeight="66.0" prefWidth="185.0" text="Tool" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="15">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -168,7 +168,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="spyButton" mnemonicParsing="false" onAction="#clickOnSpy" prefHeight="66.0" prefWidth="185.0" text="Spy" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
+                  <Button fx:id="spyButton" mnemonicParsing="false" onAction="#clickOnSpy" prefHeight="66.0" prefWidth="185.0" text="Spy" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="11">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -177,7 +177,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="upgradeUnitButton" mnemonicParsing="false" onAction="#clickOnUpgradeUnits" prefHeight="66.0" prefWidth="185.0" text="Upgrade Units" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="2">
+                  <Button fx:id="upgradeUnitButton" mnemonicParsing="false" onAction="#clickOnUpgradeUnits" prefHeight="66.0" prefWidth="185.0" text="Upgrade Units" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="13">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -186,7 +186,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="upgradeTechButton" mnemonicParsing="false" onAction="#clickOnUpgradeTech" prefHeight="66.0" prefWidth="185.0" text="Upgrade Tech" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="14" GridPane.rowSpan="2">
+                  <Button fx:id="upgradeTechButton" mnemonicParsing="false" onAction="#clickOnUpgradeTech" prefHeight="66.0" prefWidth="185.0" text="Upgrade Tech" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="15">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -195,7 +195,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#clickOnExit" prefHeight="66.0" prefWidth="185.0" text="Exit" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="16" GridPane.rowSpan="2">
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#clickOnExit" prefHeight="66.0" prefWidth="185.0" text="Exit" textFill="#c57d24" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.rowIndex="17">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -204,7 +204,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="commmitBUtton" mnemonicParsing="false" onAction="#clickOnCommit" prefHeight="264.0" prefWidth="231.0" text="Commit" textFill="#c57d24" GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.rowIndex="12" GridPane.rowSpan="4">
+                  <Button fx:id="commmitBUtton" mnemonicParsing="false" onAction="#clickOnCommit" prefHeight="264.0" prefWidth="231.0" text="Commit" textFill="#c57d24" GridPane.columnIndex="14" GridPane.columnSpan="4" GridPane.rowIndex="14">
                      <font>
                         <Font size="36.0" />
                      </font>

@@ -50,7 +50,7 @@ public class MapViewController implements Initializable  {
         Object source = ae.getSource();
         if (source instanceof Button) {
             Button btn = (Button) source;
-            System.out.println(btn.getText());
+            //System.out.println(btn.getText());
             if(outsideController != null)
                 outsideController.setTerrInfo(btn.getText());
         }

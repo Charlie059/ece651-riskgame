@@ -29,6 +29,7 @@ public class DeployView {
         scene.getStylesheets().add(cssResource.toString());
 
         window.setScene(scene);
+        window.setTitle("Deploy");
         window.show();
     }
 }

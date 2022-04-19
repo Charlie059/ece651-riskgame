@@ -51,6 +51,7 @@ public class NewGameViewController {
     @FXML
     public void clickOnBack(){
         window.setScene(SceneCollector.menuView);
+        window.setTitle("Menu");
         window.show();
     }
 

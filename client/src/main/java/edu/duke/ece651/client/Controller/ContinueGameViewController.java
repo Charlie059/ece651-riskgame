@@ -102,6 +102,7 @@ public class ContinueGameViewController implements Initializable
     @FXML
     public void clickOnBack(){
         window.setScene(SceneCollector.menuView);
+        window.setTitle("Menu");
         window.show();
     }
 

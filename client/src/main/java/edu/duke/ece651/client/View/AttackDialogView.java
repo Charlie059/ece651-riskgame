@@ -5,7 +5,6 @@ import edu.duke.ece651.client.Model.Model;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -32,6 +31,7 @@ public class AttackDialogView implements View {
         scene.getStylesheets().add(cssResource.toString());
 
         window.setScene(scene);
+        window.setTitle("Attack movement");
         window.showAndWait();
     }
 }

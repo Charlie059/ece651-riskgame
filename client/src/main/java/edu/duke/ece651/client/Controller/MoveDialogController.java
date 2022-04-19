@@ -1,66 +1,99 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.Checker.AttackChecker;
-import edu.duke.ece651.client.Checker.MoveChecker;
+
 import edu.duke.ece651.client.Model.GameModel;
+import edu.duke.ece651.client.View.MapView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class MoveDialogController implements Initializable {
+public class MoveDialogController implements Initializable,Communication {
     @FXML
-    TextField terrFrom,terrTo,selectLevel,selectNum;
+    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
     @FXML
-    ListView<String> moveList;
+    ChoiceBox<String> selectTo;
     @FXML
-    Text error_msg;
+    ChoiceBox<Integer>selectNum,selectLevel;
+    @FXML
+    Pane mapPane;
 
     private final Stage window;
-    private ObservableList<String> list;
-    private boolean debug;
+    private final boolean debug;
+    private final int n_player;
+    private final ObservableList<String> toList;
+    private final ObservableList<Integer> numList;
+    private final ObservableList<Integer> levelList;
+
 
     public MoveDialogController(Stage window, boolean debug){
         this.window = window;
         this.debug = debug;
+        this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
+        this.toList = FXCollections.observableArrayList();
+        this.numList = FXCollections.observableArrayList();
+        this.levelList = FXCollections.observableArrayList();
     }
 
-    //DO NOTHING
-    @FXML
-    public void clickOnAddButton(){}
-
-    @FXML
-    public void clickOnSubmitButton(){
-        // Local checker
-        MoveChecker moveChecker = new MoveChecker();
-        if(!moveChecker.doCheck(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()})){
-            this.error_msg.setText("Invalid value");
-            return;
-        }
-
-        // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doMove(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, debug)){
-            this.error_msg.setText("Invalid value (Server check)");
-        }
-        else {
-            String record = "Use "+ selectNum.getText() + " Level "+selectLevel.getText() + " units to attack Territory " + terrTo.getText() + " From "+terrFrom.getText();
-            System.out.println(record);
-            window.close();
-        }
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        list = FXCollections.observableArrayList();
-        moveList.setItems(list);
+        terrName.setText("");
+        lv0_n.setText("");
+        lv1_n.setText("");
+        lv2_n.setText("");
+        lv3_n.setText("");
+        lv4_n.setText("");
+        lv5_n.setText("");
+        lv6_n.setText("");
+        spy_n.setText("");
+        selectNum.setItems(numList);
+        selectTo.setItems(toList);
+        selectLevel.setItems(levelList);
+
+        //set map
+        try {
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "moveDialogView"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void clickOnMove(ActionEvent actionEvent) {
+        window.close();
+    }
+
+    @Override
+    public void setTerrInfo(String clickTerr) {
+        numList.clear();
+        toList.clear();
+        levelList.clear();
+
+        terrName.setText(clickTerr);
+        lv0_n.setText(clickTerr);
+        lv1_n.setText(clickTerr);
+        lv2_n.setText(clickTerr);
+        lv3_n.setText(clickTerr);
+        lv4_n.setText(clickTerr);
+        lv5_n.setText(clickTerr);
+        lv6_n.setText(clickTerr);
+        spy_n.setText(clickTerr);
+
+        // set choiceboxes based on which territory you click.
+        toList.add(clickTerr);
+        numList.add(1);
+        levelList.add(1);
+
     }
 }

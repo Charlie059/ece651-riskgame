@@ -31,6 +31,7 @@ public class JoinGameView implements View{
         SceneCollector.joinGameView = scene;
 
         window.setScene(scene);
+        window.setTitle("Join Game");
         window.show();
     }
 

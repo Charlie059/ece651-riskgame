@@ -30,6 +30,7 @@ public class MainGameView implements View{
         scene.getStylesheets().add(cssResource.toString());
 
         window.setScene(scene);
+        window.setTitle("Main");
         window.show();
     }
 }
