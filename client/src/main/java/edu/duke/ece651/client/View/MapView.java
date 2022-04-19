@@ -21,16 +21,6 @@ public class MapView {
     private Model model;
     private boolean debug;
 
-    private final String[] fxIDList = new String[]{"a1","a2","a3","b1","b2","b3","c1","c2","c3","d1","d2","d3","e1","e2","e3"};
-
-    private String getColor(Model m, String terrName){
-
-        if(GameModel.getInstance().getMyTerrList().contains(terrName)){
-            return "#FF0000";
-        }
-        return "#83ae52";
-    }
-
     public MapView(Model model, boolean debug){
         this.debug = debug;
         this.model = model;
@@ -56,18 +46,9 @@ public class MapView {
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MapViewController.class, new MapViewController(outsideController, debug));
+        controllers.put(MapViewController.class, new MapViewController(outsideController, n_players, debug));
         loader.setControllerFactory(controllers::get);
+
         return loader.load();
-
-//        //change background color of the button based on its owner.  get button object based on its fx:id
-//        for(int n = 1;n <= n_players; n++){
-//            for(int i = 0; i< 3 * n ; i++){
-//                String fxId_Btn = fxIDList[i];
-//                Button btn = (Button) scene.lookup("#"+fxId_Btn);
-//                btn.setStyle("-fx-background-color: "+ getColor(null,btn.getText()));
-//            }
-//        }
-
     }
 }
