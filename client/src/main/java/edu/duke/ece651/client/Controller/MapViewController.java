@@ -18,12 +18,26 @@ public class MapViewController implements Initializable  {
     private final int n_players;
     private final Communication outsideController;
     private final ArrayList<Button> terrList;
+    private String callFrom;
 
-    public MapViewController(Communication outsideController, int n_players, boolean debug){
+    public MapViewController(Communication outsideController, int n_players, boolean debug, String callFrom){
         this.debug = debug;
         this.outsideController = outsideController;
         this.n_players = n_players;
+        this.callFrom = callFrom;
         this.terrList = new ArrayList<Button>();
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // change color and invisible mode based on callFrom string. If it is called from attack/move/mainGameView/deploy..., show war-fog.
+        setTerrList();
+        for(int i=0;i<n_players*3;i++){
+            Button btn = terrList.get(i);
+            btn.setStyle("-fx-background-color: "+getColor(btn.getText()));  // set different color for different territory.
+            //also can set territory invisiable for war-fog here
+//             a1.setVisible(false);
+        }
     }
 
     /**
@@ -69,15 +83,5 @@ public class MapViewController implements Initializable  {
         terrList.add(e3);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        setTerrList();
-        for(int i=0;i<n_players*3;i++){
-            Button btn = terrList.get(i);
-            btn.setStyle("-fx-background-color: "+getColor(btn.getText()));  // set different color for different territory.
 
-//            // also can set territory invisiable for war-fog here
-//             a1.setVisible(false);
-        }
-    }
 }
