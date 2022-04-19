@@ -58,7 +58,7 @@ public class MainGameViewController implements Initializable {
 
         // set map
         try {
-            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_players,null));
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_players,null,"mainGameView"));
         } catch (IOException e) {
             e.printStackTrace();
         }
