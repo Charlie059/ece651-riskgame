@@ -1,4 +1,10 @@
 package edu.duke.ece651.shared.IO.ServerResponse;
 
-public class RSPSpyMoveSuccess {
+import edu.duke.ece651.shared.Visitor.ResponseVisitor;
+
+public class RSPSpyMoveSuccess implements Response{
+    @Override
+    public void accept(ResponseVisitor responseVisitor) {
+
+    }
 }
