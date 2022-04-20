@@ -9,11 +9,9 @@ import edu.duke.ece651.shared.Visitor.RSPVisitor;
 import edu.duke.ece651.shared.Visitor.ResponseVisitor;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
-import edu.duke.ece651.shared.map.Territory;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -181,6 +179,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         attackAction1.getFrom();
         attackAction1.setFrom("a1");
@@ -258,6 +276,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         chooseJoinGameAction.setGameID(new GameID(1));
         chooseSwitchGameAction.accept(new ActionVisitor() {
@@ -328,6 +366,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });
@@ -403,6 +461,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         DeployAction deployAction1 = new DeployAction();
         deployAction1.accept(new ActionVisitor() {
@@ -473,6 +551,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });
@@ -550,6 +648,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         loginAction.accept(new ActionVisitor() {
             @Override
@@ -619,6 +737,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });
@@ -696,6 +834,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         MoveAction moveAction1 = new MoveAction();
         moveAction1.accept(new ActionVisitor() {
@@ -766,6 +924,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });
@@ -845,6 +1023,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         newGameAction.getNumOfPlayer();
         signUpAction.accept(new ActionVisitor() {
@@ -915,6 +1113,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });
@@ -991,6 +1209,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         UpgradeUnitsAction upgradeUnitsAction1 = new UpgradeUnitsAction();
         upgradeUnitsAction1.accept(new ActionVisitor() {
@@ -1063,6 +1301,26 @@ public class UtilsTest {
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
 
             }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
         });
         UpgradeUnitsAction upgradeUnitsAction2 = new UpgradeUnitsAction();
         upgradeUnitsAction2.accept(new ActionVisitor() {
@@ -1133,6 +1391,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });
@@ -1213,6 +1491,26 @@ public class UtilsTest {
 
             @Override
             public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
         });

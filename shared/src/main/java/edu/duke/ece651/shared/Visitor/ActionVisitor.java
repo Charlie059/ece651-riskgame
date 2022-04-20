@@ -31,4 +31,13 @@ public interface ActionVisitor {
     void visit(ChooseJoinGameAction chooseJoinGameAction);
 
     void visit(ChooseSwitchGameAction chooseSwitchGameAction);
+
+    void visit(SpyDeployAction spyDeployAction);
+
+    void visit(SpyMoveAction spyMoveAction);
+
+    void visit(SpyUpgradeAction spyUpgradeAction);
+
+    void visit(CloakTerritoryAction cloakTerritoryAction);
+
 }

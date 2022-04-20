@@ -8,5 +8,5 @@
  */
 
 rootProject.name = 'riskGame'
-include ":server", ":client", ":shared"
+include ":server", ":client", ":shared",":core","desktop"
 
