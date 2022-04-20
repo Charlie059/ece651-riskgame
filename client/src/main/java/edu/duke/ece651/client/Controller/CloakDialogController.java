@@ -19,13 +19,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class AttackDialogController implements Initializable,Communication {
+public class CloakDialogController implements Initializable,Communication {
     @FXML
-    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
+    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n,cost_t;
     @FXML
     ChoiceBox<String> selectTo;
-    @FXML
-    ChoiceBox<Integer>selectNum,selectLevel;
     @FXML
     Pane mapPane;
 
@@ -33,17 +31,13 @@ public class AttackDialogController implements Initializable,Communication {
     private final boolean debug;
     private final int n_player;
     private final ObservableList<String> toList;
-    private final ObservableList<Integer> numList;
-    private final ObservableList<Integer> levelList;
 
 
-    public AttackDialogController(Stage window, boolean debug){
+    public CloakDialogController(Stage window, boolean debug){
         this.window = window;
         this.debug = debug;
         this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
         this.toList = FXCollections.observableArrayList();
-        this.numList = FXCollections.observableArrayList();
-        this.levelList = FXCollections.observableArrayList();
     }
 
 
@@ -58,29 +52,25 @@ public class AttackDialogController implements Initializable,Communication {
         lv5_n.setText("");
         lv6_n.setText("");
         spy_n.setText("");
-        selectNum.setItems(numList);
+        cost_t.setText("20");
         selectTo.setItems(toList);
-        selectLevel.setItems(levelList);
 
         //set map
         try {
-            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "attackDialogView"));
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "cloakDialogView"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void clickOnAttack(ActionEvent actionEvent) {
-        // after click, update corresponding terrInfo(by calling setTerrInfo)
+    public void clickOnConfirm(ActionEvent actionEvent) {
         window.close();
     }
 
     @Override
     public void setTerrInfo(String clickTerr) {
-        numList.clear();
         toList.clear();
-        levelList.clear();
 
         terrName.setText(clickTerr);
         lv0_n.setText(clickTerr);
@@ -94,8 +84,5 @@ public class AttackDialogController implements Initializable,Communication {
 
         // set choiceboxes based on which territory you click.
         toList.add(clickTerr);
-        numList.add(1);
-        levelList.add(1);
-
     }
 }
