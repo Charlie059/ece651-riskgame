@@ -12,6 +12,6 @@ class MoveCheckerTest {
         GameModel.getInstance().mockData();
         Checker checker = new MoveChecker();
         String[] usrIn = {"b1","b2","0","1"};
-        checker.doCheck(usrIn);
+        assertTrue(checker.doCheck(usrIn));
     }
 }

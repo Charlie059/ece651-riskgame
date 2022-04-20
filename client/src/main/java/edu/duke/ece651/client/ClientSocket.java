@@ -29,7 +29,7 @@ public class ClientSocket {
      * @return the instance
      */
     public static ClientSocket getInstance() throws IOException {
-        String HOST = "0.0.0.0";
+        String HOST = "localhost";
         if (clientSocket == null) {clientSocket = new ClientSocket(HOST);}
         return clientSocket;
     }

@@ -94,17 +94,17 @@ class ModelTest {
 
         // 1 Client send LoginAction and recv RSPLoginSuccess
         LoginModel loginModel = new LoginModel();
-        assertEquals(true, loginModel.validateLogin("123","abc",false));
-        assertEquals(true, loginModel.validateLogin("123","abc",true));
+        assertEquals(true, loginModel.validateLogin("123","Abcab23@qqa123",false));
+        assertEquals(true, loginModel.validateLogin("123","Abcab23@qqa123",true));
         // Client send LoginAction and recv other Response
-        loginModel.validateLogin("123","abc",false);
+        loginModel.validateLogin("123","Abcab23@qqa123",false);
 
 
         // 2 Client send Signup Action and recv RSPSignupSuccess
         SignupModel signupModel = new SignupModel();
-        assertEquals(true, signupModel.signUp("123","abc",false));
-        signupModel.signUp("123","abc",false);
-        signupModel.signUp("123","abc",true);
+        assertEquals(true, signupModel.signUp("123","Abcab23@qqa123",false));
+        signupModel.signUp("123","Abcab23@qqa123",false);
+        signupModel.signUp("123","Abcab23@qqa123",true);
 
 
         // 3 Client send NewGame Action and recv RSPNewGameSuccess
