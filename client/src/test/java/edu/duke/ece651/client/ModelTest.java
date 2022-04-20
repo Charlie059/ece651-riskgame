@@ -182,8 +182,7 @@ class ModelTest {
         // First time -> send an email
         signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", "", false);
         // Second time -> input code
-        signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", "abc123", false);
-
+        assertTrue(signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", signupModel1.getCode("pad128g@icloud.com"), false));
         mockServer.close();
     }
 
