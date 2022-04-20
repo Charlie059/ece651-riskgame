@@ -13,11 +13,15 @@ public class CommitChecker extends ActionChecker{
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //Check if Deploy has finished and use up all
         if(this.gameHashMap.get(this.currGameID).getPlayerHashMap().get(this.accountID).getTotalDeployment()>0){
-            return false;
+            //false case
+            this.errMessage = "Deploy Error: Total deployment is not used up!";
+            return this.errMessage;
         }
-        return true;
+        //true case
+        this.errMessage = null;
+        return this.errMessage;
     }
 }

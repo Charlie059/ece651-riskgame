@@ -32,14 +32,26 @@ public class DeployChecker extends ActionChecker{
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //TODO: check if deployUnits <= totalDeploy
         //TODO: check Territory "to" belongs to this player
-        if (this.player.getTotalDeployment() >= this.deploy_units &&
-                this.player.getMyTerritories().containsKey(this.to_name)){
-            return true;
+        if (this.player.getTotalDeployment() >= this.deploy_units){
+            if (this.player.getMyTerritories().containsKey(this.to_name)){
+                //return true;
+                this.errMessage = null;
+                return this.errMessage;
+            }
+            else{
+                //false case
+                this.errMessage = "Deploy Error: does not have enough total deployment!";
+                return this.errMessage;
+            }
         }
-        return false;
+        //false case
+        else {
+            this.errMessage = "Deploy Error: cannot deploy to enemy's territory!";
+            return this.errMessage;
+        }
     }
 
     public Player getPlayer(){return this.player;}

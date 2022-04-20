@@ -28,7 +28,7 @@ public class Player {
     private boolean isNotDisplay;
     private GameID currentGameID;
     private HashSet<Card> myCards;
-
+    private int points;
 
     public Player(AccountID _id, GameID currentGameID, Map _map) {
         this.accountID = _id;
@@ -48,7 +48,8 @@ public class Player {
         this.totalDeployment = this.wholeMap.numOfPlayers * 3;
         // At the beginning everyone have one chance to specialUpgrade Spy
         this.myCards = new HashSet<>();
-        this.addCard(new CardType().SpecialSpyUpgrade().get(0));
+        this.addCard(new CardType().getSpecialSpyUpgrade().get(0));
+        this.points = 1000;
 
     }
 
@@ -143,6 +144,7 @@ public class Player {
         Card card = new Card(type);
         this.myCards.add(card);
     }
+
     public boolean haveCard(Integer type){
         for(Card card : this.myCards){
             if(card.getCardType().equals(type)){
@@ -212,6 +214,14 @@ public class Player {
      */
     public void setCurrTechLevel(int currTechLevel) {
         this.currTechLevel = currTechLevel;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
 

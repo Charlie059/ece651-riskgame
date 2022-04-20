@@ -9,14 +9,19 @@ public abstract class ActionChecker {
     protected volatile GameHashMap gameHashMap;
     protected volatile AccountHashMap accountHashMap;
     protected volatile AccountID accountID;
+    protected String errMessage;
 
     public ActionChecker(GameHashMap gameHashMap, AccountHashMap accountHashMap, AccountID accountID) {
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         this.accountID = accountID;
+        this.errMessage = null;
     }
 
-    public abstract boolean doCheck();
+    public abstract String doCheck();
 
+    public String getErrMessage(){
+        return this.errMessage;
+    }
 
 }

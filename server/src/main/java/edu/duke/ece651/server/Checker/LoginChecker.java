@@ -18,12 +18,25 @@ public class LoginChecker extends ActionChecker{
      * @return true if pass
      */
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         // Check if input account exist
         if (this.accountHashMap.containsKey(this.recvAccount)) {
             // Check if password match
-            if(this.accountHashMap.get(this.recvAccount).getPassword().equals(password)) return true;
-            else return false;
-        } else return false;
+            if(this.accountHashMap.get(this.recvAccount).getPassword().equals(password)){
+                //return true;
+                this.errMessage = null;
+                return this.errMessage;
+            }
+            else {
+                //return false;
+                this.errMessage = "Login Error: password does not match!";
+                return this.errMessage;
+            }
+        }
+        else {
+            //return false;
+            this.errMessage = "Login Error: account does not exist!";
+            return this.errMessage;
+        }
     }
 }

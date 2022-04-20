@@ -3,6 +3,7 @@ package edu.duke.ece651.server;
 import edu.duke.ece651.server.Checker.*;
 import edu.duke.ece651.server.Wrapper.*;
 import edu.duke.ece651.shared.*;
+import edu.duke.ece651.shared.Cards.Card;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
 import edu.duke.ece651.shared.Wrapper.CardType;
@@ -135,7 +136,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 currFromUnits,
                 currFoodResource
         );
-        if (attackChecker.doCheck()) {
+        if (attackChecker.doCheck() == null) {
             //TODO:AttackActionArrayList field belongs to Player
             //put attack action into attachHashMap
             if (this.gameHashMap.get(this.gameID).getAttackHashMap().containsKey(this.accountID)) {
@@ -158,7 +159,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                     totalCost);
             sendResponse(rspAttackSuccess);
         } else {
-            RSPAttackFail rspAttackFail = new RSPAttackFail();
+            RSPAttackFail rspAttackFail = new RSPAttackFail(attackChecker.getErrMessage());
             sendResponse(rspAttackFail);
         }
     }
@@ -166,7 +167,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(CommitAction commitAction) {
         CommitChecker commitChecker = new CommitChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID);
-        if (commitChecker.doCheck()) {
+        if (commitChecker.doCheck() == null) {
 
             //Change my commit status to true
             synchronized (this.gameRunnableHashMap.get(this.gameID)) {
@@ -226,7 +227,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 deployAction.getTo(),
                 deployAction.getDeployUnits(),
                 this.gameID);
-        if (deployChecker.doCheck()) {
+        if (deployChecker.doCheck() == null) {
             //TODO: implement deploy to server map
             Player p = deployChecker.getPlayer();
             p.doDeploy(deployAction.getTo(), deployAction.getDeployUnits());
@@ -255,7 +256,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //CHECK
         LoginChecker loginChecker = new LoginChecker(this.accountID, this.gameHashMap, this.accountHashMap, loginAction.getEnterAccount(), loginAction.getEnterPassword());
         //IF SUCCESS
-        if (loginChecker.doCheck()) {
+        if (loginChecker.doCheck() == null) {
             //DO change current accountID wrapper class
             this.accountID.setAccountID(loginAction.getEnterAccount().getAccountID());
             RSPLoginSuccess rspLoginSuccess = new RSPLoginSuccess();
@@ -308,7 +309,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 this.gameID,
                 totalCost,
                 currFoodResource);
-        if (moveChecker.doCheck()) {
+        if (moveChecker.doCheck() == null) {
             //Update Server this Game Map
             Player player = currplayer;
             //server player update map
@@ -384,7 +385,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         // Check Exist
         SignupChecker signupChecker = new SignupChecker(this.accountID, this.gameHashMap, this.accountHashMap, signUpAction.getAccount());
         // If account not exist
-        if (signupChecker.doCheck()) {
+        if (signupChecker.doCheck() == null) {
             //DO Create New Account
             Account account = new Account();
             account.setPassword("12345");
@@ -420,7 +421,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isTechLevelUpgrade(),
                 this.gameID,
                 this.TechLevelUpgradeList.get(gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel()));
-        if (updateTechChecker.doCheck()) {
+        if (updateTechChecker.doCheck() == null) {
             //TODO: do update Technology level
             //This Player(me) in the currGame
             Player p = gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
@@ -466,7 +467,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 techResource,
                 currTechLevel
         );
-        if (upgradeUnitsChecker.doCheck()) {
+        if (upgradeUnitsChecker.doCheck() == null) {
             //Do UpgradeUnit
             currplayer.DoUpgradeUnit(updateUnitsAction.getWhere(),
                     updateUnitsAction.getOldLevel(),
@@ -488,7 +489,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(ChooseJoinGameAction chooseJoinGameAction) {
         ChooseJoinGameChecker chooseGameChecker = new ChooseJoinGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, chooseJoinGameAction.getGameID());
-        if (chooseGameChecker.doCheck()) {
+        if (chooseGameChecker.doCheck() == null) {
             this.gameID.setCurrGameID(chooseJoinGameAction.getGameID().getCurrGameID());
             //New Player add to current Game
             Game currGame = this.gameHashMap.get(this.gameID);
@@ -520,7 +521,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
         ChooseSwitchGameChecker chooseSwitchGameChecker = new ChooseSwitchGameChecker(this.gameHashMap, this.accountHashMap, this.accountID, chooseSwitchGameAction.getGameID());
-        if (chooseSwitchGameChecker.doCheck()) {
+        if (chooseSwitchGameChecker.doCheck() == null) {
             // Change the game
             this.gameID.setCurrGameID(chooseSwitchGameAction.getGameID().getCurrGameID());
             // Send message
@@ -528,7 +529,9 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess(clientPlayerPacket);
             sendResponse(rspChooseSwitchGameSuccess);
         } else {
-            RSPChooseSwitchGameFail rspChooseSwitchGameFail = new RSPChooseSwitchGameFail();
+            RSPChooseSwitchGameFail rspChooseSwitchGameFail = new RSPChooseSwitchGameFail(
+                    chooseSwitchGameChecker.getErrMessage()
+            );
             sendResponse(rspChooseSwitchGameFail);
         }
     }
@@ -536,7 +539,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     @Override
     public void visit(SpyDeployAction spyDeployAction) {
         SpyDeployChecker spyDeployChecker = new SpyDeployChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID, spyDeployAction);
-        if (spyDeployChecker.doCheck()) {
+        if (spyDeployChecker.doCheck() == null) {
 
             Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
             Map map = this.gameHashMap.get(this.gameID).getMap();
@@ -568,7 +571,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         //Move Spy Cost
         Integer cost = 20;
         SpyMoveChecker spyMoveChecker = new SpyMoveChecker(this.gameHashMap, accountHashMap, accountID, map, spyMoveAction, cost, currFoodResource);
-        if (spyMoveChecker.doCheck()) {
+        if (spyMoveChecker.doCheck() == null) {
             //Move spy to new places
             Spy spy = map.getTerritoryList().get(spyMoveAction.getFrom()).getSpy(spyMoveAction.getSpyUUID());
             map.getTerritoryList().get(spyMoveAction.getFrom()).removeSpy(spy);
@@ -591,7 +594,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
         Map map = this.gameHashMap.get(this.gameID).getMap();
         SpyUpgradeChecker spyUpgradeChecker = new SpyUpgradeChecker(this.gameHashMap, this.accountHashMap, this.accountID, map, currplayer,spyUpgradeAction);
-        if (spyUpgradeChecker.doCheck()) {
+        if (spyUpgradeChecker.doCheck() == null) {
             Spy spy = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyUpgradeAction.getFrom()).getSpy(spyUpgradeAction.getSpyUUID());
             Integer requestType = spy.getSpyType();
             SpyType spyType = new SpyType();
@@ -603,7 +606,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 spy.setRosenbergs();
             }
             //Delete This player's upgrade Card
-            currplayer.deleteCard(new CardType().SpecialSpyUpgrade().get(0));
+            currplayer.deleteCard(new CardType().getSpecialSpyUpgrade().get(0));
             RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = new RSPSpyUpgradeSuccess();
             sendResponse(rspSpyUpgradeSuccess);
         } else {
@@ -617,16 +620,50 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     public void visit(CloakTerritoryAction cloakTerritoryAction) {
         Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
         Map map = this.gameHashMap.get(this.gameID).getMap();
-        CloakingTerritoryActionChecker cloakingTerritoryActionChecker = new CloakingTerritoryActionChecker(this.gameHashMap,this.accountHashMap,this.accountID,this.CloakingCost,map,currplayer,cloakTerritoryAction);
-        if(cloakingTerritoryActionChecker.doCheck()){
+        CloakingTerritoryActionChecker cloakingTerritoryActionChecker = new CloakingTerritoryActionChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                this.CloakingCost,
+                map,currplayer,cloakTerritoryAction);
+        if(cloakingTerritoryActionChecker.doCheck() == null){
             map.getTerritoryList().get(cloakTerritoryAction.getFrom()).setCloak();
             RSPCloakTerritorySuccess rspCloakTerritorySuccess = new RSPCloakTerritorySuccess();
             sendResponse(rspCloakTerritorySuccess);
         }else {
-            RSPCloakTerritoryActionFail rspCloakTerritoryActionFail = new RSPCloakTerritoryActionFail();
+            RSPCloakTerritoryActionFail rspCloakTerritoryActionFail = new RSPCloakTerritoryActionFail(
+                    cloakingTerritoryActionChecker.getErrMessage()
+            );
             sendResponse(rspCloakTerritoryActionFail);
         }
     }
 
+    @Override
+    public void visit(CardBuyAction cardBuyAction) {
+
+        Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        Integer cardCost = cardBuyAction.getCardType().get(1);
+        CardBuyChecker cardBuyChecker = new CardBuyChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                player,
+                cardCost);
+        //checker
+        if (cardBuyChecker.doCheck() == null){
+            //do action
+            Integer cardType = cardBuyAction.getCardType().get(0);
+            player.addCard(cardType);
+            player.setPoints(player.getPoints() - cardBuyAction.getCardType().get(1));
+            //TODO: send RSPCardBuySuccess
+            RSPCardBuySuccess rspCardBuySuccess = new RSPCardBuySuccess(cardType,cardCost);
+            sendResponse(rspCardBuySuccess);
+        }
+        else{
+            //TODO: send RSPCardBuyFail
+            RSPCardBuyFail rspCardBuyFail = new RSPCardBuyFail(cardBuyChecker.getErrMessage());
+            sendResponse(rspCardBuyFail);
+        }
+    }
 
 }

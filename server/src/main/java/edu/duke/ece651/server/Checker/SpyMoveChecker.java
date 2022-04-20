@@ -23,19 +23,37 @@ public class SpyMoveChecker extends ActionChecker {
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //Check Food Resource enough to move
         if (cost <= currFoodResource) {
-            //Check If UUID Exist
+            //Check territory does not exist!
             if (map.getTerritoryList().containsKey(spyMoveAction.getFrom())) {
-                if (map.getTerritoryList().get(spyMoveAction.getFrom()).getSpy(spyMoveAction.getSpyUUID()) != null) {
+                //Check If UUID Exist
+                if (map.getTerritoryList().get(spyMoveAction.getFrom()).
+                        getSpy(spyMoveAction.getSpyUUID()) != null) {
                     //And Belongs to me
-                    if (map.getTerritoryList().get(spyMoveAction.getFrom()).getSpy(spyMoveAction.getSpyUUID()).getSpyOwnerAccountID().getAccountID().equals(this.accountID.getAccountID())) {
-                        return true;
+                    if (map.getTerritoryList().get(spyMoveAction.getFrom()).
+                            getSpy(spyMoveAction.getSpyUUID()).
+                            getSpyOwnerAccountID().getAccountID().
+                            equals(this.accountID.getAccountID())) {
+                        this.errMessage = null;
+                        return this.errMessage;
+                    }
+                    else{
+                        this.errMessage = "SpyMove Error: cannot move enemy's spy!";
                     }
                 }
+                else{
+                    this.errMessage = "SpyMove Error: spy does not exist!";
+                }
+            }
+            else{
+                this.errMessage = "SpyMove Error: territory From does not exist!";
             }
         }
-        return false;
+        else{
+            this.errMessage = "SpyMove Error: does not have enough Food Resource!";
+        }
+        return this.errMessage;
     }
 }

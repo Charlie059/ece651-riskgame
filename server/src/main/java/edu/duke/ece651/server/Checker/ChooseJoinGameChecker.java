@@ -15,16 +15,28 @@ public class ChooseJoinGameChecker extends ActionChecker{
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         // Check if the game exist
         if(this.gameHashMap.containsKey(userInputGameID)){
             // Get the game
             Game game = this.gameHashMap.get(userInputGameID);
 
             // Check if player num is not full
-            if(game.getPlayerHashMap().size()<game.getNumOfPlayer()) return true;
-            else return false;
+            if(game.getPlayerHashMap().size()<game.getNumOfPlayer()){
+                //true case
+                this.errMessage = null;
+                return  this.errMessage;
+            }
+            else{
+                //false case
+                this.errMessage = "ChooseJoinGame Error: waiting for other player to join!";
+                return this.errMessage;
+            }
         }
-        else return false;
+        else {//false case
+            this.errMessage = "ChooseJoinGame Error: this game does not exist!";
+            return this.errMessage;
+        }
+
     }
 }

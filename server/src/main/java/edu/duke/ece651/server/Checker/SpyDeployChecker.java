@@ -22,18 +22,33 @@ public class SpyDeployChecker extends ActionChecker {
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //Check If TechResource is enough
         if (thisplayer.getTechResource() >= 20) {
             //Check If territory is mine(Deploy can deploy to Mine Territory)
             if (thisgame.getMap().getTerritoryList().containsKey(spyDeployAction.getTo())) {
                 if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).getOwnerId() == accountID) {
                     //Check If from territory enough level 1 unit
-                    if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).isEnoughUnitLevelOne())
-                        return true;
+                    if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).isEnoughUnitLevelOne()) {
+                        //return true;
+                        this.errMessage = null;
+                        return errMessage;
+                    }
+                    else {
+                        this.errMessage = "SpyDeploy Error: territory From does not have enough lv 1 unit";
+                    }
+                }
+                else {
+                    this.errMessage = "SpyDeploy Error: cannot deploy spy on enemy's territory";
                 }
             }
+            else {
+                this.errMessage = "SpyDeploy Error: territory does not exist!";
+            }
         }
-        return false;
+        else {
+            this.errMessage = "SpyDeploy Error: does not have enough Tech Resource!";
+        }
+        return this.errMessage;
     }
 }
