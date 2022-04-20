@@ -199,6 +199,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         attackAction1.getFrom();
         attackAction1.setFrom("a1");
@@ -296,6 +301,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         chooseJoinGameAction.setGameID(new GameID(1));
         chooseSwitchGameAction.accept(new ActionVisitor() {
@@ -386,6 +396,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
@@ -481,6 +496,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         DeployAction deployAction1 = new DeployAction();
         deployAction1.accept(new ActionVisitor() {
@@ -571,6 +591,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
@@ -668,6 +693,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         loginAction.accept(new ActionVisitor() {
             @Override
@@ -757,6 +787,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
@@ -854,6 +889,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         MoveAction moveAction1 = new MoveAction();
         moveAction1.accept(new ActionVisitor() {
@@ -944,6 +984,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
@@ -1043,6 +1088,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         newGameAction.getNumOfPlayer();
         signUpAction.accept(new ActionVisitor() {
@@ -1133,6 +1183,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
@@ -1229,6 +1284,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         UpgradeUnitsAction upgradeUnitsAction1 = new UpgradeUnitsAction();
         upgradeUnitsAction1.accept(new ActionVisitor() {
@@ -1321,6 +1381,11 @@ public class UtilsTest {
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
 
             }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
         });
         UpgradeUnitsAction upgradeUnitsAction2 = new UpgradeUnitsAction();
         upgradeUnitsAction2.accept(new ActionVisitor() {
@@ -1411,6 +1476,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
@@ -1511,6 +1581,11 @@ public class UtilsTest {
 
             @Override
             public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
 
             }
         });
