@@ -94,11 +94,11 @@ public class SignupModel extends Model{
             if(emailAddressChecker.doCheck(userInputEmail)){
                 // gen a code and save code
                 String genCode = CodeGenerator.getInstance().codeGen();
-                this.userCode.put(userName, "abc123");
+                this.userCode.put(userName, genCode);
 
                 // Send an email to user
                 EmailSender sender = new EmailSender();
-                sender.sendEmail(userName, "abc123");
+                sender.sendEmail(userName, genCode);
                 return false;
             }
             else{
@@ -106,5 +106,14 @@ public class SignupModel extends Model{
             }
         }
 
+    }
+
+    /**
+     * Debug use: get code
+     * @param userEmail
+     * @return code
+     */
+    public String getCode(String userEmail){
+        return this.userCode.get(userEmail);
     }
 }
