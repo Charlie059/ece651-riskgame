@@ -1,7 +1,5 @@
 package edu.duke.ece651.server;
 
-import edu.duke.ece651.server.IO.MockClient;
-import edu.duke.ece651.server.IO.MockServer;
 import edu.duke.ece651.server.Wrapper.*;
 import edu.duke.ece651.shared.Account;
 import edu.duke.ece651.shared.IO.ClientActions.*;
@@ -12,12 +10,10 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Territory;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -92,7 +88,7 @@ public class UtilsTest {
         SignUpAction signUpAction = new SignUpAction(new AccountID("abcde"),"12345");
         signUpAction.setAccount(new AccountID("abcde"));
         UpgradeUnitsAction upgradeUnitsAction =  new UpgradeUnitsAction("a1",2,3);
-        ClientPlayerPacket clientPlayerPacket  = new ClientPlayerPacket(null,null,3,100,100,2,100,null,null,null,null);
+        ClientPlayerPacket clientPlayerPacket  = new ClientPlayerPacket(null,null,3,100,100,2,100,null,null,null,null,null,null);
         clientPlayerPacket.getCurrentGameID();
         clientPlayerPacket.getAccountID();
         clientPlayerPacket.getNumOfPlayers();

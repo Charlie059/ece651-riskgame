@@ -37,7 +37,7 @@ public class UtilsTest {
         SignUpAction signUpAction = new SignUpAction(new AccountID("abcde"),"12345");
         signUpAction.setAccount(new AccountID("abcde"));
         UpgradeUnitsAction upgradeUnitsAction =  new UpgradeUnitsAction("a1",2,3);
-        ClientPlayerPacket clientPlayerPacket  = new ClientPlayerPacket(null,null,3,100,100,2,100,null,null,null,null);
+        ClientPlayerPacket clientPlayerPacket  = new ClientPlayerPacket(null,null,3,100,100,2,100,null,null,null,null, null, null);
         clientPlayerPacket.getCurrentGameID();
         clientPlayerPacket.getAccountID();
         clientPlayerPacket.getNumOfPlayers();
@@ -1514,8 +1514,8 @@ public class UtilsTest {
 
             }
         });
-        RSPChooseJoinGameSuccess rspChooseJoinGameSuccess1 = new RSPChooseJoinGameSuccess(new ClientPlayerPacket(new GameID(1),new AccountID("123"),3,3,3,3,3,new HashMap<>(),new HashMap<>(),false,false));
-        ClientPlayerPacket clientPlayerPacket1 = new ClientPlayerPacket(new GameID(1),new AccountID("123"),3,3,3,3,3,new HashMap<>(),new HashMap<>(),false,false);
+        RSPChooseJoinGameSuccess rspChooseJoinGameSuccess1 = new RSPChooseJoinGameSuccess(new ClientPlayerPacket(new GameID(1),new AccountID("123"),3,3,3,3,3,new HashMap<>(),new HashMap<>(),false,false, null, null));
+        ClientPlayerPacket clientPlayerPacket1 = new ClientPlayerPacket(new GameID(1),new AccountID("123"),3,3,3,3,3,new HashMap<>(),new HashMap<>(),false,false, null, null);
         RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess1 = new RSPChooseSwitchGameSuccess(clientPlayerPacket1);
         RSPCommitSuccess rspCommitSuccess1 = new RSPCommitSuccess(clientPlayerPacket1);
         rspLoginSuccess.accept(new ResponseVisitor() {

@@ -24,25 +24,21 @@ public class CloakingTerritoryActionChecker extends ActionChecker {
     @Override
     public boolean doCheck() {
         //Check if Enough Tech Level
-        if(player.getCurrTechLevel()<3){
-            return false;
+        if(player.getCurrTechLevel()>=3){
+            //Check if Enough Tech Resource
+            if(player.getTechResource()>=cost){
+                //Check if Territory Exist
+                if(map.getTerritoryList().get(cloakTerritoryAction.getFrom())!=null){
+                    //Check if Territory is mine
+                    if(map.getTerritoryList().get(cloakTerritoryAction.getFrom()).getOwnerId().equals(this.accountID)){
+                        //Check if Territory has been Cloaked
+                        if(!map.getTerritoryList().get(cloakTerritoryAction.getFrom()).isCloaked()){
+                            return true;
+                        }
+                    }
+                }
+            }
         }
-        //Check if Enough Tech Resource
-        if(player.getTechResource()<cost){
-            return false;
-        }
-        //Check if Territory Exist
-        if(map.getTerritoryList().get(cloakTerritoryAction.getFrom())==null){
-            return false;
-        }
-        //Check if Territory is mine
-        if(!map.getTerritoryList().get(cloakTerritoryAction.getFrom()).getOwnerId().equals(this.accountID)){
-            return false;
-        }
-        //Check if Territory has been Cloaked
-        if(map.getTerritoryList().get(cloakTerritoryAction.getFrom()).isCloaked()){
-            return false;
-        }
-        return true;
+        return false;
     }
 }
