@@ -6,9 +6,9 @@
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MapViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MapViewController">
    <children>
-      <Pane layoutX="94.0" layoutY="60.0" prefHeight="493.0" prefWidth="554.0">
+      <Pane layoutX="45.0" layoutY="60.0" prefHeight="493.0" prefWidth="554.0">
          <children>
             <Polygon fx:id="c1_shape1" fill="DODGERBLUE" layoutX="253.0" layoutY="352.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
             <Polygon fx:id="c2_shape" fill="DODGERBLUE" layoutX="303.0" layoutY="262.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
