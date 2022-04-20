@@ -7,6 +7,7 @@ import edu.duke.ece651.client.ClientSocket;
 import edu.duke.ece651.client.Email.CodeGenerator;
 import edu.duke.ece651.client.Email.EmailSender;
 import edu.duke.ece651.shared.IO.ClientActions.SignUpAction;
+import edu.duke.ece651.shared.IO.ServerResponse.ClientPlayerPacket;
 import edu.duke.ece651.shared.IO.ServerResponse.RSPLoginSuccess;
 import edu.duke.ece651.shared.IO.ServerResponse.RSPSignupSuccess;
 import edu.duke.ece651.shared.IO.ServerResponse.Response;
@@ -17,6 +18,14 @@ import java.util.HashMap;
 
 public class SignupModel extends Model{
     private HashMap<String, String> userCode = new HashMap<>(); // username, code
+
+    private static SignupModel signupModel;
+    private SignupModel() {}
+
+    public synchronized static SignupModel getInstance() {
+        if (signupModel == null) {signupModel = new SignupModel();}
+        return signupModel;
+    }
 
     public boolean signUp(String userName, String passWord, Boolean debugMode){
         if(debugMode){

@@ -24,7 +24,7 @@ public class GameModel extends Model{
 
     private GameModel() {}
 
-    public static GameModel getInstance() {
+    public synchronized static GameModel getInstance() {
         if (gameModel == null) {gameModel = new GameModel();}
         return gameModel;
     }

@@ -7,9 +7,17 @@ import edu.duke.ece651.shared.IO.ServerResponse.Response;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class LoginModel extends Model{
 
+    private static LoginModel loginModel;
+    private LoginModel() {}
+
+    public synchronized static LoginModel getInstance() {
+        if (loginModel == null) {loginModel = new LoginModel();}
+        return loginModel;
+    }
 
     /**
      * Validate user login by passing info to server

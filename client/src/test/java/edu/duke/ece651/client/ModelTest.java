@@ -99,7 +99,7 @@ class ModelTest {
         t.start();
 
         // 1 Client send LoginAction and recv RSPLoginSuccess
-        LoginModel loginModel = new LoginModel();
+        LoginModel loginModel = LoginModel.getInstance();
         assertEquals(true, loginModel.validateLogin("123","Abcab23@qqa123",false));
         assertEquals(true, loginModel.validateLogin("123","Abcab23@qqa123",true));
         // Client send LoginAction and recv other Response
@@ -107,7 +107,7 @@ class ModelTest {
 
 
         // 2 Client send Signup Action and recv RSPSignupSuccess
-        SignupModel signupModel = new SignupModel();
+        SignupModel signupModel = SignupModel.getInstance();
         assertEquals(true, signupModel.signUp("123","Abcab23@qqa123",false));
         signupModel.signUp("123","Abcab23@qqa123",false);
         signupModel.signUp("123","Abcab23@qqa123",true);
@@ -178,7 +178,7 @@ class ModelTest {
 
 
         // 18 test new signup
-        SignupModel signupModel1 = new SignupModel();
+        SignupModel signupModel1 = SignupModel.getInstance();
         // First time -> send an email
         signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", "", false);
         // Second time -> input code
