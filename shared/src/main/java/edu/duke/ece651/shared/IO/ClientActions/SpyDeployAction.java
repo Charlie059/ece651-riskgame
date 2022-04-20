@@ -13,9 +13,6 @@ public class SpyDeployAction implements Action{
         this.to = to;
         this.from = from;
     }
-
-
-
     public String getTo() {
         return to;
     }

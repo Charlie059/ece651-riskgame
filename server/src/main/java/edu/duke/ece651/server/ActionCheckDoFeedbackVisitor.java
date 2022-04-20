@@ -14,11 +14,14 @@ import edu.duke.ece651.shared.IO.ObjectStream;
 import edu.duke.ece651.shared.Wrapper.SpyType;
 import edu.duke.ece651.shared.map.Map;
 import edu.duke.ece651.shared.map.Spy;
+import edu.duke.ece651.shared.map.Territory;
 import edu.duke.ece651.shared.map.Unit;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Thread.sleep;
@@ -175,11 +178,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 this.gameRunnableHashMap.get(this.gameID).notify();
             }
 
+
             //Check if Game's Combat Resolution is finished
-
-
-            //while(!this.gameHashMap.get(this.gameID).getCombatFinished()){}
-
             try {
                 this.gameHashMap.get(this.gameID).getCountDownLatch().await();
             } catch (InterruptedException e) {
@@ -190,15 +190,10 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 this.gameHashMap.get(this.gameID).setCountDownLatch(new CountDownLatch(1));
             }
 
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-
 
             this.gameHashMap.get(this.gameID).setCombatFinished(false);
 
+            //Create New EnemyTerritoryInfo for this Player
             ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
                     this.gameID,
                     this.accountID,
@@ -210,13 +205,64 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                     this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(),
                     this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID),
                     this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(),
-                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
+                    this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon(),
+                    this.getEnemyTerritoryInfo(),this.getspyInfo());
             RSPCommitSuccess rspCommitSuccess = new RSPCommitSuccess(clientPlayerPacket);
             sendResponse(rspCommitSuccess);
         } else {
             RSPCommitFail rspCommitFail = new RSPCommitFail();
             sendResponse(rspCommitFail);
         }
+    }
+    public HashMap<String, ArrayList<Spy>> getspyInfo(){
+        HashMap<String, ArrayList<Spy>> spyInfo = new HashMap<>();
+        //For all territory
+        for(Territory territory: this.gameHashMap.get(this.gameID).getMap().getTerritoryList().values()){
+            //Get info of my spy
+            ArrayList<Spy> singleSpyInfo = territory.getSpyInfo(this.accountID);
+            spyInfo.put(territory.getName(), singleSpyInfo);
+        }
+        return spyInfo;
+    }
+    //Get All of My Visiable info
+    public HashMap<AccountID, HashMap<String, ArrayList<Integer>>> getEnemyTerritoryInfo() {
+        Game game = this.gameHashMap.get(this.gameID);
+        Player currPlayer = game.getPlayerHashMap().get(this.accountID);
+        HashMap<AccountID, HashMap<String, ArrayList<Integer>>> enemyTerritoriesV2 = new HashMap<>();//Each enemy player's
+        //Add Enemy's territory Info into Hashmap
+        for (AccountID enemyAccountID : game.getPlayerHashMap().getPlayerHashMap().keySet()) {
+            //Each Enemy
+            if (!enemyAccountID.getAccountID().equals(this.accountID.getAccountID())) {
+                HashMap<String, ArrayList<Integer>> territoryInfo = new HashMap<>();
+                //Each Enemy's Territory
+                for (String territoryName : game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().keySet()) {
+                    //For each Territory in my Territory, that is adjacent to this enemy's territory, add the territory info into
+                    for (Territory territory : currPlayer.getMyTerritories().values()) {
+                        //Territory that isadjcent (MeAccount, one of my territory, one of other's territory)
+                        if (game.getMap().isAdjacent(this.accountID, territory.getName(), territoryName)) {
+                            //And that Territory is not cloaked, or cloaked but have my spy
+                            if (!game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).isCloaked() || game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).isHaveMySpy(this.accountID)) {
+                                //Get Unit Info to be [num,num,num,num,.....,num]
+                                ArrayList<Integer> unitsInfo = new ArrayList<>();
+                                unitsInfo.add(0);
+                                unitsInfo.add(0);
+                                unitsInfo.add(0);
+                                unitsInfo.add(0);
+                                unitsInfo.add(0);
+                                unitsInfo.add(0);
+                                unitsInfo.add(0);
+                                for (Unit unit : game.getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).getUnits()) {
+                                    unitsInfo.set(unit.getLevel(), unit.getValue());
+                                }
+                                territoryInfo.put(territoryName, unitsInfo);
+                            }
+                        }
+                    }
+                }
+                enemyTerritoriesV2.put(enemyAccountID, territoryInfo);
+            }
+        }
+        return enemyTerritoriesV2;
     }
 
     @Override
@@ -372,7 +418,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 player.getMyTerritories(),
                 game.getPlayerHashMap().getEnemyTerritories(this.accountID),
                 player.isLose(),
-                player.isWon());
+                player.isWon(), this.getEnemyTerritoryInfo(), this.getspyInfo());
         RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(clientPlayerPacket);
         //TODO: Set Client player contructing method in new game response
         sendResponse(rspNewGameSuccess);
@@ -507,7 +553,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             }
             //If All player joined
             // Create response
-            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, currGame.getNumOfPlayer(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.getTotalDeployment(), player.getMyTerritories(), currGame.getPlayerHashMap().getEnemyTerritories(this.accountID), player.isLose(), player.isWon());
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, currGame.getNumOfPlayer(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.getTotalDeployment(), player.getMyTerritories(), currGame.getPlayerHashMap().getEnemyTerritories(this.accountID), player.isLose(), player.isWon(), this.getEnemyTerritoryInfo(), this.getspyInfo());
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess(clientPlayerPacket);
             sendResponse(rspChooseJoinGameSuccess);
         } else {
@@ -525,7 +571,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             // Change the game
             this.gameID.setCurrGameID(chooseSwitchGameAction.getGameID().getCurrGameID());
             // Send message
-            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, this.gameHashMap.get(this.gameID).getNumOfPlayer(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(), this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, this.gameHashMap.get(this.gameID).getNumOfPlayer(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(), this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon(), this.getEnemyTerritoryInfo(), this.getspyInfo());
             RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess(clientPlayerPacket);
             sendResponse(rspChooseSwitchGameSuccess);
         } else {
@@ -549,8 +595,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //use 20 Tech Resource of this Player
             player.setTechResource(player.getTechResource() - 20);
             //Delete One Unit Level 1 from the From Territory
-            map.getTerritoryList().get(spyDeployAction.getFrom()).removeUnitLevel(1,1,map.getTerritoryList().get(spyDeployAction.getFrom()).getUnits());
-
+            map.getTerritoryList().get(spyDeployAction.getFrom()).removeUnitLevel(1, 1, map.getTerritoryList().get(spyDeployAction.getFrom()).getUnits());
             RSPSpyDeploySuccess rspSpyDeploySuccess = new RSPSpyDeploySuccess(spy.getSpyUUID(), spy.getSpyType());
             sendResponse(rspSpyDeploySuccess);
             System.out.println("[GameID]: " + this.gameID.getCurrGameID() + " [Player]: " + this.accountID.getAccountID() + " [RSPSpyDeploySuccess]: {UUID: " + spy.getSpyUUID() + " TYPE: " + spy.getSpyType() + "}");

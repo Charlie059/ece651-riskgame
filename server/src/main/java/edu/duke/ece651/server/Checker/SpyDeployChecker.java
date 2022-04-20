@@ -29,7 +29,7 @@ public class SpyDeployChecker extends ActionChecker {
             if (thisgame.getMap().getTerritoryList().containsKey(spyDeployAction.getTo())) {
                 if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).getOwnerId() == accountID) {
                     //Check If from territory enough level 1 unit
-                    if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).isEnoughUnitLevelOne()) {
+                    if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).isEnoughUnitLevelOf(1)){
                         //return true;
                         this.errMessage = null;
                         return errMessage;

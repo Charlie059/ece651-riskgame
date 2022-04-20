@@ -4,6 +4,7 @@ import edu.duke.ece651.server.Player;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Territory;
+import edu.duke.ece651.shared.map.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,9 +93,13 @@ public class PlayerHashMap {
     }
 
     /**
+     * Get EnemyTerritoryList
+     *
      * @param myAccountID
      * @return
      */
+
+
     public HashMap<String, ArrayList<String>> getEnemyTerritories(AccountID myAccountID) {
         HashMap<String, ArrayList<String>> result = new HashMap<>();
         for (AccountID key : this.playerHashMap.keySet()) {

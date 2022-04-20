@@ -157,6 +157,9 @@ public class Map {
         displayer.generateViewInfo(territoryList);
         displayer.display();
     }
+
+
+
 }
 
 // visitor design pattern for display
