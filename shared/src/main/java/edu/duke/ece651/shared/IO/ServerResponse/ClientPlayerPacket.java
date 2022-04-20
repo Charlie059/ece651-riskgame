@@ -2,6 +2,7 @@ package edu.duke.ece651.shared.IO.ServerResponse;
 
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.GameID;
+import edu.duke.ece651.shared.map.Spy;
 import edu.duke.ece651.shared.map.Territory;
 
 import java.io.Serializable;
@@ -26,13 +27,13 @@ public class ClientPlayerPacket implements Serializable {
 
     //TODO:Use This New EnemyTerritoryList
     //<enemyAccountID, TerritoryHashMap<territoryName, visiable>> Each Enemy's Territory's Unit info
-    private HashMap<String,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2;
+    private HashMap<AccountID,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2;
 
     //TODO:Use This New Spy Map to save the spy info
-    private HashMap<String,ArrayList<UUID>> spyInfo;
+    private HashMap<String,ArrayList<Spy>> spyInfo;
 
 
-    public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories, Boolean isLose, Boolean isWin) {
+    public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories, Boolean isLose, Boolean isWin, HashMap<AccountID, HashMap<String, ArrayList<Integer>>> enemyTerritoriesV2, HashMap<String, ArrayList<Spy>> spyInfo) {
         this.currentGameID = currentGameID;
         this.accountID = accountID;
         this.numOfPlayers = numOfPlayers;
@@ -44,6 +45,8 @@ public class ClientPlayerPacket implements Serializable {
         this.enemyTerritories = enemyTerritories;
         this.isLose = isLose;
         this.isWin = isWin;
+        this.enemyTerritoriesV2 = enemyTerritoriesV2;
+        this.spyInfo = spyInfo;
     }
 
 

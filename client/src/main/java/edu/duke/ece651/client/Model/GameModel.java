@@ -469,7 +469,7 @@ public class GameModel extends Model{
 
         enemyTerritories.put("p1", enemyTerrName);
 
-        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories, false,false);
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories, false,false, null, null);
         this.clientPlayerPacket = clientPlayerPacket;
         return clientPlayerPacket;
     }

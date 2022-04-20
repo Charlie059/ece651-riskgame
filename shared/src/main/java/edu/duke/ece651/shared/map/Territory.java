@@ -51,14 +51,17 @@ public class Territory implements Comparable<Territory>, Serializable {
         this.cost = cost;
     }
 
+    //add spy
     public void addSpy(Spy spy) {
         this.Spys.add(spy);
     }
 
+    //remove spy
     public void removeSpy(Spy spy) {
         this.Spys.remove(spy);
     }
 
+    //get
     public Spy getSpy(UUID uuid) {
         for (Spy spy : Spys) {
             if (spy.getSpyUUID().equals(uuid)) {
@@ -67,10 +70,30 @@ public class Territory implements Comparable<Territory>, Serializable {
         }
         return null;
     }
+    //Get spyInfo of this territory belongs to this person
+    public ArrayList<Spy> getSpyInfo(AccountID accountID){
+        ArrayList<Spy> spyInfo = new ArrayList<>();
+        for(Spy spy: Spys){
+            if(spy.getSpyOwnerAccountID().equals(accountID)){
+                spyInfo.add(spy);
+            }
+        }
+        return spyInfo;
+    }
 
-    public Boolean isEnoughUnitLevelOne(){
+    //Do I have Spy on this territory
+    public Boolean isHaveMySpy(AccountID accountID){
+        for(Spy spy: Spys){
+            if(spy.getSpyOwnerAccountID().equals(accountID)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean isEnoughUnitLevelOf(Integer level){
         for(Unit unit: this.Units){
-            if(unit.getLevel().equals(1)){
+            if(unit.getLevel().equals(level)){
                 return true;
             }
         }
@@ -265,6 +288,7 @@ public class Territory implements Comparable<Territory>, Serializable {
             this.accountId = accountid;
         }
     }
+
 
     public boolean isEmpty() {
         for (Unit u : this.getUnits()) {

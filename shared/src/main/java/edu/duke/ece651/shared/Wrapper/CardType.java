@@ -40,4 +40,6 @@ public class CardType {
     public List<Integer> getUnitDeploy() {
         return unitDeploy;
     }
+
+
 }
