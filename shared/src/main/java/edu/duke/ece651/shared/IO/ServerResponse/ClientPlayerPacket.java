@@ -7,6 +7,7 @@ import edu.duke.ece651.shared.map.Territory;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class ClientPlayerPacket implements Serializable {
     private GameID currentGameID;
@@ -20,7 +21,15 @@ public class ClientPlayerPacket implements Serializable {
     private Boolean isWin;
     private HashMap<String, Territory> myTerritories;// all territories of the player
 
+    //TODO:Delete This EnemyTerritoryList
     private HashMap<String, ArrayList<String>> enemyTerritories; // HashMap<String -> AccountID String, ArrayList<String> -> ArrayList of Territories>
+
+    //TODO:Use This New EnemyTerritoryList
+    //<enemyAccountID, TerritoryHashMap<territoryName, visiable>> Each Enemy's Territory's Unit info
+    private HashMap<String,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2;
+
+    //TODO:Use This New Spy Map to save the spy info
+    private HashMap<String,ArrayList<UUID>> spyInfo;
 
 
     public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories, Boolean isLose, Boolean isWin) {

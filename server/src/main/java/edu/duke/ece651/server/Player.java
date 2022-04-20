@@ -1,12 +1,14 @@
 package edu.duke.ece651.server;
 
-import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Cards.Card;
+import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Player {
     private AccountID accountID; // player id
@@ -25,6 +27,7 @@ public class Player {
     private boolean isLoserAsked;
     private boolean isNotDisplay;
     private GameID currentGameID;
+    private HashSet<Card> myCards;
 
 
     public Player(AccountID _id, GameID currentGameID, Map _map) {
@@ -43,6 +46,9 @@ public class Player {
         this.wholeMap = _map;
         this.myTerritories = new HashMap<>();
         this.totalDeployment = this.wholeMap.numOfPlayers * 3;
+        // At the beginning everyone have one chance to specialUpgrade Spy
+        this.myCards = new HashSet<>();
+        this.addCard(new CardType().SpecialSpyUpgrade());
 
     }
 
@@ -83,12 +89,13 @@ public class Player {
 
     /**
      * player temporarily reduces units in territory to and reduce food resource
+     *
      * @param from_name
      * @param to_name
      * @param attackUnits
      * @param totalCost
      */
-    public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost){
+    public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost) {
         this.wholeMap.getTerritoryList().get(from_name).removeUnitMultiLevels(attackUnits);
         this.foodResource -= totalCost;
     }
@@ -96,6 +103,7 @@ public class Player {
     /**
      * temporally set player's nextTechLevel
      * mark player has updated the techlevel
+     *
      * @param cost
      */
     public void setUpgradeTech(int cost) {
@@ -129,103 +137,31 @@ public class Player {
         terr.addUnitLevel(newLevel, 1, terr.getUnits());
     }
 
-////////////////////////////////Helper functions////////////////////////////////////////////////////
-
-//    /**
-//     * helper function: check if input territory name matches names in myTerritories
-//     *
-//     * @param terrName
-//     * @param Territories
-//     * @return
-//     */
-//    public boolean isTerrNameMatch(String terrName, HashMap<String, Territory> Territories) {
-//        if (Territories.get(terrName) != null) {
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    /**
-//     * helper function: check if input territory name matches names in myTerritories
-//     * and the whole map
-//     *
-//     * @param terrName
-//     * @param selfTerritories
-//     * @param otherTerritories
-//     * @return
-//     */
-//    public boolean isTerrNameMatchForAttack(String terrName, HashMap<String, Territory> selfTerritories,
-//                                            HashMap<String, Territory> otherTerritories) {
-//        if (isTerrNameMatch(terrName, selfTerritories)) {
-//            return false;
-//        }
-//        if (otherTerritories.get(terrName) != null) {
-//            return true;
-//        }
-//        return false;
-//    }
-//
-//
-//    public void sendUpgradeUnit(String where, int oldLevel, int newLevel) {
-//        UpgradeUnitsAction UpdateUnits_action = new UpgradeUnitsAction();
-//        UpdateUnits_action.setWhere(where).
-//                setOldLevel(oldLevel).
-//                setNewLevel(newLevel);
-//    }
-//
-//    public void sendUpgradeTech(int next_level, int currTechResource) {
-//        UpgradeTechAction updateTechAction = new UpgradeTechAction();
-//
-//    }
-//
-//    /**
-//     * send player's units to an adjacent territory controlled by a different
-//     * player, in an attempt to gain control over that territory.
-//     *
-//     * @param attackUnits
-//     * @param from_name
-//     * @param to_name
-//     * @return
-//     */
-//    public boolean sendAttack(ArrayList<ArrayList<Integer>> attackUnits, String from_name, String to_name) {
-//        try {
-//            AttackAction attack_action = new AttackAction();
-//            attack_action.setFrom(from_name).setTo(to_name).setUnits(attackUnits);
-//        } catch (Exception excep) {
-//            System.out.println("Attack Error: " + excep.getMessage());
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    /**
-//     * move units from one territory to another territory
-//     *
-//     * @param moveUnits
-//     * @param from_name
-//     * @param to_name
-//     * @return
-//     */
-//    public boolean sendMove(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name) {
-//        try {
-//            MoveAction move_action = new MoveAction();
-//            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits);
-//
-//        } catch (Exception excep) {
-//            System.out.println("Move Error: " + excep.getMessage());
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    public boolean sendDeploy(int numOfDeployedUnits, String to_name) {
-//        Territory to = myTerritories.get(to_name);
-//        DeployAction deploy_action = new DeployAction();
-//        deploy_action.setTo(to_name).setDeployUnits(numOfDeployedUnits);
-//        return true;
-//    }
 
     /////////////////////////////////////getters and setters///////////////////////////////////////////////////
+    public void addCard(Integer type){
+        Card card = new Card(type);
+        this.myCards.add(card);
+    }
+    public boolean haveCard(Integer type){
+        for(Card card : this.myCards){
+            if(card.getCardType().equals(type)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void deleteCard(Integer type){
+        for(Card card : this.myCards){
+            if(card.getCardType().equals(type)){
+                this.myCards.remove(card);
+                return;
+            }
+        }
+    }
+
+
     public Map getWholeMap() {
         return wholeMap;
     }
