@@ -19,7 +19,7 @@ public class SignUpViewController {
     private boolean debug;
 
     public SignUpViewController(Stage window, boolean debug) {
-        this.signupModel = new SignupModel();
+        this.signupModel = SignupModel.getInstance();
         this.window = window;
         this.debug = debug;
     }

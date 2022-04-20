@@ -23,7 +23,7 @@ public class StartViewController {
     private boolean debug;
 
     public StartViewController(Stage window, boolean debug) {
-        this.loginModel = new LoginModel();
+        this.loginModel = LoginModel.getInstance();
         this.window = window;
         this.debug = debug;
     }
