@@ -142,7 +142,7 @@ public class GameRunnable implements Runnable {
 
             //Do Combat Resolution
             CombatResolution combatResolution = new CombatResolution(this.gameHashMap, this.gameID);
-            combatResolution.doCombat(1);//1: attacker wins, -1: defender wins, 0: random
+            combatResolution.doCombat(0);//1: attacker wins, -1: defender wins, 0: random
             //Do Upgrade Tech Level
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
             //check win or lose-> decide whether to set game over

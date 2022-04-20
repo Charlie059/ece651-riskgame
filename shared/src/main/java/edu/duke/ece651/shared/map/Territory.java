@@ -5,6 +5,8 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.UUID;
 
 public class Territory implements Comparable<Territory>, Serializable {
     private String name;
@@ -14,7 +16,9 @@ public class Territory implements Comparable<Territory>, Serializable {
     private ArrayList<Territory> neighbours;
     private String prev;
     private int dist;
+    private HashSet<Spy> Spys;// type: 3 types, with AccountID
 
+    private ArrayList<Integer> Cloak;//[iscloaked,left turn]
 
     // create an isolated territory
     public Territory(String name) {
@@ -22,8 +26,12 @@ public class Territory implements Comparable<Territory>, Serializable {
         this.accountId = null;
         this.neighbours = new ArrayList<>();
         this.Units = new ArrayList<>();
+        this.Spys = new HashSet<>();
+        this.Cloak = new ArrayList<>();
+        this.Cloak.add(0);
+        this.Cloak.add(0);
         //add level 0-6 to units list
-        for(int i = 0; i <= 6; i++){
+        for (int i = 0; i <= 6; i++) {
             Units.add(new Unit().setLevel(i).setValue(0));
         }
         this.cost = 10;//default cost: 10
@@ -36,10 +44,45 @@ public class Territory implements Comparable<Territory>, Serializable {
         this(name);
         this.neighbours = neighbourList;
     }
+
     //create a territory with cost value
     public Territory(String name, int cost) {
         this(name);
         this.cost = cost;
+    }
+
+    public void addSpy(Spy spy) {
+        this.Spys.add(spy);
+    }
+
+    public void removeSpy(Spy spy) {
+        this.Spys.remove(spy);
+    }
+
+    public Spy getSpy(UUID uuid) {
+        for (Spy spy : Spys) {
+            if (spy.getSpyUUID().equals(uuid)) {
+                return spy;
+            }
+        }
+        return null;
+    }
+
+    public void setCloak(){
+        this.Cloak.set(0,1);
+        this.Cloak.set(1,3);
+    }
+    public void updateCloak(){
+        this.Cloak.set(1,this.Cloak.get(1)-1);
+        if(this.Cloak.get(1)<=0){
+            this.Cloak.set(0,0);
+        }
+    }
+    public Boolean isCloaked(){
+        if(this.Cloak.get(0).equals(1)){
+            return true;
+        }
+        return false;
     }
 
     public ArrayList<Territory> getNeighbour() {
@@ -59,17 +102,22 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
 
     public AccountID getOwnerId() {
-        if (accountId==null){
+        if (accountId == null) {
             return null;
-        }else return accountId;}
+        } else return accountId;
+    }
 
     public ArrayList<Unit> getUnits() {
         return Units;
     }
 
-    public int getCost(){return cost;}
+    public int getCost() {
+        return cost;
+    }
 
-    public void setCost(int cost){this.cost = cost;}
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
 
     public int getDist() {
         return dist;
@@ -94,12 +142,13 @@ public class Territory implements Comparable<Territory>, Serializable {
 
     /**
      * add num level-l units
-     * @param l : level
+     *
+     * @param l   : level
      * @param num : number
      * @return true on success, false on failure
      */
     public boolean addUnitLevel(int l, int num, ArrayList<Unit> U) {
-        if (l >= 0 && l <= 6){
+        if (l >= 0 && l <= 6) {
             int old_val = U.get(l).getValue();
             U.get(l).setValue(old_val + num);
             return true;
@@ -112,10 +161,11 @@ public class Territory implements Comparable<Territory>, Serializable {
      * add units by hash map (!!!!make sure this territory is EMPTY!!!!)
      * after combat resolution, if attack wins, add her attack units (in hashmap)
      * to the occupied territory
+     *
      * @param unitsHashMap
      */
     public void addUnitMultiLevelsHashMap(HashMap<Integer, Integer> unitsHashMap) {
-        ArrayList<Unit> U =new ArrayList<>();
+        ArrayList<Unit> U = new ArrayList<>();
         Unit u0 = new Unit().setLevel(0).setValue(0);
         Unit u1 = new Unit().setLevel(1).setValue(0);
         Unit u2 = new Unit().setLevel(2).setValue(0);
@@ -130,7 +180,7 @@ public class Territory implements Comparable<Territory>, Serializable {
         U.add(u4);
         U.add(u5);
         U.add(u6);
-        for(Integer level: unitsHashMap.keySet()){
+        for (Integer level : unitsHashMap.keySet()) {
             U.get(level).setValue(unitsHashMap.get(level));
         }
         this.Units = U;
@@ -138,18 +188,18 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
 
 
-
     /**
      * add multiple levels of units
+     *
      * @param arr: 2-D (n*2) array, arr[i][0] = level, arr[i][1] = num
      */
     public boolean addUnitMultiLevels(ArrayList<ArrayList<Integer>> arr) {
-        ArrayList<Unit> U =(ArrayList<Unit>) Units.clone();
-        for(int i = 0; i < arr.size(); i++){
+        ArrayList<Unit> U = (ArrayList<Unit>) Units.clone();
+        for (int i = 0; i < arr.size(); i++) {
             int level = arr.get(i).get(0);
             int num = arr.get(i).get(1);
             boolean curr = addUnitLevel(level, num, U);
-            if (!curr){
+            if (!curr) {
                 return false;
             }
         }
@@ -158,23 +208,21 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
 
 
-
-
     /**
      * remove num level-l units from territory
      * set 0 if num exceeds old num
+     *
      * @param l
      * @param num
      * @return true on success, false on failure
      */
     public boolean removeUnitLevel(int l, int num, ArrayList<Unit> U) {
-        if (l >= 0 && l <= 6){
+        if (l >= 0 && l <= 6) {
             int old_val = U.get(l).getValue();
             if (num <= old_val) {
                 U.get(l).setValue(old_val - num);
                 return true;
-            }
-            else{
+            } else {
                 U.get(l).setValue(0);
                 return false;
             }
@@ -184,17 +232,18 @@ public class Territory implements Comparable<Territory>, Serializable {
 
     /**
      * remove multiple levels of units
+     *
      * @param arr: 2-D (n*2) array, arr[i][0] = level, arr[i][1] = num
      * @return true on success, false on failure
      */
     public boolean removeUnitMultiLevels(ArrayList<ArrayList<Integer>> arr) {
-        ArrayList<Unit> U =(ArrayList<Unit>) Units.clone();
-        for(int i = 0; i < arr.size(); i++){
+        ArrayList<Unit> U = (ArrayList<Unit>) Units.clone();
+        for (int i = 0; i < arr.size(); i++) {
             int level = arr.get(i).get(0);
             int num = arr.get(i).get(1);
 
             boolean curr = removeUnitLevel(level, num, U);
-            if (curr == false){
+            if (curr == false) {
                 return false;
             }
         }
@@ -209,8 +258,8 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
 
     public boolean isEmpty() {
-        for(Unit u: this.getUnits()){
-            if (u.getValue() != 0){
+        for (Unit u : this.getUnits()) {
+            if (u.getValue() != 0) {
                 return false;
             }
         }

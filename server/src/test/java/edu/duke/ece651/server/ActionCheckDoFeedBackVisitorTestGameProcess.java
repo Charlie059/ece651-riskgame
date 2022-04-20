@@ -7,7 +7,9 @@ import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.server.Wrapper.GameRunnableHashMap;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
+import edu.duke.ece651.shared.Visitor.ResponseVisitor;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
@@ -42,17 +44,17 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         AccountID joinerAccountID = new AccountID("2");
 
         //Host
-        CommunicatorRunnable task1 = new CommunicatorRunnable(clientSocket1,gameHashMap,accountHashMap,gameRunnableHashMap,25);
+        CommunicatorRunnable task1 = new CommunicatorRunnable(clientSocket1, gameHashMap, accountHashMap, gameRunnableHashMap, 48);
         Thread CommunicatorThread1 = new Thread(task1);
         CommunicatorThread1.start();
         //Joiner
-        CommunicatorRunnable task2 = new CommunicatorRunnable(clientSocket2,gameHashMap,accountHashMap,gameRunnableHashMap,22);
+        CommunicatorRunnable task2 = new CommunicatorRunnable(clientSocket2, gameHashMap, accountHashMap, gameRunnableHashMap, 23);
         Thread CommunicatorThread2 = new Thread(task2);
         CommunicatorThread2.start();
         ////==============================TESTBENCH==================================//
 
 //H1 J1        //---------------------------Signup-------------------------------/ H1 J1
-        SignUpAction signUpAction = new SignUpAction(hostAccountID,"1");
+        SignUpAction signUpAction = new SignUpAction(hostAccountID, "1");
         mockClient1.sendObject(signUpAction);
         Response responseSignup = (Response) mockClient1.recvObject();
 
@@ -61,17 +63,17 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         Response responseSignup1 = (Response) mockClient2.recvObject();
 
 //H2 J2        //---------------------------Signin--------------------------------------/ H2 J2 +1
-        LoginAction loginAction = new LoginAction(hostAccountID,"1");
+        LoginAction loginAction = new LoginAction(hostAccountID, "1");
         mockClient1.sendObject(loginAction);
         Response responseSignin = (Response) mockClient1.recvObject();
 
         //Login Fail
-        LoginAction loginActionFail = new LoginAction(new AccountID("abdhj"),"12345");
+        LoginAction loginActionFail = new LoginAction(new AccountID("abdhj"), "12345");
         mockClient2.sendObject(loginActionFail);
         mockClient2.recvObject();
 
         //Login Success
-        LoginAction loginAction1 = new LoginAction(joinerAccountID,"2");
+        LoginAction loginAction1 = new LoginAction(joinerAccountID, "2");
         mockClient2.sendObject(loginAction1);
         Response responseSignin1 = (Response) mockClient2.recvObject();
 
@@ -246,6 +248,8 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         //Assert upgrade fail
         assertEquals(new RSPUpgradeUnitsFail().getClass(), hostResponse8.getClass());
         assertEquals(new RSPUpgradeUnitsFail().getClass(), joinerResponse8.getClass());
+
+
 //H22 J17        //--------------------------------------------------------move-------------------/ H22 J17
         ArrayList<Integer> level0Move = new ArrayList<>();
         level0Move.add(0);//level
@@ -260,8 +264,8 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         Response hostResponse = (Response) mockClient1.recvObject();
         Response joinerResponse = (Response) mockClient2.recvObject();
         //assert move success
-        assertEquals(new RSPMoveSuccess("a1", "a2", units,3).getClass(), hostResponse.getClass());
-        assertEquals(new RSPMoveSuccess("b1", "b2", units,3).getClass(), joinerResponse.getClass());
+        assertEquals(new RSPMoveSuccess("a1", "a2", units, 3).getClass(), hostResponse.getClass());
+        assertEquals(new RSPMoveSuccess("b1", "b2", units, 3).getClass(), joinerResponse.getClass());
         assertEquals(1, host.getMyTerritories().get("a1").getUnits().get(0).getValue());
         assertEquals(3, host.getMyTerritories().get("a2").getUnits().get(0).getValue());
         //assert move fail
@@ -273,7 +277,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         mockClient2.sendObject(moveAction);
         Response hostResponseMove1 = (Response) mockClient1.recvObject();
         Response joinerResponseMove2 = (Response) mockClient2.recvObject();
-        assertEquals(new RSPMoveFail().getClass(),hostResponseMove1.getClass());
+        assertEquals(new RSPMoveFail().getClass(), hostResponseMove1.getClass());
 //H24 J18        //-------------------------------------------Attack-------------------------/H24 J18
         AttackAction attackAction = new AttackAction();
         ArrayList<Integer> level0attack = new ArrayList<>();
@@ -284,7 +288,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         attackAction.setTo("b1").setFrom("a1").setUnits(unitsHost);
         mockClient1.sendObject(attackAction);
         Response responseAttack = (Response) mockClient1.recvObject();
-        assertEquals(new RSPAttackSuccess("a1","b1",units,3).getClass(),responseAttack.getClass());
+        assertEquals(new RSPAttackSuccess("a1", "b1", units, 3).getClass(), responseAttack.getClass());
 //H25 J18        //----------------attack Fail--------------/ H25 J18
         ArrayList<Integer> level0attack1 = new ArrayList<>();
         level0attack1.add(0);//level
@@ -294,7 +298,73 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         attackAction.setTo("b1").setFrom("a1").setUnits(unitsJoiner);
         mockClient1.sendObject(attackAction);
         Response responseAttack1 = (Response) mockClient1.recvObject();
-        assertEquals(new RSPAttackFail().getClass(),responseAttack1.getClass());
+        assertEquals(new RSPAttackFail().getClass(), responseAttack1.getClass());
+        //-------------------------------------------------SpyDeploy-------------------------------------/
+        //Spy Deploy Success
+        SpyDeployAction spyDeployAction = new SpyDeployAction("a1");
+        mockClient1.sendObject(spyDeployAction);
+        RSPSpyDeploySuccess responseSpyDeploy = (RSPSpyDeploySuccess) mockClient1.recvObject();
+        assertEquals(responseSpyDeploy.getClass(), RSPSpyDeploySuccess.class);
+        //Spy Deploy Unsuccess because it's not my territory
+        SpyDeployAction spyDeployAction1 = new SpyDeployAction("b1");
+        mockClient1.sendObject(spyDeployAction1);
+        Response rspSpyDeploy1 = (Response) mockClient1.recvObject();
+        assertEquals(rspSpyDeploy1.getClass(), RSPSpyDeployFail.class);
+        //Spy Deploy Unsuccess because tech Source not enough
+        mockClient1.sendObject(spyDeployAction);
+        RSPSpyDeploySuccess responseSpyDeploy2 = (RSPSpyDeploySuccess) mockClient1.recvObject();
+        assertEquals(responseSpyDeploy2.getClass(), RSPSpyDeploySuccess.class);
+
+        mockClient1.sendObject(spyDeployAction);
+        RSPSpyDeploySuccess responseSpyDeploy3 = (RSPSpyDeploySuccess) mockClient1.recvObject();
+        assertEquals(responseSpyDeploy3.getClass(), RSPSpyDeploySuccess.class);
+        mockClient1.sendObject(spyDeployAction);
+        RSPSpyDeploySuccess responseSpyDeploy4 = (RSPSpyDeploySuccess) mockClient1.recvObject();
+        assertEquals(responseSpyDeploy4.getClass(), RSPSpyDeploySuccess.class);
+        mockClient1.sendObject(spyDeployAction);
+        RSPSpyDeploySuccess responseSpyDeploy5 = (RSPSpyDeploySuccess) mockClient1.recvObject();
+        assertEquals(responseSpyDeploy5.getClass(), RSPSpyDeploySuccess.class);
+        mockClient1.sendObject(spyDeployAction);
+        Response responseSpyDeploy6 = (Response) mockClient1.recvObject();
+        assertEquals(responseSpyDeploy6.getClass(), RSPSpyDeployFail.class);
+        //-------------------------------------------------SpyMove-------------------------------------/
+        //Spy Move Success and
+        SpyMoveAction spyMoveAction = new SpyMoveAction(responseSpyDeploy.getSpyUUID(), "a1", "b3");
+        SpyMoveAction spyMoveActionB = new SpyMoveAction(responseSpyDeploy.getSpyUUID(), "b3", "a1");
+
+        mockClient1.sendObject(spyMoveAction);
+        Response rspSpyMove = (Response) mockClient1.recvObject();
+        assertEquals(rspSpyMove.getClass(), RSPSpyMoveSuccess.class);
+
+        //Spy Move Fail on Not my Spy
+        mockClient2.sendObject(spyMoveActionB);
+        Response rspSpyMoveJoiner = (Response) mockClient2.recvObject();
+        assertEquals(rspSpyMoveJoiner.getClass(), RSPSpyMoveFail.class);
+        //Spy Move Fail on Lacking of Food
+        Integer time = 6;
+        for (int i = 0; i <= time; i++) {
+            mockClient1.sendObject(spyMoveActionB);
+            Response rspSpyMoveB = (Response) mockClient1.recvObject();
+
+            mockClient1.sendObject(spyMoveAction);
+            Response rspSpyMove1 = (Response) mockClient1.recvObject();
+
+            if (i == time) {
+                assertEquals(rspSpyMove1.getClass(), RSPSpyMoveFail.class);
+            }
+        }
+        //-------------------------------------------------SpyUpgrade-------------------------------------/
+        //Spy Upgrade Success
+        SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", responseSpyDeploy2.getSpyUUID(), new CardType().SpecialSpyUpgrade());
+        mockClient1.sendObject(spyUpgradeAction);
+        Response rspspyUpgradeAction = (Response) mockClient1.recvObject();
+        assertEquals(rspspyUpgradeAction.getClass(), RSPSpyUpgradeSuccess.class);
+        //Spy Upgrade Fail because they don't have any special Card
+        mockClient1.sendObject(spyUpgradeAction);
+        Response rspspyUpgradeAction1 = (Response) mockClient1.recvObject();
+        assertEquals(rspspyUpgradeAction1.getClass(), RSPSpyUpgradeFail.class);
+        //-------------------------------------------------Cloaking-------------------------------------/
+
         mockServer.closeSocket();
     }
 }

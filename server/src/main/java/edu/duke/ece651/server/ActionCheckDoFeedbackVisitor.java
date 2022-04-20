@@ -5,16 +5,19 @@ import edu.duke.ece651.server.Wrapper.*;
 import edu.duke.ece651.shared.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
+import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ObjectStream;
+import edu.duke.ece651.shared.Wrapper.SpyType;
+import edu.duke.ece651.shared.map.Map;
+import edu.duke.ece651.shared.map.Spy;
 import edu.duke.ece651.shared.map.Unit;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Thread.sleep;
@@ -35,11 +38,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
     private ArrayList<Integer> TechLevelUpgradeList;
     private ArrayList<Integer> UnitLevelUpgradeList;
     private volatile GameRunnableHashMap gameRunnableHashMap;
+    private final Integer CloakingCost = 100;
+
     /**
      * Construct Checker, all by Communicator Reference
      * Note: if the value is reference, it can only be set rather than new
      * Note: if the hashmap is putting new key, this key can only be new rather than use reference
      * the pickup from reference key in Hashmap should be done by overwrite HashMethod
+     *
      * @param accountID      PlayerID Object reference
      * @param gameID         CurrGameID Object reference
      * @param clientSocket   ClientSocket Object referece
@@ -106,7 +112,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         ArrayList<ArrayList<Integer>> attackUnits = attackAction.getUnits();
         //calculate
         int attackUnitsNum = 0;
-        for(int i = 0; i < attackUnits.size(); i++){
+        for (int i = 0; i < attackUnits.size(); i++) {
             //attackUnits.get(i).get(0): level,
             //attackUnits.get(i).get(1): value
             attackUnitsNum += attackUnits.get(i).get(1);
@@ -129,13 +135,12 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 currFromUnits,
                 currFoodResource
         );
-        if (attackChecker.doCheck()){
+        if (attackChecker.doCheck()) {
             //TODO:AttackActionArrayList field belongs to Player
             //put attack action into attachHashMap
-            if (this.gameHashMap.get(this.gameID).getAttackHashMap().containsKey(this.accountID)){
+            if (this.gameHashMap.get(this.gameID).getAttackHashMap().containsKey(this.accountID)) {
                 this.gameHashMap.get(this.gameID).getAttackHashMap().get(this.accountID).add(attackAction);
-            }
-            else{
+            } else {
                 ArrayList<AttackAction> attackActionArrayList = new ArrayList<>();
                 attackActionArrayList.add(attackAction);
                 this.gameHashMap.get(this.gameID).getAttackHashMap().put(this.accountID, attackActionArrayList);
@@ -152,8 +157,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                     attackAction.getUnits(),
                     totalCost);
             sendResponse(rspAttackSuccess);
-        }
-        else{
+        } else {
             RSPAttackFail rspAttackFail = new RSPAttackFail();
             sendResponse(rspAttackFail);
         }
@@ -165,7 +169,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if (commitChecker.doCheck()) {
 
             //Change my commit status to true
-            synchronized (this.gameRunnableHashMap.get(this.gameID)){
+            synchronized (this.gameRunnableHashMap.get(this.gameID)) {
                 this.gameHashMap.get(this.gameID).getCommittedHashMap().put(this.accountID, true);
                 this.gameRunnableHashMap.get(this.gameID).notify();
             }
@@ -181,7 +185,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 e.printStackTrace();
             }
 
-            if(this.gameHashMap.get(this.gameID).getCountDownLatch().getCount()==0) {
+            if (this.gameHashMap.get(this.gameID).getCountDownLatch().getCount() == 0) {
                 this.gameHashMap.get(this.gameID).setCountDownLatch(new CountDownLatch(1));
             }
 
@@ -346,13 +350,14 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         this.gameID.setCurrGameID(newGameID.getCurrGameID());
         //Throw New Game thread
         GameRunnable gameRunnable = new GameRunnable(this.gameHashMap, this.accountHashMap, this.gameID);
-        this.gameRunnableHashMap.put(newGameID,gameRunnable);
+        this.gameRunnableHashMap.put(newGameID, gameRunnable);
         game.setCountDownLatch(new CountDownLatch(1));
         Thread thread = new Thread(gameRunnable);
         thread.start();
 
         //Block until All Player Joined the Game and GameRunnable's isbegin is true
-        while (!game.getBegin()) {}
+        while (!game.getBegin()) {
+        }
         //If All player joined
         //Construct All Info Client need to showNewGameView
         ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(
@@ -368,7 +373,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 player.isLose(),
                 player.isWon());
         RSPNewGameSuccess rspNewGameSuccess = new RSPNewGameSuccess(clientPlayerPacket);
-       //TODO: Set Client player contructing method in new game response
+        //TODO: Set Client player contructing method in new game response
         sendResponse(rspNewGameSuccess);
         //Wait Game thread to return
     }
@@ -497,10 +502,11 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             currGame.getCommittedHashMap().put(this.accountID, false);
 
             //Block until All Player Joined the Game and GameRunnable's isbegin is true
-            while (!currGame.getBegin()) {}
+            while (!currGame.getBegin()) {
+            }
             //If All player joined
             // Create response
-            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,currGame.getNumOfPlayer(),player.getFoodResource(),player.getTechResource(),player.getCurrTechLevel(),player.getTotalDeployment(),player.getMyTerritories(),currGame.getPlayerHashMap().getEnemyTerritories(this.accountID),player.isLose(),player.isWon());
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, currGame.getNumOfPlayer(), player.getFoodResource(), player.getTechResource(), player.getCurrTechLevel(), player.getTotalDeployment(), player.getMyTerritories(), currGame.getPlayerHashMap().getEnemyTerritories(this.accountID), player.isLose(), player.isWon());
             RSPChooseJoinGameSuccess rspChooseJoinGameSuccess = new RSPChooseJoinGameSuccess(clientPlayerPacket);
             sendResponse(rspChooseJoinGameSuccess);
         } else {
@@ -518,12 +524,104 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             // Change the game
             this.gameID.setCurrGameID(chooseSwitchGameAction.getGameID().getCurrGameID());
             // Send message
-            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID,this.accountID,this.gameHashMap.get(this.gameID).getNumOfPlayer(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(),this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(),this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
+            ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(this.gameID, this.accountID, this.gameHashMap.get(this.gameID).getNumOfPlayer(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getFoodResource(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTechResource(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getCurrTechLevel(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getTotalDeployment(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).getMyTerritories(), this.gameHashMap.get(this.gameID).getPlayerHashMap().getEnemyTerritories(this.accountID), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isLose(), this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).isWon());
             RSPChooseSwitchGameSuccess rspChooseSwitchGameSuccess = new RSPChooseSwitchGameSuccess(clientPlayerPacket);
             sendResponse(rspChooseSwitchGameSuccess);
         } else {
             RSPChooseSwitchGameFail rspChooseSwitchGameFail = new RSPChooseSwitchGameFail();
             sendResponse(rspChooseSwitchGameFail);
+        }
+    }
+
+    @Override
+    public void visit(SpyDeployAction spyDeployAction) {
+        SpyDeployChecker spyDeployChecker = new SpyDeployChecker(this.gameHashMap, this.accountHashMap, this.accountID, this.gameID, spyDeployAction);
+        if (spyDeployChecker.doCheck()) {
+
+            Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+
+            //Add Spy to this Territory
+            Spy spy = new Spy(this.accountID);
+            this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyDeployAction.getTo()).addSpy(spy);
+            //use 20 Tech Resource of this Player
+            player.setTechResource(player.getTechResource() - 20);
+            RSPSpyDeploySuccess rspSpyDeploySuccess = new RSPSpyDeploySuccess(spy.getSpyUUID(), spy.getSpyType());
+            sendResponse(rspSpyDeploySuccess);
+            System.out.println("[GameID]: " + this.gameID.getCurrGameID() + " [Player]: " + this.accountID.getAccountID() + " [RSPSpyDeploySuccess]: {UUID: " + spy.getSpyUUID() + " TYPE: " + spy.getSpyType() + "}");
+        } else {
+            RSPSpyDeployFail spyDeployFail = new RSPSpyDeployFail();
+            sendResponse(spyDeployFail);
+            System.out.println("[GameID]: " + this.gameID.getCurrGameID() + " [Player]: " + this.accountID.getAccountID() + " [RSPSpyDeployFail]");
+        }
+    }
+
+    @Override
+    public void visit(SpyMoveAction spyMoveAction) {
+        //currPlayer
+        Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        Map map = this.gameHashMap.get(this.gameID).getMap();
+
+        int currFoodResource = currplayer.getFoodResource();
+        //Move Spy Cost
+        Integer cost = 20;
+        SpyMoveChecker spyMoveChecker = new SpyMoveChecker(this.gameHashMap, accountHashMap, accountID, map, spyMoveAction, cost, currFoodResource);
+        if (spyMoveChecker.doCheck()) {
+            //Move spy to new places
+            Spy spy = map.getTerritoryList().get(spyMoveAction.getFrom()).getSpy(spyMoveAction.getSpyUUID());
+            map.getTerritoryList().get(spyMoveAction.getFrom()).removeSpy(spy);
+            map.getTerritoryList().get(spyMoveAction.getTo()).addSpy(spy);
+            //Use Food Resource
+            currplayer.setFoodResource(currplayer.getFoodResource() - cost);
+            RSPSpyMoveSuccess rspSpyMoveSuccess = new RSPSpyMoveSuccess();
+            sendResponse(rspSpyMoveSuccess);
+            //System.out.println("[GameID]: "+this.gameID.getCurrGameID()+" [Player]: "+this.accountID.getAccountID()+" [RSPSpyMoveSuccess]: {UUID: "+spyMoveAction.getSpyUUID()+" TYPE: "+spy.getSpyType()+" LOC: "+spyMoveAction.getTo()+"}");
+        } else {
+            RSPSpyMoveFail rspSpyMoveFail = new RSPSpyMoveFail();
+            sendResponse(rspSpyMoveFail);
+            //System.out.println("[GameID]: "+this.gameID.getCurrGameID()+" [Player]: "+this.accountID.getAccountID()+" [RSPSpyMoveFail]: {UUID: "+spyMoveAction.getSpyUUID()+"}");
+        }
+    }
+
+    @Override
+    public void visit(SpyUpgradeAction spyUpgradeAction) {
+        //currPlayer
+        Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        Map map = this.gameHashMap.get(this.gameID).getMap();
+        SpyUpgradeChecker spyUpgradeChecker = new SpyUpgradeChecker(this.gameHashMap, this.accountHashMap, this.accountID, map, currplayer,spyUpgradeAction);
+        if (spyUpgradeChecker.doCheck()) {
+            Spy spy = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyUpgradeAction.getFrom()).getSpy(spyUpgradeAction.getSpyUUID());
+            Integer requestType = spy.getSpyType();
+            SpyType spyType = new SpyType();
+            if (requestType.equals(spyType.DefaultType())) {
+                spy.setDefaultType();
+            } else if (requestType.equals(spyType.HarrietTubman())) {
+                spy.setHarrisTubman();
+            } else if (requestType.equals(spyType.Rosenbergs())) {
+                spy.setRosenbergs();
+            }
+            //Delete This player's upgrade Card
+            currplayer.deleteCard(new CardType().SpecialSpyUpgrade());
+            RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = new RSPSpyUpgradeSuccess();
+            sendResponse(rspSpyUpgradeSuccess);
+        } else {
+            RSPSpyUpgradeFail rspSpyUpgradeFail = new RSPSpyUpgradeFail();
+            sendResponse(rspSpyUpgradeFail);
+        }
+
+    }
+
+    @Override
+    public void visit(CloakTerritoryAction cloakTerritoryAction) {
+        Player currplayer = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        Map map = this.gameHashMap.get(this.gameID).getMap();
+        CloakingTerritoryActionChecker cloakingTerritoryActionChecker = new CloakingTerritoryActionChecker(this.gameHashMap,this.accountHashMap,this.accountID,this.CloakingCost,map,currplayer,cloakTerritoryAction);
+        if(cloakingTerritoryActionChecker.doCheck()){
+            map.getTerritoryList().get(cloakTerritoryAction.getFrom()).setCloak();
+            RSPCloakTerritorySuccess rspCloakTerritorySuccess = new RSPCloakTerritorySuccess();
+            sendResponse(rspCloakTerritorySuccess);
+        }else {
+            RSPCloakTerritoryActionFail rspCloakTerritoryActionFail = new RSPCloakTerritoryActionFail();
+            sendResponse(rspCloakTerritoryActionFail);
         }
     }
 
