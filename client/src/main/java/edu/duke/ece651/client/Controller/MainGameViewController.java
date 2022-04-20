@@ -199,14 +199,7 @@ public class MainGameViewController implements Initializable {
     }
 
     @FXML
-    public void clickOnTool(){
-        try {
-            new ToolsDialogView().show(new Stage(), null, debug);
-            updateView();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    public void clickOnTool(){}
 
     @FXML
     public void clickOnMoveSpy(){
@@ -231,12 +224,7 @@ public class MainGameViewController implements Initializable {
 
     @FXML
     public void clickOnCommit(){
-        //upgrade everything
-        if(!GameModel.getInstance().doCommit(debug)){
-            System.out.println("Cannot commit, this should not happened");
-        }
-        // Update view
-        updateView();
+        responses.add("Click On Commit");
     }
 
     @FXML
