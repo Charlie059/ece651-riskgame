@@ -539,14 +539,15 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         if (spyDeployChecker.doCheck()) {
 
             Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
-
+            Map map = this.gameHashMap.get(this.gameID).getMap();
             //Add Spy to this Territory
             Spy spy = new Spy(this.accountID);
             this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyDeployAction.getTo()).addSpy(spy);
             //use 20 Tech Resource of this Player
             player.setTechResource(player.getTechResource() - 20);
             //Delete One Unit Level 1 from the From Territory
-//            this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyDeployAction.getFrom()).removeUnitLevel());
+            map.getTerritoryList().get(spyDeployAction.getFrom()).removeUnitLevel(1,1,map.getTerritoryList().get(spyDeployAction.getFrom()).getUnits());
+
             RSPSpyDeploySuccess rspSpyDeploySuccess = new RSPSpyDeploySuccess(spy.getSpyUUID(), spy.getSpyType());
             sendResponse(rspSpyDeploySuccess);
             System.out.println("[GameID]: " + this.gameID.getCurrGameID() + " [Player]: " + this.accountID.getAccountID() + " [RSPSpyDeploySuccess]: {UUID: " + spy.getSpyUUID() + " TYPE: " + spy.getSpyType() + "}");
