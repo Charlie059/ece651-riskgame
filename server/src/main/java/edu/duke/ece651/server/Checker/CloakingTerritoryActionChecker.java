@@ -22,27 +22,39 @@ public class CloakingTerritoryActionChecker extends ActionChecker {
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //Check if Enough Tech Level
         if(player.getCurrTechLevel()<3){
-            return false;
+            //false case
+            this.errMessage = "ClockingTerritory Error: Tech Level should be larger than 2!";
+            return this.errMessage;
         }
         //Check if Enough Tech Resource
         if(player.getTechResource()<cost){
-            return false;
+            //false case
+            this.errMessage = "ClockingTerritory Error: does not have enough Tech Resource!";
+            return this.errMessage;
         }
         //Check if Territory Exist
         if(map.getTerritoryList().get(cloakTerritoryAction.getFrom())==null){
-            return false;
+            //false case
+            this.errMessage = "ClockingTerritory Error: territory does not exist!";
+            return this.errMessage;
         }
         //Check if Territory is mine
         if(!map.getTerritoryList().get(cloakTerritoryAction.getFrom()).getOwnerId().equals(this.accountID)){
-            return false;
+            //false case
+            this.errMessage = "ClockingTerritory Error: cannot cloak your own territory!";
+            return this.errMessage;
         }
         //Check if Territory has been Cloaked
         if(map.getTerritoryList().get(cloakTerritoryAction.getFrom()).isCloaked()){
-            return false;
+            //false case
+            this.errMessage = "ClockingTerritory Error: territory has been cloaked!";
+            return this.errMessage;
         }
-        return true;
+        //true case
+        this.errMessage = null;
+        return this.errMessage;
     }
 }

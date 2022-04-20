@@ -42,7 +42,7 @@ public class AttackChecker extends ActionChecker{
      * @return
      */
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         boolean isValid = false;
         try {
             //1: check if from and to are adjacent
@@ -52,20 +52,32 @@ public class AttackChecker extends ActionChecker{
                     //for level i
                     int level = this.attackUnits.get(i).get(0);
                     if(this.currFromUnits.get(level).getValue()< this.attackUnits.get(i).get(1)) {
-                        return false;
+                        //false case
+                        this.errMessage = "Attack Error: you don't have enough units!";
+                        return this.errMessage;
                     }
                 }
                 //3: if 0 > total cost or total cost > currFoodResource
                 if(this.totalCost < 0 || this.totalCost > this.currFoodResource){
-                    return false;
+                    //false case
+                    this.errMessage = "Attack Error: you don't have enough food resource!";
+                    return this.errMessage;
                 }
+                //true case
+                return this.errMessage;
             }
-            return isValid;
+            else{
+                //false case
+                this.errMessage = "Attack Error: cannot attack non-adjacent territory!";
+                return this.errMessage;
+            }
         }
         //incorrect ownerships
         catch(IllegalArgumentException illegalArg){
             //output = illegalArg.getMessage();
-            return false;
+            //false case
+            this.errMessage =  "Attack Error: cannot attack your own territory!";
+            return this.errMessage;
         }
     }
 }

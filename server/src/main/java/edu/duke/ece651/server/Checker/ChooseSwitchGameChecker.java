@@ -13,12 +13,23 @@ public class ChooseSwitchGameChecker extends ActionChecker{
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //Check if such game exist
         if(this.gameHashMap.containsKey(this.enterGameID)){
             // Check if enterGameID indicate itself game
-            return this.gameHashMap.get(enterGameID).getPlayerHashMap().containsKey(this.accountID);
+            if (this.gameHashMap.get(enterGameID).getPlayerHashMap().containsKey(this.accountID)){
+                //true case
+                this.errMessage = null;
+                return this.errMessage;
+            }
+            else{
+                //false case
+                this.errMessage = "ChooseSwitchGame Error: game ID does not match!";
+                return errMessage;
+            }
         }
-        return false;
+        //fase case
+        this.errMessage = "ChooseSwitchGame Error: game ID does not exist!";
+        return errMessage;
     }
 }

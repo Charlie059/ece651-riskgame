@@ -40,4 +40,6 @@ public interface ActionVisitor {
 
     void visit(CloakTerritoryAction cloakTerritoryAction);
 
+    void visit(CardBuyAction cardBuyAction);
+
 }
