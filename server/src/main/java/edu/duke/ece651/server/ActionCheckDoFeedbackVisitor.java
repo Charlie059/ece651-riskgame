@@ -545,6 +545,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyDeployAction.getTo()).addSpy(spy);
             //use 20 Tech Resource of this Player
             player.setTechResource(player.getTechResource() - 20);
+            //Delete One Unit Level 1 from the From Territory
+//            this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyDeployAction.getFrom()).removeUnitLevel());
             RSPSpyDeploySuccess rspSpyDeploySuccess = new RSPSpyDeploySuccess(spy.getSpyUUID(), spy.getSpyType());
             sendResponse(rspSpyDeploySuccess);
             System.out.println("[GameID]: " + this.gameID.getCurrGameID() + " [Player]: " + this.accountID.getAccountID() + " [RSPSpyDeploySuccess]: {UUID: " + spy.getSpyUUID() + " TYPE: " + spy.getSpyType() + "}");
@@ -600,7 +602,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                 spy.setRosenbergs();
             }
             //Delete This player's upgrade Card
-            currplayer.deleteCard(new CardType().SpecialSpyUpgrade());
+            currplayer.deleteCard(new CardType().SpecialSpyUpgrade().get(0));
             RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = new RSPSpyUpgradeSuccess();
             sendResponse(rspSpyUpgradeSuccess);
         } else {

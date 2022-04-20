@@ -48,7 +48,7 @@ public class Player {
         this.totalDeployment = this.wholeMap.numOfPlayers * 3;
         // At the beginning everyone have one chance to specialUpgrade Spy
         this.myCards = new HashSet<>();
-        this.addCard(new CardType().SpecialSpyUpgrade());
+        this.addCard(new CardType().SpecialSpyUpgrade().get(0));
 
     }
 

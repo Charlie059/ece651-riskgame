@@ -68,6 +68,15 @@ public class Territory implements Comparable<Territory>, Serializable {
         return null;
     }
 
+    public Boolean isEnoughUnitLevelOne(){
+        for(Unit unit: this.Units){
+            if(unit.getLevel().equals(1)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setCloak(){
         this.Cloak.set(0,1);
         this.Cloak.set(1,3);
