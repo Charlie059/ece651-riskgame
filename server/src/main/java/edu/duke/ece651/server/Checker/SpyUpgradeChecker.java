@@ -23,7 +23,7 @@ public class SpyUpgradeChecker extends ActionChecker {
     @Override
     public boolean doCheck() {
         //Check Player has one Upgrade chance
-        if(!player.haveCard(new CardType().SpecialSpyUpgrade())){
+        if(!player.haveCard(new CardType().SpecialSpyUpgrade().get(0))){
             return false;
         }
         //The Spy Should be mine and should not be upgrade to same type

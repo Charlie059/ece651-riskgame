@@ -7,11 +7,9 @@ import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.server.Wrapper.GameRunnableHashMap;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
-import edu.duke.ece651.shared.Visitor.ResponseVisitor;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -301,12 +299,12 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         assertEquals(new RSPAttackFail().getClass(), responseAttack1.getClass());
         //-------------------------------------------------SpyDeploy-------------------------------------/
         //Spy Deploy Success
-        SpyDeployAction spyDeployAction = new SpyDeployAction("a1");
+        SpyDeployAction spyDeployAction = new SpyDeployAction("a1", "a1");
         mockClient1.sendObject(spyDeployAction);
         RSPSpyDeploySuccess responseSpyDeploy = (RSPSpyDeploySuccess) mockClient1.recvObject();
         assertEquals(responseSpyDeploy.getClass(), RSPSpyDeploySuccess.class);
         //Spy Deploy Unsuccess because it's not my territory
-        SpyDeployAction spyDeployAction1 = new SpyDeployAction("b1");
+        SpyDeployAction spyDeployAction1 = new SpyDeployAction("b1", "b1");
         mockClient1.sendObject(spyDeployAction1);
         Response rspSpyDeploy1 = (Response) mockClient1.recvObject();
         assertEquals(rspSpyDeploy1.getClass(), RSPSpyDeployFail.class);
@@ -355,7 +353,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         }
         //-------------------------------------------------SpyUpgrade-------------------------------------/
         //Spy Upgrade Success
-        SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", responseSpyDeploy2.getSpyUUID(), new CardType().SpecialSpyUpgrade());
+        SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", responseSpyDeploy2.getSpyUUID(), new CardType().SpecialSpyUpgrade().get(0));
         mockClient1.sendObject(spyUpgradeAction);
         Response rspspyUpgradeAction = (Response) mockClient1.recvObject();
         assertEquals(rspspyUpgradeAction.getClass(), RSPSpyUpgradeSuccess.class);
