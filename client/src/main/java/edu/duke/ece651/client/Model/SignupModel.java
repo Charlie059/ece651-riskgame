@@ -1,5 +1,7 @@
 package edu.duke.ece651.client.Model;
 
+import edu.duke.ece651.client.Checker.Checker;
+import edu.duke.ece651.client.Checker.PasswordChecker;
 import edu.duke.ece651.client.ClientSocket;
 import edu.duke.ece651.shared.IO.ClientActions.LoginAction;
 import edu.duke.ece651.shared.IO.ClientActions.SignUpAction;
@@ -17,6 +19,18 @@ public class SignupModel extends Model{
         if(debugMode){
             return true;
         }
+
+        // Use a local checker to check if password satisfy the following criteria:
+        // Password must be a combination of 8 or more digits containing uppercase letters,
+        // lowercase letters, numbers, special symbols (characters other than letters, numbers,
+        // underscores)
+        PasswordChecker passwordChecker = new PasswordChecker();
+        String[] password = new String[1];
+        password[0] = passWord;
+
+        // If password is not secure enough
+        if(!passwordChecker.doCheck(password)) return false;
+
         // Create a new LoginAction
         SignUpAction signUpAction = new SignUpAction(new AccountID(userName),passWord);
         // Send to Server to validate

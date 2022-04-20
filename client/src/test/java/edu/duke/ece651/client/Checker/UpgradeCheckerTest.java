@@ -12,6 +12,6 @@ class UpgradeCheckerTest {
         GameModel.getInstance().mockData();
         Checker checker = new UpgradeChecker();
         String[] usrIn = {"b1","0","1","1"};
-        checker.doCheck(usrIn);
+        assertTrue(checker.doCheck(usrIn));
     }
 }

@@ -13,6 +13,6 @@ class AttackCheckerTest {
         GameModel.getInstance().mockData();
         Checker checker = new AttackChecker();
         String[] usrIn = {"b1","a1","0","1"};
-        checker.doCheck(usrIn);
+        assertTrue(checker.doCheck(usrIn));
     }
 }
