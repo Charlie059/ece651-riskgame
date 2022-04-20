@@ -16,7 +16,7 @@ public class JoinGameView implements View{
     @Override
     public void show(Stage window, Model model, boolean debug) throws IOException {
         // load start view fxml
-        URL xmlResource = getClass().getResource("/xml/JoinGameView.fxml");
+        URL xmlResource = getClass().getResource("/xml/joinGameView.fxml");
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
@@ -31,6 +31,7 @@ public class JoinGameView implements View{
         SceneCollector.joinGameView = scene;
 
         window.setScene(scene);
+        window.setTitle("Join Game");
         window.show();
     }
 

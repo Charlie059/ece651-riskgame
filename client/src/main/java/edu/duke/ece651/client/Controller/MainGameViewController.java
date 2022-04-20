@@ -8,6 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -18,20 +21,62 @@ import java.util.ResourceBundle;
 
 public class MainGameViewController implements Initializable {
     @FXML
-    Text playerID_t,territories_t,food_t,techResource_n,errorMsg,techLevel;
+    Text playerID_t,territories_t,food_t,techResource_t,points_t,techLevel_t;
     @FXML
-    Text level0_n,level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
+    ListView<String> responseList;
+    @FXML
+    AnchorPane mapPane;
 
     private final Stage window;
-    private ObservableList<String> terrList;
-    private boolean debug;
+    private final ObservableList<String> terrList;
+    private final ObservableList<String> responses;
+    private final boolean debug;
+    private final int n_players;
 
-    public MainGameViewController(Stage window, boolean debug) {
+    public MainGameViewController(Stage window, boolean debug) throws IOException {
         this.window = window;
         this.debug = debug;
-        terrList = FXCollections.observableArrayList();
-
+        this.responses = FXCollections.observableArrayList();
+        this.terrList = FXCollections.observableArrayList();
+        this.n_players = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
     }
+
+    /**
+     * Update view
+     */
+    private void updateView(){
+        // Set my Terr list
+        setMyTerritoryList(terrList);
+
+        // Set plyaer info
+        playerID_t.setText("   " + getPlayerID());
+        food_t.setText("   " + getFood());
+        techResource_t.setText("   " + getTechResource());
+        techLevel_t.setText("   "+ getTechLevel());
+        points_t.setText("   "+ "1234");
+        setTerrText(terrList);
+
+        // set map
+        try {
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_players,null,"mainGameView"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Init the Main Game Vew
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        responseList.setItems(responses);
+        updateView();
+    }
+
+
+
 
     private void setMyTerritoryList(ObservableList<String>l){
         // Clear the list
@@ -41,26 +86,12 @@ public class MainGameViewController implements Initializable {
         l.addAll(myTerritories.keySet());
     }
 
-
     private void setTerrText(ObservableList<String>terrList){
         StringBuilder s = new StringBuilder("   ");
         for(String t:terrList){
             s.append(t).append(", ");
         }
         territories_t.setText(s.toString());
-    }
-
-    /**
-     * Set deployment unit num to 0
-     */
-    private void setUnitNumberText(){
-        level0_n.setText("  "+"0");
-        level1_n.setText("  "+"0");
-        level2_n.setText("  "+"0");
-        level3_n.setText("  "+"0");
-        level4_n.setText("  "+"0");
-        level5_n.setText("  "+"0");
-        level6_n.setText("  "+"0");
     }
 
     /**
@@ -95,19 +126,8 @@ public class MainGameViewController implements Initializable {
         return GameModel.getInstance().getTechlevel();
     }
 
-    /**
-     * When user click the map view (need numOfPlayers)
-     */
-    @FXML
-    public void clickOnViewMap(){
-        // Get numOfPlayer from the Model
-        int numOfPlayers =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
-        try {
-            new MapView().show(new Stage(),null,numOfPlayers, debug);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
+
 
     /**
      * Enter the AttackDialogView
@@ -116,7 +136,6 @@ public class MainGameViewController implements Initializable {
     public void clickOnAttack() {
         try {
             new AttackDialogView().show(new Stage(),null,debug);
-            // Update view
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
@@ -130,7 +149,6 @@ public class MainGameViewController implements Initializable {
     public void clickOnMove(){
         try {
             new MoveDialogView().show(new Stage(), null, debug);
-            // Update view
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,38 +159,20 @@ public class MainGameViewController implements Initializable {
      * Enter UpgradeUnitDialogView
      */
     @FXML
-    public void clickOnUpgradeUnitButton(){
+    public void clickOnUpgradeUnits(){
         try {
             new UpgradeUnitDialogView().show(new Stage(),null, debug);
-            // Update view
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Enter UpgradeTechDialogView
-     */
     @FXML
-    public void clickOnUpgradeTechButton() {
+    public void clickOnUpgradeTech() {
        if(!GameModel.getInstance().doUpgradeTech(debug)) {
-            this.errorMsg.setText("Cannot upgrade, Server Check");
+            responses.add("Cannot upgrade, Server Check");
        }
-        // Update view
-        updateView();
-    }
-
-
-    /**
-     * Commit button
-     */
-    @FXML
-    public void clickOnDone(){
-        //upgrade everything
-        if(!GameModel.getInstance().doCommit(debug)){
-            this.errorMsg.setText("Cannot commit, this should not happened");
-        }
         // Update view
         updateView();
     }
@@ -187,7 +187,6 @@ public class MainGameViewController implements Initializable {
 
     /**
      * Show continueGameView
-     * @throws IOException
      */
     @FXML
     public void clickOnSwitchGame() throws IOException {
@@ -195,32 +194,27 @@ public class MainGameViewController implements Initializable {
             new ContinueGameView().show(window,null, debug);
         }else{
             window.setScene(SceneCollector.continueGameView);
+            window.setTitle("Continue Game");
             window.show();
         }
     }
 
-    /**
-     * Update view
-     */
-    private void updateView(){
-        // Set my Terr list
-        setMyTerritoryList(terrList);
+    @FXML
+    public void clickOnTool(){}
 
-        // Set init playerID, food and tech resource
-        playerID_t.setText("   " + getPlayerID());
-        food_t.setText("   " + getFood());
-        techResource_n.setText("   " + getTechResource());
-        techLevel.setText("   "+ getTechLevel());
-        setTerrText(terrList);
-        setUnitNumberText();
+    @FXML
+    public void clickOnSpy(){
+        try {
+            new SpyView().show(new Stage(), null, debug);
+            updateView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    /**
-     * Init the Main Game Vew
-     * @param location
-     * @param resources
-     */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        updateView();
+
+    @FXML
+    public void clickOnCommit(){
+        responses.add("Click On Commit");
     }
+
 }

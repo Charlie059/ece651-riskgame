@@ -31,6 +31,7 @@ public class NewGameView implements View{
         SceneCollector.newGameView = scene;
 
         window.setScene(scene);
+        window.setTitle("New Game");
         window.show();
 
     }

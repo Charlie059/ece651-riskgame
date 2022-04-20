@@ -10,9 +10,7 @@ import javafx.scene.text.Text;
 
 public class SignUpViewController {
     @FXML
-    TextField userName;
-    @FXML
-    TextField passWord;
+    TextField userName,passWord, Email, verificationCode;
     @FXML
     Text msg;
 
@@ -32,6 +30,7 @@ public class SignUpViewController {
     @FXML
     public void clickOnBack(){
         this.window.setScene(SceneCollector.startView);
+        window.setTitle("Login");
         this.window.show();
     }
 

@@ -15,8 +15,6 @@ public class NewGameViewController {
     @FXML
     TextField n_players;
     @FXML
-    TextField gameID;
-    @FXML
     Text allert_T;
 
     private final Stage window;
@@ -44,7 +42,7 @@ public class NewGameViewController {
 
         // If server accept request then show the deployment view
         try {
-            new DeployView().show(this.window, null, debug);
+            new DeployView().show(this.window, null, Integer.parseInt(n_players.getText()), debug);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,6 +51,7 @@ public class NewGameViewController {
     @FXML
     public void clickOnBack(){
         window.setScene(SceneCollector.menuView);
+        window.setTitle("Menu");
         window.show();
     }
 
