@@ -12,7 +12,6 @@ public class RSPMoveSuccess implements Response{
 
     @Override
     public void accept(ResponseVisitor responseVisitor) {
-
     }
 
     public RSPMoveSuccess(String from,

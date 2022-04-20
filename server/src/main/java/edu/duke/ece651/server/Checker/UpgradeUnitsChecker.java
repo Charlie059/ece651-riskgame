@@ -32,14 +32,24 @@ public class UpgradeUnitsChecker extends ActionChecker{
     }
 
     @Override
-    public boolean doCheck(){
+    public String doCheck(){
         //max level: 6, cannot upgrade level-6 units
         boolean isEnoughTechResource = this.techCost <= this.currentTechResource;
         boolean isEnoughUnits = this.where.getUnits().get(this.oldLevel).getValue() >= 1;
         boolean isNewLevelValid = this.newLevel > this.oldLevel && this.newLevel<= this.currTechLevel;
         if (isEnoughTechResource && isEnoughUnits && isNewLevelValid){
-            return true;
+            this.errMessage = null;
+            return this.errMessage;
         }
-        return false;
+        if (!isEnoughTechResource) {
+            this.errMessage = "UpgradeUnit Error: does not have enough Tech Resource!";
+        }
+        if (!isEnoughUnits){
+            this.errMessage = "UpgradeUnit Error: unit to upgrade does not exist!";
+        }
+        if (!isNewLevelValid){
+            this.errMessage = "UpgradeUnit Error: new level is invalid!";
+        }
+        return this.errMessage;
     }
 }

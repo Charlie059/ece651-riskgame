@@ -296,7 +296,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         attackAction.setTo("b1").setFrom("a1").setUnits(unitsJoiner);
         mockClient1.sendObject(attackAction);
         Response responseAttack1 = (Response) mockClient1.recvObject();
-        assertEquals(new RSPAttackFail().getClass(), responseAttack1.getClass());
+        assertEquals(new RSPAttackFail("").getClass(), responseAttack1.getClass());
         //-------------------------------------------------SpyDeploy-------------------------------------/
         //Spy Deploy Success
         SpyDeployAction spyDeployAction = new SpyDeployAction("a1", "a1");
@@ -353,7 +353,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         }
         //-------------------------------------------------SpyUpgrade-------------------------------------/
         //Spy Upgrade Success
-        SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", responseSpyDeploy2.getSpyUUID(), new CardType().SpecialSpyUpgrade().get(0));
+        SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", responseSpyDeploy2.getSpyUUID(), new CardType().getSpecialSpyUpgrade().get(0));
         mockClient1.sendObject(spyUpgradeAction);
         Response rspspyUpgradeAction = (Response) mockClient1.recvObject();
         assertEquals(rspspyUpgradeAction.getClass(), RSPSpyUpgradeSuccess.class);

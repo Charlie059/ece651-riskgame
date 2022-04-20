@@ -33,12 +33,14 @@ public class UpgradeTechChecker extends ActionChecker{
 
 
     @Override
-    public boolean doCheck(){
+    public String doCheck(){
         //valid iff nextLevel <= 6 and player has enough tech resource
         if (!this.isTechUpgraded && this.nextLevel <= 6 && this.cost <= this.currTechResource) {
-            return true;
+            this.errMessage = null;
+            return this.errMessage;
         }
-        return false;
+        this.errMessage = "UpgradeTech Error: nextLevel > 6 or player does not have enough Tech Resource!";
+        return this.errMessage;
     }
 
     public int getCost(){return cost;}

@@ -17,9 +17,16 @@ public class SignupChecker extends ActionChecker{
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         if (!this.accountHashMap.containsKey(this.recvAccount)) {
-            return true;
-        } else return false;
+            //return true;
+            this.errMessage = null;
+            return this.errMessage;
+        }
+        else{
+            //return false;
+            this.errMessage = "Signup Error: Account does not exist!";
+            return errMessage;
+        }
     }
 }

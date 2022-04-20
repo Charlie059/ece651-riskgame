@@ -21,23 +21,43 @@ public class SpyUpgradeChecker extends ActionChecker {
     }
 
     @Override
-    public boolean doCheck() {
+    public String doCheck() {
         //Check Player has one Upgrade chance
-        if(!player.haveCard(new CardType().SpecialSpyUpgrade().get(0))){
-            return false;
+        if(!player.haveCard(new CardType().getSpecialSpyUpgrade().get(0))){
+            //return false;
+            this.errMessage = "SpyUpgrade Error: player does have SpyUpgrade Card!";
+            return this.errMessage;
         }
         //The Spy Should be mine and should not be upgrade to same type
         //Check If UUID Exist
         if (map.getTerritoryList().containsKey(spyUpgradeAction.getFrom())) {
-            if (map.getTerritoryList().get(spyUpgradeAction.getFrom()).getSpy(spyUpgradeAction.getSpyUUID()) != null) {
-                if (map.getTerritoryList().get(spyUpgradeAction.getFrom()).getSpy(spyUpgradeAction.getSpyUUID()).getSpyOwnerAccountID().getAccountID().equals(this.accountID.getAccountID())) {
+            if (map.getTerritoryList().get(spyUpgradeAction.getFrom()).
+                    getSpy(spyUpgradeAction.getSpyUUID()) != null) {
+                if (map.getTerritoryList().get(spyUpgradeAction.getFrom()).
+                        getSpy(spyUpgradeAction.getSpyUUID()).getSpyOwnerAccountID().
+                        getAccountID().equals(this.accountID.getAccountID())) {
                     //Spy Type should not be upgrade to same type
-                    if (!map.getTerritoryList().get(spyUpgradeAction.getFrom()).getSpy(spyUpgradeAction.getSpyUUID()).getSpyType().equals(spyUpgradeAction.getType()))
-                        return true;
+                    if (!map.getTerritoryList().get(spyUpgradeAction.getFrom()).
+                            getSpy(spyUpgradeAction.getSpyUUID()).
+                            getSpyType().equals(spyUpgradeAction.getType())) {
+                        this.errMessage = null;
+                        return this.errMessage;
+                    }
+                    else{
+                        this.errMessage = "SpyUpgrade Error: cannot upgrade spy to same type!";
+                    }
+                }
+                else{
+                    this.errMessage = "SpyUpgrade Error: cannot upgrade enemy's spy!";
                 }
             }
+            else{
+                this.errMessage = "SpyUpgrade Error: spy does not exist!";
+            }
         }
-
-        return false;
+        else{
+            this.errMessage = "SpyUpgrade Error: Territory does not exist!";
+        }
+        return this.errMessage;
     }
 }
