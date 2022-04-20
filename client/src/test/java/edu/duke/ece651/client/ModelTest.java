@@ -85,6 +85,12 @@ class ModelTest {
                 sendSwitchListAction(mockServer);
                 Thread.sleep(100);
 
+                //18 send signupSuccess
+                sendRSPSignUpSuccess(mockServer);
+                Thread.sleep(100);
+
+
+
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 e.printStackTrace();
@@ -169,6 +175,15 @@ class ModelTest {
         SwitchGameModel switchGameModel = new SwitchGameModel();
         assertEquals(2, switchGameModel.getGameLists(false).get(0).getGameID());
         assertEquals(1, switchGameModel.getGameLists(true).get(0).getGameID());
+
+
+        // 18 test new signup
+        SignupModel signupModel1 = new SignupModel();
+        // First time -> send an email
+        signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", "", false);
+        // Second time -> input code
+        signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", "abc123", false);
+
         mockServer.close();
     }
 
