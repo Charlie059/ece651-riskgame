@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 
 
@@ -71,24 +74,57 @@ public class SpyDialogController implements Initializable,Communication {
 
     @FXML
     public void clickOnGetCost(ActionEvent actionEvent) {
-        cost_t.setText("123");
+//        cost_t.setText("123");
     }
 
     @Override
     public void setTerrInfo(String clickTerr) {
         toList.clear();
 
-        terrName.setText(clickTerr);
-        lv0_n.setText(clickTerr);
-        lv1_n.setText(clickTerr);
-        lv2_n.setText(clickTerr);
-        lv3_n.setText(clickTerr);
-        lv4_n.setText(clickTerr);
-        lv5_n.setText(clickTerr);
-        lv6_n.setText(clickTerr);
-        spy_n.setText(clickTerr);
+        // Get My Terr Info
+        if(GameModel.getInstance().getMyTerrList().contains(clickTerr)){
+            ArrayList<Integer> unitNumList = new ArrayList<>();
+            GameModel.getInstance().getTerrUnits(clickTerr, unitNumList);
 
-        // set choiceboxes based on which territory you click.
-        toList.add(clickTerr);
+            lv0_n.setText(String.valueOf(unitNumList.get(0)));
+            lv1_n.setText(String.valueOf(unitNumList.get(1)));
+            lv2_n.setText(String.valueOf(unitNumList.get(2)));
+            lv3_n.setText(String.valueOf(unitNumList.get(3)));
+            lv4_n.setText(String.valueOf(unitNumList.get(4)));
+            lv5_n.setText(String.valueOf(unitNumList.get(5)));
+            lv6_n.setText(String.valueOf(unitNumList.get(6)));
+            spy_n.setText("NA");
+        }
+        // else if in the cache
+        else if(GameModel.getInstance().getLocalEnemyTerrs().containsKey(clickTerr)){
+            // Get the units number
+            ArrayList<Integer> unitNumList = GameModel.getInstance().getLocalEnemyTerrs().get(clickTerr);
+            lv0_n.setText(String.valueOf(unitNumList.get(0)));
+            lv1_n.setText(String.valueOf(unitNumList.get(1)));
+            lv2_n.setText(String.valueOf(unitNumList.get(2)));
+            lv3_n.setText(String.valueOf(unitNumList.get(3)));
+            lv4_n.setText(String.valueOf(unitNumList.get(4)));
+            lv5_n.setText(String.valueOf(unitNumList.get(5)));
+            lv6_n.setText(String.valueOf(unitNumList.get(6)));
+            spy_n.setText("NA");
+        }
+        // Inviable
+        else{
+            lv0_n.setText("NA");
+            lv1_n.setText("NA");
+            lv2_n.setText("NA");
+            lv3_n.setText("NA");
+            lv4_n.setText("NA");
+            lv5_n.setText("NA");
+            lv6_n.setText("NA");
+            spy_n.setText("NA");
+        }
+
+
+        // Get all TerrList
+        ArrayList<String> attackTerrNames = GameModel.getInstance().getAttackTerrName();
+        HashSet<String> myTerr = GameModel.getInstance().getMyTerrList();
+        toList.addAll(attackTerrNames);
+        toList.addAll(myTerr);
     }
 }

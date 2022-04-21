@@ -37,6 +37,7 @@ public class AttackDialogController implements Initializable,Communication {
     private final ObservableList<String> toList;
     private final ObservableList<Integer> numList;
     private final ObservableList<Integer> levelList;
+    private String clickTerr;
 
 
     public AttackDialogController(Stage window, boolean debug){
@@ -74,7 +75,14 @@ public class AttackDialogController implements Initializable,Communication {
 
     @FXML
     public void clickOnAttack(ActionEvent actionEvent) {
-        window.close();
+        if(!GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)){
+            System.out.println("Invalid value (Server check)");
+        }
+        else {
+            String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From "+this.clickTerr;
+            System.out.println(record);
+            window.close();
+        }
     }
 
     @Override
@@ -84,6 +92,9 @@ public class AttackDialogController implements Initializable,Communication {
         levelList.clear();
 
         terrName.setText(clickTerr);
+
+        // Set clickTerr
+        this.clickTerr = clickTerr;
 
         // Get My Terr Info
         if(GameModel.getInstance().getMyTerrList().contains(clickTerr)){

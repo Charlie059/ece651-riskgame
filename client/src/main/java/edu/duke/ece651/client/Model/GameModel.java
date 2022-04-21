@@ -205,6 +205,7 @@ public class GameModel extends Model{
         return false;
     }
 
+
     /**
      * Plyaer do move action, send server to check
      * @param moveInfo
