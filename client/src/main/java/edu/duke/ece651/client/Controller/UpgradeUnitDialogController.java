@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 
@@ -37,6 +39,7 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
     private final ObservableList<String> toList;
     private final ObservableList<String> fromList;
     private final ObservableList<Integer> numList;
+    private String clickTerr;
 
 
     public UpgradeUnitDialogController(Stage window, boolean debug){
@@ -74,36 +77,79 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
     }
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        window.close();
+        if(!GameModel.getInstance().doUpgradeUnit(new String[]{this.clickTerr, selectLvFrom.getValue() , "1", selectLvTo.getValue()}, debug)){
+            System.out.println("Invalid value (Server check)");
+        }
+        else {
+            String record = "Upgrade Level " + selectLvFrom.getValue() + " to " + selectLvTo.getValue() + " from " + this.clickTerr;
+            System.out.println(record);
+            window.close();
+        }
     }
 
     @FXML
     public void clickOnGetCost(ActionEvent actionEvent) {
-        cost_t.setText("123");
+        cost_t.setText("NA");
     }
 
     @Override
     public void setTerrInfo(String clickTerr) {
-        toList.clear();
-        fromList.clear();
+
         numList.clear();
+        toList.clear();
 
         terrName.setText(clickTerr);
-        lv0_n.setText(clickTerr);
-        lv1_n.setText(clickTerr);
-        lv2_n.setText(clickTerr);
-        lv3_n.setText(clickTerr);
-        lv4_n.setText(clickTerr);
-        lv5_n.setText(clickTerr);
-        lv6_n.setText(clickTerr);
-        spy_n.setText(clickTerr);
 
-        // set choiceboxes based on which territory you click.
-        toList.add(clickTerr);
-        toList.add("spy");
-        fromList.add(clickTerr);
-        fromList.add("spy");
-        numList.add(1);
+        // Set clickTerr
+        this.clickTerr = clickTerr;
 
+        // Get My Terr Info
+        if(GameModel.getInstance().getMyTerrList().contains(clickTerr)){
+            ArrayList<Integer> unitNumList = new ArrayList<>();
+            GameModel.getInstance().getTerrUnits(clickTerr, unitNumList);
+
+            lv0_n.setText(String.valueOf(unitNumList.get(0)));
+            lv1_n.setText(String.valueOf(unitNumList.get(1)));
+            lv2_n.setText(String.valueOf(unitNumList.get(2)));
+            lv3_n.setText(String.valueOf(unitNumList.get(3)));
+            lv4_n.setText(String.valueOf(unitNumList.get(4)));
+            lv5_n.setText(String.valueOf(unitNumList.get(5)));
+            lv6_n.setText(String.valueOf(unitNumList.get(6)));
+            spy_n.setText("NA");
+
+
+            // Set from level list
+            for (int i = 1; i < 7; i++) {
+                this.fromList.add(String.valueOf(i));
+                this.toList.add(String.valueOf(i));
+            }
+            this.numList.add(1);
+
+        }
+        // else if in the cache
+        else if(GameModel.getInstance().getLocalEnemyTerrs().containsKey(clickTerr)){
+            // Get the units number
+            ArrayList<Integer> unitNumList = GameModel.getInstance().getLocalEnemyTerrs().get(clickTerr);
+            lv0_n.setText(String.valueOf(unitNumList.get(0)));
+            lv1_n.setText(String.valueOf(unitNumList.get(1)));
+            lv2_n.setText(String.valueOf(unitNumList.get(2)));
+            lv3_n.setText(String.valueOf(unitNumList.get(3)));
+            lv4_n.setText(String.valueOf(unitNumList.get(4)));
+            lv5_n.setText(String.valueOf(unitNumList.get(5)));
+            lv6_n.setText(String.valueOf(unitNumList.get(6)));
+            spy_n.setText("NA");
+
+        }
+        // Inviable
+        else{
+            lv0_n.setText("NA");
+            lv1_n.setText("NA");
+            lv2_n.setText("NA");
+            lv3_n.setText("NA");
+            lv4_n.setText("NA");
+            lv5_n.setText("NA");
+            lv6_n.setText("NA");
+            spy_n.setText("NA");
+        }
     }
 }
