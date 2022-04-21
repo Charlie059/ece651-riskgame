@@ -112,10 +112,8 @@ public class DeploySpyDialogController implements Initializable,Communication {
                 spy_n.setText("0");
             }
 
-
-
-            // Get my TerrList
-            this.toList.addAll(GameModel.getInstance().getMyTerrList());
+            // Get clicked TerrList
+            this.toList.add(clickTerr);
         }
         // else if in the cache
         else if(GameModel.getInstance().getLocalEnemyTerrs().containsKey(clickTerr)) {
