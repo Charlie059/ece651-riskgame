@@ -97,6 +97,7 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
 
         numList.clear();
         toList.clear();
+        fromList.clear();
 
         terrName.setText(clickTerr);
 
