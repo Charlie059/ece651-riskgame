@@ -151,16 +151,19 @@ public class GameRunnable implements Runnable {
             //Do Combat Resolution
             CombatResolution combatResolution = new CombatResolution(this.gameHashMap, this.gameID);
             combatResolution.doCombat(0);//1: attacker wins, -1: defender wins, 0: random
+
             //Do Upgrade Tech Level
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
             //check win or lose-> decide whether to set game over
             checkWinOrLost(thisGame);
+
             //Breed
             //If first Loop, do not breed
             if (counter != 0) {
                 this.breed();
             }
             counter++;
+
             //Change Combat Resolution status finished
             thisGame.getCountDownLatch().countDown();
             //thisGame.setCombatFinished(true);

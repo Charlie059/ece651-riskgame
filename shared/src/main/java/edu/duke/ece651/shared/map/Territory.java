@@ -106,7 +106,7 @@ public class Territory implements Comparable<Territory>, Serializable {
     }
     public void updateCloak(){
         this.Cloak.set(1,this.Cloak.get(1)-1);
-        if(this.Cloak.get(1)<=0){
+        if(this.Cloak.get(1)<0){
             this.Cloak.set(0,0);
         }
     }

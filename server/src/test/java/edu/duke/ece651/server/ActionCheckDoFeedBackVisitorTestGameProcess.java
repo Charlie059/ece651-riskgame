@@ -550,7 +550,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         mockClient1.recvObject();
         mockClient2.recvObject();
 
-        //Cloaking Success because do not have Enough Food Resource
+        //Cloaking Success
         CloakTerritoryAction cloakTerritoryAction1 = new CloakTerritoryAction("a1");
         mockClient1.sendObject(cloakTerritoryAction1);
         Response rspCloakingAction1 = (Response) mockClient1.recvObject();

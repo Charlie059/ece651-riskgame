@@ -1,16 +1,15 @@
 package edu.duke.ece651.shared.IO.ServerResponse;
 
 import edu.duke.ece651.shared.Visitor.ResponseVisitor;
+import edu.duke.ece651.shared.map.Spy;
 
 import java.util.UUID;
 
 public class RSPSpyDeploySuccess implements Response{
-    UUID spyUUID;
-    Integer spyType;
+    Spy spy;
 
-    public RSPSpyDeploySuccess(UUID spyUUID, Integer spyType) {
-        this.spyUUID = spyUUID;
-        this.spyType = spyType;
+    public RSPSpyDeploySuccess(Spy spy) {
+        this.spy = spy;
     }
 
     @Override
@@ -18,11 +17,7 @@ public class RSPSpyDeploySuccess implements Response{
 
     }
 
-    public UUID getSpyUUID() {
-        return spyUUID;
-    }
-
-    public Integer getSpyType() {
-        return spyType;
+    public Spy getSpy() {
+        return spy;
     }
 }
