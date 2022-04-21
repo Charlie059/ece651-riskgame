@@ -171,6 +171,36 @@ public class GameModel extends Model {
         return false;
     }
 
+
+    public boolean doCloak(String[] dePloyInfo, boolean debugMode) {
+        // For Debug only
+        if (debugMode) {
+            return true;
+        }
+
+        try {
+            String from = dePloyInfo[0];
+
+            // Send a attackAction to server
+            CloakTerritoryAction cloakTerritoryAction = new CloakTerritoryAction(from);
+            ClientSocket.getInstance().sendObject(cloakTerritoryAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPAttackSuccess
+            if (response.getClass() != RSPCloakTerritorySuccess.class) return false;
+
+            // Cast and Get the response filed
+            RSPCloakTerritorySuccess rspCloakTerritorySuccess = (RSPCloakTerritorySuccess) response;
+            return true;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return false;
+    }
+
     /**
      * doDeploySpy
      *
