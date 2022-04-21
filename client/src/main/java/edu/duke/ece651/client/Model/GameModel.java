@@ -8,6 +8,7 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Spy;
 import edu.duke.ece651.shared.map.Territory;
 import edu.duke.ece651.shared.map.Unit;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -92,6 +93,65 @@ public class GameModel extends Model{
             }
         }
     }
+
+
+    /**
+     * doDeploySpy
+     * @param dePloyInfo
+     * @param debugMode
+     * @return
+     */
+    public boolean doDeploySpy(String[] dePloyInfo, boolean debugMode){
+        // For Debug only
+        if(debugMode){
+
+            HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
+            if(spyInfo.containsKey(dePloyInfo[0])){
+                spyInfo.get(dePloyInfo[0]).add(new Spy((this.clientPlayerPacket.getAccountID())));
+            }
+            else{
+                ArrayList<Spy> spyArrayList = new ArrayList<>();
+                spyArrayList.add(new Spy((this.clientPlayerPacket.getAccountID())));
+                spyInfo.put(dePloyInfo[0], spyArrayList);
+            }
+            return true;
+        }
+
+        try {
+            String from = dePloyInfo[0];
+
+
+            // Send a attackAction to server
+            SpyDeployAction spyDeployAction = new SpyDeployAction(from, from);
+            ClientSocket.getInstance().sendObject(spyDeployAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPAttackSuccess
+            if(response.getClass() != RSPSpyDeploySuccess.class) return false;
+
+            // Cast and Get the response filed
+            RSPSpyDeploySuccess rspSpyDeploySuccess = (RSPSpyDeploySuccess) response;
+            Spy spy = rspSpyDeploySuccess.getSpy();
+
+
+            // Change the model
+            HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
+            if(spyInfo.containsKey(dePloyInfo[0])){
+                spyInfo.get(dePloyInfo[0]).add(spy);
+            }
+            else{
+                ArrayList<Spy> spyArrayList = new ArrayList<>();
+                spyArrayList.add(spy);
+                spyInfo.put(dePloyInfo[0], spyArrayList);
+            }
+
+             return true;
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        return false;
+    }
+
 
     public boolean doUpgradeTech(boolean debugMode){
         if (debugMode){
@@ -576,6 +636,41 @@ public class GameModel extends Model{
 
         return enemyTerrList;
     }
+
+
+    /**
+     * Get all terr list
+     * @return
+     */
+    public ArrayList<String> getAllTerrName(){
+        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<String> ans = new ArrayList<>();
+
+        temp.add("a1");
+        temp.add("a2");
+        temp.add("a3");
+        temp.add("b1");
+        temp.add("b2");
+        temp.add("b3");
+        temp.add("c1");
+        temp.add("c2");
+        temp.add("c3");
+        temp.add("d1");
+        temp.add("d2");
+        temp.add("d3");
+        temp.add("e1");
+        temp.add("e2");
+        temp.add("e3");
+
+
+        // Get suitable size of terr name by numOfPlayers
+        for(int i = 0 ; i < this.clientPlayerPacket.getNumOfPlayers() * 3 ; i++) {
+            ans.add(temp.get(i));
+        }
+
+        return ans;
+    }
+
 
     /**
      * Get all terr Name
