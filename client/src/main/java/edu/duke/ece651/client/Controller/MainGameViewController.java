@@ -33,7 +33,7 @@ public class MainGameViewController implements Initializable {
     private final boolean debug;
     private final int n_players;
 
-    public MainGameViewController(Stage window, boolean debug) throws IOException {
+    public MainGameViewController(Stage window, boolean debug) {
         this.window = window;
         this.debug = debug;
         this.responses = FXCollections.observableArrayList();

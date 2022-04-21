@@ -24,6 +24,7 @@ public class ClientPlayerPacket implements Serializable {
     //TODO:Delete This EnemyTerritoryList
     private HashMap<String, ArrayList<String>> enemyTerritories; // HashMap<String -> AccountID String, ArrayList<String> -> ArrayList of Territories>
 
+
     //TODO:Use This New EnemyTerritoryList
     //<enemyAccountID, TerritoryHashMap<territoryName, visiable>> Each Enemy's Territory's Unit info
     private HashMap<String,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2;
@@ -32,7 +33,7 @@ public class ClientPlayerPacket implements Serializable {
     private HashMap<String,ArrayList<UUID>> spyInfo;
 
 
-    public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String, ArrayList<String>> enemyTerritories, Boolean isLose, Boolean isWin) {
+    public ClientPlayerPacket(GameID currentGameID, AccountID accountID, int numOfPlayers, int foodResource, int techResource, int techLevel, int totalDeployment, HashMap<String, Territory> myTerritories, HashMap<String,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2, Boolean isLose, Boolean isWin) {
         this.currentGameID = currentGameID;
         this.accountID = accountID;
         this.numOfPlayers = numOfPlayers;
@@ -41,7 +42,7 @@ public class ClientPlayerPacket implements Serializable {
         this.techLevel = techLevel;
         this.totalDeployment = totalDeployment;
         this.myTerritories = myTerritories;
-        this.enemyTerritories = enemyTerritories;
+        this.enemyTerritoriesV2 = enemyTerritoriesV2;
         this.isLose = isLose;
         this.isWin = isWin;
     }
@@ -154,5 +155,13 @@ public class ClientPlayerPacket implements Serializable {
         this.foodResource -= totalCost;
     }
 
+
+    /**
+     * Get getEnemyTerritoriesV2
+     * @return HashMap<String, HashMap<String, ArrayList<Integer>>>
+     */
+    public HashMap<String, HashMap<String, ArrayList<Integer>>> getEnemyTerritoriesV2() {
+        return enemyTerritoriesV2;
+    }
 
 }

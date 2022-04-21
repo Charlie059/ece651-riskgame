@@ -1,5 +1,6 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.GameModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -48,10 +49,14 @@ public class MapViewController implements Initializable  {
             Button btn = terrList.get(i);
             btn.setStyle("-fx-background-color: "+getColor(btn.getText()));  // set different color for different territory.
 
-            //also can set territory invisiable for war-fog here
-//            terrList.get(i).setVisible(false);
-//            costList.get(i).setVisible(false);
-//            polygonList.get(i).setVisible(false);
+
+            // TODO let all view visible
+//            // If in the deploy view, show every thing
+//            if(this.callFrom.equals("deployView")) break;
+//            //also can set territory invisiable for war-fog here
+////            terrList.get(i).setVisible(false);
+////            costList.get(i).setVisible(false);
+////            polygonList.get(i).setVisible(false);
         }
     }
 
@@ -77,7 +82,7 @@ public class MapViewController implements Initializable  {
     }
 
     private String getColor(String terrName){
-        return "#83ae52";  // get color from server
+        return GameModel.getInstance().getTerrColor(terrName);
     }
 
     private void initializeLists(){

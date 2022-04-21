@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * GameModel contains game info to be displayed into view(pass by controller)
@@ -21,6 +22,9 @@ public class GameModel extends Model{
 
 
     private ClientPlayerPacket clientPlayerPacket;
+
+
+    private HashMap<String,ArrayList<Integer>> localEnemyTerrs = new HashMap<>(); // TerrName -> Units
 
     private GameModel() {}
 
@@ -80,6 +84,7 @@ public class GameModel extends Model{
             }
         }
         else {
+            // TODO Change
             // We cannot get enmity's info
             for (int i = 0; i < 7; i++) {
                 ans.add(0);
@@ -460,35 +465,38 @@ public class GameModel extends Model{
         myTerr.put("b2",territory2);
         myTerr.put("b3",territory3);
 
-        HashMap<String, ArrayList<String>> enemyTerritories = new HashMap<>();
+        HashMap<String,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2 = new HashMap<>();
 
-        ArrayList<String> enemyTerrName = new ArrayList<>();
-        enemyTerrName.add("a1");
-        enemyTerrName.add("a2");
-        enemyTerrName.add("a3");
+        HashMap<String,ArrayList<Integer>> terr = new HashMap<>();
 
-        enemyTerritories.put("p1", enemyTerrName);
+        ArrayList<Integer> enemyTerrUnits1 = new ArrayList<>();
+        enemyTerrUnits1.add(7);
+        enemyTerrUnits1.add(0);
+        enemyTerrUnits1.add(0);
+        enemyTerrUnits1.add(0);
+        enemyTerrUnits1.add(0);
+        enemyTerrUnits1.add(0);
+        enemyTerrUnits1.add(0);
 
-        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritories, false,false);
+        ArrayList<Integer> enemyTerrUnits2 = new ArrayList<>();
+        enemyTerrUnits2.add(1);
+        enemyTerrUnits2.add(4);
+        enemyTerrUnits2.add(0);
+        enemyTerrUnits2.add(0);
+        enemyTerrUnits2.add(0);
+        enemyTerrUnits2.add(0);
+        enemyTerrUnits2.add(0);
+
+        terr.put("a1", enemyTerrUnits1);
+        terr.put("a2", enemyTerrUnits2);
+        enemyTerritoriesV2.put("p1", terr);
+
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr,enemyTerritoriesV2, false,false);
         this.clientPlayerPacket = clientPlayerPacket;
         return clientPlayerPacket;
     }
 
 
-    /**
-     * Get Enemy Array TerrList
-     * @return ArrayList<String>
-     */
-    public HashSet<String> getEnemyTerrList(){
-        HashSet<String> ans = new HashSet<>();
-        HashMap<String, ArrayList<String>> enemyTerritories = this.clientPlayerPacket.getEnemyTerritories();
-
-        for(String playerID:enemyTerritories.keySet()){
-           ArrayList<String> enemyTerritoriesList = enemyTerritories.get(playerID);
-           ans.addAll(enemyTerritoriesList);
-        }
-        return ans;
-    }
 
     /**
      * Get my TerrList
@@ -502,7 +510,111 @@ public class GameModel extends Model{
             ans.add(myTerr);
         }
         return ans;
+    }
 
+
+    /**
+     * Get the terr color
+     * @return self: green; enemy: in different color; invisible: black; invisible but in history: grey
+     */
+    public String getTerrColor(String terrName){
+        ArrayList<String> enemyTerrList = getEnemyTerrList_();
+
+        // if it is my terr
+        if (this.getMyTerrList().contains(terrName)){
+            return "#19ae52"; // green
+        }
+        // if is not my terr, not in enemyTerritoriesV2, not in local -> black
+        else if(!this.getMyTerrList().contains(terrName) && !enemyTerrList.contains(terrName) && !localEnemyTerrs.containsKey(terrName)){
+            return "#000000"; // black
+        }
+        // if is not my terr, not in enemyTerritoriesV2, but in local -> grey
+        else if(!this.getMyTerrList().contains(terrName) && !enemyTerrList.contains(terrName)  && localEnemyTerrs.containsKey(terrName)){
+            return "#524d4d"; // grey
+        }
+        // if in the enemyTerritoriesV2, then set red color
+        else if(enemyTerrList.contains(terrName)){
+            return "#ff0000"; // red
+        }
+
+        // Should not happen
+        return "#b3a6a6";
+    }
+
+    /**
+     * Get EnemyTerrList from enemyTerritoriesV2
+     */
+    private ArrayList<String> getEnemyTerrList_() {
+        // EnemyTerrList
+        ArrayList<String> enemyTerrList = new ArrayList<>();
+
+        // Get enemyTerritoriesV2
+        HashMap<String,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2 = this.clientPlayerPacket.getEnemyTerritoriesV2();
+        // <EnemyAccountID, <Territory, [UnitList]>>
+
+        for (Map.Entry<String, HashMap<String,ArrayList<Integer>>> entry : enemyTerritoriesV2.entrySet()) {
+
+            String accountID = entry.getKey();
+            HashMap<String,ArrayList<Integer>> value = entry.getValue();
+
+            for(Map.Entry<String,ArrayList<Integer>> inner : value.entrySet()){
+                String terr = inner.getKey();
+                ArrayList<Integer> units = inner.getValue();
+                enemyTerrList.add(terr);
+
+                // add terr and units to the local
+                this.localEnemyTerrs.put(terr, units);
+            }
+        }
+
+        return enemyTerrList;
+    }
+
+    /**
+     * Get all terr Name
+     * @return all terr
+     */
+    public ArrayList<String> getAttackTerrName(){
+        ArrayList<String> temp = new ArrayList<>();
+        ArrayList<String> ans = new ArrayList<>();
+
+        temp.add("a1");
+        temp.add("a2");
+        temp.add("a3");
+        temp.add("b1");
+        temp.add("b2");
+        temp.add("b3");
+        temp.add("c1");
+        temp.add("c2");
+        temp.add("c3");
+        temp.add("d1");
+        temp.add("d2");
+        temp.add("d3");
+        temp.add("e1");
+        temp.add("e2");
+        temp.add("e3");
+
+
+        // Get suitable size of terr name by numOfPlayers
+        for(int i = 0 ; i < this.clientPlayerPacket.getNumOfPlayers() * 3 ; i++) {
+            ans.add(temp.get(i));
+        }
+
+        // Get my terr list and rm from ans
+        HashSet<String> myTerrList = this.getMyTerrList();
+        for (String s : myTerrList) {
+            ans.remove(s);
+        }
+
+        return ans;
+    }
+
+    /**
+     * Get local Enemy Terrs
+     * @return HashMap<String, ArrayList<Integer>>
+     */
+    public HashMap<String, ArrayList<Integer>> getLocalEnemyTerrs() {
+        return localEnemyTerrs;
     }
 
 

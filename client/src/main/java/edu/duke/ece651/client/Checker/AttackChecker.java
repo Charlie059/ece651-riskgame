@@ -19,10 +19,10 @@ public class AttackChecker extends Checker {
         }
 
         HashSet<String> myTerrList = GameModel.getInstance().getMyTerrList();
-        HashSet<String> enemyTerrList = GameModel.getInstance().getEnemyTerrList();
+//        HashSet<String> enemyTerrList = GameModel.getInstance().getEnemyTerrList();
 
         if(!myTerrList.contains(userInput[0])) return false; // check terrFrom
-        if(!enemyTerrList.contains(userInput[1])) return false; // check terrTo
+//        if(!enemyTerrList.contains(userInput[1])) return false; // check terrTo
 
 
         if(!checkNum(userInput[2], 0, 7)) return false; // check if level between 0 - 7
