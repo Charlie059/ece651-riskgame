@@ -596,7 +596,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             player.setTechResource(player.getTechResource() - 20);
             //Delete One Unit Level 1 from the From Territory
             map.getTerritoryList().get(spyDeployAction.getFrom()).removeUnitLevel(1, 1, map.getTerritoryList().get(spyDeployAction.getFrom()).getUnits());
-            RSPSpyDeploySuccess rspSpyDeploySuccess = new RSPSpyDeploySuccess(spy.getSpyUUID(), spy.getSpyType());
+            RSPSpyDeploySuccess rspSpyDeploySuccess = new RSPSpyDeploySuccess(spy);
             sendResponse(rspSpyDeploySuccess);
             System.out.println("[GameID]: " + this.gameID.getCurrGameID() + " [Player]: " + this.accountID.getAccountID() + " [RSPSpyDeploySuccess]: {UUID: " + spy.getSpyUUID() + " TYPE: " + spy.getSpyType() + "}");
         } else {

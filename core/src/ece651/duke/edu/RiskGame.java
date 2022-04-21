@@ -10,6 +10,7 @@ public class RiskGame extends Game {
     public BitmapFont font;
     MainMenuScreen mainMenuScreen;
 
+    //Run Once
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont(); // use libGDX's default Arial font
@@ -17,6 +18,7 @@ public class RiskGame extends Game {
         this.setScreen(this.mainMenuScreen);
     }
 
+    //Run EveryFrame
     public void render() {
         //Call ApplicationListener's render function
         super.render(); // important!
