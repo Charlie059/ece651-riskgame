@@ -25,6 +25,7 @@ public class ClientPlayerPacket implements Serializable {
     //TODO:Delete This EnemyTerritoryList
     private HashMap<String, ArrayList<String>> enemyTerritories; // HashMap<String -> AccountID String, ArrayList<String> -> ArrayList of Territories>
 
+
     //TODO:Use This New EnemyTerritoryList
     //<enemyAccountID, TerritoryHashMap<territoryName, visiable>> Each Enemy's Territory's Unit info
     private HashMap<AccountID,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2;
@@ -155,6 +156,14 @@ public class ClientPlayerPacket implements Serializable {
     public void doAttack(String from_name, String to_name, ArrayList<ArrayList<Integer>> attackUnits, int totalCost) {
         this.getMyTerritories().get(from_name).removeUnitMultiLevels(attackUnits);
         this.foodResource -= totalCost;
+    }
+
+    public HashMap<AccountID, HashMap<String, ArrayList<Integer>>> getEnemyTerritoriesV2() {
+        return enemyTerritoriesV2;
+    }
+
+    public HashMap<String, ArrayList<Spy>> getSpyInfo() {
+        return spyInfo;
     }
 
 
