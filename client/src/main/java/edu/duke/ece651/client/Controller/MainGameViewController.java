@@ -199,7 +199,14 @@ public class MainGameViewController implements Initializable {
     }
 
     @FXML
-    public void clickOnTool(){}
+    public void clickOnTool(){
+        try {
+            new ToolsDialogView().show(new Stage(), null, debug);
+            updateView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     public void clickOnMoveSpy(){

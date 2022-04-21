@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.ToolsDialogController">
+   <children>
+      <SplitPane dividerPositions="0.4559633027522936" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="1092.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="471.0">
+               <children>
+                  <Text layoutX="14.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Repository">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <TableView fx:id="repsitoryTable" layoutX="23.0" layoutY="72.0" prefHeight="465.0" prefWidth="459.0">
+                    <columns>
+                      <TableColumn fx:id="toolName_rep" prefWidth="245.0" resizable="false" text="Tool name" />
+                      <TableColumn fx:id="use_rep" prefWidth="213.0" resizable="false" text="Use" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="687.0" prefWidth="607.0">
+               <children>
+                  <TableView fx:id="storeTable" layoutX="14.0" layoutY="74.0" prefHeight="465.0" prefWidth="567.0">
+                     <columns>
+                        <TableColumn fx:id="toolName_store" prefWidth="170.0" resizable="false" text="Tool name" />
+                        <TableColumn fx:id="cost_store" prefWidth="75.0" resizable="false" text="Cost" />
+                        <TableColumn fx:id="details_store" prefWidth="153.0" resizable="false" text="Details" />
+                        <TableColumn fx:id="buy_store" prefWidth="168.0" resizable="false" text="Buy" />
+                     </columns>
+                  </TableView>
+                  <Text layoutX="14.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buy Tools">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="23.0" layoutY="608.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Points:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="curPoints" layoutX="206.0" layoutY="607.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</Pane>
