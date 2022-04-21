@@ -3,6 +3,7 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.View.MapView;
+import edu.duke.ece651.shared.map.Spy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,6 +17,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 
@@ -31,7 +35,7 @@ public class DeploySpyDialogController implements Initializable,Communication {
     private final boolean debug;
     private final int n_player;
     private final ObservableList<String> toList;
-
+    private String clickTerr;
 
     public DeploySpyDialogController(Stage window, boolean debug){
         this.window = window;
@@ -53,7 +57,7 @@ public class DeploySpyDialogController implements Initializable,Communication {
         lv6_n.setText("");
         spy_n.setText("");
         selectTo.setItems(toList);
-        undeployedSpyNumber.setText("3");
+        undeployedSpyNumber.setText("NA");
 
         //set map
         try {
@@ -65,25 +69,87 @@ public class DeploySpyDialogController implements Initializable,Communication {
 
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        window.close();
-        // after click, update undeployedSpyNumber and corresponding terrInfo(by calling setTerrInfo)
+        if(!GameModel.getInstance().doDeploySpy(new String[]{this.clickTerr}, debug)){
+            System.out.println("Invalid value (Server check)");
+        }
+        else {
+            String record = "Deploy Spy at " + this.clickTerr;
+            System.out.println(record);
+            window.close();
+        }
+
     }
 
     @Override
     public void setTerrInfo(String clickTerr) {
         toList.clear();
 
-        terrName.setText(clickTerr);
-        lv0_n.setText(clickTerr);
-        lv1_n.setText(clickTerr);
-        lv2_n.setText(clickTerr);
-        lv3_n.setText(clickTerr);
-        lv4_n.setText(clickTerr);
-        lv5_n.setText(clickTerr);
-        lv6_n.setText(clickTerr);
-        spy_n.setText(clickTerr);
 
-        // set choiceboxes based on which territory you click.
-        toList.add(clickTerr);
+
+        terrName.setText(clickTerr);
+
+        // Set clickTerr
+        this.clickTerr = clickTerr;
+
+        // Get My Terr Info
+        if(GameModel.getInstance().getMyTerrList().contains(clickTerr)){
+            ArrayList<Integer> unitNumList = new ArrayList<>();
+            GameModel.getInstance().getTerrUnits(clickTerr, unitNumList);
+
+            lv0_n.setText(String.valueOf(unitNumList.get(0)));
+            lv1_n.setText(String.valueOf(unitNumList.get(1)));
+            lv2_n.setText(String.valueOf(unitNumList.get(2)));
+            lv3_n.setText(String.valueOf(unitNumList.get(3)));
+            lv4_n.setText(String.valueOf(unitNumList.get(4)));
+            lv5_n.setText(String.valueOf(unitNumList.get(5)));
+            lv6_n.setText(String.valueOf(unitNumList.get(6)));
+
+            // Setup spy
+            HashMap<String, ArrayList<Spy>> spyInfo = GameModel.getInstance().getClientPlayerPacket().getSpyInfo();
+            if(spyInfo.containsKey(clickTerr)){
+                spy_n.setText(String.valueOf(spyInfo.get(clickTerr).size()));
+            }
+            else{
+                spy_n.setText("0");
+            }
+
+
+
+            // Get my TerrList
+            this.toList.addAll(GameModel.getInstance().getMyTerrList());
+        }
+        // else if in the cache
+        else if(GameModel.getInstance().getLocalEnemyTerrs().containsKey(clickTerr)) {
+            // Get the units number
+            ArrayList<Integer> unitNumList = GameModel.getInstance().getLocalEnemyTerrs().get(clickTerr);
+            lv0_n.setText(String.valueOf(unitNumList.get(0)));
+            lv1_n.setText(String.valueOf(unitNumList.get(1)));
+            lv2_n.setText(String.valueOf(unitNumList.get(2)));
+            lv3_n.setText(String.valueOf(unitNumList.get(3)));
+            lv4_n.setText(String.valueOf(unitNumList.get(4)));
+            lv5_n.setText(String.valueOf(unitNumList.get(5)));
+            lv6_n.setText(String.valueOf(unitNumList.get(6)));
+
+
+            // Setup spy
+            HashMap<String, ArrayList<Spy>> spyInfo = GameModel.getInstance().getClientPlayerPacket().getSpyInfo();
+            if(spyInfo.containsKey(clickTerr)){
+                spy_n.setText(String.valueOf(spyInfo.get(clickTerr).size()));
+            }
+            else{
+                spy_n.setText("0");
+            }
+        }
+        // Inviable
+        else{
+            lv0_n.setText("NA");
+            lv1_n.setText("NA");
+            lv2_n.setText("NA");
+            lv3_n.setText("NA");
+            lv4_n.setText("NA");
+            lv5_n.setText("NA");
+            lv6_n.setText("NA");
+            spy_n.setText("NA");
+        }
     }
 }
