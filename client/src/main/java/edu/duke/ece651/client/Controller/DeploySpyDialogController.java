@@ -85,7 +85,6 @@ public class DeploySpyDialogController implements Initializable,Communication {
         toList.clear();
 
 
-
         terrName.setText(clickTerr);
 
         // Set clickTerr
