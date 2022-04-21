@@ -29,6 +29,8 @@ public class Player {
     private GameID currentGameID;
     private HashSet<Card> myCards;
     private int points;
+    private int sanctionCounter;
+    private boolean isGodWithU;
 
     public Player(AccountID _id, GameID currentGameID, Map _map) {
         this.accountID = _id;
@@ -50,7 +52,8 @@ public class Player {
         this.myCards = new HashSet<>();
         this.addCard(new CardType().getSpecialSpyUpgrade().get(0));
         this.points = 1000;
-
+        this.sanctionCounter = 0;
+        this.isGodWithU = false;
     }
 
 
@@ -247,5 +250,21 @@ public class Player {
 
     public void setTechResource(int techResource) {
         this.techResource = techResource;
+    }
+
+    public int getSanctionCounter() {
+        return sanctionCounter;
+    }
+
+    public void setSanctionCounter(int sanctionCounter) {
+        this.sanctionCounter = sanctionCounter;
+    }
+
+    public boolean isGodWithU() {
+        return isGodWithU;
+    }
+
+    public void setGodWithU(boolean godWithU) {
+        isGodWithU = godWithU;
     }
 }

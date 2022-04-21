@@ -42,4 +42,12 @@ public interface ActionVisitor {
 
     void visit(CardBuyAction cardBuyAction);
 
+    void visit(BombardmentAction bombardmentAction);
+
+    void visit(SanctionAction sanctionAction);
+
+    void visit(TheGreatLeapForwardAction theGreatLeapForwardAction);
+
+    void visit(GodBeWithUAction godBeWithUAction);
+
 }

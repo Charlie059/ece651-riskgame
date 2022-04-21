@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerTest {
 
@@ -120,6 +120,23 @@ class PlayerTest {
         p.setFoodResource(200);
         p.setTechResource(200);
         p.setCurrTechLevel(200);
+        assertEquals(p.isGodWithU(), false);
+        p.setGodWithU(true);
+        p.setSanctionCounter(2);
+        p.setCurrentGameID(new GameID(2));
+        assertEquals(p.getCurrentGameID(), 2);
+        assertEquals(p.getSanctionCounter(), 2);
+        p.setPoints(5000);
+        assertEquals(p.getPoints(), 5000);
+        p.setTotalDeployment(9);
+        assertEquals(p.getTotalDeployment(), 9);
+
+        //have card, add card, delete card
+        assertFalse(p.haveCard(11));
+        p.addCard(11);
+        assertTrue(p.haveCard(11));
+        p.deleteCard(11);
+        assertFalse(p.haveCard(11));
     }
 
 }

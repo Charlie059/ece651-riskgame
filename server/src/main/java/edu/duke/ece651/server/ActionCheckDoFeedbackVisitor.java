@@ -711,4 +711,125 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
     }
 
+    @Override
+    public void visit(BombardmentAction bombardmentAction) {
+        Map map = this.gameHashMap.get(this.gameID).getMap();
+        Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        BombardmentChecker bombardmentChecker = new BombardmentChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                map,
+                bombardmentAction.getEnemyTerritory(),
+                player
+        );
+        if (bombardmentChecker.doCheck() == null){
+            //reduce units in enemyTerr by half (rounded up)
+            Territory enemyTerr = map.getTerritoryList().
+                    get(bombardmentAction.getEnemyTerritory());
+            enemyTerr.removeUnitsByHalf();
+            //Delete This player's upgrade Card
+            player.deleteCard(new CardType().getBombardment().get(0));
+            //send rsp
+            RSPBombardmentSuccess rspBombardmentSuccess = new RSPBombardmentSuccess(
+                    bombardmentAction.getEnemyTerritory(),
+                    enemyTerr.getUnits()
+                    );
+            sendResponse(rspBombardmentSuccess);
+        }
+        else{
+            RSPBombardmentFail rspBombardmentFail = new RSPBombardmentFail(bombardmentChecker.getErrMessage());
+            sendResponse(rspBombardmentFail);
+        }
+    }
+
+    @Override
+    public void visit(SanctionAction sanctionAction) {
+        Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        SanctionChecker sanctionChecker = new SanctionChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                sanctionAction.getEnemyID(),
+                player,
+                this.gameID
+        );
+        //docheck
+        if (sanctionChecker.doCheck() == null) {
+            Player enemyPlayer = this.gameHashMap.
+                    get(this.gameID).getPlayerHashMap().
+                    get(sanctionAction.getEnemyID());
+            //Delete This player's upgrade Card
+            player.deleteCard(new CardType().getBombardment().get(0));
+            enemyPlayer.setSanctionCounter(enemyPlayer.getSanctionCounter() + 2);
+            //send rsp
+            RSPSanctionSuccess rspSanctionSuccess = new RSPSanctionSuccess();
+            sendResponse(rspSanctionSuccess);
+        }
+        else{
+            RSPSanctionFail rspSanctionFail = new RSPSanctionFail(sanctionChecker.getErrMessage());
+            sendResponse(rspSanctionFail);
+        }
+    }
+
+    @Override
+    public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+        Player player = this.gameHashMap.get(this.gameID).
+                getPlayerHashMap().get(this.accountID);
+        TheGreatLeapForwardChecker greatLeapForwardChecker = new TheGreatLeapForwardChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                player,
+                theGreatLeapForwardAction.getTerritoryName()
+        );
+        if (greatLeapForwardChecker.doCheck() == null){
+            //Delete This player's upgrade Card
+            player.deleteCard(new CardType().getGreatLeapForward().get(0));
+            //Do greatLeapForward
+            Territory territoryToLeap = player.getMyTerritories().
+                    get(theGreatLeapForwardAction.getTerritoryName());
+            territoryToLeap.unitGreatLeapForward();
+            //send rsp
+            RSPGreatLeapForwardSuccess rspGreatLeapForwardSuccess =
+                    new RSPGreatLeapForwardSuccess(
+                            theGreatLeapForwardAction.getTerritoryName(),
+                            territoryToLeap.getUnits()
+                            );
+            sendResponse(rspGreatLeapForwardSuccess);
+        }
+        else{
+            RSPGreatLeapForwardFail rspGreatLeapForwardFail =
+                    new RSPGreatLeapForwardFail(greatLeapForwardChecker.getErrMessage());
+            sendResponse(rspGreatLeapForwardFail);
+        }
+    }
+
+    @Override
+    public void visit(GodBeWithUAction godBeWithUAction) {
+        Player player = this.gameHashMap.get(this.gameID).
+                getPlayerHashMap().get(this.accountID);
+        GodBeWithUChecker godBeWithUChecker = new GodBeWithUChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                player
+        );
+        if (godBeWithUChecker.doCheck() == null){
+            player.setGodWithU(true);
+            //Delete This player's upgrade Card
+            player.deleteCard(new CardType().getGodBeWithYou().get(0));
+            //send rsp
+
+            RSPGodBeWithUSuccess rspGodBeWithUSuccess =
+                    new RSPGodBeWithUSuccess();
+            sendResponse(rspGodBeWithUSuccess);
+        }
+        else{
+            RSPGodBeWithUFail rspGodBeWithUFail =
+                    new RSPGodBeWithUFail(godBeWithUChecker.getErrMessage());
+            sendResponse(rspGodBeWithUFail);
+        }
+    }
+
 }

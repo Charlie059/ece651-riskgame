@@ -94,14 +94,23 @@ public class GameRunnable implements Runnable {
 
         //Each Tech Resource increasing owned territories * cost * 8
         for (Player player : this.currGame.getPlayerHashMap().getPlayerHashMap().values()) {
-            Integer foodBreed = 0;
-            Integer techBreed = 0;
-            for (Territory territory : player.getMyTerritories().values()) {
-                foodBreed += territory.getCost() * 4;
-                techBreed += territory.getCost() * 8;
+            //increase food and tech resource if player's sanctionCounter is 0
+            if (player.getSanctionCounter() == 0) {
+                Integer foodBreed = 0;
+                Integer techBreed = 0;
+                for (Territory territory : player.getMyTerritories().values()) {
+                    foodBreed += territory.getCost() * 4;
+                    techBreed += territory.getCost() * 8;
+                }
+                player.setFoodResource(player.getFoodResource() + foodBreed);
+                player.setTechResource(player.getTechResource() + techBreed);
             }
-            player.setFoodResource(player.getFoodResource() + foodBreed);
-            player.setTechResource(player.getTechResource() + techBreed);
+            else{
+                //otherwise, reduce sanctionCounter by 1
+                if (player.getSanctionCounter() > 0){
+                    player.setSanctionCounter(player.getSanctionCounter()-1);
+                }
+            }
         }
     }
 
@@ -135,7 +144,6 @@ public class GameRunnable implements Runnable {
                     }
                 }
             }
-
 
             //Change isCommited to False
             this.changeIsCommitted();
