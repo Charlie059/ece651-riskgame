@@ -143,6 +143,8 @@ public class Territory implements Comparable<Territory>, Serializable {
         return Units;
     }
 
+    public void setUnits(ArrayList<Unit> U){this.Units = U;}
+
     public int getCost() {
         return cost;
     }
@@ -166,6 +168,7 @@ public class Territory implements Comparable<Territory>, Serializable {
     public void setPrev(String prev) {
         this.prev = prev;
     }
+
 
     @Override
     public int compareTo(Territory o) {
@@ -281,6 +284,26 @@ public class Territory implements Comparable<Territory>, Serializable {
         }
         Units = (ArrayList<Unit>) U.clone();
         return true;
+    }
+
+    /**
+     * remove units of all LVs by half (rounded up)
+     */
+    public void removeUnitsByHalf(){
+        for(Unit u: this.Units){
+            u.setValue(u.getValue()/2);
+        }
+    }
+
+    /**
+     *  all units (except Lv6) in territory level up (by 1 level)
+     */
+    public void unitGreatLeapForward(){
+        for(int i = 6; i>=1; i--){
+            this.Units.get(i).setValue(
+                    this.Units.get(i).getValue() + this.Units.get(i-1).getValue());
+            this.Units.get(i-1).setValue(0);
+        }
     }
 
     public void changeOwner(AccountID accountid) {

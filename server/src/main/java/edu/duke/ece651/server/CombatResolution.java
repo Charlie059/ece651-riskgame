@@ -196,7 +196,14 @@ public class CombatResolution {
                 if (dfnL <= dfnH && dfnL < defenderUnits.size()-1){
                     Integer defendLevel = defenderUnits.get(dfnL).getLevel();
                     //implement level by level attack
-                    attackLevelByLevel(attackLevel, defendLevel, attackerUnits.get(atkH), defenderUnits.get(dfnL), diceDebugMode);
+                    attackLevelByLevel(attackLevel,
+                            defendLevel,
+                            attackerUnits.get(atkH),
+                            defenderUnits.get(dfnL),
+                            diceDebugMode,
+                            attackPlayer,
+                            defendPlayer
+                    );
                 }
             }
             //PHASE 2: then, lowest-bonus attacker unit paired with the highest-bonus defender unit
@@ -210,7 +217,15 @@ public class CombatResolution {
                     Integer defendLevel = defenderUnits.get(dfnH).getLevel();
                     //implement level by level attack
                     if (attackerUnits.get(atkL).get(1) > 0 && defenderUnits.get(dfnH).getValue() > 0) {
-                        attackLevelByLevel(attackLevel, defendLevel, attackerUnits.get(atkL), defenderUnits.get(dfnH), diceDebugMode);
+                        attackLevelByLevel(
+                                attackLevel,
+                                defendLevel,
+                                attackerUnits.get(atkL),
+                                defenderUnits.get(dfnH),
+                                diceDebugMode,
+                                attackPlayer,
+                                defendPlayer
+                        );
                     }
                 }
             }
@@ -225,19 +240,46 @@ public class CombatResolution {
      * @param attackLevelUnit: attackUnits of current level
      * @param defendLevelUnit: defendUnits of current level
      * @param diceDebugMode if debugmode is 1, attacker always win; if -1, defender always win; if 0, random
+     * @param attackPlayer: attacker player
+     * @param defendPlayer: defender player
      */
     public void attackLevelByLevel(Integer attackLevel,
                                    Integer defendLevel,
                                    ArrayList<Integer> attackLevelUnit,
                                    Unit defendLevelUnit,
-                                   Integer diceDebugMode
+                                   Integer diceDebugMode,
+                                   Player attackPlayer,
+                                   Player defendPlayer
                                    ){
         //implement attack
         Dice dice;
+
         if (diceDebugMode == 0) {
-             dice = new Dice(attackLevel, defendLevel);
+            //random mode
+            if (attackPlayer.isGodWithU() && (!defendPlayer.isGodWithU())){
+                //if attackPlayer has godWithU while defenderPlayer doesn't have, attacker always wins
+                dice = new Dice(attackLevel, defendLevel, 1);
+                //remove attackPlayer's godWithU
+                attackPlayer.setGodWithU(false);
+            }
+            else if (!attackPlayer.isGodWithU() && defendPlayer.isGodWithU()){
+                //if defenderPlayer has godWithU while attackPlayer hasn't, defender always wins
+                dice = new Dice(attackLevel, defendLevel, -1);
+                //remove setGodWithU's godWithU
+                defendPlayer.setGodWithU(false);
+            }
+            else {
+                //if both player have godWithU or both don't have, random
+                dice = new Dice(attackLevel, defendLevel);
+                if (attackPlayer.isGodWithU() && defendPlayer.isGodWithU()){
+                    attackPlayer.setGodWithU(false);
+                    defendPlayer.setGodWithU(false);
+                }
+            }
+
         }
         else{
+            //debug mode
             dice = new Dice(attackLevel, defendLevel, diceDebugMode);
         }
         ArrayList<Integer> result = dice.getResult();
