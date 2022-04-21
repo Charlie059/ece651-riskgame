@@ -8,7 +8,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -200,12 +199,9 @@ public class MainGameViewController implements Initializable {
     }
 
     @FXML
-    public void clickOnTool(){}
-
-    @FXML
-    public void clickOnSpy(){
+    public void clickOnTool(){
         try {
-            new SpyView().show(new Stage(), null, debug);
+            new ToolsDialogView().show(new Stage(), null, debug);
             updateView();
         } catch (IOException e) {
             e.printStackTrace();
@@ -213,8 +209,41 @@ public class MainGameViewController implements Initializable {
     }
 
     @FXML
+    public void clickOnMoveSpy(){
+        try {
+            new MoveSpyDialogView().show(new Stage(), null, debug);
+            updateView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void clickOnDeploySpy(){
+        try {
+            new DeploySpyDiaglogView().show(new Stage(), null, debug);
+            updateView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
     public void clickOnCommit(){
         responses.add("Click On Commit");
+    }
+
+    @FXML
+    public void clickOnCloak(){
+        // check pre-condition. if tech-level < 3, print error.
+        responses.add("tech level does not reach 3!");
+        try {
+            new CloakDialogView().show(new Stage(), null, debug);
+            updateView();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

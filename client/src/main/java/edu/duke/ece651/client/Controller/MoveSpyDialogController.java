@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class SpyDialogController implements Initializable,Communication {
+public class MoveSpyDialogController implements Initializable,Communication {
     @FXML
     Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
     @FXML
@@ -35,7 +35,7 @@ public class SpyDialogController implements Initializable,Communication {
     private final ObservableList<String> toList;
 
 
-    public SpyDialogController(Stage window, boolean debug){
+    public MoveSpyDialogController(Stage window, boolean debug){
         this.window = window;
         this.debug = debug;
         this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
@@ -59,7 +59,7 @@ public class SpyDialogController implements Initializable,Communication {
 
         //set map
         try {
-            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "spyDialogView"));
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "moveSpyDialogView"));
         } catch (IOException e) {
             e.printStackTrace();
         }
