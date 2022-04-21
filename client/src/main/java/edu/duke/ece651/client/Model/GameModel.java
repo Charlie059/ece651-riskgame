@@ -19,73 +19,80 @@ import java.util.Map;
 /**
  * GameModel contains game info to be displayed into view(pass by controller)
  */
-public class GameModel extends Model{
+public class GameModel extends Model {
     private static GameModel gameModel;
 
 
     private ClientPlayerPacket clientPlayerPacket;
 
 
-    private HashMap<String,ArrayList<Integer>> localEnemyTerrs = new HashMap<>(); // TerrName -> Units
+    private HashMap<String, ArrayList<Integer>> localEnemyTerrs = new HashMap<>(); // TerrName -> Units
 
-    private GameModel() {}
+    private GameModel() {
+    }
 
     public synchronized static GameModel getInstance() {
-        if (gameModel == null) {gameModel = new GameModel();}
+        if (gameModel == null) {
+            gameModel = new GameModel();
+        }
         return gameModel;
     }
 
 
     /**
      * Get player id
+     *
      * @return String
      */
-    public String getPlayerID(){
+    public String getPlayerID() {
         return this.clientPlayerPacket.getAccountID().getAccountID();
     }
 
     /**
      * Get food Res
+     *
      * @return
      */
-    public int getFoodRes(){
+    public int getFoodRes() {
         return this.clientPlayerPacket.getFoodResource();
     }
 
     /**
      * Get food Res
+     *
      * @return
      */
-    public int getTechRes(){
+    public int getTechRes() {
         return this.clientPlayerPacket.getTechResource();
     }
 
 
     /**
      * Get tech level
+     *
      * @return tech level
      */
-    public int getTechlevel(){
+    public int getTechlevel() {
         return this.clientPlayerPacket.getTechLevel();
     }
 
 
     /**
      * Get terr's units list from terrName
+     *
      * @param terrName String
-     * @param ans Arr
+     * @param ans      Arr
      */
-    public void getTerrUnits(String terrName, ArrayList<Integer> ans){
+    public void getTerrUnits(String terrName, ArrayList<Integer> ans) {
         // Get Terr units form the model
         HashMap<String, Territory> myTerritories = GameModel.getInstance().getClientPlayerPacket().getMyTerritories();
-        if(myTerritories.containsKey(terrName)){
+        if (myTerritories.containsKey(terrName)) {
             ArrayList<Unit> units = myTerritories.get(terrName).getUnits();
             // Set unit to the view
             for (int i = 0; i < units.size(); i++) {
                 ans.add(units.get(i).getValue());
             }
-        }
-        else {
+        } else {
             // TODO Change
             // We cannot get enmity's info
             for (int i = 0; i < 7; i++) {
@@ -96,20 +103,89 @@ public class GameModel extends Model{
 
 
     /**
+     * do move spy in the map
+     */
+    private void moveSpy(String from, String to) {
+        HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
+        ArrayList<Spy> spyArrayListFrom = spyInfo.get(from);
+        // get the first spy
+        Spy spy = spyArrayListFrom.get(0);
+        // rm form the spyArrayList
+        spyArrayListFrom.remove(0);
+
+        // Add to the to terr
+        if (spyInfo.containsKey(to)) {
+            ArrayList<Spy> spyArrayListTo = spyInfo.get(to);
+            spyArrayListTo.add(spy);
+        } else {
+            ArrayList<Spy> spyArrayListTo = new ArrayList<>();
+            spyArrayListTo.add(spy);
+            spyInfo.put(to, spyArrayListTo);
+        }
+    }
+
+    public boolean doMoveSpy(String[] dePloyInfo, boolean debugMode) {
+        // For Debug only
+        if (debugMode) {
+            moveSpy( dePloyInfo[0], dePloyInfo[1]);
+            return true;
+        }
+
+        try {
+            String from = dePloyInfo[0];
+            String to = dePloyInfo[1];
+
+            // if we have spy in that terr
+            if (this.getClientPlayerPacket().getSpyInfo().containsKey(from)) {
+
+                // get the first spy in the arr list
+
+                if (this.getClientPlayerPacket().getSpyInfo().get(from).size() > 0) {
+
+                    // get the first spy in the arr list
+                    Spy spy = this.getClientPlayerPacket().getSpyInfo().get(from).get(0);
+
+                    // Send a attackAction to server
+                    SpyMoveAction spyMoveAction = new SpyMoveAction(spy.getSpyUUID(), from, to);
+                    ClientSocket.getInstance().sendObject(spyMoveAction);
+
+                    // Recv server response
+                    Response response = (Response) ClientSocket.getInstance().recvObject();
+
+                    // If response is not RSPAttackSuccess
+                    if (response.getClass() != RSPSpyMoveSuccess.class) return false;
+
+                    // Cast and Get the response filed
+                    RSPSpyMoveSuccess rspSpyMoveSuccess = (RSPSpyMoveSuccess) response;
+
+                    // Change the model
+                    moveSpy(from, to);
+
+                    return true;
+                }
+            }
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return false;
+    }
+
+    /**
      * doDeploySpy
+     *
      * @param dePloyInfo
      * @param debugMode
      * @return
      */
-    public boolean doDeploySpy(String[] dePloyInfo, boolean debugMode){
+    public boolean doDeploySpy(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
-        if(debugMode){
+        if (debugMode) {
 
             HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
-            if(spyInfo.containsKey(dePloyInfo[0])){
+            if (spyInfo.containsKey(dePloyInfo[0])) {
                 spyInfo.get(dePloyInfo[0]).add(new Spy((this.clientPlayerPacket.getAccountID())));
-            }
-            else{
+            } else {
                 ArrayList<Spy> spyArrayList = new ArrayList<>();
                 spyArrayList.add(new Spy((this.clientPlayerPacket.getAccountID())));
                 spyInfo.put(dePloyInfo[0], spyArrayList);
@@ -129,7 +205,7 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if(response.getClass() != RSPSpyDeploySuccess.class) return false;
+            if (response.getClass() != RSPSpyDeploySuccess.class) return false;
 
             // Cast and Get the response filed
             RSPSpyDeploySuccess rspSpyDeploySuccess = (RSPSpyDeploySuccess) response;
@@ -138,24 +214,24 @@ public class GameModel extends Model{
 
             // Change the model
             HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
-            if(spyInfo.containsKey(dePloyInfo[0])){
+            if (spyInfo.containsKey(dePloyInfo[0])) {
                 spyInfo.get(dePloyInfo[0]).add(spy);
-            }
-            else{
+            } else {
                 ArrayList<Spy> spyArrayList = new ArrayList<>();
                 spyArrayList.add(spy);
                 spyInfo.put(dePloyInfo[0], spyArrayList);
             }
 
-             return true;
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+            return true;
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
 
-    public boolean doUpgradeTech(boolean debugMode){
-        if (debugMode){
-            this.clientPlayerPacket.doUpgradeTech(1,10);
+    public boolean doUpgradeTech(boolean debugMode) {
+        if (debugMode) {
+            this.clientPlayerPacket.doUpgradeTech(1, 10);
             return true;
         }
 
@@ -168,7 +244,7 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPUpgradeTechSuccess
-            if(response.getClass() != RSPUpgradeTechSuccess.class) return false;
+            if (response.getClass() != RSPUpgradeTechSuccess.class) return false;
 
             // Cast the response
             RSPUpgradeTechSuccess rspUpgradeTechSuccess = (RSPUpgradeTechSuccess) response;
@@ -176,18 +252,21 @@ public class GameModel extends Model{
             //Update model
             this.clientPlayerPacket.doUpgradeTech(this.clientPlayerPacket.getTechLevel(), rspUpgradeTechSuccess.getTechCost());
             return true;
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
+
     /**
      * doAtack action, send req to server and get response then change view
+     *
      * @param attackInfo
      * @param debugMode
      * @return true for success
      */
-    public boolean doAttack(String[] attackInfo, boolean debugMode){
+    public boolean doAttack(String[] attackInfo, boolean debugMode) {
         // For Debug only
-        if(debugMode){
+        if (debugMode) {
             ArrayList<ArrayList<Integer>> units = new ArrayList<>();
             ArrayList<Integer> unit = new ArrayList<>();
             unit.add(0);
@@ -218,7 +297,7 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if(response.getClass() != RSPAttackSuccess.class) return false;
+            if (response.getClass() != RSPAttackSuccess.class) return false;
 
             // Cast and Get the response filed
             RSPAttackSuccess rspAttackSuccess = (RSPAttackSuccess) response;
@@ -226,17 +305,19 @@ public class GameModel extends Model{
             // Change the model
             this.clientPlayerPacket.doAttack(rspAttackSuccess.getFrom(), rspAttackSuccess.getTo(), rspAttackSuccess.getUnits(), rspAttackSuccess.getTotalCost());
             return true;
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
     /**
      * Upgrade one unit
+     *
      * @return true for success
      */
-    public boolean doUpgradeUnit(String[] upgradeInfo, boolean debugMode){
-        if(debugMode){
-            this.clientPlayerPacket.doUpgradeUnit("b1", 0,1,10);
+    public boolean doUpgradeUnit(String[] upgradeInfo, boolean debugMode) {
+        if (debugMode) {
+            this.clientPlayerPacket.doUpgradeUnit("b1", 0, 1, 10);
             return true;
         }
 
@@ -247,14 +328,14 @@ public class GameModel extends Model{
             String selectUpgradeLevel = upgradeInfo[3];
 
             // Send a join action to server
-            UpgradeUnitsAction upgradeUnitsAction = new UpgradeUnitsAction(from, Integer.parseInt(selectCurLevel),Integer.parseInt(selectUpgradeLevel));
+            UpgradeUnitsAction upgradeUnitsAction = new UpgradeUnitsAction(from, Integer.parseInt(selectCurLevel), Integer.parseInt(selectUpgradeLevel));
             ClientSocket.getInstance().sendObject(upgradeUnitsAction);
 
             // Recv server response
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPUpgradeUnitsSuccess
-            if(response.getClass() != RSPUpgradeUnitsSuccess.class) return false;
+            if (response.getClass() != RSPUpgradeUnitsSuccess.class) return false;
 
             // Cast and Get the response filed
             RSPUpgradeUnitsSuccess rspUpgradeUnitsSuccess = (RSPUpgradeUnitsSuccess) response;
@@ -262,20 +343,22 @@ public class GameModel extends Model{
             // Change the model
             this.clientPlayerPacket.doUpgradeUnit(rspUpgradeUnitsSuccess.getWhere(), rspUpgradeUnitsSuccess.getOldLevel(), rspUpgradeUnitsSuccess.getNewLevel(), rspUpgradeUnitsSuccess.getTechCost());
             return true;
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
 
     /**
      * Plyaer do move action, send server to check
+     *
      * @param moveInfo
      * @param debugMode
      * @return true for success
      */
-    public boolean doMove(String[] moveInfo, boolean debugMode){
+    public boolean doMove(String[] moveInfo, boolean debugMode) {
         // For Debug only
-        if(debugMode){
+        if (debugMode) {
             ArrayList<ArrayList<Integer>> units = new ArrayList<>();
             ArrayList<Integer> unit = new ArrayList<>();
             unit.add(0);
@@ -306,7 +389,7 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPMoveSuccess
-            if(response.getClass() != RSPMoveSuccess.class) return false;
+            if (response.getClass() != RSPMoveSuccess.class) return false;
 
             // Cast and Get the response filed
             RSPMoveSuccess rspMoveSuccess = (RSPMoveSuccess) response;
@@ -314,19 +397,20 @@ public class GameModel extends Model{
             // Change the model
             this.clientPlayerPacket.doMove(rspMoveSuccess.getFrom(), rspMoveSuccess.getTo(), rspMoveSuccess.getUnits(), rspMoveSuccess.getTotalCost());
             return true;
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
 
-
     /**
      * Try to send commit request to server
+     *
      * @return true for commit successful
      */
-    public boolean doCommit(Boolean debugMode){
+    public boolean doCommit(Boolean debugMode) {
         // For debug only
-        if(debugMode) return true;
+        if (debugMode) return true;
         // func
         try {
             // Send DeployAction to server
@@ -337,12 +421,12 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSP
-            if(response.getClass() == RSPCommitSuccess.class){
+            if (response.getClass() == RSPCommitSuccess.class) {
                 // Get the player obj from response
                 ClientPlayerPacket clientPlayerPacket = ((RSPCommitSuccess) response).getClientPlayerPacket();
 
                 // If clientPlayerPacket is null return false
-                if(clientPlayerPacket == null) return false;
+                if (clientPlayerPacket == null) return false;
 
                 // Update the GameModel
                 this.clientPlayerPacket = clientPlayerPacket;
@@ -350,50 +434,53 @@ public class GameModel extends Model{
                 return true;
             }
 
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
     /**
      * Send deployAction to server, if success, change the model's terr info
+     *
      * @return true for deployment success, else print error message
      */
-    public boolean doDeploy(String to, int deployUnits, boolean debugMode){
+    public boolean doDeploy(String to, int deployUnits, boolean debugMode) {
         // Debug use only
-        if (debugMode){
+        if (debugMode) {
             this.clientPlayerPacket.doDeploy(to, deployUnits);
             return true;
         }
         // func
         try {
             // Send DeployAction to server
-            DeployAction deployAction = new DeployAction(to,deployUnits,getClientPlayerPacket().getAccountID().getAccountID());
+            DeployAction deployAction = new DeployAction(to, deployUnits, getClientPlayerPacket().getAccountID().getAccountID());
             ClientSocket.getInstance().sendObject(deployAction);
 
             // Recv Response form server
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPDeploySuccess
-            if(response.getClass() == RSPDeploySuccess.class){
+            if (response.getClass() == RSPDeploySuccess.class) {
                 // Update the GameModel
                 this.clientPlayerPacket.doDeploy(to, deployUnits);
                 // Return true
                 return true;
             }
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
 
-
     /**
      * User choose to sitch game with specific gameID
+     *
      * @param gameID int
      * @return ture for join game success
      */
-    public Boolean switchGame(int gameID, boolean debugMode){
+    public Boolean switchGame(int gameID, boolean debugMode) {
         // Debug use only
-        if(debugMode){
+        if (debugMode) {
             mockData();
             return true;
         }
@@ -401,19 +488,19 @@ public class GameModel extends Model{
         // func
         try {
             // Send a chooseSwitchGameAction  to server
-            ChooseSwitchGameAction chooseSwitchGameAction= new ChooseSwitchGameAction(new GameID(gameID));
+            ChooseSwitchGameAction chooseSwitchGameAction = new ChooseSwitchGameAction(new GameID(gameID));
             ClientSocket.getInstance().sendObject(chooseSwitchGameAction);
 
             // Recv server response
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPChooseJoinGameSuccess
-            if(response.getClass() == RSPChooseSwitchGameSuccess.class){
+            if (response.getClass() == RSPChooseSwitchGameSuccess.class) {
                 // Get the player obj from response
                 ClientPlayerPacket clientPlayerPacket = ((RSPChooseSwitchGameSuccess) response).getClientPlayerPacket();
 
                 // If clientPlayerPacket is null return false
-                if(clientPlayerPacket == null) return false;
+                if (clientPlayerPacket == null) return false;
 
                 // Update the GameModel
                 this.clientPlayerPacket = clientPlayerPacket;
@@ -421,19 +508,21 @@ public class GameModel extends Model{
                 return true;
             }
 
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
 
     /**
      * User choose to join game with specific gameID
+     *
      * @param gameID int
      * @return ture for join game success
      */
-    public Boolean joinGame(int gameID, boolean debugMode){
+    public Boolean joinGame(int gameID, boolean debugMode) {
         // Debug use only
-        if(debugMode){
+        if (debugMode) {
             mockData();
             return true;
         }
@@ -448,12 +537,12 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPChooseJoinGameSuccess
-            if(response.getClass() == RSPChooseJoinGameSuccess.class){
+            if (response.getClass() == RSPChooseJoinGameSuccess.class) {
                 // Get the player obj from response
                 ClientPlayerPacket clientPlayerPacket = ((RSPChooseJoinGameSuccess) response).getClientPlayerPacket();
 
                 // If clientPlayerPacket is null return false
-                if(clientPlayerPacket == null) return false;
+                if (clientPlayerPacket == null) return false;
 
                 // Update the GameModel
                 this.clientPlayerPacket = clientPlayerPacket;
@@ -461,19 +550,21 @@ public class GameModel extends Model{
                 return true;
             }
 
-        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {}
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
         return false;
     }
 
 
     /**
      * Start a new game action
+     *
      * @param numOfPlayerUsrInput usr input Num of Player
      * @return true for start new game success
      */
-    public Boolean startNewGame(String numOfPlayerUsrInput, boolean debugMode){
+    public Boolean startNewGame(String numOfPlayerUsrInput, boolean debugMode) {
         // Debug use only
-        if(debugMode){
+        if (debugMode) {
             mockData();
             return true;
         }
@@ -487,26 +578,24 @@ public class GameModel extends Model{
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPNewGameSuccess
-            if(response.getClass() == RSPNewGameSuccess.class){
+            if (response.getClass() == RSPNewGameSuccess.class) {
                 // Get the player obj from response
                 ClientPlayerPacket clientPlayerPacket = ((RSPNewGameSuccess) response).getClientPlayerPacket();
 
                 // If clientPlayerPacket is null return false
-                if(clientPlayerPacket == null) return false;
+                if (clientPlayerPacket == null) return false;
 
                 // Update the GameModel
                 this.clientPlayerPacket = clientPlayerPacket;
                 // Return true
                 return true;
-            }
-            else return false;
+            } else return false;
 
         } catch (IOException | ClassNotFoundException | ClassCastException e) {
             return false;
         }
 
     }
-
 
 
     public ClientPlayerPacket getClientPlayerPacket() {
@@ -523,13 +612,13 @@ public class GameModel extends Model{
         Territory territory1 = new Territory("b1");
         Territory territory2 = new Territory("b2");
         Territory territory3 = new Territory("b3");
-        myTerr.put("b1",territory1);
-        myTerr.put("b2",territory2);
-        myTerr.put("b3",territory3);
+        myTerr.put("b1", territory1);
+        myTerr.put("b2", territory2);
+        myTerr.put("b3", territory3);
 
-        HashMap<AccountID,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2 = new HashMap<>();
+        HashMap<AccountID, HashMap<String, ArrayList<Integer>>> enemyTerritoriesV2 = new HashMap<>();
 
-        HashMap<String,ArrayList<Integer>> terr = new HashMap<>();
+        HashMap<String, ArrayList<Integer>> terr = new HashMap<>();
 
         ArrayList<Integer> enemyTerrUnits1 = new ArrayList<>();
         enemyTerrUnits1.add(7);
@@ -556,24 +645,24 @@ public class GameModel extends Model{
         HashMap<String, ArrayList<Spy>> spyInfo = new HashMap<>();
         ArrayList<Spy> spyArrayList = new ArrayList<>();
         spyArrayList.add(new Spy(new AccountID("p2")));
-        spyInfo.put("a1",spyArrayList);
+        spyInfo.put("a1", spyArrayList);
 
-        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"),2,100,100,2, 9, myTerr, new HashMap<String, ArrayList<String>>(), false,false,enemyTerritoriesV2, spyInfo);
+        ClientPlayerPacket clientPlayerPacket = new ClientPlayerPacket(new GameID(1), new AccountID("abc"), 2, 100, 100, 2, 9, myTerr, new HashMap<String, ArrayList<String>>(), false, false, enemyTerritoriesV2, spyInfo);
         this.clientPlayerPacket = clientPlayerPacket;
         return clientPlayerPacket;
     }
 
 
-
     /**
      * Get my TerrList
+     *
      * @return MyTerrList
      */
-    public HashSet<String> getMyTerrList(){
+    public HashSet<String> getMyTerrList() {
         HashSet<String> ans = new HashSet<>();
         HashMap<String, Territory> myTerritories = this.clientPlayerPacket.getMyTerritories();
 
-        for(String myTerr:myTerritories.keySet()){
+        for (String myTerr : myTerritories.keySet()) {
             ans.add(myTerr);
         }
         return ans;
@@ -582,25 +671,26 @@ public class GameModel extends Model{
 
     /**
      * Get the terr color
+     *
      * @return self: green; enemy: in different color; invisible: black; invisible but in history: grey
      */
-    public String getTerrColor(String terrName){
+    public String getTerrColor(String terrName) {
         ArrayList<String> enemyTerrList = getEnemyTerrList_();
 
         // if it is my terr
-        if (this.getMyTerrList().contains(terrName)){
+        if (this.getMyTerrList().contains(terrName)) {
             return "#19ae52"; // green
         }
         // if is not my terr, not in enemyTerritoriesV2, not in local -> black
-        else if(!this.getMyTerrList().contains(terrName) && !enemyTerrList.contains(terrName) && !localEnemyTerrs.containsKey(terrName)){
+        else if (!this.getMyTerrList().contains(terrName) && !enemyTerrList.contains(terrName) && !localEnemyTerrs.containsKey(terrName)) {
             return "#000000"; // black
         }
         // if is not my terr, not in enemyTerritoriesV2, but in local -> grey
-        else if(!this.getMyTerrList().contains(terrName) && !enemyTerrList.contains(terrName)  && localEnemyTerrs.containsKey(terrName)){
+        else if (!this.getMyTerrList().contains(terrName) && !enemyTerrList.contains(terrName) && localEnemyTerrs.containsKey(terrName)) {
             return "#524d4d"; // grey
         }
         // if in the enemyTerritoriesV2, then set red color
-        else if(enemyTerrList.contains(terrName)){
+        else if (enemyTerrList.contains(terrName)) {
             return "#ff0000"; // red
         }
 
@@ -616,15 +706,15 @@ public class GameModel extends Model{
         ArrayList<String> enemyTerrList = new ArrayList<>();
 
         // Get enemyTerritoriesV2
-        HashMap<AccountID,HashMap<String,ArrayList<Integer>>> enemyTerritoriesV2 = this.clientPlayerPacket.getEnemyTerritoriesV2();
+        HashMap<AccountID, HashMap<String, ArrayList<Integer>>> enemyTerritoriesV2 = this.clientPlayerPacket.getEnemyTerritoriesV2();
         // <EnemyAccountID, <Territory, [UnitList]>>
 
-        for (Map.Entry<AccountID, HashMap<String,ArrayList<Integer>>> entry : enemyTerritoriesV2.entrySet()) {
+        for (Map.Entry<AccountID, HashMap<String, ArrayList<Integer>>> entry : enemyTerritoriesV2.entrySet()) {
 
             AccountID accountID = entry.getKey();
-            HashMap<String,ArrayList<Integer>> value = entry.getValue();
+            HashMap<String, ArrayList<Integer>> value = entry.getValue();
 
-            for(Map.Entry<String,ArrayList<Integer>> inner : value.entrySet()){
+            for (Map.Entry<String, ArrayList<Integer>> inner : value.entrySet()) {
                 String terr = inner.getKey();
                 ArrayList<Integer> units = inner.getValue();
                 enemyTerrList.add(terr);
@@ -640,9 +730,10 @@ public class GameModel extends Model{
 
     /**
      * Get all terr list
+     *
      * @return
      */
-    public ArrayList<String> getAllTerrName(){
+    public ArrayList<String> getAllTerrName() {
         ArrayList<String> temp = new ArrayList<>();
         ArrayList<String> ans = new ArrayList<>();
 
@@ -664,7 +755,7 @@ public class GameModel extends Model{
 
 
         // Get suitable size of terr name by numOfPlayers
-        for(int i = 0 ; i < this.clientPlayerPacket.getNumOfPlayers() * 3 ; i++) {
+        for (int i = 0; i < this.clientPlayerPacket.getNumOfPlayers() * 3; i++) {
             ans.add(temp.get(i));
         }
 
@@ -674,9 +765,10 @@ public class GameModel extends Model{
 
     /**
      * Get all terr Name
+     *
      * @return all terr
      */
-    public ArrayList<String> getAttackTerrName(){
+    public ArrayList<String> getAttackTerrName() {
         ArrayList<String> temp = new ArrayList<>();
         ArrayList<String> ans = new ArrayList<>();
 
@@ -698,7 +790,7 @@ public class GameModel extends Model{
 
 
         // Get suitable size of terr name by numOfPlayers
-        for(int i = 0 ; i < this.clientPlayerPacket.getNumOfPlayers() * 3 ; i++) {
+        for (int i = 0; i < this.clientPlayerPacket.getNumOfPlayers() * 3; i++) {
             ans.add(temp.get(i));
         }
 
@@ -713,12 +805,12 @@ public class GameModel extends Model{
 
     /**
      * Get local Enemy Terrs
-     * @return HashMap<String, ArrayList<Integer>>
+     *
+     * @return HashMap<String, ArrayList < Integer>>
      */
     public HashMap<String, ArrayList<Integer>> getLocalEnemyTerrs() {
         return localEnemyTerrs;
     }
-
 
 
 }
