@@ -3,7 +3,6 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.View.MapView;
-import edu.duke.ece651.shared.map.Spy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.ResourceBundle;
 
 
@@ -99,7 +97,6 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
 
         numList.clear();
         toList.clear();
-        fromList.clear();
 
         terrName.setText(clickTerr);
 
@@ -118,18 +115,11 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
             lv4_n.setText(String.valueOf(unitNumList.get(4)));
             lv5_n.setText(String.valueOf(unitNumList.get(5)));
             lv6_n.setText(String.valueOf(unitNumList.get(6)));
-            // Setup spy
-            HashMap<String, ArrayList<Spy>> spyInfo = GameModel.getInstance().getClientPlayerPacket().getSpyInfo();
-            if(spyInfo.containsKey(clickTerr)){
-                spy_n.setText(String.valueOf(spyInfo.get(clickTerr).size()));
-            }
-            else{
-                spy_n.setText("0");
-            }
+            spy_n.setText("NA");
 
 
             // Set from level list
-            for (int i = 0; i < 7; i++) {
+            for (int i = 1; i < 7; i++) {
                 this.fromList.add(String.valueOf(i));
                 this.toList.add(String.valueOf(i));
             }
@@ -147,14 +137,7 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
             lv4_n.setText(String.valueOf(unitNumList.get(4)));
             lv5_n.setText(String.valueOf(unitNumList.get(5)));
             lv6_n.setText(String.valueOf(unitNumList.get(6)));
-            // Setup spy
-            HashMap<String, ArrayList<Spy>> spyInfo = GameModel.getInstance().getClientPlayerPacket().getSpyInfo();
-            if(spyInfo.containsKey(clickTerr)){
-                spy_n.setText(String.valueOf(spyInfo.get(clickTerr).size()));
-            }
-            else{
-                spy_n.setText("0");
-            }
+            spy_n.setText("NA");
 
         }
         // Inviable
