@@ -1,16 +1,19 @@
-package ece651.duke.edu;
+package ece651.duke.edu.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import ece651.duke.edu.RiskGameController;
 
 public class MainMenuScreen implements Screen {
-    final RiskGame game;
-    final GameScreen gameScreen;
+    public final RiskGameController game;
+    public final GameScreen gameScreen;
     OrthographicCamera camera;
+    private Stage stage;
 
-    public MainMenuScreen(final RiskGame game) {
+    public MainMenuScreen(final RiskGameController game) {
         this.game = game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);

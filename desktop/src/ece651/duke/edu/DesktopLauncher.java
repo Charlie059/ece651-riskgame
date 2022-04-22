@@ -1,6 +1,5 @@
 package ece651.duke.edu;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
@@ -13,6 +12,6 @@ public class DesktopLauncher {
 		config.useVsync(true);
 		config.setForegroundFPS(60);
 		config.setForegroundFPS(60);
-		new Lwjgl3Application(new RiskGame(), config);
+		new Lwjgl3Application(new RiskGameController(), config);
 	}
 }

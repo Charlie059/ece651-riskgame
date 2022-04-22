@@ -1,4 +1,4 @@
-package ece651.duke.edu;
+package ece651.duke.edu.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,11 +14,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import ece651.duke.edu.RiskGameController;
 
 import java.util.Iterator;
 
 public class GameScreen implements Screen {
-	final RiskGame game;
+	final RiskGameController game;
 	//Reference Assets
 	//Texture represent image stored in video ram
 	private Texture dropImage;
@@ -39,7 +40,7 @@ public class GameScreen implements Screen {
 
 
 
-	public GameScreen(final RiskGame game){
+	public GameScreen(final RiskGameController game){
 		this.game = game;
 //		batch = new SpriteBatch();
 //		img = new Texture("badlogic.jpg");
@@ -177,6 +178,6 @@ public class GameScreen implements Screen {
 		bucketImage.dispose();
 		dropSound.dispose();
 		rainMusic.dispose();
-		game.batch.dispose();
+//		game.batch.dispose();
 	}
 }
