@@ -90,8 +90,10 @@ public class MoveDialogController implements Initializable,Communication {
         toList.clear();
         levelList.clear();
 
+        terrName.setText(clickTerr);
         // Set clickTerr
         this.clickTerr = clickTerr;
+
 
         // Get My Terr Info
         if(GameModel.getInstance().getMyTerrList().contains(clickTerr)) {

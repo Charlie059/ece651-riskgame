@@ -16,25 +16,31 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class SignupModel extends Model{
+    private static SignupModel signupModel;
+
     private HashMap<String, String> userCode = new HashMap<>(); // username, code
 
+    private SignupModel() {}
+
+    public synchronized static SignupModel getInstance() {
+        if (signupModel == null) {
+            signupModel = new SignupModel();
+        }
+        return signupModel;
+    }
+
+
+    /**
+     * Discard Method
+     * @param userName
+     * @param passWord
+     * @param debugMode
+     * @return
+     */
     public boolean signUp(String userName, String passWord, Boolean debugMode){
         if(debugMode){
             return true;
         }
-
-        // Use a local checker to check if password satisfy the following criteria:
-        // Password must be a combination of 8 or more digits containing uppercase letters,
-        // lowercase letters, numbers, special symbols (characters other than letters, numbers,
-        // underscores)
-
-        //TODO recover th code
-//        PasswordChecker passwordChecker = new PasswordChecker();
-//        String[] password = new String[1];
-//        password[0] = passWord;
-//
-//        // If password is not secure enough
-//        if(!passwordChecker.doCheck(password)) return false;
 
         // Create a new LoginAction
         SignUpAction signUpAction = new SignUpAction(new AccountID(userName),passWord);
@@ -48,9 +54,17 @@ public class SignupModel extends Model{
         }
     }
 
-    public boolean signUp(String userName, String passWord, String userInCode, Boolean debugMode){
+    /**
+     * Signup with email address
+     * @param userName
+     * @param passWord
+     * @param userInCode
+     * @param debugMode
+     * @return
+     */
+    public String signUp(String userName, String passWord, String userInCode, Boolean debugMode){
         if(debugMode){
-            return true;
+            return null;
         }
 
         // Use a local checker to check if password satisfy the following criteria:
@@ -62,7 +76,7 @@ public class SignupModel extends Model{
         password[0] = passWord;
 
         // If password is not secure enough
-        if(!passwordChecker.doCheck(password)) return false;
+        if(!passwordChecker.doCheck(password)) return "Password is not secure enough!";
 
 
         // if user in the hashmap
@@ -75,13 +89,15 @@ public class SignupModel extends Model{
                 try {
                     ClientSocket.getInstance().sendObject(signUpAction);
                     Response response = (Response) ClientSocket.getInstance().recvObject();
-                    return response.getClass() == RSPSignupSuccess.class;
+
+                    if(response.getClass() == RSPSignupSuccess.class) return null;
+                    else return "Server said you cannot register!";
                 } catch (IOException | ClassNotFoundException | ClassCastException e) {
-                    return false;
+                    return "Error to register";
                 }
             }
             else {
-                return false;
+                return "Code not match!";
             }
 
         }
@@ -101,10 +117,10 @@ public class SignupModel extends Model{
                 // Send an email to user
                 EmailSender sender = new EmailSender();
                 sender.sendEmail(userName, genCode);
-                return false;
+                return "Please check your email!";
             }
             else{
-                return false;
+                return "Invalid Email!";
             }
         }
 

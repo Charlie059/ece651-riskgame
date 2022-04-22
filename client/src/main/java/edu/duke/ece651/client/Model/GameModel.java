@@ -243,6 +243,7 @@ public class GameModel extends Model {
 
 
             // Change the model
+            // add spy
             HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
             if (spyInfo.containsKey(dePloyInfo[0])) {
                 spyInfo.get(dePloyInfo[0]).add(spy);
@@ -251,6 +252,11 @@ public class GameModel extends Model {
                 spyArrayList.add(spy);
                 spyInfo.put(dePloyInfo[0], spyArrayList);
             }
+
+            // rm l1 unit
+            HashMap<String, Territory> myterr = this.clientPlayerPacket.getMyTerritories();
+            ArrayList<Unit> units = myterr.get(from).getUnits();
+            units.get(1).setValue(units.get(1).getValue() - 1);
 
             return true;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
