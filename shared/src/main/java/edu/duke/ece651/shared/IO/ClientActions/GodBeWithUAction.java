@@ -6,6 +6,6 @@ public class GodBeWithUAction implements Action{
 
     @Override
     public void accept(ActionVisitor actionVisitor) {
-
+        actionVisitor.visit(this);
     }
 }

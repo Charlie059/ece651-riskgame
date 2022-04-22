@@ -153,7 +153,7 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a player to sanction" GridPane.rowIndex="7">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a Terr to sanction" GridPane.rowIndex="7">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -163,7 +163,7 @@
                         <Font size="22.0" />
                      </font>
                   </Text>
-                  <Text fx:id="terrOwner" strokeType="OUTSIDE" strokeWidth="0.0" text="player1" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                  <Text fx:id="terrOwner" strokeType="OUTSIDE" strokeWidth="0.0" text="playerID" GridPane.columnIndex="5" GridPane.rowIndex="1">
                      <font>
                         <Font size="20.0" />
                      </font>

@@ -642,7 +642,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         SpyUpgradeChecker spyUpgradeChecker = new SpyUpgradeChecker(this.gameHashMap, this.accountHashMap, this.accountID, map, currplayer,spyUpgradeAction);
         if (spyUpgradeChecker.doCheck() == null) {
             Spy spy = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(spyUpgradeAction.getFrom()).getSpy(spyUpgradeAction.getSpyUUID());
-            Integer requestType = spy.getSpyType();
+            Integer requestType = spyUpgradeAction.getType();
             SpyType spyType = new SpyType();
             if (requestType.equals(spyType.DefaultType())) {
                 spy.setDefaultType();
@@ -656,7 +656,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = new RSPSpyUpgradeSuccess();
             sendResponse(rspSpyUpgradeSuccess);
         } else {
-            RSPSpyUpgradeFail rspSpyUpgradeFail = new RSPSpyUpgradeFail();
+            RSPSpyUpgradeFail rspSpyUpgradeFail = new RSPSpyUpgradeFail(spyUpgradeChecker.getErrMessage());
             sendResponse(rspSpyUpgradeFail);
         }
 
