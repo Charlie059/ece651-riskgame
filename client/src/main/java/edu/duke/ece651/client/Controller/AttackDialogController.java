@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -79,8 +80,11 @@ public class AttackDialogController implements Initializable,Communication {
     public void clickOnAttack(ActionEvent actionEvent) {
         String errorMsg = GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug);
         if(errorMsg != null){
-            // TODO show error message
-            System.out.println(errorMsg);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failure");
+            alert.setHeaderText(null);
+            alert.setContentText(errorMsg);  // get description from server.
+            alert.showAndWait();
         }
         else {
             String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From "+this.clickTerr;

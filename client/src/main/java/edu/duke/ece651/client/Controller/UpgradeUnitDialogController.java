@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -78,8 +79,11 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
     public void clickOnConfirm(ActionEvent actionEvent) {
         String res = GameModel.getInstance().doUpgradeUnit(new String[]{this.clickTerr, selectLvFrom.getValue() , "1", selectLvTo.getValue()}, debug);
         if(res != null){
-            //TODO Error Message
-            System.out.println(res);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failure");
+            alert.setHeaderText(null);
+            alert.setContentText(res);  // get description from server.
+            alert.showAndWait();
         }
         else {
             String record = "Upgrade Level " + selectLvFrom.getValue() + " to " + selectLvTo.getValue() + " from " + this.clickTerr;

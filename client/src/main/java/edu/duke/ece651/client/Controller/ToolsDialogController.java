@@ -54,6 +54,7 @@ public class ToolsDialogController implements Initializable {
         curPoints.setText(String.valueOf(GameModel.getInstance().getCurrPoint()));
 
         // Set repo
+
         this.myToolList.addAll(GameModel.getInstance().getCardRepository());
 
         // set the store
@@ -126,10 +127,11 @@ public class ToolsDialogController implements Initializable {
                         alert.setTitle("Failure");
                         alert.setHeaderText(null);
                         alert.setContentText(res);  // get description from server.
+                        alert.showAndWait();
                         return;
                     }
 
-
+                    myToolList.removeAll();
                     myToolList.add(new MyTool(selectedToolName));
 
 

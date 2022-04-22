@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -65,8 +66,11 @@ public class BombardmentDialogController implements Initializable,Communication{
     public void clickOnBombard(ActionEvent actionEvent) {
         String res = GameModel.getInstance().useBombard(clickTerr, debug);
         if(res != null){
-            //TODO Error Message
-            System.out.println(res);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failure");
+            alert.setHeaderText(null);
+            alert.setContentText(res);  // get description from server.
+            alert.showAndWait();
         }
         else {
             String record = "Use Bombard to " +this.clickTerr;

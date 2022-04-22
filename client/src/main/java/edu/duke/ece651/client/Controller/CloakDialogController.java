@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -69,8 +70,11 @@ public class CloakDialogController implements Initializable,Communication {
     public void clickOnConfirm(ActionEvent actionEvent) {
         String res = GameModel.getInstance().doCloak(new String[]{this.clickTerr}, debug);
         if(res != null){
-            //TODO Error message
-            System.out.println(res);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failure");
+            alert.setHeaderText(null);
+            alert.setContentText(res);  // get description from server.
+            alert.showAndWait();
         }
         else {
             String record = "Cloaking at " + this.clickTerr;

@@ -40,17 +40,22 @@ public class SignUpViewController {
     @FXML
     public void clickOnSignUp(){
         //TODO change back to register by email
-//        String res = signupModel.signUp(userName.getText(),passWord.getText(), verificationCode.getText(),debug);
-//        if(res == null){
-//            msg.setText("Sign up a new account successfully!");
-//        }else{
-//            msg.setText(res);
-//        }
-        boolean res = signupModel.signUp(userName.getText(),passWord.getText(),debug);
-        if(res){
-            msg.setText("Sign up a new account successfully!");
-        }else{
-            msg.setText("ERROR");
+        if(debug){
+            boolean res = signupModel.signUp(userName.getText(),passWord.getText(),debug);
+            if(res){
+                msg.setText("Sign up a new account successfully!");
+            }else{
+                msg.setText("ERROR");
+            }
         }
+        else{
+            String res = signupModel.signUp(userName.getText(),passWord.getText(), verificationCode.getText(),debug);
+            if(res == null){
+                msg.setText("Sign up a new account successfully!");
+            }else{
+                msg.setText(res);
+            }
+        }
+
     }
 }

@@ -6,6 +6,7 @@ import edu.duke.ece651.shared.map.Spy;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -62,8 +63,11 @@ public class GreatLeapForwardDialogController implements Initializable,Communica
         public void clickOnLeapForward(ActionEvent actionEvent) {
             String res =  GameModel.getInstance().useGreatLeapForward(clickTerr, debug);
         if(res != null){
-            //TODO Error Message
-            System.out.println(res);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Failure");
+            alert.setHeaderText(null);
+            alert.setContentText(res);  // get description from server.
+            alert.showAndWait();
         }
         else {
             String record = "Use LeapForward to "+this.clickTerr;
