@@ -93,7 +93,7 @@ public class Territory implements Comparable<Territory>, Serializable {
 
     public Boolean isEnoughUnitLevelOf(Integer level){
         for(Unit unit: this.Units){
-            if(unit.getValue().equals(level)){
+            if(unit.getLevel().equals(level) && !unit.getValue().equals(0)){
                 return true;
             }
         }
