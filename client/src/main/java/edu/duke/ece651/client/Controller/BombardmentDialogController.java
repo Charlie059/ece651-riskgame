@@ -63,17 +63,16 @@ public class BombardmentDialogController implements Initializable,Communication{
 
     @FXML
     public void clickOnBombard(ActionEvent actionEvent) {
-//        if(!GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)){
-//            System.out.println("Invalid value (Server check)");
-//        }
-//        else {
-//            String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From "+this.clickTerr;
-//            System.out.println(record);
-//
-//        }
-        System.out.println("Bombardment");
-        window.close();
-
+        String res = GameModel.getInstance().useBombard(clickTerr, debug);
+        if(res != null){
+            //TODO Error Message
+            System.out.println(res);
+        }
+        else {
+            String record = "Use Bombard to " +this.clickTerr;
+            System.out.println(record);
+            window.close();
+        }
     }
 
     @Override

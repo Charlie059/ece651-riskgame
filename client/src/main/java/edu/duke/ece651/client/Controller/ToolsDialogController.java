@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -211,15 +212,14 @@ public class ToolsDialogController implements Initializable {
     private ObservableList<SpecialTool> setStoreData(){
         ObservableList<SpecialTool> toolList = FXCollections.observableArrayList();
         toolList.add(new SpecialTool("Bombardment",120,""));
-        toolList.add(new SpecialTool("Sanction",150,""));
-        toolList.add(new SpecialTool("The Great Leap Forward",100,""));
-        toolList.add(new SpecialTool("Day breaks(spy)",200,""));
-        toolList.add(new SpecialTool("God be with you",50,""));
+        toolList.add(new SpecialTool("Sanction",300,""));
+        toolList.add(new SpecialTool("The Great Leap Forward",300,""));
+        toolList.add(new SpecialTool("Day breaks(spy)",600,""));
+        toolList.add(new SpecialTool("God be with you",150,""));
         toolList.add(new SpecialTool("SpecialSpyUpgrade",120,""));
-        toolList.add(new SpecialTool("UnitDeploy",20,""));
+        toolList.add(new SpecialTool("UnitDeploy",0,""));
 
         return toolList;
-
     }
 
 }

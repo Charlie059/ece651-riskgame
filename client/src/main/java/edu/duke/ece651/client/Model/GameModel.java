@@ -102,6 +102,8 @@ public class GameModel extends Model {
     }
 
 
+
+
     /**
      * Search Card type
      */
@@ -133,6 +135,47 @@ public class GameModel extends Model {
         return currPoint;
     }
 
+
+    public String useBombard(String enemyTerr, boolean debugMode) {
+        // For Debug only
+        if (debugMode) {
+            return null;
+        }
+
+        try {
+
+            BombardmentAction bombardmentAction = new BombardmentAction(enemyTerr);
+            ClientSocket.getInstance().sendObject(bombardmentAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPBombardmentSuccess
+            if (response.getClass() != RSPBombardmentSuccess.class) {
+                RSPBombardmentFail rspBombardmentFail = (RSPBombardmentFail) response;
+                return rspBombardmentFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPBombardmentSuccess rspBombardmentSuccess = (RSPBombardmentSuccess) response;
+
+
+            // TODO do affect
+
+            return null;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+    /**
+     * Try to buy card
+     * @param cardType
+     * @param debugMode
+     * @return
+     */
     public String try2BuyCard(String cardType, boolean debugMode) {
         // For Debug only
         if (debugMode) {
