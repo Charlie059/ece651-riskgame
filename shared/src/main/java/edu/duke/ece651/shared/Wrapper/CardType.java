@@ -10,7 +10,7 @@ public class CardType {
     private final List<Integer> dayBreaks =  List.of(14,600);
     private final List<Integer> GodBeWithYou =  List.of(15,150);
     private final List<Integer> specialSpyUpgrade =  List.of(16,120);
-    private final List<Integer> unitDeploy = List.of(17,0);
+    private final List<Integer> unitDeploy = List.of(17,200);
 
 
     public List<Integer> getBombardment() {

@@ -129,13 +129,7 @@ public class ToolsDialogController implements Initializable {
                         return;
                     }
 
-//                    // add to the repository
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Success");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Successfully buy "+ selectedToolName);  // get description from server.
-//
-//                    alert.showAndWait();
+
                     myToolList.add(new MyTool(selectedToolName));
 
 
@@ -185,8 +179,6 @@ public class ToolsDialogController implements Initializable {
                         new SanctionDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "The Great Leap Forward")){
                         new GreatLeapForwardDialogView().show(new Stage(),null,debug);
-                    }else if(Objects.equals(selectedToolName, "Day breaks(spy)")){
-                        // run function
                     }else if(Objects.equals(selectedToolName, "God be with you")){
                         String res = GameModel.getInstance().useGodBeWithU(debug);
                         if (res != null) System.out.println(res);
@@ -197,7 +189,11 @@ public class ToolsDialogController implements Initializable {
                     }
 
                     //delete this row from table
-                    myToolList.remove(this.getIndex());
+                    myToolList.removeAll();
+                    myToolList.addAll(GameModel.getInstance().getCardRepository());
+
+                    //delete from repo
+
                 }
 
             };
@@ -215,10 +211,9 @@ public class ToolsDialogController implements Initializable {
         toolList.add(new SpecialTool("Bombardment",120,""));
         toolList.add(new SpecialTool("Sanction",300,""));
         toolList.add(new SpecialTool("The Great Leap Forward",300,""));
-        toolList.add(new SpecialTool("Day breaks(spy)",600,""));
         toolList.add(new SpecialTool("God be with you",150,""));
         toolList.add(new SpecialTool("SpecialSpyUpgrade",120,""));
-        toolList.add(new SpecialTool("UnitDeploy",0,""));
+        toolList.add(new SpecialTool("UnitDeploy",200,""));
 
         return toolList;
     }

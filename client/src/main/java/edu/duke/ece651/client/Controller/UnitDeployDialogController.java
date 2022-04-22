@@ -31,18 +31,19 @@ public class UnitDeployDialogController implements Initializable, Communication 
         this.window = window;
         this.debug = debug;
         this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
-        ;
     }
 
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-//        if (!GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue(), String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)) {
-//            System.out.println("Invalid value (Server check)");
-//        } else {
-//            String record = "Use " + selectNum.getValue() + " Level " + selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From " + this.clickTerr;
-//            System.out.println(record);
-//
-//        }
+        String res = GameModel.getInstance().doUnitDeployCard(clickTerr, debug);
+        if (res != null) {
+            System.out.println(res);
+        } else {
+            String record = "Use UnitDeployCard from " + this.clickTerr;
+            System.out.println(record);
+            window.close();
+
+        }
     }
 
     @Override

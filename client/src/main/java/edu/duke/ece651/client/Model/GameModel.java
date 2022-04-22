@@ -23,7 +23,6 @@ public class GameModel extends Model {
     private List<MyTool> cardRepository = new ArrayList<>();
     private int currPoint = 1000;
 
-
     private HashMap<String, ArrayList<Integer>> localEnemyTerrs = new HashMap<>(); // TerrName -> Units
 
     private GameModel() {
@@ -121,7 +120,7 @@ public class GameModel extends Model {
             case "SpecialSpyUpgrade":
                 return List.of(16, 120);
             case "UnitDeploy":
-                return List.of(17, 0);
+                return List.of(17, 200);
         }
         return List.of(-1, -1);
     }
@@ -134,6 +133,45 @@ public class GameModel extends Model {
         return currPoint;
     }
 
+
+    public String doUnitDeployCard(String terr, boolean debugMode){
+        if (debugMode) {
+            return null;
+        }
+
+        try {
+            UnitDeployAction unitDeployAction = new UnitDeployAction(terr);
+            ClientSocket.getInstance().sendObject(unitDeployAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPSpyUpgradeSuccess
+            if (response.getClass() != RSPUnitDeploySuccess.class) {
+                RSPUnitDeployFail rspUnitDeployFail = (RSPUnitDeployFail) response;
+                return rspUnitDeployFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPUnitDeploySuccess rspUnitDeploySuccess = (RSPUnitDeploySuccess) response;
+
+            // delete card
+            deletCard("UnitDeploy");
+
+            return null;
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+    private void deletCard(String name) {
+        for(int i = 0; i < this.cardRepository.size(); i++){
+            if(this.cardRepository.get(i).ToolName.equals(name)){
+                this.cardRepository.remove(i);
+                break;
+            }
+        }
+    }
 
     /**
      * useSpecialSpy
@@ -203,6 +241,9 @@ public class GameModel extends Model {
             // Cast and Get the response filed
             RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = (RSPSpyUpgradeSuccess) response;
 
+            // delete card
+            deletCard("SpecialSpyUpgrade");
+
             return null;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
@@ -235,6 +276,9 @@ public class GameModel extends Model {
             // Cast and Get the response filed
             RSPGodBeWithUSuccess rspGodBeWithUSuccess = (RSPGodBeWithUSuccess) response;
             // TODO do affect
+
+            // delete card
+            deletCard("God be with you");
 
             return null;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
@@ -272,6 +316,8 @@ public class GameModel extends Model {
             RSPGreatLeapForwardSuccess rspGreatLeapForwardSuccess = (RSPGreatLeapForwardSuccess) response;
 
             // TODO do affect
+            // delete card
+            deletCard("The Great Leap Forward");
 
             return null;
 
@@ -304,6 +350,10 @@ public class GameModel extends Model {
 
             // Cast and Get the response filed
             RSPSanctionSuccess rspSanctionSuccess = (RSPSanctionSuccess) response;
+
+            // delete card
+            deletCard("Sanction");
+
 
             return null;
 
@@ -343,7 +393,8 @@ public class GameModel extends Model {
 
 
             // TODO do affect
-
+            // delete card
+            deletCard("Bombardment");
             return null;
 
 

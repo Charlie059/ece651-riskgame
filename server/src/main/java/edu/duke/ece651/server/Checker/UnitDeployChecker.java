@@ -17,6 +17,7 @@ public class UnitDeployChecker extends ActionChecker{
         super(gameHashMap, accountHashMap, accountID);
         thisGame = this.gameHashMap.get(gameID);
         thisPlayer = thisGame.getPlayerHashMap().get(accountID);
+        this.unitDeployAction = unitDeployAction;
     }
 
 
@@ -24,13 +25,13 @@ public class UnitDeployChecker extends ActionChecker{
     public String doCheck() {
         //Check If territory is mine(Deploy can deploy to Mine territory)
         if(thisGame.getMap().getTerritoryList().containsKey(unitDeployAction.getTo())){
-            if(thisGame.getMap().getTerritoryList().get(unitDeployAction.getTo()).getOwnerId().equals(accountID)){
+            if(thisGame.getMap().getTerritoryList().get(unitDeployAction.getTo()).getOwnerId() == accountID){
                 this.errMessage=null;
+                return errMessage;
             }
         }
-        else{
-            this.errMessage = "UnitDeploy Error: Territory is not your Territory!";
-        }
+
+        this.errMessage = "UnitDeploy Error: Territory is not your Territory!";
         return errMessage;
     }
 }
