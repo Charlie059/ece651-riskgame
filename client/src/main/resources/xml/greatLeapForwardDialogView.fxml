@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1029.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.GreatLeapForwardDialogController">
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.GreatLeapForwardDialogController">
    <children>
-      <SplitPane dividerPositions="0.5883211678832118" layoutX="4.0" layoutY="3.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="746.0" prefWidth="1029.0">
+      <SplitPane dividerPositions="0.7161125319693095" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="736.0" prefWidth="1175.0">
          <items>
             <Pane fx:id="mapPane" prefHeight="732.0" prefWidth="593.0">
                <children>
@@ -153,7 +153,7 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <Button fx:id="leapForwardButton" mnemonicParsing="false" onAction="#clickOnLeapForward" prefHeight="63.0" prefWidth="77.0" text="GreatLeapForward" GridPane.columnIndex="3" GridPane.rowIndex="9">
+                  <Button fx:id="leapForwardButton" mnemonicParsing="false" onAction="#clickOnLeapForward" prefHeight="67.0" prefWidth="212.0" text="GreatLeapForward" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="9">
                      <font>
                         <Font size="18.0" />
                      </font>
