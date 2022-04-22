@@ -129,7 +129,7 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
 
 
             // Set from level list
-            for (int i = 1; i < 7; i++) {
+            for (int i = 0; i < 7; i++) {
                 this.fromList.add(String.valueOf(i));
                 this.toList.add(String.valueOf(i));
             }
