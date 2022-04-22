@@ -47,7 +47,7 @@ public class SpecialSpyDialogController implements Initializable,Communication{
 
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        String res =  GameModel.getInstance().useSpecialSpy(clickTerr, selectSpy.getValue(), debug);
+        String res =  GameModel.getInstance().useSpecialSpy(clickTerr, selectSpy.getValue(), selectSpyType.getValue(), debug);
         if(res != null) System.out.println(res);
         else window.close();
 

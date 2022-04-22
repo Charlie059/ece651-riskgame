@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -204,8 +204,6 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <FontAwesomeIconView size="25" GridPane.columnIndex="6" GridPane.rowIndex="14" />
-                  <FontAwesomeIconView glyphName="CHECK" size="25" GridPane.columnIndex="6" GridPane.rowIndex="16" />
                   <ImageView fx:id="playerImg" fitHeight="277.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="3">
                      <image>
                         <Image url="@../img/player1.jpg" />
