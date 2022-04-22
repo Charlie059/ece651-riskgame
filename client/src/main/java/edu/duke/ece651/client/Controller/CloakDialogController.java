@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class CloakDialogController implements Initializable,Communication {
     @FXML
-    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n,cost_t;
+    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
     @FXML
     ChoiceBox<String> selectTo;
     @FXML
@@ -55,7 +55,6 @@ public class CloakDialogController implements Initializable,Communication {
         lv5_n.setText("");
         lv6_n.setText("");
         spy_n.setText("");
-        cost_t.setText("20");
         selectTo.setItems(toList);
 
         //set map

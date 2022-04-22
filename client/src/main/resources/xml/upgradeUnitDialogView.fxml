@@ -12,10 +12,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.UpgradeUnitDialogController">
    <children>
-      <SplitPane dividerPositions="0.6530359355638166" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="1161.0">
+      <SplitPane dividerPositions="0.6988783433994823" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="742.0" prefWidth="1161.0">
          <items>
             <Pane fx:id="mapPane" prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -153,7 +152,7 @@
                   </Text>
                   <Line endX="100.0" startX="-3733.0" strokeWidth="3.0" GridPane.rowIndex="5" />
                   <ChoiceBox fx:id="selectLvFrom" prefWidth="150.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="7" />
-                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#clickOnConfirm" prefHeight="46.0" prefWidth="119.0" text="Confirm" GridPane.columnIndex="5" GridPane.columnSpan="3" GridPane.rowIndex="13">
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#clickOnConfirm" prefHeight="46.0" prefWidth="119.0" text="Confirm" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="13">
                      <font>
                         <Font size="17.0" />
                      </font>
@@ -162,20 +161,6 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="getCostButton" mnemonicParsing="false" onAction="#clickOnGetCost" prefHeight="46.0" prefWidth="119.0" text="get Cost" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="13">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="expandable" />
-                        <String fx:value="numbtn" />
-                     </styleClass>
-                  </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost:" GridPane.columnIndex="1" GridPane.rowIndex="12">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
                   <ChoiceBox fx:id="selectLvTo" prefWidth="150.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="9" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Upgrade to Lv:" GridPane.columnIndex="1" GridPane.rowIndex="8">
                      <font>
@@ -188,11 +173,6 @@
                      </font>
                   </Text>
                   <ChoiceBox fx:id="selectNum" prefWidth="150.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="11" />
-                  <Text fx:id="cost_t" strokeType="OUTSIDE" strokeWidth="0.0" text="Unknown" GridPane.columnIndex="3" GridPane.rowIndex="12">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
                </children>
             </GridPane>
          </items>
