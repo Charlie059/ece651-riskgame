@@ -833,4 +833,17 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
     }
 
+    @Override
+    public void visit(UnitDeployAction unitDeployAction) {
+        UnitDeployChecker unitDeployChecker = new UnitDeployChecker(this.gameHashMap,this.accountHashMap,this.accountID,this.gameID,unitDeployAction);
+        if(unitDeployChecker.doCheck() == null){
+            //Add One unit to territory
+            Territory thisTerritory = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(unitDeployAction.getTo());
+            thisTerritory.addUnitLevel(0,1,thisTerritory.getUnits());
+        }else{
+            RSPUnitDeployFail rspUnitDeployFail = new RSPUnitDeployFail(unitDeployChecker.getErrMessage());
+            sendResponse(rspUnitDeployFail);
+        }
+    }
+
 }
