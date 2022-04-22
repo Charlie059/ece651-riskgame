@@ -1,6 +1,7 @@
 package edu.duke.ece651.shared.map;
 
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.SpyType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -59,6 +60,33 @@ public class Territory implements Comparable<Territory>, Serializable {
     //remove spy
     public void removeSpy(Spy spy) {
         this.Spys.remove(spy);
+    }
+
+    //If Rosenbergs return false
+    //If HarrietTubman return true
+    //Another word: if need add a card of UnitDeploy
+    public Boolean doSpecialSpy(AccountID accountID){
+        for(Spy spy: Spys){
+            if(spy.getSpyOwnerAccountID().equals(accountID)){
+                if(spy.getSpyType().equals(new SpyType().Rosenbergs()) && !this.getOwnerId().equals(accountID)){
+                   for(Unit unit: this.Units){
+                       if(unit.getValue()>0){
+                           this.removeUnitLevel(unit.getLevel(),1,this.Units);
+                           return false;
+                       }
+                   }
+                }
+                else if (spy.getSpyType().equals(new SpyType().HarrietTubman())&& !this.getOwnerId().equals(accountID)){
+                    for(Unit unit: this.Units){
+                        if(unit.getValue()>0){
+                            this.removeUnitLevel(unit.getLevel(),1,this.Units);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     //get
