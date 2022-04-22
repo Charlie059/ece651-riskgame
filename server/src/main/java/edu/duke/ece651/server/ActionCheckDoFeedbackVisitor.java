@@ -840,6 +840,8 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             //Add One unit to territory
             Territory thisTerritory = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(unitDeployAction.getTo());
             thisTerritory.addUnitLevel(0,1,thisTerritory.getUnits());
+            RSPUnitDeploySuccess rspUnitDeploySuccess = new RSPUnitDeploySuccess();
+            sendResponse(rspUnitDeploySuccess);
         }else{
             RSPUnitDeployFail rspUnitDeployFail = new RSPUnitDeployFail(unitDeployChecker.getErrMessage());
             sendResponse(rspUnitDeployFail);
