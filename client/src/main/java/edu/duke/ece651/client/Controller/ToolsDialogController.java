@@ -50,7 +50,10 @@ public class ToolsDialogController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        curPoints.setText("100");
+        curPoints.setText("1000");
+
+        // Set repo
+        this.myToolList.addAll(GameModel.getInstance().getCardRepository());
 
         // set the store
         setStoreTable(setStoreData());
@@ -116,6 +119,15 @@ public class ToolsDialogController implements Initializable {
                     String selectedToolName = this.getTableView().getItems().get(this.getIndex()).getToolName();
                     //TODO: first check whether have enough points.
 
+                    String res = GameModel.getInstance().try2BuyCard(selectedToolName, debug);
+                    if(res != null){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Failure");
+                        alert.setHeaderText(null);
+                        alert.setContentText(res);  // get description from server.
+                        return;
+                    }
+
                     // add to the repository
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
@@ -127,7 +139,8 @@ public class ToolsDialogController implements Initializable {
 
 
                     //TODO: reduce cost
-
+                    curPoints.setText(String.valueOf(GameModel.getInstance().getCurrPoint()));
+                    System.out.println(GameModel.getInstance().getCurrPoint());
                 }
 
             };
