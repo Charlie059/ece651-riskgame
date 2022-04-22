@@ -60,16 +60,16 @@ public class GreatLeapForwardDialogController implements Initializable,Communica
 
         @FXML
         public void clickOnLeapForward(ActionEvent actionEvent) {
-//        if(!GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)){
-//            System.out.println("Invalid value (Server check)");
-//        }
-//        else {
-//            String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From "+this.clickTerr;
-//            System.out.println(record);
-//
-//        }
+            String res =  GameModel.getInstance().useGreatLeapForward(clickTerr, debug);
+        if(res != null){
+            //TODO Error Message
+            System.out.println(res);
+        }
+        else {
+            String record = "Use LeapForward to "+this.clickTerr;
+            System.out.println(record);
             window.close();
-
+        }
         }
 
         @Override

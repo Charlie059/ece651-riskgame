@@ -51,7 +51,7 @@ public class ToolsDialogController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        curPoints.setText("1000");
+        curPoints.setText(String.valueOf(GameModel.getInstance().getCurrPoint()));
 
         // Set repo
         this.myToolList.addAll(GameModel.getInstance().getCardRepository());
@@ -188,7 +188,8 @@ public class ToolsDialogController implements Initializable {
                     }else if(Objects.equals(selectedToolName, "Day breaks(spy)")){
                         // run function
                     }else if(Objects.equals(selectedToolName, "God be with you")){
-                        // run function
+                        String res = GameModel.getInstance().useGodBeWithU(debug);
+                        if (res != null) System.out.println(res);
                     }else if(Objects.equals(selectedToolName, "SpecialSpyUpgrade")){
                         new SpecialSpyDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "UnitDeploy")){

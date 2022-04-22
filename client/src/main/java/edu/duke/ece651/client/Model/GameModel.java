@@ -104,6 +104,7 @@ public class GameModel extends Model {
 
 
 
+
     /**
      * Search Card type
      */
@@ -136,6 +137,84 @@ public class GameModel extends Model {
     }
 
 
+    /**
+     * USe God be with you action
+     * @param debugMode
+     * @return
+     */
+    public String useGodBeWithU(boolean debugMode){
+        if (debugMode) {
+            return null;
+        }
+        try {
+            GodBeWithUAction godBeWithUAction = new GodBeWithUAction();
+            ClientSocket.getInstance().sendObject(godBeWithUAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPGodBeWithUSuccess
+            if (response.getClass() != RSPGodBeWithUSuccess.class) {
+                RSPGodBeWithUFail rspGodBeWithUFail = (RSPGodBeWithUFail) response;
+                return rspGodBeWithUFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPGodBeWithUSuccess rspGodBeWithUSuccess = (RSPGodBeWithUSuccess) response;
+            // TODO do affect
+
+            return null;
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+
+
+    /**
+     * useGreatLeapForward
+     * @param terrName
+     * @param debugMode
+     * @return
+     */
+    public String useGreatLeapForward(String terrName, boolean debugMode){
+        if (debugMode) {
+            return null;
+        }
+        try {
+
+            TheGreatLeapForwardAction theGreatLeapForwardAction = new TheGreatLeapForwardAction(terrName);
+            ClientSocket.getInstance().sendObject(theGreatLeapForwardAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPGreatLeapForwardSuccess
+            if (response.getClass() != RSPGreatLeapForwardSuccess.class) {
+                RSPGreatLeapForwardFail rspGreatLeapForwardFail = (RSPGreatLeapForwardFail) response;
+                return rspGreatLeapForwardFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPGreatLeapForwardSuccess rspGreatLeapForwardSuccess = (RSPGreatLeapForwardSuccess) response;
+
+            // TODO do affect
+
+            return null;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+
+    /**
+     * Use Bombard
+     * @param enemyTerr
+     * @param debugMode
+     * @return
+     */
     public String useBombard(String enemyTerr, boolean debugMode) {
         // For Debug only
         if (debugMode) {

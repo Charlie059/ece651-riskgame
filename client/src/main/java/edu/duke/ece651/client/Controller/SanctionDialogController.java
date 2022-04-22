@@ -82,6 +82,9 @@ public class SanctionDialogController implements Initializable,Communication {
             // set terr info based on click terrName, may be copy from other finished controller
             terrName.setText(clickTerr);
 
+
+
+
             // Set clickTerr
             this.clickTerr = clickTerr;
 
