@@ -142,6 +142,71 @@ public class GameModel extends Model {
      * @param debugMode
      * @return
      */
+    public String useSpecialSpy(String from, String spyType,boolean debugMode){
+        if (debugMode) {
+            return null;
+        }
+
+        Integer spyTypeInt;
+
+        if(spyType.equals("defaultType")){
+            spyTypeInt = 1;
+        }
+        else if(spyType.equals("rosenbergs")){
+            spyTypeInt = 2;
+        }
+        else {
+            spyTypeInt = 3;
+        }
+
+
+        try {
+            // Get the spy UUID and type form the terr
+            HashMap<String, ArrayList<Spy>> spyInfo = this.clientPlayerPacket.getSpyInfo();
+            Spy spy = null;
+            if(spyInfo.containsKey(from)){
+                ArrayList<Spy> spyArrayList = spyInfo.get(from);
+
+                // find the spy who have the spyType
+                for(int i = 0; i < spyArrayList.size(); i++){
+                    if(spyArrayList.get(i).getSpyType().equals(spyTypeInt)){
+                        spy = spyArrayList.get(i);
+                    }
+                }
+            }
+
+            if(spy == null) return "Cannot find Spy";
+
+            SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction(from, spy.getSpyUUID(), spy.getSpyType());
+            System.out.println(spy.getSpyUUID());
+            System.out.println(spy.getSpyType());
+
+            ClientSocket.getInstance().sendObject(spyUpgradeAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPSpyUpgradeSuccess
+            if (response.getClass() != RSPSpyUpgradeSuccess.class) {
+                RSPSpyUpgradeFail rspSpyUpgradeFail = (RSPSpyUpgradeFail) response;
+                return rspSpyUpgradeFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = (RSPSpyUpgradeSuccess) response;
+
+            return null;
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+
+    /**
+     * USe God be with you action
+     * @param debugMode
+     * @return
+     */
     public String useGodBeWithU(boolean debugMode){
         if (debugMode) {
             return null;
@@ -209,6 +274,36 @@ public class GameModel extends Model {
     }
 
 
+    public String useSanction(String playeID, boolean debugMode){
+        // For Debug only
+        if (debugMode) {
+            return null;
+        }
+
+        try {
+
+            SanctionAction sanctionAction = new SanctionAction(new AccountID(playeID));
+            ClientSocket.getInstance().sendObject(sanctionAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPBombardmentSuccess
+            if (response.getClass() != RSPSanctionSuccess.class) {
+                RSPSanctionFail rspSanctionFail = (RSPSanctionFail) response;
+                return rspSanctionFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPSanctionSuccess rspSanctionSuccess = (RSPSanctionSuccess) response;
+
+            return null;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
     /**
      * Use Bombard
      * @param enemyTerr
@@ -988,6 +1083,29 @@ public class GameModel extends Model {
         return enemyTerrList;
     }
 
+
+
+    /**
+     * getTerrToAccountHashmap
+     */
+    public HashMap<String, String> getTerrToAccountHashmap() {
+        HashMap<String, String> ans = new HashMap<>();
+
+        // Get enemyTerritoriesV2
+        HashMap<AccountID, HashMap<String, ArrayList<Integer>>> enemyTerritoriesV2 = this.clientPlayerPacket.getEnemyTerritoriesV2();
+        // <EnemyAccountID, <Territory, [UnitList]>>
+
+        for (Map.Entry<AccountID, HashMap<String, ArrayList<Integer>>> entry : enemyTerritoriesV2.entrySet()) {
+            AccountID accountID = entry.getKey();
+            HashMap<String, ArrayList<Integer>> value = entry.getValue();
+
+            for (Map.Entry<String, ArrayList<Integer>> inner : value.entrySet()) {
+                String terr = inner.getKey();
+                ans.put(terr, accountID.getAccountID());
+            }
+        }
+        return ans;
+    }
 
     /**
      * Get all terr list

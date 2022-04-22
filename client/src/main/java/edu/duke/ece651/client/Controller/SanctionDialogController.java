@@ -2,6 +2,7 @@ package edu.duke.ece651.client.Controller;
 
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.View.MapView;
+import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.map.Spy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,7 +24,7 @@ import java.util.ResourceBundle;
 
 public class SanctionDialogController implements Initializable,Communication {
         @FXML
-        Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
+        Text terrName, terrOwner, lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
         @FXML
         ChoiceBox<String> selectPlayer;
 
@@ -34,17 +35,20 @@ public class SanctionDialogController implements Initializable,Communication {
         private final boolean debug;
         private final int n_player;
         private String clickTerr;
+        private final ObservableList<String> toList;
 
 
         public SanctionDialogController(Stage window, boolean debug){
             this.window = window;
             this.debug = debug;
             this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
+            this.toList = FXCollections.observableArrayList();
         }
 
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
+            terrOwner.setText("");
             terrName.setText("");
             lv0_n.setText("");
             lv1_n.setText("");
@@ -54,6 +58,7 @@ public class SanctionDialogController implements Initializable,Communication {
             lv5_n.setText("");
             lv6_n.setText("");
             spy_n.setText("");
+            selectPlayer.setItems(toList);
 
             //set map
             try {
@@ -65,24 +70,23 @@ public class SanctionDialogController implements Initializable,Communication {
 
         @FXML
         public void clickOnSanction(ActionEvent actionEvent) {
-//            if(!GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)){
-//                System.out.println("Invalid value (Server check)");
-//            }
-//            else {
-//                String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From "+this.clickTerr;
-//                System.out.println(record);
-//
-//            }
-            window.close();
 
+            String res = GameModel.getInstance().useSanction(this.terrOwner.getText(), debug);
+            if(res != null){
+                System.out.println(res);
+            }
+            else {
+                String record = "Use Sanction to " + this.terrOwner.getText();
+                System.out.println(record);
+                window.close();
+            }
         }
 
         @Override
         public void setTerrInfo(String clickTerr) {
             // set terr info based on click terrName, may be copy from other finished controller
             terrName.setText(clickTerr);
-
-
+            toList.clear();
 
 
             // Set clickTerr
@@ -110,6 +114,9 @@ public class SanctionDialogController implements Initializable,Communication {
                     spy_n.setText("0");
                 }
 
+                // Set my Account
+                terrOwner.setText(GameModel.getInstance().getClientPlayerPacket().getAccountID().getAccountID());
+
             }
             // else if in the cache
             else if(GameModel.getInstance().getLocalEnemyTerrs().containsKey(clickTerr)){
@@ -134,6 +141,14 @@ public class SanctionDialogController implements Initializable,Communication {
                 }
 
 
+                // Set account id
+                HashMap<String, String> terr2Account =  GameModel.getInstance().getTerrToAccountHashmap();
+                if (terr2Account.containsKey(clickTerr)) {
+                    terrOwner.setText(terr2Account.get(clickTerr));
+                }
+
+                // Add select list
+                this.toList.add(this.terrOwner.getText());
             }
             // Inviable
             else{
@@ -145,6 +160,7 @@ public class SanctionDialogController implements Initializable,Communication {
                 lv5_n.setText("NA");
                 lv6_n.setText("NA");
                 spy_n.setText("NA");
+                terrOwner.setText("NA");
             }
 
         }

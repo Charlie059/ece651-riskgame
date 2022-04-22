@@ -148,6 +148,8 @@ public class CombatResolution {
             ArrayList<Unit> defenderUnits = attackTerr.getUnits();
             //do attack
             attackP2P(accountID, attackTerr, attackUnitListHashMap.get(terrToAttack), defenderUnits, diceDebugMode, attackPlayer, defendPlayer, terrToAttack);
+            attackPlayer.setGodWithU(false);
+            defendPlayer.setGodWithU(false);
         }
     }
 
@@ -260,21 +262,21 @@ public class CombatResolution {
                 //if attackPlayer has godWithU while defenderPlayer doesn't have, attacker always wins
                 dice = new Dice(attackLevel, defendLevel, 1);
                 //remove attackPlayer's godWithU
-                attackPlayer.setGodWithU(false);
+//                attackPlayer.setGodWithU(false);
             }
             else if (!attackPlayer.isGodWithU() && defendPlayer.isGodWithU()){
                 //if defenderPlayer has godWithU while attackPlayer hasn't, defender always wins
                 dice = new Dice(attackLevel, defendLevel, -1);
                 //remove setGodWithU's godWithU
-                defendPlayer.setGodWithU(false);
+//                defendPlayer.setGodWithU(false);
             }
             else {
                 //if both player have godWithU or both don't have, random
                 dice = new Dice(attackLevel, defendLevel);
-                if (attackPlayer.isGodWithU() && defendPlayer.isGodWithU()){
-                    attackPlayer.setGodWithU(false);
-                    defendPlayer.setGodWithU(false);
-                }
+//                if (attackPlayer.isGodWithU() && defendPlayer.isGodWithU()){
+//                    attackPlayer.setGodWithU(false);
+//                    defendPlayer.setGodWithU(false);
+//                }
             }
 
         }

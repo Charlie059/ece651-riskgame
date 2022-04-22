@@ -656,7 +656,7 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
             RSPSpyUpgradeSuccess rspSpyUpgradeSuccess = new RSPSpyUpgradeSuccess();
             sendResponse(rspSpyUpgradeSuccess);
         } else {
-            RSPSpyUpgradeFail rspSpyUpgradeFail = new RSPSpyUpgradeFail();
+            RSPSpyUpgradeFail rspSpyUpgradeFail = new RSPSpyUpgradeFail(spyUpgradeChecker.getErrMessage());
             sendResponse(rspSpyUpgradeFail);
         }
 

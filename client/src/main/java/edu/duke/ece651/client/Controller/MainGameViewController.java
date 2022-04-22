@@ -52,7 +52,7 @@ public class MainGameViewController implements Initializable {
         food_t.setText("   " + getFood());
         techResource_t.setText("   " + getTechResource());
         techLevel_t.setText("   "+ getTechLevel());
-        points_t.setText("   "+ "1234");
+        points_t.setText("   "+ GameModel.getInstance().getCurrPoint());
         setTerrText(terrList);
 
         // set map
