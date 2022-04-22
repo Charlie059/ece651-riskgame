@@ -14,7 +14,6 @@ public class RSPSpyDeploySuccess implements Response{
 
     @Override
     public void accept(ResponseVisitor responseVisitor) {
-
     }
 
     public Spy getSpy() {

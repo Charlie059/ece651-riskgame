@@ -13,6 +13,7 @@ public class Spy implements Serializable {
     private AccountID accountID;
     private Integer type;
     private final UUID spyUUID = UUID.randomUUID();
+
     public Spy(AccountID accountID) {
         this.accountID = accountID;
         this.type = new SpyType().DefaultType();
