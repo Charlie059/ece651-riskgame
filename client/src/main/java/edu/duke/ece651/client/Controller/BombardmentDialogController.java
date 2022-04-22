@@ -55,7 +55,7 @@ public class BombardmentDialogController implements Initializable,Communication{
 
         //set map
         try {
-            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "attackDialogView"));
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "bombardmentDialogView"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,13 +71,14 @@ public class BombardmentDialogController implements Initializable,Communication{
 //            System.out.println(record);
 //
 //        }
+        System.out.println("Bombardment");
         window.close();
 
     }
 
     @Override
     public void setTerrInfo(String clickTerr) {
-
+    // set terr info based on click terrName, may be copy from other finished controller
         terrName.setText(clickTerr);
 
         // Set clickTerr

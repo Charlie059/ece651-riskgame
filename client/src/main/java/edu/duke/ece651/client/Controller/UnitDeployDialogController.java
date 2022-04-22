@@ -1,5 +1,7 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.GameModel;
+import edu.duke.ece651.client.View.MapView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -7,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -21,10 +24,10 @@ public class UnitDeployDialogController implements Initializable,Communication{
     private final int n_player;
     private String clickTerr;
 
-    public UnitDeployDialogController(Stage window, boolean debug, int n_player) {
+    public UnitDeployDialogController(Stage window, boolean debug) {
         this.window = window;
         this.debug = debug;
-        this.n_player = n_player;
+        this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
     }
 
     @FXML
@@ -33,11 +36,26 @@ public class UnitDeployDialogController implements Initializable,Communication{
 
     @Override
     public void setTerrInfo(String terrName) {
-
+        // set terr info based on click terrName, may be copy from other finished controller
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        terrName.setText("");
+        lv0_n.setText("");
+        lv1_n.setText("");
+        lv2_n.setText("");
+        lv3_n.setText("");
+        lv4_n.setText("");
+        lv5_n.setText("");
+        lv6_n.setText("");
+        spy_n.setText("");
 
+        //set map
+        try {
+            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "unitDeployDialogView"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

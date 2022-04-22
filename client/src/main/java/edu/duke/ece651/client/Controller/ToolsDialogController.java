@@ -1,8 +1,10 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.Model.MyTool;
 import edu.duke.ece651.client.Model.SpecialTool;
+import edu.duke.ece651.client.View.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -13,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -149,29 +152,33 @@ public class ToolsDialogController implements Initializable {
                         Button enterBtn = new Button("Use");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
-                            useTool();
+                            try {
+                                useTool();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         });
                     }
                 }
 
-                private void useTool() {
+                private void useTool() throws IOException {
                     String selectedToolName = this.getTableView().getItems().get(this.getIndex()).getToolName();
 
                     // TODO:call different tool function view based on selectedToolName
                     if(Objects.equals(selectedToolName, "Bombardment")){
-                        System.out.println("Bombardment");
+                        new BombardmentDialogView().show(new Stage(), null, debug);
                     }else if(Objects.equals(selectedToolName, "Sanction")){
-                        System.out.println("Sanction");
+                        new SanctionDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "The Great Leap Forward")){
-                        System.out.println("The Great Leap Forward");
+                        new GreatLeapForwardDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "Day breaks(spy)")){
-                        System.out.println("Day breaks(spy)");
+                        // run function
                     }else if(Objects.equals(selectedToolName, "God be with you")){
-                        System.out.println("God be with you");
+                        // run function
                     }else if(Objects.equals(selectedToolName, "SpecialSpyUpgrade")){
-                        System.out.println("SpecialSpyUpgrade");
+                        new SpecialSpyDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "UnitDeploy")){
-                        System.out.println("UnitDeploy");
+                        new UnitDeployDialogView().show(new Stage(),null,debug);
                     }
 
                     //delete this row from table

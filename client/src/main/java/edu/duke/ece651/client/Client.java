@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 
 public class Client extends Application{
-  private boolean debug = false;
+  private boolean debug = true;
 
   public static void main(String[] args) {
     launch(args);

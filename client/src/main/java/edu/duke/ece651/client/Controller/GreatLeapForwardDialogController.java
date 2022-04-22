@@ -52,7 +52,7 @@ public class GreatLeapForwardDialogController implements Initializable,Communica
 
             //set map
             try {
-                mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "attackDialogView"));
+                mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "greatLeapForwardDialogView"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -74,7 +74,7 @@ public class GreatLeapForwardDialogController implements Initializable,Communica
 
         @Override
         public void setTerrInfo(String clickTerr) {
-
+// set terr info based on click terrName, may be copy from other finished controller
             terrName.setText(clickTerr);
 
             // Set clickTerr

@@ -131,7 +131,6 @@ public class AttackDialogController implements Initializable,Communication {
                 numList.add(i + 1);
             }
 
-
             // Add levelList
             levelList.add(0);
             levelList.add(1);

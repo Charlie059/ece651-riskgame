@@ -12,9 +12,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="935.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.UnitDeployDialogController">
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.UnitDeployDialogController">
    <children>
-      <SplitPane dividerPositions="0.5883211678832118" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="916.0">
+      <SplitPane dividerPositions="0.7588477366255144" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="829.0" prefWidth="1217.0">
          <items>
             <Pane fx:id="mapPane" prefHeight="676.0" prefWidth="670.0">
                <children>
@@ -145,7 +145,7 @@
                      </font>
                   </Text>
                   <Line endX="100.0" startX="-3733.0" strokeWidth="3.0" GridPane.rowIndex="6" />
-                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#clickOnConfirm" prefHeight="46.0" prefWidth="119.0" text="Confirm" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="9">
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#clickOnConfirm" prefHeight="55.0" prefWidth="162.0" text="Confirm" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="9">
                      <font>
                         <Font size="18.0" />
                      </font>
