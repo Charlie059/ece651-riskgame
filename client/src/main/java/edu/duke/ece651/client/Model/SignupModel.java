@@ -27,12 +27,14 @@ public class SignupModel extends Model{
         // Password must be a combination of 8 or more digits containing uppercase letters,
         // lowercase letters, numbers, special symbols (characters other than letters, numbers,
         // underscores)
-        PasswordChecker passwordChecker = new PasswordChecker();
-        String[] password = new String[1];
-        password[0] = passWord;
 
-        // If password is not secure enough
-        if(!passwordChecker.doCheck(password)) return false;
+        //TODO recover th code
+//        PasswordChecker passwordChecker = new PasswordChecker();
+//        String[] password = new String[1];
+//        password[0] = passWord;
+//
+//        // If password is not secure enough
+//        if(!passwordChecker.doCheck(password)) return false;
 
         // Create a new LoginAction
         SignUpAction signUpAction = new SignUpAction(new AccountID(userName),passWord);
