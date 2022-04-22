@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class StartViewController {
     @FXML
-    TextField userName,passWord, Email, verificationCode;
+    TextField userName,passWord;
     @FXML
     Text error_msg;
 

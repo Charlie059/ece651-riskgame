@@ -31,8 +31,6 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
     @FXML
     ChoiceBox<Integer> selectNum;
     @FXML
-    Text cost_t;
-    @FXML
     Pane mapPane;
 
     private final Stage window;
@@ -65,7 +63,6 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
         lv5_n.setText("");
         lv6_n.setText("");
         spy_n.setText("");
-        cost_t.setText("Unknown");
         selectLvTo.setItems(toList);
         selectLvFrom.setItems(fromList);
         selectNum.setItems(numList);
@@ -91,10 +88,6 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
         }
     }
 
-    @FXML
-    public void clickOnGetCost(ActionEvent actionEvent) {
-        cost_t.setText("NA");
-    }
 
     @Override
     public void setTerrInfo(String clickTerr) {

@@ -76,7 +76,7 @@ public class ToolsDialogController implements Initializable {
                     this.setText(null);
                     this.setGraphic(null);
                     if (!empty) {
-                        Button enterBtn = new Button("Details");
+                        Button enterBtn = new Button("Detail");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
                             showDetails();
@@ -108,7 +108,7 @@ public class ToolsDialogController implements Initializable {
                     this.setText(null);
                     this.setGraphic(null);
                     if (!empty) {
-                        Button enterBtn = new Button("Buy");
+                        Button enterBtn = new Button("Buying");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
                             tryToBuy();
@@ -129,13 +129,13 @@ public class ToolsDialogController implements Initializable {
                         return;
                     }
 
-                    // add to the repository
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Success");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully buy "+ selectedToolName);  // get description from server.
-
-                    alert.showAndWait();
+//                    // add to the repository
+//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                    alert.setTitle("Success");
+//                    alert.setHeaderText(null);
+//                    alert.setContentText("Successfully buy "+ selectedToolName);  // get description from server.
+//
+//                    alert.showAndWait();
                     myToolList.add(new MyTool(selectedToolName));
 
 
@@ -163,7 +163,7 @@ public class ToolsDialogController implements Initializable {
                     this.setText(null);
                     this.setGraphic(null);
                     if (!empty) {
-                        Button enterBtn = new Button("Use");
+                        Button enterBtn = new Button("Uses");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
                             try {

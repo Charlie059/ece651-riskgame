@@ -4,12 +4,10 @@ import edu.duke.ece651.client.ClientSocket;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Wrapper.AccountID;
-import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Spy;
 import edu.duke.ece651.shared.map.Territory;
 import edu.duke.ece651.shared.map.Unit;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
 import java.util.*;
@@ -138,27 +136,37 @@ public class GameModel extends Model {
 
 
     /**
-     * USe God be with you action
+     * useSpecialSpy
+     *
      * @param debugMode
      * @return
      */
-    public String useSpecialSpy(String from, String spyType,boolean debugMode){
+    public String useSpecialSpy(String from, String spyType, String totype, boolean debugMode){
         if (debugMode) {
             return null;
         }
 
-        Integer spyTypeInt;
-
+        Integer spyTypeIntFrom;
+        Integer spyTypeIntTo;
         if(spyType.equals("defaultType")){
-            spyTypeInt = 1;
+            spyTypeIntFrom = 1;
         }
         else if(spyType.equals("rosenbergs")){
-            spyTypeInt = 2;
+            spyTypeIntFrom = 2;
         }
         else {
-            spyTypeInt = 3;
+            spyTypeIntFrom = 3;
         }
 
+        if(totype.equals("defaultType")){
+            spyTypeIntTo = 1;
+        }
+        else if(totype.equals("rosenbergs")){
+            spyTypeIntTo = 2;
+        }
+        else {
+            spyTypeIntTo = 3;
+        }
 
         try {
             // Get the spy UUID and type form the terr
@@ -169,7 +177,7 @@ public class GameModel extends Model {
 
                 // find the spy who have the spyType
                 for(int i = 0; i < spyArrayList.size(); i++){
-                    if(spyArrayList.get(i).getSpyType().equals(spyTypeInt)){
+                    if(spyArrayList.get(i).getSpyType().equals(spyTypeIntFrom)){
                         spy = spyArrayList.get(i);
                     }
                 }
@@ -177,7 +185,7 @@ public class GameModel extends Model {
 
             if(spy == null) return "Cannot find Spy";
 
-            SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction(from, spy.getSpyUUID(), spy.getSpyType());
+            SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction(from, spy.getSpyUUID(), spyTypeIntTo);
             System.out.println(spy.getSpyUUID());
             System.out.println(spy.getSpyType());
 
@@ -422,7 +430,6 @@ public class GameModel extends Model {
     public String doMoveSpy(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
-            moveSpy(dePloyInfo[0], dePloyInfo[1]);
             return null;
         }
 

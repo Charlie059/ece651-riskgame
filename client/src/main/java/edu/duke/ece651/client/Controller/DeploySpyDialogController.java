@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 
 public class DeploySpyDialogController implements Initializable,Communication {
     @FXML
-    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n,undeployedSpyNumber;
+    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
     @FXML
     ChoiceBox<String> selectTo;
     @FXML
@@ -57,7 +57,6 @@ public class DeploySpyDialogController implements Initializable,Communication {
         lv6_n.setText("");
         spy_n.setText("");
         selectTo.setItems(toList);
-        undeployedSpyNumber.setText("NA");
 
         //set map
         try {

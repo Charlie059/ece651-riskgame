@@ -79,29 +79,23 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email:" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
       <TextField fx:id="userName" prefHeight="32.0" prefWidth="161.0" style="-fx-border-color: #000000;" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
       <Text fx:id="msg" fill="#f50909" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
-      <PasswordField fx:id="passWord" prefHeight="32.0" prefWidth="161.0" style="-fx-border-color: #000000;" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9" GridPane.vgrow="ALWAYS" />
+      <PasswordField fx:id="passWord" prefHeight="32.0" prefWidth="161.0" style="-fx-border-color: #000000;" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Verification code:" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
          <font>
             <Font size="20.0" />
          </font>
       </Text>
       <PasswordField fx:id="verificationCode" prefHeight="32.0" prefWidth="161.0" style="-fx-border-color: #000000;" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS" />
-      <TextField fx:id="Email" prefHeight="32.0" prefWidth="161.0" style="-fx-border-color: #000000;" GridPane.columnIndex="8" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" GridPane.vgrow="ALWAYS" />
    </children>
 </GridPane>

@@ -14,7 +14,7 @@
 
 <Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.CloakDialogController">
    <children>
-      <SplitPane dividerPositions="0.6530359355638166" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1196.0">
+      <SplitPane dividerPositions="0.7462311557788944" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="1196.0">
          <items>
             <Pane fx:id="mapPane" prefHeight="200.0" prefWidth="200.0">
                <children>
@@ -159,16 +159,6 @@
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cost:" GridPane.columnIndex="1" GridPane.rowIndex="8">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="cost_t" strokeType="OUTSIDE" strokeWidth="0.0" text="20" GridPane.columnIndex="3" GridPane.rowIndex="8">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Text>
                </children>
             </GridPane>
          </items>
