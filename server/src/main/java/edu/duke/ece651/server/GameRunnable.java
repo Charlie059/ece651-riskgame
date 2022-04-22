@@ -114,6 +114,12 @@ public class GameRunnable implements Runnable {
         }
     }
 
+    private void updateTerritories(){
+        for(Territory territory : this.currGame.getMap().getTerritoryList().values()){
+            territory.updateCloak();
+        }
+    }
+
     /**
      * Define the game runnable thread
      */
@@ -156,6 +162,9 @@ public class GameRunnable implements Runnable {
             this.currGame.getPlayerHashMap().updatePlayersTechLevel();
             //check win or lose-> decide whether to set game over
             checkWinOrLost(thisGame);
+
+            //Update Cloaking For everyTerritory
+            this.updateTerritories();
 
             //Breed
             //If first Loop, do not breed
