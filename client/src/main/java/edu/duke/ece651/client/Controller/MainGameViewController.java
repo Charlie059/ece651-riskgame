@@ -231,7 +231,12 @@ public class MainGameViewController implements Initializable {
 
     @FXML
     public void clickOnCommit(){
-        responses.add("Click On Commit");
+        //upgrade everything
+        if(!GameModel.getInstance().doCommit(debug)){
+            System.out.println("Cannot commit, this should not happened");
+        }
+        // Update view
+        updateView();
     }
 
     @FXML
