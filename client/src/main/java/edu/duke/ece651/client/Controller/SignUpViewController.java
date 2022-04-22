@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 
 public class SignUpViewController {
     @FXML
-    TextField userName,passWord, Email, verificationCode;
+    TextField userName,passWord, verificationCode;
     @FXML
     Text msg;
 

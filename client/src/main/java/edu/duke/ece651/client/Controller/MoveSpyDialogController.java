@@ -28,8 +28,6 @@ public class MoveSpyDialogController implements Initializable,Communication {
     @FXML
     ChoiceBox<String> selectTo;
     @FXML
-    Text cost_t;
-    @FXML
     Pane mapPane;
 
     private final Stage window;
@@ -58,7 +56,6 @@ public class MoveSpyDialogController implements Initializable,Communication {
         lv5_n.setText("");
         lv6_n.setText("");
         spy_n.setText("");
-        cost_t.setText("Unknown");
         selectTo.setItems(toList);
 
         //set map
@@ -80,11 +77,6 @@ public class MoveSpyDialogController implements Initializable,Communication {
             System.out.println(record);
             window.close();
         }
-    }
-
-    @FXML
-    public void clickOnGetCost(ActionEvent actionEvent) {
-        cost_t.setText("NA");
     }
 
     @Override

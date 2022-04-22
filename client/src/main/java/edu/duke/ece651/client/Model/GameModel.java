@@ -430,7 +430,6 @@ public class GameModel extends Model {
     public String doMoveSpy(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
-            moveSpy(dePloyInfo[0], dePloyInfo[1]);
             return null;
         }
 
