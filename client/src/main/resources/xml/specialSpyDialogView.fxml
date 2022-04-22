@@ -13,9 +13,9 @@
 <?import javafx.scene.text.Text?>
 
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="754.0" prefWidth="937.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.SpecialSpyDialogController">
+<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.SpecialSpyDialogController">
    <children>
-      <SplitPane dividerPositions="0.5883211678832118" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="739.0" prefWidth="916.0">
+      <SplitPane dividerPositions="0.7234401349072512" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="854.0" prefWidth="1188.0">
          <items>
             <Pane fx:id="mapPane" prefHeight="676.0" prefWidth="670.0">
                <children>
@@ -151,17 +151,17 @@
                      </font>
                   </Text>
                   <Line endX="100.0" startX="-3733.0" strokeWidth="3.0" GridPane.rowIndex="6" />
-                  <ChoiceBox fx:id="selectSpyType" prefWidth="150.0" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="10" />
-                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#clickOnConfirm" prefHeight="46.0" prefWidth="119.0" text="Confirm" GridPane.columnIndex="4" GridPane.columnSpan="3" GridPane.rowIndex="11">
+                  <ChoiceBox fx:id="selectSpyType" prefWidth="150.0" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="10" />
+                  <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#clickOnConfirm" prefHeight="46.0" prefWidth="119.0" text="Confirm" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="11">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="20.0" />
                      </font>
                      <styleClass>
                         <String fx:value="expandable" />
                         <String fx:value="numbtn" />
                      </styleClass>
                   </Button>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a spy" GridPane.rowIndex="7">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select a spy in territory:" GridPane.rowIndex="7">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -176,7 +176,7 @@
                         <Font size="20.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="selectSpy" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                  <ChoiceBox fx:id="selectSpy" prefWidth="150.0" GridPane.columnIndex="3" GridPane.columnSpan="4" GridPane.rowIndex="8" />
                </children>
             </GridPane>
          </items>

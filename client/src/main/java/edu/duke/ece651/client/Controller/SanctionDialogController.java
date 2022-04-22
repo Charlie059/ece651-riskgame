@@ -39,7 +39,7 @@ public class SanctionDialogController implements Initializable,Communication {
         public SanctionDialogController(Stage window, boolean debug){
             this.window = window;
             this.debug = debug;
-            this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
+            this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
         }
 
 
@@ -57,7 +57,7 @@ public class SanctionDialogController implements Initializable,Communication {
 
             //set map
             try {
-                mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "attackDialogView"));
+                mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "sanctionDialogView"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,7 +79,11 @@ public class SanctionDialogController implements Initializable,Communication {
 
         @Override
         public void setTerrInfo(String clickTerr) {
+            // set terr info based on click terrName, may be copy from other finished controller
             terrName.setText(clickTerr);
+
+
+
 
             // Set clickTerr
             this.clickTerr = clickTerr;

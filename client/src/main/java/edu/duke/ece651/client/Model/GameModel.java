@@ -4,6 +4,7 @@ import edu.duke.ece651.client.ClientSocket;
 import edu.duke.ece651.shared.IO.ClientActions.*;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Spy;
 import edu.duke.ece651.shared.map.Territory;
@@ -11,10 +12,7 @@ import edu.duke.ece651.shared.map.Unit;
 import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 /**
  * GameModel contains game info to be displayed into view(pass by controller)
@@ -24,6 +22,8 @@ public class GameModel extends Model {
 
 
     private ClientPlayerPacket clientPlayerPacket;
+    private List<MyTool> cardRepository = new ArrayList<>();
+    private int currPoint = 1000;
 
 
     private HashMap<String, ArrayList<Integer>> localEnemyTerrs = new HashMap<>(); // TerrName -> Units
@@ -102,6 +102,199 @@ public class GameModel extends Model {
     }
 
 
+
+
+
+    /**
+     * Search Card type
+     */
+    private List<Integer> searchCardType(String cardType) {
+        switch (cardType) {
+            case "Bombardment":
+                return List.of(11, 120);
+            case "Sanction":
+                return List.of(12, 300);
+            case "The Great Leap Forward":
+                return List.of(13, 300);
+            case "Day breaks(spy)":
+                return List.of(14, 600);
+            case "God be with you":
+                return List.of(15, 150);
+            case "SpecialSpyUpgrade":
+                return List.of(16, 120);
+            case "UnitDeploy":
+                return List.of(17, 0);
+        }
+        return List.of(-1, -1);
+    }
+
+    public List<MyTool> getCardRepository() {
+        return cardRepository;
+    }
+
+    public int getCurrPoint() {
+        return currPoint;
+    }
+
+
+    /**
+     * USe God be with you action
+     * @param debugMode
+     * @return
+     */
+    public String useGodBeWithU(boolean debugMode){
+        if (debugMode) {
+            return null;
+        }
+        try {
+            GodBeWithUAction godBeWithUAction = new GodBeWithUAction();
+            ClientSocket.getInstance().sendObject(godBeWithUAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPGodBeWithUSuccess
+            if (response.getClass() != RSPGodBeWithUSuccess.class) {
+                RSPGodBeWithUFail rspGodBeWithUFail = (RSPGodBeWithUFail) response;
+                return rspGodBeWithUFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPGodBeWithUSuccess rspGodBeWithUSuccess = (RSPGodBeWithUSuccess) response;
+            // TODO do affect
+
+            return null;
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+
+
+    /**
+     * useGreatLeapForward
+     * @param terrName
+     * @param debugMode
+     * @return
+     */
+    public String useGreatLeapForward(String terrName, boolean debugMode){
+        if (debugMode) {
+            return null;
+        }
+        try {
+
+            TheGreatLeapForwardAction theGreatLeapForwardAction = new TheGreatLeapForwardAction(terrName);
+            ClientSocket.getInstance().sendObject(theGreatLeapForwardAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPGreatLeapForwardSuccess
+            if (response.getClass() != RSPGreatLeapForwardSuccess.class) {
+                RSPGreatLeapForwardFail rspGreatLeapForwardFail = (RSPGreatLeapForwardFail) response;
+                return rspGreatLeapForwardFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPGreatLeapForwardSuccess rspGreatLeapForwardSuccess = (RSPGreatLeapForwardSuccess) response;
+
+            // TODO do affect
+
+            return null;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+
+    /**
+     * Use Bombard
+     * @param enemyTerr
+     * @param debugMode
+     * @return
+     */
+    public String useBombard(String enemyTerr, boolean debugMode) {
+        // For Debug only
+        if (debugMode) {
+            return null;
+        }
+
+        try {
+
+            BombardmentAction bombardmentAction = new BombardmentAction(enemyTerr);
+            ClientSocket.getInstance().sendObject(bombardmentAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPBombardmentSuccess
+            if (response.getClass() != RSPBombardmentSuccess.class) {
+                RSPBombardmentFail rspBombardmentFail = (RSPBombardmentFail) response;
+                return rspBombardmentFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPBombardmentSuccess rspBombardmentSuccess = (RSPBombardmentSuccess) response;
+
+
+            // TODO do affect
+
+            return null;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
+    /**
+     * Try to buy card
+     * @param cardType
+     * @param debugMode
+     * @return
+     */
+    public String try2BuyCard(String cardType, boolean debugMode) {
+        // For Debug only
+        if (debugMode) {
+            cardRepository.add(new MyTool("Bombardment"));
+            cardRepository.add(new MyTool("Sanction"));
+            return null;
+        }
+
+        try {
+
+            CardBuyAction cardBuyAction = new CardBuyAction(searchCardType(cardType));
+            ClientSocket.getInstance().sendObject(cardBuyAction);
+
+            // Recv server response
+            Response response = (Response) ClientSocket.getInstance().recvObject();
+
+            // If response is not RSPCardBuySuccess
+            if (response.getClass() != RSPCardBuySuccess.class) {
+                RSPCardBuyFail rspCardBuyFail = (RSPCardBuyFail) response;
+                return rspCardBuyFail.getErrMessage();
+            }
+
+            // Cast and Get the response filed
+            RSPCardBuySuccess rspCardBuySuccess = (RSPCardBuySuccess) response;
+
+            // reduce the point
+            this.currPoint -= searchCardType(cardType).get(1);
+            System.out.println(this.currPoint);
+
+            // Add the item into repo
+            this.cardRepository.add(new MyTool(cardType));
+
+            return null;
+
+
+        } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
+        }
+        return "Server Find Error";
+    }
+
     /**
      * do move spy in the map
      */
@@ -126,6 +319,7 @@ public class GameModel extends Model {
 
     /**
      * DO move Spy
+     *
      * @param dePloyInfo
      * @param debugMode
      * @return
@@ -133,7 +327,7 @@ public class GameModel extends Model {
     public String doMoveSpy(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
-            moveSpy( dePloyInfo[0], dePloyInfo[1]);
+            moveSpy(dePloyInfo[0], dePloyInfo[1]);
             return null;
         }
 
@@ -159,7 +353,7 @@ public class GameModel extends Model {
                     Response response = (Response) ClientSocket.getInstance().recvObject();
 
                     // If response is not RSPAttackSuccess
-                    if (response.getClass() != RSPSpyMoveSuccess.class){
+                    if (response.getClass() != RSPSpyMoveSuccess.class) {
                         RSPSpyMoveFail rspSpyMoveFail = (RSPSpyMoveFail) response;
                         return rspSpyMoveFail.getErrMessage();
                     }
@@ -183,6 +377,7 @@ public class GameModel extends Model {
 
     /**
      * Do Clock action
+     *
      * @param dePloyInfo
      * @param debugMode
      * @return
@@ -204,7 +399,7 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if (response.getClass() != RSPCloakTerritorySuccess.class){
+            if (response.getClass() != RSPCloakTerritorySuccess.class) {
                 RSPCloakTerritoryActionFail rspCloakTerritoryActionFail = (RSPCloakTerritoryActionFail) response;
                 return rspCloakTerritoryActionFail.getErrMessage();
             }
@@ -253,7 +448,7 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if (response.getClass() != RSPSpyDeploySuccess.class){
+            if (response.getClass() != RSPSpyDeploySuccess.class) {
                 RSPSpyDeployFail rspSpyDeployFail = (RSPSpyDeployFail) response;
                 return rspSpyDeployFail.getErrMessage();
             }
@@ -354,7 +549,7 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if (response.getClass() != RSPAttackSuccess.class){
+            if (response.getClass() != RSPAttackSuccess.class) {
                 RSPAttackFail rspAttackFail = (RSPAttackFail) response;
                 return rspAttackFail.getErrMessage();
             }
@@ -395,7 +590,7 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPUpgradeUnitsSuccess
-            if (response.getClass() != RSPUpgradeUnitsSuccess.class){
+            if (response.getClass() != RSPUpgradeUnitsSuccess.class) {
                 RSPUpgradeUnitsFail rspUpgradeUnitsFail = (RSPUpgradeUnitsFail) response;
                 return rspUpgradeUnitsFail.getErrMessage();
             }
@@ -452,7 +647,7 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPMoveSuccess
-            if (response.getClass() != RSPMoveSuccess.class){
+            if (response.getClass() != RSPMoveSuccess.class) {
                 RSPMoveFail rspMoveFail = (RSPMoveFail) response;
                 return rspMoveFail.getErrMessage();
             }

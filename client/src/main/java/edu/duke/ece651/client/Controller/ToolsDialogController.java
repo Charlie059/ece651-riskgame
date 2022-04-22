@@ -1,8 +1,10 @@
 package edu.duke.ece651.client.Controller;
 
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.Model.MyTool;
 import edu.duke.ece651.client.Model.SpecialTool;
+import edu.duke.ece651.client.View.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -13,7 +15,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -47,7 +51,10 @@ public class ToolsDialogController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        curPoints.setText("100");
+        curPoints.setText(String.valueOf(GameModel.getInstance().getCurrPoint()));
+
+        // Set repo
+        this.myToolList.addAll(GameModel.getInstance().getCardRepository());
 
         // set the store
         setStoreTable(setStoreData());
@@ -113,6 +120,15 @@ public class ToolsDialogController implements Initializable {
                     String selectedToolName = this.getTableView().getItems().get(this.getIndex()).getToolName();
                     //TODO: first check whether have enough points.
 
+                    String res = GameModel.getInstance().try2BuyCard(selectedToolName, debug);
+                    if(res != null){
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Failure");
+                        alert.setHeaderText(null);
+                        alert.setContentText(res);  // get description from server.
+                        return;
+                    }
+
                     // add to the repository
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Success");
@@ -124,7 +140,8 @@ public class ToolsDialogController implements Initializable {
 
 
                     //TODO: reduce cost
-
+                    curPoints.setText(String.valueOf(GameModel.getInstance().getCurrPoint()));
+                    System.out.println(GameModel.getInstance().getCurrPoint());
                 }
 
             };
@@ -149,29 +166,34 @@ public class ToolsDialogController implements Initializable {
                         Button enterBtn = new Button("Use");
                         this.setGraphic(enterBtn);
                         enterBtn.setOnMouseClicked((me) -> {
-                            useTool();
+                            try {
+                                useTool();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         });
                     }
                 }
 
-                private void useTool() {
+                private void useTool() throws IOException {
                     String selectedToolName = this.getTableView().getItems().get(this.getIndex()).getToolName();
 
                     // TODO:call different tool function view based on selectedToolName
                     if(Objects.equals(selectedToolName, "Bombardment")){
-                        System.out.println("Bombardment");
+                        new BombardmentDialogView().show(new Stage(), null, debug);
                     }else if(Objects.equals(selectedToolName, "Sanction")){
-                        System.out.println("Sanction");
+                        new SanctionDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "The Great Leap Forward")){
-                        System.out.println("The Great Leap Forward");
+                        new GreatLeapForwardDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "Day breaks(spy)")){
-                        System.out.println("Day breaks(spy)");
+                        // run function
                     }else if(Objects.equals(selectedToolName, "God be with you")){
-                        System.out.println("God be with you");
+                        String res = GameModel.getInstance().useGodBeWithU(debug);
+                        if (res != null) System.out.println(res);
                     }else if(Objects.equals(selectedToolName, "SpecialSpyUpgrade")){
-                        System.out.println("SpecialSpyUpgrade");
+                        new SpecialSpyDialogView().show(new Stage(),null,debug);
                     }else if(Objects.equals(selectedToolName, "UnitDeploy")){
-                        System.out.println("UnitDeploy");
+                        new UnitDeployDialogView().show(new Stage(),null,debug);
                     }
 
                     //delete this row from table
@@ -191,15 +213,14 @@ public class ToolsDialogController implements Initializable {
     private ObservableList<SpecialTool> setStoreData(){
         ObservableList<SpecialTool> toolList = FXCollections.observableArrayList();
         toolList.add(new SpecialTool("Bombardment",120,""));
-        toolList.add(new SpecialTool("Sanction",150,""));
-        toolList.add(new SpecialTool("The Great Leap Forward",100,""));
-        toolList.add(new SpecialTool("Day breaks(spy)",200,""));
-        toolList.add(new SpecialTool("God be with you",50,""));
+        toolList.add(new SpecialTool("Sanction",300,""));
+        toolList.add(new SpecialTool("The Great Leap Forward",300,""));
+        toolList.add(new SpecialTool("Day breaks(spy)",600,""));
+        toolList.add(new SpecialTool("God be with you",150,""));
         toolList.add(new SpecialTool("SpecialSpyUpgrade",120,""));
-        toolList.add(new SpecialTool("UnitDeploy",20,""));
+        toolList.add(new SpecialTool("UnitDeploy",0,""));
 
         return toolList;
-
     }
 
 }
