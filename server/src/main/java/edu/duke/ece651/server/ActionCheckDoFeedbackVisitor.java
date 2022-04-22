@@ -239,9 +239,10 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
                     //For each Territory in my Territory, that is adjacent to this enemy's territory, add the territory info into
                     for (Territory territory : currPlayer.getMyTerritories().values()) {
                         //Territory that isadjcent (MeAccount, one of my territory, one of other's territory)
-                        if (game.getMap().isAdjacent(this.accountID, territory.getName(), territoryName)) {
+                        Boolean isSpyOn = game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).isHaveMySpy(this.accountID);
+                        if (game.getMap().isAdjacent(this.accountID, territory.getName(), territoryName) || isSpyOn ) {
                             //And that Territory is not cloaked, or cloaked but have my spy
-                            if (!game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).isCloaked() || game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).isHaveMySpy(this.accountID)) {
+                            if (!game.getPlayerHashMap().getPlayerHashMap().get(enemyAccountID).getMyTerritories().get(territoryName).isCloaked() || isSpyOn) {
                                 //Get Unit Info to be [num,num,num,num,.....,num]
                                 ArrayList<Integer> unitsInfo = new ArrayList<>();
                                 unitsInfo.add(0);
