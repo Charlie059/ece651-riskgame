@@ -177,6 +177,7 @@ class ClientTest {
     @Test
     void test_attack(FxRobot robot){
         Enter_Main(robot);
+        robot.clickOn("a1");
         robot.clickOn("Attack");
     }
 
