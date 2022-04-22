@@ -73,8 +73,10 @@ public class MoveDialogController implements Initializable,Communication {
     }
     @FXML
     public void clickOnMove(ActionEvent actionEvent) {
-        if(!GameModel.getInstance().doMove(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)){
-            System.out.println("Invalid value (Server check)");
+        String res = GameModel.getInstance().doMove(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug);
+        if(res != null){
+            //TODO error message
+            System.out.println(res);
         }
         else {
             String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to move Territory " + selectTo.getValue() + " From "+this.clickTerr;

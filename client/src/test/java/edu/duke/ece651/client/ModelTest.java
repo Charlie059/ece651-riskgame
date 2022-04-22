@@ -130,22 +130,22 @@ class ModelTest {
 
         // 7 doAttack success
         String attackInfo[] = {"b1","a1","0","1"};
-        assertEquals(true, gameModel.doAttack(attackInfo,false));
+        assertEquals(null, gameModel.doAttack(attackInfo,false));
         gameModel.doAttack(attackInfo,true);
         testGetter(gameModel);
 
         // 8 doAttack fail
-        assertEquals(false, gameModel.doAttack(attackInfo,false));
+        assertEquals("Server Find Error", gameModel.doAttack(attackInfo,false));
 
         // 9 doUpgradeUnit success
         String uogradeUnitInfo[] = {"b1","0","1","1"};
-        assertEquals(true, gameModel.doUpgradeUnit(uogradeUnitInfo,false));
-        assertEquals(true, gameModel.doUpgradeUnit(uogradeUnitInfo,true));
+        assertEquals(null, gameModel.doUpgradeUnit(uogradeUnitInfo,false));
+        assertEquals(null, gameModel.doUpgradeUnit(uogradeUnitInfo,true));
 
         // 10 domove success
         String moveInfo[] = {"b1","b2","0","1"};
-        assertEquals(true, gameModel.doMove(moveInfo,false));
-        assertEquals(true, gameModel.doMove(moveInfo,true));
+        assertEquals(null, gameModel.doMove(moveInfo,false));
+        assertEquals(null, gameModel.doMove(moveInfo,true));
 
         // 11 docommit success
         assertEquals(true, gameModel.doCommit(false));

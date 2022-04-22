@@ -69,8 +69,10 @@ public class DeploySpyDialogController implements Initializable,Communication {
 
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        if(!GameModel.getInstance().doDeploySpy(new String[]{this.clickTerr}, debug)){
-            System.out.println("Invalid value (Server check)");
+        String res = GameModel.getInstance().doDeploySpy(new String[]{this.clickTerr}, debug);
+        if(res != null){
+            //TODO Error Message
+            System.out.println(res);
         }
         else {
             String record = "Deploy Spy at " + this.clickTerr;

@@ -77,8 +77,10 @@ public class AttackDialogController implements Initializable,Communication {
 
     @FXML
     public void clickOnAttack(ActionEvent actionEvent) {
-        if(!GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug)){
-            System.out.println("Invalid value (Server check)");
+        String errorMsg = GameModel.getInstance().doAttack(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug);
+        if(errorMsg != null){
+            // TODO show error message
+            System.out.println(errorMsg);
         }
         else {
             String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to attack Territory " + selectTo.getValue() + " From "+this.clickTerr;

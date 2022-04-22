@@ -124,11 +124,17 @@ public class GameModel extends Model {
         }
     }
 
-    public boolean doMoveSpy(String[] dePloyInfo, boolean debugMode) {
+    /**
+     * DO move Spy
+     * @param dePloyInfo
+     * @param debugMode
+     * @return
+     */
+    public String doMoveSpy(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
             moveSpy( dePloyInfo[0], dePloyInfo[1]);
-            return true;
+            return null;
         }
 
         try {
@@ -153,7 +159,10 @@ public class GameModel extends Model {
                     Response response = (Response) ClientSocket.getInstance().recvObject();
 
                     // If response is not RSPAttackSuccess
-                    if (response.getClass() != RSPSpyMoveSuccess.class) return false;
+                    if (response.getClass() != RSPSpyMoveSuccess.class){
+                        RSPSpyMoveFail rspSpyMoveFail = (RSPSpyMoveFail) response;
+                        return rspSpyMoveFail.getErrMessage();
+                    }
 
                     // Cast and Get the response filed
                     RSPSpyMoveSuccess rspSpyMoveSuccess = (RSPSpyMoveSuccess) response;
@@ -161,21 +170,27 @@ public class GameModel extends Model {
                     // Change the model
                     moveSpy(from, to);
 
-                    return true;
+                    return null;
                 }
             }
 
 
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
-        return false;
+        return "Server Find Error";
     }
 
 
-    public boolean doCloak(String[] dePloyInfo, boolean debugMode) {
+    /**
+     * Do Clock action
+     * @param dePloyInfo
+     * @param debugMode
+     * @return
+     */
+    public String doCloak(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
-            return true;
+            return null;
         }
 
         try {
@@ -189,16 +204,19 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if (response.getClass() != RSPCloakTerritorySuccess.class) return false;
+            if (response.getClass() != RSPCloakTerritorySuccess.class){
+                RSPCloakTerritoryActionFail rspCloakTerritoryActionFail = (RSPCloakTerritoryActionFail) response;
+                return rspCloakTerritoryActionFail.getErrMessage();
+            }
 
             // Cast and Get the response filed
             RSPCloakTerritorySuccess rspCloakTerritorySuccess = (RSPCloakTerritorySuccess) response;
-            return true;
+            return null;
 
 
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
-        return false;
+        return "Server Find Error";
     }
 
     /**
@@ -208,7 +226,7 @@ public class GameModel extends Model {
      * @param debugMode
      * @return
      */
-    public boolean doDeploySpy(String[] dePloyInfo, boolean debugMode) {
+    public String doDeploySpy(String[] dePloyInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
 
@@ -220,7 +238,7 @@ public class GameModel extends Model {
                 spyArrayList.add(new Spy((this.clientPlayerPacket.getAccountID())));
                 spyInfo.put(dePloyInfo[0], spyArrayList);
             }
-            return true;
+            return null;
         }
 
         try {
@@ -235,7 +253,10 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if (response.getClass() != RSPSpyDeploySuccess.class) return false;
+            if (response.getClass() != RSPSpyDeploySuccess.class){
+                RSPSpyDeployFail rspSpyDeployFail = (RSPSpyDeployFail) response;
+                return rspSpyDeployFail.getErrMessage();
+            }
 
             // Cast and Get the response filed
             RSPSpyDeploySuccess rspSpyDeploySuccess = (RSPSpyDeploySuccess) response;
@@ -258,10 +279,10 @@ public class GameModel extends Model {
             ArrayList<Unit> units = myterr.get(from).getUnits();
             units.get(1).setValue(units.get(1).getValue() - 1);
 
-            return true;
+            return null;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
-        return false;
+        return "Server find error";
     }
 
 
@@ -298,9 +319,9 @@ public class GameModel extends Model {
      *
      * @param attackInfo
      * @param debugMode
-     * @return true for success
+     * @return String
      */
-    public boolean doAttack(String[] attackInfo, boolean debugMode) {
+    public String doAttack(String[] attackInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
             ArrayList<ArrayList<Integer>> units = new ArrayList<>();
@@ -309,7 +330,7 @@ public class GameModel extends Model {
             unit.add(1);
             units.add(unit);
             this.clientPlayerPacket.doAttack(attackInfo[0], attackInfo[1], units, 10);
-            return true;
+            return null;
         }
 
         try {
@@ -333,17 +354,20 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPAttackSuccess
-            if (response.getClass() != RSPAttackSuccess.class) return false;
+            if (response.getClass() != RSPAttackSuccess.class){
+                RSPAttackFail rspAttackFail = (RSPAttackFail) response;
+                return rspAttackFail.getErrMessage();
+            }
 
             // Cast and Get the response filed
             RSPAttackSuccess rspAttackSuccess = (RSPAttackSuccess) response;
 
             // Change the model
             this.clientPlayerPacket.doAttack(rspAttackSuccess.getFrom(), rspAttackSuccess.getTo(), rspAttackSuccess.getUnits(), rspAttackSuccess.getTotalCost());
-            return true;
+            return null;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
-        return false;
+        return "Server Find Error";
     }
 
     /**
@@ -351,10 +375,10 @@ public class GameModel extends Model {
      *
      * @return true for success
      */
-    public boolean doUpgradeUnit(String[] upgradeInfo, boolean debugMode) {
+    public String doUpgradeUnit(String[] upgradeInfo, boolean debugMode) {
         if (debugMode) {
             this.clientPlayerPacket.doUpgradeUnit("b1", 0, 1, 10);
-            return true;
+            return null;
         }
 
         try {
@@ -371,28 +395,31 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is RSPUpgradeUnitsSuccess
-            if (response.getClass() != RSPUpgradeUnitsSuccess.class) return false;
+            if (response.getClass() != RSPUpgradeUnitsSuccess.class){
+                RSPUpgradeUnitsFail rspUpgradeUnitsFail = (RSPUpgradeUnitsFail) response;
+                return rspUpgradeUnitsFail.getErrMessage();
+            }
 
             // Cast and Get the response filed
             RSPUpgradeUnitsSuccess rspUpgradeUnitsSuccess = (RSPUpgradeUnitsSuccess) response;
 
             // Change the model
             this.clientPlayerPacket.doUpgradeUnit(rspUpgradeUnitsSuccess.getWhere(), rspUpgradeUnitsSuccess.getOldLevel(), rspUpgradeUnitsSuccess.getNewLevel(), rspUpgradeUnitsSuccess.getTechCost());
-            return true;
+            return null;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
-        return false;
+        return "Server find error";
     }
 
 
     /**
-     * Plyaer do move action, send server to check
+     * Player do move action, send server to check
      *
      * @param moveInfo
      * @param debugMode
      * @return true for success
      */
-    public boolean doMove(String[] moveInfo, boolean debugMode) {
+    public String doMove(String[] moveInfo, boolean debugMode) {
         // For Debug only
         if (debugMode) {
             ArrayList<ArrayList<Integer>> units = new ArrayList<>();
@@ -401,7 +428,7 @@ public class GameModel extends Model {
             unit.add(1);
             units.add(unit);
             this.clientPlayerPacket.doMove(moveInfo[0], moveInfo[1], units, 10);
-            return true;
+            return null;
         }
 
         try {
@@ -425,17 +452,20 @@ public class GameModel extends Model {
             Response response = (Response) ClientSocket.getInstance().recvObject();
 
             // If response is not RSPMoveSuccess
-            if (response.getClass() != RSPMoveSuccess.class) return false;
+            if (response.getClass() != RSPMoveSuccess.class){
+                RSPMoveFail rspMoveFail = (RSPMoveFail) response;
+                return rspMoveFail.getErrMessage();
+            }
 
             // Cast and Get the response filed
             RSPMoveSuccess rspMoveSuccess = (RSPMoveSuccess) response;
 
             // Change the model
             this.clientPlayerPacket.doMove(rspMoveSuccess.getFrom(), rspMoveSuccess.getTo(), rspMoveSuccess.getUnits(), rspMoveSuccess.getTotalCost());
-            return true;
+            return null;
         } catch (IOException | ClassNotFoundException | ClassCastException ignored) {
         }
-        return false;
+        return "Server Find Error";
     }
 
 

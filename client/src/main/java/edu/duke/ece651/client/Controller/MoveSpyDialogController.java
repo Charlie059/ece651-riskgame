@@ -70,8 +70,10 @@ public class MoveSpyDialogController implements Initializable,Communication {
     }
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        if(!GameModel.getInstance().doMoveSpy(new String[]{this.clickTerr, this.selectTo.getValue()}, debug)){
-            System.out.println("Invalid value (Server check)");
+        String res = GameModel.getInstance().doMoveSpy(new String[]{this.clickTerr, this.selectTo.getValue()}, debug);
+        if(res != null){
+            //TODO Error Message
+            System.out.println(res);
         }
         else {
             String record = "Move Spy from " + this.clickTerr + " to " +  this.selectTo.getValue();
@@ -88,7 +90,6 @@ public class MoveSpyDialogController implements Initializable,Communication {
     @Override
     public void setTerrInfo(String clickTerr) {
         toList.clear();
-
 
         terrName.setText(clickTerr);
 
@@ -117,7 +118,6 @@ public class MoveSpyDialogController implements Initializable,Communication {
             else{
                 spy_n.setText("0");
             }
-
 
 
         }

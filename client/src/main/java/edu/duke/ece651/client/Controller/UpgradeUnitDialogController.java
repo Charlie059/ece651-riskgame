@@ -79,8 +79,10 @@ public class UpgradeUnitDialogController implements Initializable,Communication 
     }
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        if(!GameModel.getInstance().doUpgradeUnit(new String[]{this.clickTerr, selectLvFrom.getValue() , "1", selectLvTo.getValue()}, debug)){
-            System.out.println("Invalid value (Server check)");
+        String res = GameModel.getInstance().doUpgradeUnit(new String[]{this.clickTerr, selectLvFrom.getValue() , "1", selectLvTo.getValue()}, debug);
+        if(res != null){
+            //TODO Error Message
+            System.out.println(res);
         }
         else {
             String record = "Upgrade Level " + selectLvFrom.getValue() + " to " + selectLvTo.getValue() + " from " + this.clickTerr;

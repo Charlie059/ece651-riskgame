@@ -16,8 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(ApplicationExtension.class)
 class ClientTest {
-    Client c;
-
+//    Client c;
+//
 //    @Start
 //    public void start(Stage window) throws Exception {
 //        c = new Client();

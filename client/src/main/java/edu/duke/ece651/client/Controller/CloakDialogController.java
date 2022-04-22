@@ -68,8 +68,10 @@ public class CloakDialogController implements Initializable,Communication {
 
     @FXML
     public void clickOnConfirm(ActionEvent actionEvent) {
-        if(!GameModel.getInstance().doCloak(new String[]{this.clickTerr}, debug)){
-            System.out.println("Invalid value (Server check)");
+        String res = GameModel.getInstance().doCloak(new String[]{this.clickTerr}, debug);
+        if(res != null){
+            //TODO Error message
+            System.out.println(res);
         }
         else {
             String record = "Cloaking at " + this.clickTerr;
@@ -81,7 +83,6 @@ public class CloakDialogController implements Initializable,Communication {
     @Override
     public void setTerrInfo(String clickTerr) {
         toList.clear();
-
 
         terrName.setText(clickTerr);
 
