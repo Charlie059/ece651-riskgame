@@ -131,99 +131,99 @@ public class Player {
 
 ////////////////////////////////Helper functions////////////////////////////////////////////////////
 
-    /**
-     * helper function: check if input territory name matches names in myTerritories
-     *
-     * @param terrName
-     * @param Territories
-     * @return
-     */
-    public boolean isTerrNameMatch(String terrName, HashMap<String, Territory> Territories) {
-        if (Territories.get(terrName) != null) {
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * helper function: check if input territory name matches names in myTerritories
+//     *
+//     * @param terrName
+//     * @param Territories
+//     * @return
+//     */
+//    public boolean isTerrNameMatch(String terrName, HashMap<String, Territory> Territories) {
+//        if (Territories.get(terrName) != null) {
+//            return true;
+//        }
+//        return false;
+//    }
 
-    /**
-     * helper function: check if input territory name matches names in myTerritories
-     * and the whole map
-     *
-     * @param terrName
-     * @param selfTerritories
-     * @param otherTerritories
-     * @return
-     */
-    public boolean isTerrNameMatchForAttack(String terrName, HashMap<String, Territory> selfTerritories,
-                                            HashMap<String, Territory> otherTerritories) {
-        if (isTerrNameMatch(terrName, selfTerritories)) {
-            return false;
-        }
-        if (otherTerritories.get(terrName) != null) {
-            return true;
-        }
-        return false;
-    }
-
-
-    public void sendUpgradeUnit(String where, int oldLevel, int newLevel) {
-        UpgradeUnitsAction UpdateUnits_action = new UpgradeUnitsAction();
-        UpdateUnits_action.setWhere(where).
-                setOldLevel(oldLevel).
-                setNewLevel(newLevel);
-    }
-
-    public void sendUpgradeTech(int next_level, int currTechResource) {
-        UpgradeTechAction updateTechAction = new UpgradeTechAction();
-
-    }
-
-    /**
-     * send player's units to an adjacent territory controlled by a different
-     * player, in an attempt to gain control over that territory.
-     *
-     * @param attackUnits
-     * @param from_name
-     * @param to_name
-     * @return
-     */
-    public boolean sendAttack(ArrayList<ArrayList<Integer>> attackUnits, String from_name, String to_name) {
-        try {
-            AttackAction attack_action = new AttackAction();
-            attack_action.setFrom(from_name).setTo(to_name).setUnits(attackUnits);
-        } catch (Exception excep) {
-            System.out.println("Attack Error: " + excep.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * move units from one territory to another territory
-     *
-     * @param moveUnits
-     * @param from_name
-     * @param to_name
-     * @return
-     */
-    public boolean sendMove(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name) {
-        try {
-            MoveAction move_action = new MoveAction();
-            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits);
-
-        } catch (Exception excep) {
-            System.out.println("Move Error: " + excep.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    public boolean sendDeploy(int numOfDeployedUnits, String to_name) {
-        Territory to = myTerritories.get(to_name);
-        DeployAction deploy_action = new DeployAction();
-        deploy_action.setTo(to_name).setDeployUnits(numOfDeployedUnits);
-        return true;
-    }
+//    /**
+//     * helper function: check if input territory name matches names in myTerritories
+//     * and the whole map
+//     *
+//     * @param terrName
+//     * @param selfTerritories
+//     * @param otherTerritories
+//     * @return
+//     */
+//    public boolean isTerrNameMatchForAttack(String terrName, HashMap<String, Territory> selfTerritories,
+//                                            HashMap<String, Territory> otherTerritories) {
+//        if (isTerrNameMatch(terrName, selfTerritories)) {
+//            return false;
+//        }
+//        if (otherTerritories.get(terrName) != null) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//
+//    public void sendUpgradeUnit(String where, int oldLevel, int newLevel) {
+//        UpgradeUnitsAction UpdateUnits_action = new UpgradeUnitsAction();
+//        UpdateUnits_action.setWhere(where).
+//                setOldLevel(oldLevel).
+//                setNewLevel(newLevel);
+//    }
+//
+//    public void sendUpgradeTech(int next_level, int currTechResource) {
+//        UpgradeTechAction updateTechAction = new UpgradeTechAction();
+//
+//    }
+//
+//    /**
+//     * send player's units to an adjacent territory controlled by a different
+//     * player, in an attempt to gain control over that territory.
+//     *
+//     * @param attackUnits
+//     * @param from_name
+//     * @param to_name
+//     * @return
+//     */
+//    public boolean sendAttack(ArrayList<ArrayList<Integer>> attackUnits, String from_name, String to_name) {
+//        try {
+//            AttackAction attack_action = new AttackAction();
+//            attack_action.setFrom(from_name).setTo(to_name).setUnits(attackUnits);
+//        } catch (Exception excep) {
+//            System.out.println("Attack Error: " + excep.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    /**
+//     * move units from one territory to another territory
+//     *
+//     * @param moveUnits
+//     * @param from_name
+//     * @param to_name
+//     * @return
+//     */
+//    public boolean sendMove(ArrayList<ArrayList<Integer>> moveUnits, String from_name, String to_name) {
+//        try {
+//            MoveAction move_action = new MoveAction();
+//            move_action.setFrom(from_name).setTo(to_name).setUnits(moveUnits);
+//
+//        } catch (Exception excep) {
+//            System.out.println("Move Error: " + excep.getMessage());
+//            return false;
+//        }
+//        return true;
+//    }
+//
+//    public boolean sendDeploy(int numOfDeployedUnits, String to_name) {
+//        Territory to = myTerritories.get(to_name);
+//        DeployAction deploy_action = new DeployAction();
+//        deploy_action.setTo(to_name).setDeployUnits(numOfDeployedUnits);
+//        return true;
+//    }
 
     /////////////////////////////////////getters and setters///////////////////////////////////////////////////
     public Map getWholeMap() {

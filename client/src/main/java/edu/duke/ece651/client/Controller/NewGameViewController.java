@@ -20,10 +20,12 @@ public class NewGameViewController {
     Text allert_T;
 
     private final Stage window;
+    private boolean debug;
 
 
-    public NewGameViewController(Stage window){
+    public NewGameViewController(Stage window, boolean debug){
         this.window = window;
+        this.debug = debug;
     }
 
     /**
@@ -38,11 +40,11 @@ public class NewGameViewController {
         }
 
         // Pass userInput to GameModel (if model return false then return); else model will get data from server
-        if(!GameModel.getInstance().startNewGame(n_players.getText(), false)) return;
+        if(!GameModel.getInstance().startNewGame(n_players.getText(), debug)) return;
 
         // If server accept request then show the deployment view
         try {
-            new DeployView().show(this.window, null);
+            new DeployView().show(this.window, null, debug);
         } catch (IOException e) {
             e.printStackTrace();
         }

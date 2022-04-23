@@ -27,8 +27,12 @@ public class MoveDialogController implements Initializable {
 
     private final Stage window;
     private ObservableList<String> list;
+    private boolean debug;
 
-    public MoveDialogController(Stage window){this.window = window;}
+    public MoveDialogController(Stage window, boolean debug){
+        this.window = window;
+        this.debug = debug;
+    }
 
     //DO NOTHING
     @FXML
@@ -44,7 +48,7 @@ public class MoveDialogController implements Initializable {
         }
 
         // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doMove(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, false)){
+        if(!GameModel.getInstance().doMove(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, debug)){
             this.error_msg.setText("Invalid value (Server check)");
         }
         else {

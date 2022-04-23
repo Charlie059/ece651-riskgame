@@ -13,5 +13,5 @@ import java.util.HashMap;
 
 public class UpgradeTechDialogView implements View{
     @Override
-    public void show(Stage window, Model model) throws IOException {}
+    public void show(Stage window, Model model, boolean debug) throws IOException {}
 }

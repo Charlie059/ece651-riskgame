@@ -2,9 +2,15 @@ package edu.duke.ece651.server;
 
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
+import edu.duke.ece651.server.Wrapper.GameRunnableHashMap;
+import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.GameID;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,6 +23,9 @@ public class GameController {
     //Synchronized Account Database synchronized between MultiThread
    private volatile AccountHashMap accountHashMap;
 
+   //GameRunnable Database synchronized between MultiThread
+    private volatile GameRunnableHashMap gameRunnableHashMap;
+
     private ExecutorService service;
 
 
@@ -24,6 +33,7 @@ public class GameController {
         this.server = new Server(PORT_NUM);
         this.gameHashMap = new GameHashMap();
         this.accountHashMap = new AccountHashMap();
+        this.gameRunnableHashMap = new GameRunnableHashMap();
         this.service = Executors.newFixedThreadPool(16); // The max number of threads by service
     }
 
@@ -34,7 +44,7 @@ public class GameController {
      */
     public void acceptNewClient() throws IOException {
         Socket clientSocket = this.server.getServersocket().accept();
-        CommunicatorRunnable communicatorRunnable = new CommunicatorRunnable(clientSocket, this.gameHashMap, this.accountHashMap);
+        CommunicatorRunnable communicatorRunnable = new CommunicatorRunnable(clientSocket, this.gameHashMap, this.accountHashMap, this.gameRunnableHashMap);
         Thread t = new Thread(communicatorRunnable);
         t.start();
     }

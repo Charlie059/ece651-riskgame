@@ -7,6 +7,7 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.map.Map;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
 public class Game {
     // All player joined this game
@@ -17,7 +18,7 @@ public class Game {
     private volatile Boolean gameOver;
     private volatile Boolean isCombatFinished;
     private volatile Boolean isBegin;
-
+    private volatile CountDownLatch countDownLatch;
     private Map map;
 
     public Game(Integer numOfPlayer) {
@@ -84,4 +85,11 @@ public class Game {
         return this.map;
     }
 
+    public CountDownLatch getCountDownLatch() {
+        return countDownLatch;
+    }
+
+    public void setCountDownLatch(CountDownLatch countDownLatch) {
+        this.countDownLatch = countDownLatch;
+    }
 }

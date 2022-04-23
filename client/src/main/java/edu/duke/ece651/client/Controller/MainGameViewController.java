@@ -24,10 +24,13 @@ public class MainGameViewController implements Initializable {
 
     private final Stage window;
     private ObservableList<String> terrList;
+    private boolean debug;
 
-    public MainGameViewController(Stage window) {
+    public MainGameViewController(Stage window, boolean debug) {
         this.window = window;
+        this.debug = debug;
         terrList = FXCollections.observableArrayList();
+
     }
 
     private void setMyTerritoryList(ObservableList<String>l){
@@ -100,7 +103,7 @@ public class MainGameViewController implements Initializable {
         // Get numOfPlayer from the Model
         int numOfPlayers =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
         try {
-            new MapView().show(new Stage(),null,numOfPlayers);
+            new MapView().show(new Stage(),null,numOfPlayers, debug);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,7 +115,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnAttack() {
         try {
-            new AttackDialogView().show(new Stage(),null);
+            new AttackDialogView().show(new Stage(),null,debug);
             // Update view
             updateView();
         } catch (IOException e) {
@@ -126,7 +129,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnMove(){
         try {
-            new MoveDialogView().show(new Stage(), null);
+            new MoveDialogView().show(new Stage(), null, debug);
             // Update view
             updateView();
         } catch (IOException e) {
@@ -140,7 +143,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnUpgradeUnitButton(){
         try {
-            new UpgradeUnitDialogView().show(new Stage(),null);
+            new UpgradeUnitDialogView().show(new Stage(),null, debug);
             // Update view
             updateView();
         } catch (IOException e) {
@@ -153,7 +156,7 @@ public class MainGameViewController implements Initializable {
      */
     @FXML
     public void clickOnUpgradeTechButton() {
-       if(!GameModel.getInstance().doUpgradeTech(false)) {
+       if(!GameModel.getInstance().doUpgradeTech(debug)) {
             this.errorMsg.setText("Cannot upgrade, Server Check");
        }
         // Update view
@@ -167,7 +170,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnDone(){
         //upgrade everything
-        if(!GameModel.getInstance().doCommit(false)){
+        if(!GameModel.getInstance().doCommit(debug)){
             this.errorMsg.setText("Cannot commit, this should not happened");
         }
         // Update view
@@ -189,7 +192,7 @@ public class MainGameViewController implements Initializable {
     @FXML
     public void clickOnSwitchGame() throws IOException {
         if(SceneCollector.continueGameView == null){
-            new ContinueGameView().show(window,null);
+            new ContinueGameView().show(window,null, debug);
         }else{
             window.setScene(SceneCollector.continueGameView);
             window.show();

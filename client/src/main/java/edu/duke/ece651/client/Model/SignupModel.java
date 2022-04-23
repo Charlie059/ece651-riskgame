@@ -11,11 +11,12 @@ import edu.duke.ece651.shared.Wrapper.AccountID;
 import java.io.IOException;
 
 public class SignupModel extends Model{
-    public boolean signUp(String userName, String passWord, Boolean debugMode){
-        return debugMode;
-    }
 
-    public boolean signUp(String userName, String passWord){
+
+    public boolean signUp(String userName, String passWord, Boolean debugMode){
+        if(debugMode){
+            return true;
+        }
         // Create a new LoginAction
         SignUpAction signUpAction = new SignUpAction(new AccountID(userName),passWord);
         // Send to Server to validate

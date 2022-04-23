@@ -2,6 +2,8 @@ package edu.duke.ece651.server;
 
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
+import edu.duke.ece651.server.Wrapper.GameRunnableHashMap;
+import edu.duke.ece651.shared.IO.ClientActions.CommitAction;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.IO.ClientActions.Action;
@@ -9,6 +11,7 @@ import edu.duke.ece651.shared.IO.ObjectStream;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class CommunicatorRunnable implements Runnable {
     private  AccountID accountID;
@@ -16,6 +19,7 @@ public class CommunicatorRunnable implements Runnable {
     private Socket clientSocket;
     private volatile GameHashMap gameHashMap;
     private volatile AccountHashMap accountHashMap;
+    private volatile GameRunnableHashMap gameRunnableHashMap;
     private Integer runtime = -1; //Diagnosis mode: 0 for inf loop else indicate num of loops
 
     /**
@@ -27,34 +31,39 @@ public class CommunicatorRunnable implements Runnable {
      * @param runtime        Default -1 for normal mode, if runtime >= 0, Diagnosis Mode is on and is limited on while(runtime)
      * @throws IOException
      */
-    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, Integer runtime) throws IOException {
+    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, GameRunnableHashMap gameRunnableHashMap,Integer runtime) throws IOException {
+        this.accountID = new AccountID("");
+        this.gameID = new GameID(0);
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
+        this.gameRunnableHashMap = gameRunnableHashMap;
         //TODO Extract ObjectStream Send Recv Method
         //TODO Everytime when use objectStream, construct
         this.runtime = runtime;
     }
 
     // main
-    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap) throws IOException {
+    public CommunicatorRunnable(Socket clientSocket, GameHashMap gameHashMap, AccountHashMap accountHashMap, GameRunnableHashMap gameRunnableHashMap) throws IOException {
         this.accountID = new AccountID("");
         this.gameID = new GameID(0);
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
+        this.gameRunnableHashMap = gameRunnableHashMap;
         //TODO Extract ObjectStream Send Recv Method
         //TODO Everytime when use objectStream, construct
     }
 
 
-    public CommunicatorRunnable(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap, Integer runtime) throws IOException {
+    public CommunicatorRunnable(AccountID accountID, GameID gameID, Socket clientSocket, AccountHashMap accountHashMap, GameHashMap gameHashMap, GameRunnableHashMap gameRunnableHashMap, Integer runtime) throws IOException {
         this.accountID = accountID;
         this.gameID = gameID;
         this.clientSocket = clientSocket;
         this.gameHashMap = gameHashMap;
         this.accountHashMap = accountHashMap;
         this.runtime = runtime;
+        this.gameRunnableHashMap = gameRunnableHashMap;
     }
 
     /**
@@ -91,8 +100,14 @@ public class CommunicatorRunnable implements Runnable {
 
             //Receive Action
             Action action = this.recvAction();
+
+            // Test if socket is closed
+            if(this.clientSocket.isClosed() || action == null){
+                return;
+            }
+
             //Check Do Feedback action
-            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap));
+            action.accept(new ActionCheckDoFeedbackVisitor(this.accountID, this.gameID, this.clientSocket, this.accountHashMap, this.gameHashMap, this.gameRunnableHashMap));
         }
     }
 }

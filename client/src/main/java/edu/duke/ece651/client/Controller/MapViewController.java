@@ -23,8 +23,10 @@ public class MapViewController implements Initializable {
     Label terrOwner,terrName,n_level0,n_level1,n_level2,n_level3,n_level4,n_level5,n_level6;
 
     private Stage window;
-    public MapViewController(Stage window){
+    private boolean debug;
+    public MapViewController(Stage window, boolean debug){
         this.window = window;
+        this.debug = debug;
     }
 
     /**

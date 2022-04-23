@@ -1,7 +1,9 @@
 package edu.duke.ece651.client.View;
 
 import edu.duke.ece651.client.Controller.MapViewController;
+import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
+import edu.duke.ece651.shared.Wrapper.GameID;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,17 +12,22 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class MapView {
     private final String[] fxIDList = new String[]{"a1","a2","a3","b1","b2","b3","c1","c2","c3","d1","d2","d3","e1","e2","e3"};
 
     private String getColor(Model m, String terrName){
-        //TODO: get color of the player.
+
+        if(GameModel.getInstance().getMyTerrList().contains(terrName)){
+            return "#FF0000";
+        }
         return "#83ae52";
     }
 
-    public void show(Stage window, Model model, int n_players) throws IOException {
+    public void show(Stage window, Model model, int n_players, boolean debug) throws IOException {
         String fxmlPath = "";
         if(n_players == 2){
             fxmlPath = "/xml/mapForPlayer2View.fxml";
@@ -40,7 +47,7 @@ public class MapView {
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MapViewController.class, new MapViewController(window));
+        controllers.put(MapViewController.class, new MapViewController(window,debug));
         loader.setControllerFactory(controllers::get);
         Pane p = loader.load();
 

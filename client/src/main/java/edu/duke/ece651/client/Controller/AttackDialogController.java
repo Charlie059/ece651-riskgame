@@ -27,8 +27,12 @@ public class AttackDialogController implements Initializable {
 
     private Stage window;
     private ObservableList<String> list;
+    private boolean debug;
 
-    public AttackDialogController(Stage window){this.window = window;}
+    public AttackDialogController(Stage window, boolean debug){
+        this.window = window;
+        this.debug = debug;
+    }
 
 
     /**
@@ -52,7 +56,7 @@ public class AttackDialogController implements Initializable {
         }
 
         // if pass local checker, then send request to model
-        if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, false)){
+        if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, debug)){
             this.error_msg.setText("Invalid value (Server check)");
         }
         else {

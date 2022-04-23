@@ -34,6 +34,7 @@ public class DeployViewController implements Initializable {
     Text errorMsg;
 
     private final Stage window;
+    private boolean debug;
     // Passing Game Model
     private Model model;
     // these three lists are used in choiceBox
@@ -48,9 +49,10 @@ public class DeployViewController implements Initializable {
      * @param window Window
      * @param model GameModel
      */
-    public DeployViewController(Stage window, Model model){
+    public DeployViewController(Stage window, Model model, boolean debug){
         this.window = window;
         this.model = model;
+        this.debug = debug;
         levelList = FXCollections.observableArrayList();
         terrList = FXCollections.observableArrayList();
         numberList = FXCollections.observableArrayList();
@@ -66,7 +68,7 @@ public class DeployViewController implements Initializable {
             // Get the numOfPlayers
             int numOfPlayer =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
             // Show the map
-            new MapView().show(new Stage(),null, numOfPlayer);
+            new MapView().show(new Stage(),null, numOfPlayer, debug);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,9 +80,9 @@ public class DeployViewController implements Initializable {
     @FXML
     public void clickOnCommit(){
         // Send commit request to model
-        if(GameModel.getInstance().doCommit(false)){
+        if(GameModel.getInstance().doCommit(debug)){
             try {
-                new MainGameView().show(window,null);
+                new MainGameView().show(window,null, debug);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,7 +109,7 @@ public class DeployViewController implements Initializable {
         }
 
         // Send user select to model and get response
-        if(GameModel.getInstance().doDeploy(selectTerr, selectNumber, false)){
+        if(GameModel.getInstance().doDeploy(selectTerr, selectNumber, debug)){
             // Update the deployment view
             this.deployNum -= selectNumber;
             setUnitNumberText(this.deployNum);

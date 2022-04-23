@@ -27,7 +27,7 @@ public class CombatResolution {
         public int compare(ArrayList<Integer> o1, ArrayList<Integer> o2) {
             if(o1.get(0)>o2.get(0)){
                 return -1;//left before right
-            }else if(o1.get(0)==o2.get(0)){
+            }else if(Objects.equals(o1.get(0), o2.get(0))){//==
                 return 0;//stay the same
             }
             else return 1;//right before left
@@ -121,6 +121,8 @@ public class CombatResolution {
             }
             //do AllAttacks
             doAllAttacks(key, this.attackUnitListHashMap, diceDebugMode);
+            //clear
+            this.gameHashMap.get(this.gameID).getAttackHashMap().getAttackHashmap().get(key).clear();
         }
 
     }
@@ -186,11 +188,11 @@ public class CombatResolution {
             }
             //PHASE 1: highest-bonus attacker unit paired with the lowest-bonus defender unit
             //attack: skip empty level
-            while(attackerUnits.get(atkH).get(1) == 0 && atkH< attackerUnits.size()-1){atkH++;}
+            while(attackerUnits.get(atkH).get(1) <= 0 && atkH< attackerUnits.size()-1){atkH++;}
             if (atkH <= atkL){
                 Integer attackLevel = attackerUnits.get(atkH).get(0);
                 //defender: skip empty level
-                while(defenderUnits.get(dfnL).getValue() == 0 && dfnL < defenderUnits.size()-1){dfnL++;}
+                while(defenderUnits.get(dfnL).getValue() <= 0 && dfnL < defenderUnits.size()-1){dfnL++;}
                 if (dfnL <= dfnH && dfnL < defenderUnits.size()-1){
                     Integer defendLevel = defenderUnits.get(dfnL).getLevel();
                     //implement level by level attack
@@ -199,15 +201,17 @@ public class CombatResolution {
             }
             //PHASE 2: then, lowest-bonus attacker unit paired with the highest-bonus defender unit
             //skip empty level
-            while(attackerUnits.get(atkL).get(1) == 0 && atkL > 0){atkL--;}
+            while(attackerUnits.get(atkL).get(1) <= 0 && atkL > 0){atkL--;}
             if (atkH <= atkL){
                 Integer attackLevel = attackerUnits.get(atkL).get(0);
                 //defender: skip empty level
-                while(defenderUnits.get(dfnH).getValue() == 0 && dfnH > 0){dfnH--;}
+                while(defenderUnits.get(dfnH).getValue() <= 0 && dfnH > 0){dfnH--;}
                 if (dfnL <= dfnH){
                     Integer defendLevel = defenderUnits.get(dfnH).getLevel();
                     //implement level by level attack
-                    attackLevelByLevel(attackLevel, defendLevel, attackerUnits.get(atkL), defenderUnits.get(dfnH), diceDebugMode);
+                    if (attackerUnits.get(atkL).get(1) > 0 && defenderUnits.get(dfnH).getValue() > 0) {
+                        attackLevelByLevel(attackLevel, defendLevel, attackerUnits.get(atkL), defenderUnits.get(dfnH), diceDebugMode);
+                    }
                 }
             }
         }

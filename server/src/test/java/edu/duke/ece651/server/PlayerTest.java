@@ -70,7 +70,7 @@ class PlayerTest {
         assertEquals(p.getTechResource(), 100);
         p.setUpgradeTech(50);
         assertEquals(p.getTechResource(), 50);
-
+        p.doUpgradeTech();
     }
 
     @Test
@@ -97,6 +97,29 @@ class PlayerTest {
         p.doAttack("a1", "b1", arr, 40);
         assertEquals(60, p.getFoodResource());
         assertEquals(5 ,p.getMyTerritories().get("a1").getUnits().get(0).getValue());
+    }
+
+    @Test
+    void gettersSetters(){
+        Player p = createPlayer();
+        p.doDeploy("a1", 9);
+        ArrayList<Integer> a = new ArrayList<>();
+        a.add(0);
+        a.add(4);//level 0, num 4
+        ArrayList<ArrayList<Integer>>arr = new ArrayList<>();
+        arr.add(a);
+
+        p.getMyTerritories();
+        p.getCurrTechLevel();
+        p.isTechLevelUpgrade();
+        p.setCurrTechLevel(2);
+        p.isLose();
+        p.isWon();
+        p.setLose(false);
+        p.setWon(false);
+        p.setFoodResource(200);
+        p.setTechResource(200);
+        p.setCurrTechLevel(200);
     }
 
 }

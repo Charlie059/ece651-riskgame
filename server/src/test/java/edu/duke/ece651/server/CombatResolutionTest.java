@@ -229,7 +229,12 @@ class CombatResolutionTest {
 
         GameHashMap gameHashMap = new GameHashMap();
         Game game = new Game(3);
+
         Map m = game.getMap();
+        AccountID attackerID = new AccountID("Akuma Drew");
+        Player attackPlayer = new Player(attackerID,new GameID(1), m);
+        AccountID defenderID = new AccountID("Tenshi Drew");
+        Player defendPlayer = new Player(defenderID,new GameID(1), m);
         //manualy assign accountID to territory
         Territory t_b1 = m.getTerritoryList().get("b1");
         t_b1.setOwner(new AccountID("Tenshi Drew"));
@@ -246,6 +251,11 @@ class CombatResolutionTest {
         a.add(2);
         arr.add(a);
         t_b1.addUnitMultiLevels(arr);
+
+        defendPlayer.getMyTerritories().put("b1",t_b1);
+        game.getPlayerHashMap().put(attackerID, attackPlayer);
+        game.getPlayerHashMap().put(defenderID, defendPlayer);
+
 
         game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
         gameHashMap.put(new GameID(1),game);
@@ -300,7 +310,12 @@ class CombatResolutionTest {
 
         GameHashMap gameHashMap = new GameHashMap();
         Game game = new Game(3);
+
         Map m = game.getMap();
+        AccountID attackerID = new AccountID("Akuma Drew");
+        Player attackPlayer = new Player(attackerID,new GameID(1), m);
+        AccountID defenderID = new AccountID("Tenshi Drew");
+        Player defendPlayer = new Player(defenderID,new GameID(1), m);
         //manualy assign accountID to territory
         Territory t_b1 = m.getTerritoryList().get("b1");
         t_b1.setOwner(new AccountID("Tenshi Drew"));
@@ -316,17 +331,12 @@ class CombatResolutionTest {
         a.add(4);
         a.add(2);
         arr.add(a);
-        //add 3 lv5 units
-        a = new ArrayList<>();
-        a.add(5);
-        a.add(3);
-        arr.add(a);
-        //add 1 lv6 units
-        a = new ArrayList<>();
-        a.add(6);
-        a.add(1);
-        arr.add(a);
         t_b1.addUnitMultiLevels(arr);
+
+        defendPlayer.getMyTerritories().put("b1",t_b1);
+        game.getPlayerHashMap().put(attackerID, attackPlayer);
+        game.getPlayerHashMap().put(defenderID, defendPlayer);
+
 
         game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
         gameHashMap.put(new GameID(1),game);
