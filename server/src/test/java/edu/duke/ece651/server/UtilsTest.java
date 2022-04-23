@@ -120,17 +120,7 @@ public class UtilsTest {
         rspCommitSuccess.getClientPlayerPacket();
         RSPLoginSuccess rspLoginSuccess = new RSPLoginSuccess();
         ActionCheckDoFeedbackVisitor actionCheckDoFeedbackVisitor = new ActionCheckDoFeedbackVisitor(new AccountID("1"),new GameID(1),new Socket(),new AccountHashMap(),new GameHashMap(),new GameRunnableHashMap());
-        rspLoginSuccess.accept(new ResponseVisitor() {
-            @Override
-            public void visit(RSPMoveSuccess rspMoveSuccess) {
 
-            }
-
-            @Override
-            public void visit(RSPLoginSuccess rspLoginSuccess) {
-
-            }
-        });
 
         RSPMoveSuccess rspMoveSuccess = new RSPMoveSuccess("a1","b1",new ArrayList<>(),1);
         rspMoveSuccess.getFrom();

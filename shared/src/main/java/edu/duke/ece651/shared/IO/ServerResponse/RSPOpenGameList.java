@@ -18,10 +18,7 @@ public class RSPOpenGameList implements Response{
         this.gameIDArrayList = gameIDArrayList;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
     @Override
     public boolean equals(Object o) {

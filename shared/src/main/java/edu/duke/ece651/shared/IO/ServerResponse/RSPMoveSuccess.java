@@ -10,9 +10,6 @@ public class RSPMoveSuccess implements Response{
     private ArrayList<ArrayList<Integer>> units;
     private int totalCost;
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
-    }
 
     public RSPMoveSuccess(String from,
                           String to,

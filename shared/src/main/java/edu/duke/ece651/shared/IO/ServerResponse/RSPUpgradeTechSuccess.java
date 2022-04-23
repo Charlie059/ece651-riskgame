@@ -13,9 +13,6 @@ public class RSPUpgradeTechSuccess implements Response{
         this.techCost = techCost;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
 }

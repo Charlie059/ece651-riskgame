@@ -17,9 +17,6 @@ public class RSPCommitSuccess implements Response{
         return clientPlayerPacket;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
 }

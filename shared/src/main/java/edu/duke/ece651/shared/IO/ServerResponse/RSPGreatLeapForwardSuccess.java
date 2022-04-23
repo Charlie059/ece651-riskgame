@@ -14,9 +14,7 @@ public class RSPGreatLeapForwardSuccess implements Response{
         this.units = units;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
-    }
+
 
     public String getTerrName() {
         return terrName;

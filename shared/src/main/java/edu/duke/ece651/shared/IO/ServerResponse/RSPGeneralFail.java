@@ -11,9 +11,7 @@ public class RSPGeneralFail implements Response {
     }
 
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
-    }
+
 
     public String getErrMessage() {
         return errMessage;

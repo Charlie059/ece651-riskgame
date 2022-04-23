@@ -12,10 +12,7 @@ public class RSPCardBuySuccess implements Response{
         this.cardType = cardType;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
     public Integer getCardCost() {
         return cardCost;

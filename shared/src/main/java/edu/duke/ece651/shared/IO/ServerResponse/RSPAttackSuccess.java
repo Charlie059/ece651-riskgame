@@ -10,10 +10,7 @@ public class RSPAttackSuccess  implements Response{
     private ArrayList<ArrayList<Integer>> units;
     private int totalCost;
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
     /**
      *

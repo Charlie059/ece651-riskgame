@@ -12,10 +12,7 @@ public class RSPSpyDeploySuccess implements Response{
         this.spy = spy;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
     public Spy getSpy() {
         return spy;

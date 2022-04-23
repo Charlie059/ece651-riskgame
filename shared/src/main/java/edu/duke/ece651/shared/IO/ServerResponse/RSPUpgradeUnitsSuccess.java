@@ -7,9 +7,7 @@ public class RSPUpgradeUnitsSuccess implements Response{
     private Integer oldLevel;
     private Integer newLevel;
     private Integer techCost;
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
-    }
+
 
 
     public String getWhere() {

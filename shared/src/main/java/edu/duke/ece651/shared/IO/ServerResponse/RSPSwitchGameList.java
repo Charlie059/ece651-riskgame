@@ -13,10 +13,6 @@ public class RSPSwitchGameList implements Response{
         return gameIDArrayList;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
-
-    }
 
     public RSPSwitchGameList(ArrayList<GameID> gameIDArrayList) {
         this.gameIDArrayList = gameIDArrayList;

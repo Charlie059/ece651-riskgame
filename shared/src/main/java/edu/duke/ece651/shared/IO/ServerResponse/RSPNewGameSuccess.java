@@ -17,10 +17,7 @@ public class RSPNewGameSuccess implements Response {
         return clientPlayerPacket;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
     public RSPNewGameSuccess(ClientPlayerPacket clientPlayerPacket) {
         this.clientPlayerPacket = clientPlayerPacket;

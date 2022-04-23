@@ -6,5 +6,5 @@ import java.io.Serializable;
 
 public interface Response extends Serializable {
 
-    void accept(ResponseVisitor responseVisitor);
+
 }

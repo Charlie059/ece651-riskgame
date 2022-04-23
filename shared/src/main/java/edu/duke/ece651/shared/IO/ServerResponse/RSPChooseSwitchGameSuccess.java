@@ -17,8 +17,5 @@ public class RSPChooseSwitchGameSuccess implements Response{
     }
 
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 }

@@ -15,8 +15,5 @@ public class RSPChooseJoinGameSuccess implements Response {
         return clientPlayerPacket;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 }

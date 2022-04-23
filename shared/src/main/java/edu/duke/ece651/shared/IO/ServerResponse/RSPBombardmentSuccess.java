@@ -14,10 +14,7 @@ public class RSPBombardmentSuccess  implements Response{
         this.units = units;
     }
 
-    @Override
-    public void accept(ResponseVisitor responseVisitor) {
 
-    }
 
     public String getEnemyTerritory() {
         return enemyTerritory;
