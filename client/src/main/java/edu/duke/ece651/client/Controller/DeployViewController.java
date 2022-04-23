@@ -9,12 +9,8 @@ import edu.duke.ece651.shared.map.Territory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -25,7 +21,9 @@ import java.util.ResourceBundle;
 
 public class DeployViewController implements Initializable {
     @FXML
-    Text playerID_t,territories_t,food_t,techResource_t,level0_t,points_t;
+    Text playerID_t,territories_t,food_t,techResource_n;
+    @FXML
+    Text level0_n,level1_n,level2_n,level3_n,level4_n,level5_n,level6_n;
     @FXML
     ChoiceBox<String>territorySelect;
     @FXML
@@ -33,21 +31,17 @@ public class DeployViewController implements Initializable {
     @FXML
     ChoiceBox<Integer>numberSelect;
     @FXML
-    ListView<String> responseList;
-    @FXML
-    AnchorPane mapPane;
+    Text errorMsg;
 
     private final Stage window;
-    private final boolean debug;
-    private Model model;   //useless
-
+    private boolean debug;
+    // Passing Game Model
+    private Model model;
     // these three lists are used in choiceBox
-    private final ObservableList<String> terrList;
-    private final ObservableList<Integer> numberList;
-    private final ObservableList<Integer> levelList;
-    private final ObservableList<String> responses;
+    private ObservableList<String> terrList;
+    private ObservableList<Integer> numberList;
+    private ObservableList<Integer> levelList;
     private int deployNum;
-    private final int n_Player;
 
 
     /**
@@ -55,57 +49,29 @@ public class DeployViewController implements Initializable {
      * @param window Window
      * @param model GameModel
      */
-    public DeployViewController(Stage window, Model model, int n_Player, boolean debug){
+    public DeployViewController(Stage window, Model model, boolean debug){
         this.window = window;
         this.model = model;
         this.debug = debug;
-        this.n_Player = n_Player;
         levelList = FXCollections.observableArrayList();
         terrList = FXCollections.observableArrayList();
         numberList = FXCollections.observableArrayList();
-        responses = FXCollections.observableArrayList();
     }
 
+
     /**
-     * Init the view, get data from GameModel
+     * Show the map when user click map
      */
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // set responseList
-        responseList.setItems(responses);
-
-        // Get total deployment number form model and add them into list
-        this.deployNum = getInitialUnitsDeployNumber();
-        createAvailalbeNumList(this.numberList, deployNum);
-
-        // Set Territory List and level list
-        setTerritoryList(this.terrList);
-        setLevelList(this.levelList);
-
-        // Set value to choice boxes
-        this.territorySelect.setItems(this.terrList);
-        this.levelSelect.setItems(this.levelList);
-        this.numberSelect.setItems(this.numberList);
-
-        // display player info
-        this.playerID_t.setText("   " + getPlayerID());
-        this.food_t.setText("   " + getFoodResource());
-        this.techResource_t.setText("   " + getTechResource());
-        this.points_t.setText("   " + "1234");
-        setTerrText(this.terrList); // Show terr text info
-        setUnitNumberText(deployNum);
-
-        // load map
+    @FXML
+    public void clickOnViewMap() {
         try {
-            this.loadMap();
+            // Get the numOfPlayers
+            int numOfPlayer =  GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
+            // Show the map
+            new MapView().show(new Stage(),null, numOfPlayer, debug);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    private void loadMap() throws IOException {
-        mapPane.getChildren().add(new MapView(null,debug).loadMap(n_Player,null,"deployView"));
     }
 
     /**
@@ -122,7 +88,7 @@ public class DeployViewController implements Initializable {
             }
         }
         else {
-            responses.add("Commit fail, you may have deployed unit or internet error");
+            errorMsg.setText("Commit fail, you may have deployed unit or internet error");
         }
     }
 
@@ -130,7 +96,7 @@ public class DeployViewController implements Initializable {
      * When player finish one round of deployment send value to model
      */
     @FXML
-    public void clickOnDeploy(){
+    public void clickOnDone(){
         // Get user input
         String selectTerr = territorySelect.getValue();
         Integer selectLevel = levelSelect.getValue();
@@ -138,7 +104,7 @@ public class DeployViewController implements Initializable {
 
         // Simple input check
         if(selectLevel==null || selectNumber==null || selectTerr==null){
-            responses.add("You choose wrong value.");
+            errorMsg.setText("You choose wrong value.");
             return;
         }
 
@@ -149,10 +115,9 @@ public class DeployViewController implements Initializable {
             setUnitNumberText(this.deployNum);
             // Refresh UI
             createAvailalbeNumList(this.numberList, this.deployNum);
-            responses.add("Deploy "+selectNumber.toString()+" lv "+ selectLevel.toString()+" units in "+selectTerr);
         }
         else {
-            responses.add("Invalid deployment number");
+            this.errorMsg.setText("Invalid deployment number");
         }
     }
 
@@ -167,6 +132,7 @@ public class DeployViewController implements Initializable {
             l.add(terrName);
         }
     }
+
 
     /**
      * Set the deployment level to the default 0
@@ -229,10 +195,47 @@ public class DeployViewController implements Initializable {
         territories_t.setText(s.toString());
     }
 
+    /**
+     * Set the UnitNumber now
+     * @param initNum
+     */
     private void setUnitNumberText(int initNum){
-        level0_t.setText("  "+ String.valueOf(initNum));
+        level0_n.setText("  "+ String.valueOf(initNum));
+        level1_n.setText("  "+"0");
+        level2_n.setText("  "+"0");
+        level3_n.setText("  "+"0");
+        level4_n.setText("  "+"0");
+        level5_n.setText("  "+"0");
+        level6_n.setText("  "+"0");
     }
+    
 
 
+    /**
+     * Init the view, get data from GameModel
+     * @param location
+     * @param resources
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Get total deployment number form model and add them into list
+        this.deployNum = getInitialUnitsDeployNumber();
+        createAvailalbeNumList(this.numberList, deployNum);
 
+        // Set Territory List
+        setTerritoryList(this.terrList);
+        setLevelList(this.levelList);
+
+        // Set value from the view to select
+        this.territorySelect.setItems(this.terrList);
+        this.levelSelect.setItems(this.levelList);
+        this.numberSelect.setItems(this.numberList);
+
+        // Display player ID
+        this.playerID_t.setText("   " + getPlayerID());
+        this.food_t.setText("   " + getFoodResource());
+        this.techResource_n.setText("   " + getTechResource());
+        setTerrText(this.terrList); // Show terr text info
+        setUnitNumberText(deployNum);
+    }
 }

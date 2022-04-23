@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UpgradeCheckerTest {
+class MoveCheckerTest {
 
     @Test
     void doCheck() {
         GameModel.getInstance().mockData();
-        Checker checker = new UpgradeChecker();
-        String[] usrIn = {"b1","0","1","1"};
+        Checker checker = new MoveChecker();
+        String[] usrIn = {"b1","b2","0","1"};
         checker.doCheck(usrIn);
     }
 }

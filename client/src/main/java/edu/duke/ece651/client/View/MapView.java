@@ -1,6 +1,5 @@
 package edu.duke.ece651.client.View;
 
-import edu.duke.ece651.client.Controller.Communication;
 import edu.duke.ece651.client.Controller.MapViewController;
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.Model;
@@ -18,15 +17,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class MapView {
-    private Model model;
-    private boolean debug;
+    private final String[] fxIDList = new String[]{"a1","a2","a3","b1","b2","b3","c1","c2","c3","d1","d2","d3","e1","e2","e3"};
 
-    public MapView(Model model, boolean debug){
-        this.debug = debug;
-        this.model = model;
+    private String getColor(Model m, String terrName){
+
+        if(GameModel.getInstance().getMyTerrList().contains(terrName)){
+            return "#FF0000";
+        }
+        return "#83ae52";
     }
 
-    public Pane loadMap(int n_players, Communication outsideController, String callFrom) throws IOException {
+    public void show(Stage window, Model model, int n_players, boolean debug) throws IOException {
         String fxmlPath = "";
         if(n_players == 2){
             fxmlPath = "/xml/mapForPlayer2View.fxml";
@@ -46,9 +47,25 @@ public class MapView {
         FXMLLoader loader = new FXMLLoader(xmlResource);
 
         HashMap<Class<?>,Object> controllers = new HashMap<>();
-        controllers.put(MapViewController.class, new MapViewController(outsideController, n_players, debug, callFrom));
+        controllers.put(MapViewController.class, new MapViewController(window,debug));
         loader.setControllerFactory(controllers::get);
+        Pane p = loader.load();
 
-        return loader.load();
+        // create scene and load css
+        Scene scene = new Scene(p);
+        URL cssResource = getClass().getResource("/css/button.css");
+        scene.getStylesheets().add(cssResource.toString());
+        window.setScene(scene);
+        window.show();
+
+        //change background color of the button based on its owner.  get button object based on its fx:id
+        for(int n = 1;n <= n_players; n++){
+            for(int i = 0; i< 3 * n ; i++){
+                String fxId_Btn = fxIDList[i];
+                Button btn = (Button) scene.lookup("#"+fxId_Btn);
+                btn.setStyle("-fx-background-color: "+ getColor(null,btn.getText()));
+            }
+        }
+
     }
 }

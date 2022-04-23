@@ -12,8 +12,8 @@ class NewGameCheckerTest {
         GameModel.getInstance().mockData();
         Checker checker = new NewGameChecker();
         String[] usrIn = {"2"};
-        assertTrue(checker.doCheck(usrIn));
+        checker.doCheck(usrIn);
         String[] usrIn1 = {"0"};
-        assertFalse(checker.doCheck(usrIn1));
+        checker.doCheck(usrIn1);
     }
 }

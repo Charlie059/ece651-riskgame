@@ -3,8 +3,10 @@ package edu.duke.ece651.client.Controller;
 import edu.duke.ece651.client.GameInfo;
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.Model.JoinGameModel;
+import edu.duke.ece651.client.Model.Model;
 import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.View.DeployView;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -77,15 +79,12 @@ public class JoinGameViewController implements Initializable
                 private void tryJoinGame() {
                     GameInfo clickedInfo = this.getTableView().getItems().get(this.getIndex());
 
-
                     // Request model to join the game
                     boolean joinResult =  GameModel.getInstance().joinGame(clickedInfo.getGameID(),debug);
-
                     if(joinResult){
-                        int n_Player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();
                         // Create a new Deployment view
                         try {
-                            new DeployView().show(window, null, n_Player, debug);
+                            new DeployView().show(window, null, debug);
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println("Cannot join game");
@@ -106,7 +105,6 @@ public class JoinGameViewController implements Initializable
     @FXML
     public void clickOnBack(){
         window.setScene(SceneCollector.menuView);
-        window.setTitle("Menu");
         window.show();
     }
 

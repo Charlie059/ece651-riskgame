@@ -1,183 +1,66 @@
 package edu.duke.ece651.client.Controller;
 
-
+import edu.duke.ece651.client.Checker.AttackChecker;
+import edu.duke.ece651.client.Checker.MoveChecker;
 import edu.duke.ece651.client.Model.GameModel;
-import edu.duke.ece651.client.View.MapView;
-import edu.duke.ece651.shared.map.Spy;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-
-import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ResourceBundle;
 
 
-public class MoveDialogController implements Initializable,Communication {
+public class MoveDialogController implements Initializable {
     @FXML
-    Text terrName,lv0_n,lv1_n,lv2_n,lv3_n,lv4_n,lv5_n,lv6_n,spy_n;
+    TextField terrFrom,terrTo,selectLevel,selectNum;
     @FXML
-    ChoiceBox<String> selectTo;
+    ListView<String> moveList;
     @FXML
-    ChoiceBox<Integer>selectNum,selectLevel;
-    @FXML
-    Pane mapPane;
+    Text error_msg;
 
     private final Stage window;
-    private final boolean debug;
-    private final int n_player;
-    private final ObservableList<String> toList;
-    private final ObservableList<Integer> numList;
-    private final ObservableList<Integer> levelList;
-    private String clickTerr;
-
+    private ObservableList<String> list;
+    private boolean debug;
 
     public MoveDialogController(Stage window, boolean debug){
         this.window = window;
         this.debug = debug;
-        this.n_player = GameModel.getInstance().getClientPlayerPacket().getNumOfPlayers();;
-        this.toList = FXCollections.observableArrayList();
-        this.numList = FXCollections.observableArrayList();
-        this.levelList = FXCollections.observableArrayList();
     }
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        terrName.setText("");
-        lv0_n.setText("");
-        lv1_n.setText("");
-        lv2_n.setText("");
-        lv3_n.setText("");
-        lv4_n.setText("");
-        lv5_n.setText("");
-        lv6_n.setText("");
-        spy_n.setText("");
-        selectNum.setItems(numList);
-        selectTo.setItems(toList);
-        selectLevel.setItems(levelList);
-
-        //set map
-        try {
-            mapPane.getChildren().add(new MapView(null,debug).loadMap(n_player, this, "moveDialogView"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    //DO NOTHING
     @FXML
-    public void clickOnMove(ActionEvent actionEvent) {
-        String res = GameModel.getInstance().doMove(new String[]{this.clickTerr, selectTo.getValue() , String.valueOf(selectLevel.getValue()), String.valueOf(selectNum.getValue())}, debug);
-        if(res != null){
-            //TODO error message
-            System.out.println(res);
+    public void clickOnAddButton(){}
+
+    @FXML
+    public void clickOnSubmitButton(){
+        // Local checker
+        MoveChecker moveChecker = new MoveChecker();
+        if(!moveChecker.doCheck(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()})){
+            this.error_msg.setText("Invalid value");
+            return;
+        }
+
+        // if pass local checker, then send request to model
+        if(!GameModel.getInstance().doMove(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, debug)){
+            this.error_msg.setText("Invalid value (Server check)");
         }
         else {
-            String record = "Use "+ selectNum.getValue() + " Level "+selectLevel.getValue() + " units to move Territory " + selectTo.getValue() + " From "+this.clickTerr;
+            String record = "Use "+ selectNum.getText() + " Level "+selectLevel.getText() + " units to attack Territory " + terrTo.getText() + " From "+terrFrom.getText();
             System.out.println(record);
             window.close();
         }
-
     }
 
     @Override
-    public void setTerrInfo(String clickTerr) {
-        numList.clear();
-        toList.clear();
-        levelList.clear();
-
-        terrName.setText(clickTerr);
-        // Set clickTerr
-        this.clickTerr = clickTerr;
-
-
-        // Get My Terr Info
-        if(GameModel.getInstance().getMyTerrList().contains(clickTerr)) {
-            ArrayList<Integer> unitNumList = new ArrayList<>();
-            GameModel.getInstance().getTerrUnits(clickTerr, unitNumList);
-
-            lv0_n.setText(String.valueOf(unitNumList.get(0)));
-            lv1_n.setText(String.valueOf(unitNumList.get(1)));
-            lv2_n.setText(String.valueOf(unitNumList.get(2)));
-            lv3_n.setText(String.valueOf(unitNumList.get(3)));
-            lv4_n.setText(String.valueOf(unitNumList.get(4)));
-            lv5_n.setText(String.valueOf(unitNumList.get(5)));
-            lv6_n.setText(String.valueOf(unitNumList.get(6)));
-            // Setup spy
-            HashMap<String, ArrayList<Spy>> spyInfo = GameModel.getInstance().getClientPlayerPacket().getSpyInfo();
-            if(spyInfo.containsKey(clickTerr)){
-                spy_n.setText(String.valueOf(spyInfo.get(clickTerr).size()));
-            }
-            else{
-                spy_n.setText("0");
-            }
-
-
-            // Get all myTerr
-            HashSet<String> myTerrList = GameModel.getInstance().getMyTerrList();
-            toList.addAll(myTerrList);
-
-            // Set the max value to the max value of unitNumList
-            for(int i = 0; i < Collections.max(unitNumList); i++){
-                numList.add(i + 1);
-            }
-
-
-            // Add levelList
-            levelList.add(0);
-            levelList.add(1);
-            levelList.add(2);
-            levelList.add(3);
-            levelList.add(4);
-            levelList.add(5);
-            levelList.add(6);
-        }
-        // else if in the cache
-        else if(GameModel.getInstance().getLocalEnemyTerrs().containsKey(clickTerr)){
-            // Get the units number
-            ArrayList<Integer> unitNumList = GameModel.getInstance().getLocalEnemyTerrs().get(clickTerr);
-            lv0_n.setText(String.valueOf(unitNumList.get(0)));
-            lv1_n.setText(String.valueOf(unitNumList.get(1)));
-            lv2_n.setText(String.valueOf(unitNumList.get(2)));
-            lv3_n.setText(String.valueOf(unitNumList.get(3)));
-            lv4_n.setText(String.valueOf(unitNumList.get(4)));
-            lv5_n.setText(String.valueOf(unitNumList.get(5)));
-            lv6_n.setText(String.valueOf(unitNumList.get(6)));
-            // Setup spy
-            HashMap<String, ArrayList<Spy>> spyInfo = GameModel.getInstance().getClientPlayerPacket().getSpyInfo();
-            if(spyInfo.containsKey(clickTerr)){
-                spy_n.setText(String.valueOf(spyInfo.get(clickTerr).size()));
-            }
-            else{
-                spy_n.setText("0");
-            }
-
-            // Add levelList
-            levelList.add(0);
-            levelList.add(1);
-            levelList.add(2);
-            levelList.add(3);
-            levelList.add(4);
-            levelList.add(5);
-            levelList.add(6);
-        }
-        // Inviable
-        else{
-            lv0_n.setText("NA");
-            lv1_n.setText("NA");
-            lv2_n.setText("NA");
-            lv3_n.setText("NA");
-            lv4_n.setText("NA");
-            lv5_n.setText("NA");
-            lv6_n.setText("NA");
-            spy_n.setText("NA");
-        }
-
+    public void initialize(URL location, ResourceBundle resources) {
+        list = FXCollections.observableArrayList();
+        moveList.setItems(list);
     }
 }

@@ -31,7 +31,6 @@ public class MenuView implements View{
         SceneCollector.menuView = scene;
 
         window.setScene(scene);
-        window.setTitle("Menu");
         window.show();
 
     }

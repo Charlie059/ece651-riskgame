@@ -2,87 +2,120 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MapViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0" prefWidth="886.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.MapViewController">
    <children>
-      <Pane layoutX="45.0" layoutY="60.0" prefHeight="493.0" prefWidth="554.0">
-         <children>
-            <Polygon fx:id="c1_shape1" fill="DODGERBLUE" layoutX="253.0" layoutY="352.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="c2_shape" fill="DODGERBLUE" layoutX="303.0" layoutY="262.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="c1_shape" fill="DODGERBLUE" layoutX="204.0" layoutY="262.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="b2_shape" fill="DODGERBLUE" layoutX="353.0" layoutY="172.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="a2_shape" fill="DODGERBLUE" layoutX="155.0" layoutY="172.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.000030517578125, -23.999984741210938, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="b3_shape" fill="DODGERBLUE" layoutX="402.0" layoutY="81.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.00001525878906, -24.000003814697266, 0.0, -60.0, -49.999969482421875, -24.00000762939453" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="a3_shape" fill="DODGERBLUE" layoutX="106.0" layoutY="81.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.00001525878906, -24.000003814697266, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="b1_shape" fill="DODGERBLUE" layoutX="303.0" layoutY="81.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.00001525878906, -24.000003814697266, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Polygon fx:id="a1_shape" fill="DODGERBLUE" layoutX="205.0" layoutY="81.0" points="-50.00000762939453, 32.666664123535156, -1.52587890625E-5, 66.66667175292969, 50.00001525878906, 32.666664123535156, 50.00001525878906, -24.000003814697266, 0.0, -60.0, -50.00000762939453, -24.000003814697266" stroke="BLACK" strokeType="INSIDE" />
-            <Button fx:id="c1" layoutX="163.0" layoutY="239.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c1">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="c1_cost" layoutX="197.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-            <Button fx:id="c2" layoutX="262.0" layoutY="239.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c2">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="c2_cost" layoutX="296.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-            <Button fx:id="c3" layoutX="212.0" layoutY="329.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c3">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="c3_cost" layoutX="246.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
-            <Button fx:id="a2" layoutX="114.0" layoutY="149.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a2">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="a2_cost" layoutX="148.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-            <Button fx:id="b2" layoutX="312.0" layoutY="149.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b2">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="b2_cost" layoutX="346.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
-            <Button fx:id="b3" layoutX="361.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b3">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="b3_cost" layoutX="395.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
-            <Button fx:id="b1" layoutX="262.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b1">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="b1_cost" layoutX="296.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-            <Button fx:id="a1" layoutX="164.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a1">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="a1_cost" layoutX="199.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
-            <Button fx:id="a3" layoutX="65.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a3">
-               <styleClass>
-                  <String fx:value="expandable" />
-                  <String fx:value="numbtn" />
-               </styleClass>
-            </Button>
-            <Text fx:id="a3_cost" layoutX="99.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
-         </children>
-      </Pane>
+      <SplitPane dividerPositions="0.6346227499042514" layoutX="-3.0" layoutY="-4.0" prefHeight="517.0" prefWidth="893.0">
+         <items>
+            <Pane prefHeight="493.0" prefWidth="554.0">
+               <children>
+                  <Line endX="142.0" endY="0.5" layoutX="218.0" layoutY="84.0" startX="-68.0" startY="0.5" />
+                  <Line endX="-81.5" endY="-73.0" layoutX="231.0" layoutY="158.0" startX="-163.0" startY="-9.499984741210938" />
+                  <Line endX="123.0" endY="-0.4999847412109375" layoutX="319.0" layoutY="149.0" startX="41.5" startY="-64.0" />
+                  <Line endX="-45.0" endY="37.5" layoutX="195.0" layoutY="174.0" startX="-127.0" startY="-25.499984741210938" />
+                  <Line endX="146.0" endY="-9.499984741210938" layoutX="296.0" layoutY="158.0" startX="64.0" startY="53.5" />
+                  <Line endX="-111.29287719726562" endY="54.207122802734375" layoutX="262.0" layoutY="158.0" startX="-112.5" startY="-73.0" />
+                  <Line endX="112.5" endY="-73.5" layoutX="248.0" layoutY="158.0" startX="111.29290771484375" startY="54.207122802734375" />
+                  <Line endX="98.0" endY="0.5" layoutX="262.0" layoutY="211.0" startX="-112.0" startY="0.5" />
+                  <Line endX="-103.58575439453125" endY="48.666656494140625" layoutX="255.0" layoutY="270.0" startX="-103.58575439453125" startY="-57.08575439453125" />
+                  <Line endX="98.0" endY="-54.5" layoutX="262.0" layoutY="266.0" startX="98.0" startY="52.499969482421875" />
+                  <Line endX="112.0" endY="-0.500030517578125" layoutX="248.0" layoutY="319.0" startX="-96.08575439453125" startY="0.1666259765625" />
+                  <Line endX="103.00001525878906" endY="0.499969482421875" layoutX="152.0" layoutY="412.0" startX="-2.0" startY="-93.50003051757812" />
+                  <Line endX="-28.29290771484375" endY="-55.12628173828125" layoutX="389.0" layoutY="375.0" startX="-133.99998474121094" startY="37.499969482421875" />
+                  <Button fx:id="c1" layoutX="109.0" layoutY="292.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c1">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="143.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
+                  <Button fx:id="c2" layoutX="319.0" layoutY="292.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c2">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="353.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
+                  <Button fx:id="c3" layoutX="214.0" layoutY="386.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="c3">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="248.0" layoutY="435.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
+                  <Button fx:id="a2" layoutX="109.0" layoutY="185.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a2">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="143.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
+                  <Button fx:id="b2" layoutX="319.0" layoutY="185.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b2">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="353.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
+                  <Button fx:id="b3" layoutX="401.0" layoutY="122.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b3">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="435.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
+                  <Button fx:id="b1" layoutX="319.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="b1">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="353.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
+                  <Button fx:id="a1" layoutX="109.0" layoutY="58.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a1">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="143.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="10" />
+                  <Button fx:id="a3" layoutX="27.0" layoutY="122.0" mnemonicParsing="false" onAction="#clickOnTerr" prefHeight="53.0" prefWidth="82.0" stylesheets="@../css/button.css" text="a3">
+                     <styleClass>
+                        <String fx:value="expandable" />
+                        <String fx:value="numbtn" />
+                     </styleClass>
+                  </Button>
+                  <Text layoutX="61.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="30" />
+               </children>
+            </Pane>
+            <Pane prefHeight="523.0" prefWidth="447.0">
+               <children>
+                  <Label fx:id="terrOwner" layoutX="120.0" layoutY="67.0" prefHeight="17.0" prefWidth="75.0" text="Label" />
+                  <Text layoutX="64.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Owner:" />
+                  <Text layoutX="64.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Units:" />
+                  <Text layoutX="103.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 0:" />
+                  <Text layoutX="103.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 1:" />
+                  <Text layoutX="103.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 2:" />
+                  <Text layoutX="103.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 3:" />
+                  <Text layoutX="103.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 4:" />
+                  <Text layoutX="103.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 5:" />
+                  <Text layoutX="103.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Level 6:" />
+                  <Text layoutX="40.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Territory name" />
+                  <Label fx:id="terrName" layoutX="136.0" layoutY="30.0" prefHeight="17.0" prefWidth="75.0" text="a1" />
+                  <Label fx:id="n_level0" layoutX="158.0" layoutY="122.0" prefHeight="17.0" prefWidth="75.0" text="3" />
+                  <Label fx:id="n_level1" layoutX="158.0" layoutY="139.0" prefHeight="17.0" prefWidth="75.0" text="1" />
+                  <Label fx:id="n_level6" layoutX="158.0" layoutY="220.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+                  <Label fx:id="n_level5" layoutX="158.0" layoutY="203.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+                  <Label fx:id="n_level4" layoutX="158.0" layoutY="186.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+                  <Label fx:id="n_level3" layoutX="158.0" layoutY="169.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+                  <Label fx:id="n_level2" layoutX="158.0" layoutY="155.0" prefHeight="17.0" prefWidth="75.0" text="0" />
+               </children>
+            </Pane>
+         </items>
+      </SplitPane>
    </children>
 </Pane>

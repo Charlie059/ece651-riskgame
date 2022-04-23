@@ -31,7 +31,6 @@ public class SignupView implements View{
         SceneCollector.signUpView = scene;
 
         window.setScene(scene);
-        window.setTitle("SignUp");
         window.show();
         }
 

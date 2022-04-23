@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 
 public class Client extends Application{
-  private boolean debug = true;
+  private boolean debug = false;
 
   public static void main(String[] args) {
     launch(args);
@@ -18,7 +18,7 @@ public class Client extends Application{
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    new StartView().show(primaryStage, null, debug);
+    new StartView().show(primaryStage, null,debug);
   }
 
   public void setDebug(boolean debug) {

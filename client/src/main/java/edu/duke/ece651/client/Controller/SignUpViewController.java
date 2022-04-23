@@ -10,7 +10,9 @@ import javafx.scene.text.Text;
 
 public class SignUpViewController {
     @FXML
-    TextField userName,passWord, verificationCode;
+    TextField userName;
+    @FXML
+    TextField passWord;
     @FXML
     Text msg;
 
@@ -19,7 +21,7 @@ public class SignUpViewController {
     private boolean debug;
 
     public SignUpViewController(Stage window, boolean debug) {
-        this.signupModel = SignupModel.getInstance();
+        this.signupModel = new SignupModel();
         this.window = window;
         this.debug = debug;
     }
@@ -30,7 +32,6 @@ public class SignUpViewController {
     @FXML
     public void clickOnBack(){
         this.window.setScene(SceneCollector.startView);
-        window.setTitle("Login");
         this.window.show();
     }
 
@@ -39,18 +40,11 @@ public class SignUpViewController {
      */
     @FXML
     public void clickOnSignUp(){
-        //TODO change back to register by email
-//        String res = signupModel.signUp(userName.getText(),passWord.getText(), verificationCode.getText(),debug);
-//        if(res == null){
-//            msg.setText("Sign up a new account successfully!");
-//        }else{
-//            msg.setText(res);
-//        }
         boolean res = signupModel.signUp(userName.getText(),passWord.getText(),debug);
         if(res){
             msg.setText("Sign up a new account successfully!");
         }else{
-            msg.setText("ERROR");
+            msg.setText("Sign up a new account failure!");
         }
     }
 }

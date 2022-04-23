@@ -31,7 +31,6 @@ public class ContinueGameView implements View{
         SceneCollector.continueGameView = scene;
 
         window.setScene(scene);
-        window.setTitle("Continue Game");
         window.show();
     }
 }

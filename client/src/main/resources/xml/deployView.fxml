@@ -3,191 +3,244 @@
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<Pane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.DeployViewController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.duke.ece651.client.Controller.DeployViewController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0">
-        <items>
-            <SplitPane dividerPositions="0.8024118738404453" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-              <items>
-                <AnchorPane fx:id="mapPane" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="956.0">
-                     <children>
-                        <ListView fx:id="responseList" layoutX="10.0" layoutY="19.0" prefHeight="181.0" prefWidth="905.0" />
-                     </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Territory:" GridPane.columnIndex="1" GridPane.rowIndex="11">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" GridPane.columnIndex="6" GridPane.rowIndex="11">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number:" GridPane.columnIndex="11" GridPane.rowIndex="11">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <ChoiceBox fx:id="territorySelect" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="12" />
-                  <ChoiceBox fx:id="levelSelect" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="12" />
-                  <ChoiceBox fx:id="numberSelect" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="11" GridPane.columnSpan="2" GridPane.rowIndex="12" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerInfo" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="System Bold" size="42.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Player ID: " GridPane.columnIndex="3" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your Territories:" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Deployment" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food:" GridPane.columnIndex="3" GridPane.rowIndex="6">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Technology resource:" GridPane.columnIndex="3" GridPane.rowIndex="7">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="lv 0:" GridPane.columnIndex="4" GridPane.rowIndex="5">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Points:" GridPane.columnIndex="3" GridPane.rowIndex="8">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Line endX="861.2929077148438" endY="-0.08573698997497559" startX="-100.0" strokeWidth="3.0" GridPane.rowIndex="9" />
-                  <Text fx:id="playerID_t" strokeType="OUTSIDE" strokeWidth="0.0" text="1234" GridPane.columnIndex="6" GridPane.rowIndex="2">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="territories_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="7" GridPane.rowIndex="3">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="food_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="5" GridPane.rowIndex="6">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="techResource_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="8" GridPane.rowIndex="7">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="level0_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="5" GridPane.rowIndex="5">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text fx:id="points_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="5" GridPane.rowIndex="8">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please deploy units to your territories:" GridPane.columnIndex="1" GridPane.rowIndex="10">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                  </Text>
-                  <Button fx:id="deployButton" mnemonicParsing="false" onAction="#clickOnDeploy" prefHeight="63.0" prefWidth="185.0" text="Deploy" textFill="#c57d24" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="14">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="expandable" />
-                        <String fx:value="numbtn" />
-                     </styleClass>
-                  </Button>
-                  <Button fx:id="commitButton" mnemonicParsing="false" onAction="#clickOnCommit" prefHeight="63.0" prefWidth="185.0" text="Commit" textFill="#c57d24" GridPane.columnIndex="6" GridPane.columnSpan="4" GridPane.rowIndex="16">
-                     <font>
-                        <Font size="24.0" />
-                     </font>
-                     <styleClass>
-                        <String fx:value="expandable" />
-                        <String fx:value="numbtn" />
-                     </styleClass>
-                  </Button>
-               </children>
-            </GridPane>
-        </items>
-      </SplitPane>
+      <Text fill="#b1994a" strokeType="OUTSIDE" strokeWidth="0.0" text="Deploy  Units" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="48.0" />
+         </font>
+      </Text>
+      <Button fx:id="viewMapButton" mnemonicParsing="false" onAction="#clickOnViewMap" prefHeight="63.0" prefWidth="185.0" text="View Map" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <styleClass>
+            <String fx:value="expandable" />
+            <String fx:value="numbtn" />
+         </styleClass>
+      </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="PlayerInfo" GridPane.columnIndex="9" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font name="System Bold" size="42.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Player ID: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="playerID_t" strokeType="OUTSIDE" strokeWidth="0.0" text="1234" GridPane.columnIndex="12" GridPane.hgrow="ALWAYS" GridPane.rowIndex="6" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Your Territories:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="territories_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Deployment" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level1_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Food:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="food_t" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="11" GridPane.hgrow="ALWAYS" GridPane.rowIndex="16" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Technology resource:" GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="techResource_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="14" GridPane.hgrow="ALWAYS" GridPane.rowIndex="18" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-1 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please deploy units to your territories:" GridPane.columnIndex="9" GridPane.hgrow="ALWAYS" GridPane.rowIndex="20" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Button fx:id="commitButton" mnemonicParsing="false" onAction="#clickOnCommit" prefHeight="63.0" prefWidth="185.0" text="Commit" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <styleClass>
+            <String fx:value="expandable" />
+            <String fx:value="numbtn" />
+         </styleClass>
+      </Button>
+      <Button fx:id="doneButton" mnemonicParsing="false" onAction="#clickOnDone" prefHeight="63.0" prefWidth="185.0" text="Done" textFill="#c57d24" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <styleClass>
+            <String fx:value="expandable" />
+            <String fx:value="numbtn" />
+         </styleClass>
+      </Button>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Territory:" GridPane.columnIndex="9" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Level:" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Number:" GridPane.columnIndex="17" GridPane.hgrow="ALWAYS" GridPane.rowIndex="21" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="level2_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-2 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="12" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-3 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-4 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-5 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-6 units: " GridPane.columnIndex="15" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level3_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level5_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level4_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="13" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level6_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="18" GridPane.hgrow="ALWAYS" GridPane.rowIndex="14" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <ChoiceBox fx:id="territorySelect" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="9" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="22" GridPane.vgrow="ALWAYS" />
+      <ChoiceBox fx:id="levelSelect" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="13" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="22" GridPane.vgrow="ALWAYS" />
+      <ChoiceBox fx:id="numberSelect" prefHeight="32.0" prefWidth="122.0" GridPane.columnIndex="17" GridPane.columnSpan="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="22" GridPane.vgrow="ALWAYS" />
+      <Text fx:id="errorMsg" fill="#f20404" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="19" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="27.0" />
+         </font>
+      </Text>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="    level-0 units: " GridPane.columnIndex="10" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="level0_n" strokeType="OUTSIDE" strokeWidth="0.0" text="   1234" GridPane.columnIndex="13" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
    </children>
-</Pane>
+</GridPane>

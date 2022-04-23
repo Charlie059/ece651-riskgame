@@ -85,12 +85,6 @@ class ModelTest {
                 sendSwitchListAction(mockServer);
                 Thread.sleep(100);
 
-                //18 send signupSuccess
-                sendRSPSignUpSuccess(mockServer);
-                Thread.sleep(100);
-
-
-
 
             } catch (IOException | ClassNotFoundException | InterruptedException e) {
                 e.printStackTrace();
@@ -100,17 +94,17 @@ class ModelTest {
 
         // 1 Client send LoginAction and recv RSPLoginSuccess
         LoginModel loginModel = new LoginModel();
-        assertEquals(true, loginModel.validateLogin("123","Abcab23@qqa123",false));
-        assertEquals(true, loginModel.validateLogin("123","Abcab23@qqa123",true));
+        assertEquals(true, loginModel.validateLogin("123","abc",false));
+        assertEquals(true, loginModel.validateLogin("123","abc",true));
         // Client send LoginAction and recv other Response
-        loginModel.validateLogin("123","Abcab23@qqa123",false);
+        loginModel.validateLogin("123","abc",false);
 
 
         // 2 Client send Signup Action and recv RSPSignupSuccess
-        SignupModel signupModel = SignupModel.getInstance();
-        assertEquals(true, signupModel.signUp("123","Abcab23@qqa123",false));
-        signupModel.signUp("123","Abcab23@qqa123",false);
-        signupModel.signUp("123","Abcab23@qqa123",true);
+        SignupModel signupModel = new SignupModel();
+        assertEquals(true, signupModel.signUp("123","abc",false));
+        signupModel.signUp("123","abc",false);
+        signupModel.signUp("123","abc",true);
 
 
         // 3 Client send NewGame Action and recv RSPNewGameSuccess
@@ -130,22 +124,22 @@ class ModelTest {
 
         // 7 doAttack success
         String attackInfo[] = {"b1","a1","0","1"};
-        assertEquals(null, gameModel.doAttack(attackInfo,false));
+        assertEquals(true, gameModel.doAttack(attackInfo,false));
         gameModel.doAttack(attackInfo,true);
         testGetter(gameModel);
 
         // 8 doAttack fail
-        assertEquals("Server Find Error", gameModel.doAttack(attackInfo,false));
+        assertEquals(false, gameModel.doAttack(attackInfo,false));
 
         // 9 doUpgradeUnit success
         String uogradeUnitInfo[] = {"b1","0","1","1"};
-        assertEquals(null, gameModel.doUpgradeUnit(uogradeUnitInfo,false));
-        assertEquals(null, gameModel.doUpgradeUnit(uogradeUnitInfo,true));
+        assertEquals(true, gameModel.doUpgradeUnit(uogradeUnitInfo,false));
+        assertEquals(true, gameModel.doUpgradeUnit(uogradeUnitInfo,true));
 
         // 10 domove success
         String moveInfo[] = {"b1","b2","0","1"};
-        assertEquals(null, gameModel.doMove(moveInfo,false));
-        assertEquals(null, gameModel.doMove(moveInfo,true));
+        assertEquals(true, gameModel.doMove(moveInfo,false));
+        assertEquals(true, gameModel.doMove(moveInfo,true));
 
         // 11 docommit success
         assertEquals(true, gameModel.doCommit(false));
@@ -175,14 +169,6 @@ class ModelTest {
         SwitchGameModel switchGameModel = new SwitchGameModel();
         assertEquals(2, switchGameModel.getGameLists(false).get(0).getGameID());
         assertEquals(1, switchGameModel.getGameLists(true).get(0).getGameID());
-
-
-        // 18 test new signup
-        SignupModel signupModel1 = SignupModel.getInstance();
-        // First time -> send an email
-        signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", "", false);
-        // Second time -> input code
-        assertNull(signupModel1.signUp("pad128g@icloud.com", "abcABC123456@@@ad5518", signupModel1.getCode("pad128g@icloud.com"), false));
         mockServer.close();
     }
 
@@ -206,7 +192,7 @@ class ModelTest {
         enemyTerrName.add("a1");
         enemyTerrName.add("a2");
         enemyTerrName.add("a3");
-//        assertEquals(enemyTerrName, gameModel.getEnemyTerrList());
+        assertEquals(enemyTerrName, gameModel.getEnemyTerrList());
 
         // Test getFoodRes
         assertEquals(90, gameModel.getFoodRes());
