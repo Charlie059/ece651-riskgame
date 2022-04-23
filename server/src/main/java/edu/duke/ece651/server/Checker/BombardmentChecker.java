@@ -39,7 +39,7 @@ public class BombardmentChecker extends ActionChecker{
         if (this.map.getTerritoryList().containsKey(this.enemyTerritory)){
             //check if territory belongs to enemy
             Territory enemyTerr = this.map.getTerritoryList().get(this.enemyTerritory);
-            if (enemyTerr.getOwnerId() != this.accountID){
+            if (!enemyTerr.getOwnerId().equals(this.accountID)){
                 this.errMessage = null;
                 return this.errMessage;
             }

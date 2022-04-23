@@ -13,7 +13,14 @@ public class CloakingTerritoryActionChecker extends ActionChecker {
     Map map;
     Integer cost;
     CloakTerritoryAction cloakTerritoryAction;
-    public CloakingTerritoryActionChecker(GameHashMap gameHashMap, AccountHashMap accountHashMap, AccountID accountID, Integer cost, Map map, Player player, CloakTerritoryAction cloakTerritoryAction) {
+    public CloakingTerritoryActionChecker(GameHashMap gameHashMap,
+                                          AccountHashMap accountHashMap,
+                                          AccountID accountID,
+                                          Integer cost,
+                                          Map map,
+                                          Player player,
+                                          CloakTerritoryAction cloakTerritoryAction
+    ) {
         super(gameHashMap, accountHashMap, accountID);
         this.player = player;
         this.map = map;

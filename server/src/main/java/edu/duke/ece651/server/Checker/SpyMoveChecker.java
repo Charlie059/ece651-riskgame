@@ -14,7 +14,15 @@ public class SpyMoveChecker extends ActionChecker {
     Integer currFoodResource;
     Map map;
 
-    public SpyMoveChecker(GameHashMap gameHashMap, AccountHashMap accountHashMap, AccountID accountID, Map map, SpyMoveAction spyMoveAction, Integer cost, Integer currFoodResource) {
+    public SpyMoveChecker(
+            GameHashMap gameHashMap,
+            AccountHashMap accountHashMap,
+            AccountID accountID,
+            Map map,
+            SpyMoveAction spyMoveAction,
+            Integer cost,
+            Integer currFoodResource
+    ) {
         super(gameHashMap, accountHashMap, accountID);
         this.spyMoveAction = spyMoveAction;
         this.cost = cost;

@@ -13,7 +13,14 @@ public class SpyUpgradeChecker extends ActionChecker {
     Map map;
     Player player;
 
-    public SpyUpgradeChecker(GameHashMap gameHashMap, AccountHashMap accountHashMap, AccountID accountID, Map map, Player currplayer, SpyUpgradeAction spyUpgradeAction) {
+    public SpyUpgradeChecker(
+            GameHashMap gameHashMap,
+            AccountHashMap accountHashMap,
+            AccountID accountID,
+            Map map,
+            Player currplayer,
+            SpyUpgradeAction spyUpgradeAction
+    ) {
         super(gameHashMap, accountHashMap, accountID);
         this.spyUpgradeAction = spyUpgradeAction;
         this.map = map;
@@ -25,7 +32,7 @@ public class SpyUpgradeChecker extends ActionChecker {
         //Check Player has one Upgrade chance
         if(!player.haveCard(new CardType().getSpecialSpyUpgrade().get(0))){
             //return false;
-            this.errMessage = "SpyUpgrade Error: player does have SpyUpgrade Card!";
+            this.errMessage = "SpyUpgrade Error: player does not have any SpyUpgrade Card!";
             return this.errMessage;
         }
         //The Spy Should be mine and should not be upgrade to same type

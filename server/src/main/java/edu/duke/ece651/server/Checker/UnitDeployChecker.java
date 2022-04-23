@@ -6,6 +6,7 @@ import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.IO.ClientActions.UnitDeployAction;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 
 public class UnitDeployChecker extends ActionChecker{
@@ -23,9 +24,15 @@ public class UnitDeployChecker extends ActionChecker{
 
     @Override
     public String doCheck() {
+        //Check Player has the card
+        if(!thisPlayer.haveCard(new CardType().getUnitDeploy().get(0))){
+            //return false;
+            this.errMessage = "UnitDeploy Error: player does have any UnitDeploy Card!";
+            return this.errMessage;
+        }
         //Check If territory is mine(Deploy can deploy to Mine territory)
         if(thisGame.getMap().getTerritoryList().containsKey(unitDeployAction.getTo())){
-            if(thisGame.getMap().getTerritoryList().get(unitDeployAction.getTo()).getOwnerId() == accountID){
+            if(thisGame.getMap().getTerritoryList().get(unitDeployAction.getTo()).getOwnerId().equals(accountID)){
                 this.errMessage=null;
                 return errMessage;
             }

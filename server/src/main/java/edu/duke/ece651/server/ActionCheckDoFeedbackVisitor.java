@@ -833,8 +833,17 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
 
     @Override
     public void visit(UnitDeployAction unitDeployAction) {
-        UnitDeployChecker unitDeployChecker = new UnitDeployChecker(this.gameHashMap,this.accountHashMap,this.accountID,this.gameID,unitDeployAction);
+        Player player = this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+        UnitDeployChecker unitDeployChecker = new UnitDeployChecker(
+                this.gameHashMap,
+                this.accountHashMap,
+                this.accountID,
+                this.gameID,
+                unitDeployAction
+        );
         if(unitDeployChecker.doCheck() == null){
+            //Delete This player's upgrade Card
+            player.deleteCard(new CardType().getUnitDeploy().get(0));
             //Add One unit to territory
             Territory thisTerritory = this.gameHashMap.get(this.gameID).getMap().getTerritoryList().get(unitDeployAction.getTo());
             thisTerritory.addUnitLevel(0,1,thisTerritory.getUnits());

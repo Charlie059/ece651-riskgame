@@ -14,7 +14,13 @@ public class SpyDeployChecker extends ActionChecker {
     Player thisplayer;
     SpyDeployAction spyDeployAction;
 
-    public SpyDeployChecker(GameHashMap gameHashMap, AccountHashMap accountHashMap, AccountID accountID, GameID gameID, SpyDeployAction deployAction) {
+    public SpyDeployChecker(
+            GameHashMap gameHashMap,
+                            AccountHashMap accountHashMap,
+            AccountID accountID,
+            GameID gameID,
+            SpyDeployAction deployAction
+    ) {
         super(gameHashMap, accountHashMap, accountID);
         this.spyDeployAction = deployAction;
         this.thisgame = this.gameHashMap.get(gameID);
@@ -27,7 +33,7 @@ public class SpyDeployChecker extends ActionChecker {
         if (thisplayer.getTechResource() >= 20) {
             //Check If territory is mine(Deploy can deploy to Mine Territory)
             if (thisgame.getMap().getTerritoryList().containsKey(spyDeployAction.getTo())) {
-                if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).getOwnerId() == accountID) {
+                if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).getOwnerId().equals(accountID)) {
                     //Check If from territory enough level 1 unit
                     if (thisgame.getMap().getTerritoryList().get(spyDeployAction.getTo()).isEnoughUnitLevelOf(1)){
                         //return true;
