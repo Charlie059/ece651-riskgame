@@ -12,8 +12,7 @@ import edu.duke.ece651.shared.Wrapper.GameID;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -2065,5 +2064,1682 @@ public class UtilsTest {
         rspUpgradeUnitsSuccess.setOldLevel(1);
         rspUpgradeUnitsSuccess.setNewLevel(1);
         rspUpgradeUnitsSuccess.setTechCost(1);
+
+
+        BombardmentAction bombardmentAction = new BombardmentAction("a1");
+        bombardmentAction.getEnemyTerritory();
+        bombardmentAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+
+        CardBuyAction cardBuyAction = new CardBuyAction(new List<Integer>() {
+            @Override
+            public int size() {
+                return 0;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                return false;
+            }
+
+            @Override
+            public Iterator<Integer> iterator() {
+                return null;
+            }
+
+            @Override
+            public Object[] toArray() {
+                return new Object[0];
+            }
+
+            @Override
+            public <T> T[] toArray(T[] a) {
+                return null;
+            }
+
+            @Override
+            public boolean add(Integer integer) {
+                return false;
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                return false;
+            }
+
+            @Override
+            public boolean containsAll(Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(Collection<? extends Integer> c) {
+                return false;
+            }
+
+            @Override
+            public boolean addAll(int index, Collection<? extends Integer> c) {
+                return false;
+            }
+
+            @Override
+            public boolean removeAll(Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public boolean retainAll(Collection<?> c) {
+                return false;
+            }
+
+            @Override
+            public void clear() {
+
+            }
+
+            @Override
+            public Integer get(int index) {
+                return null;
+            }
+
+            @Override
+            public Integer set(int index, Integer element) {
+                return null;
+            }
+
+            @Override
+            public void add(int index, Integer element) {
+
+            }
+
+            @Override
+            public Integer remove(int index) {
+                return null;
+            }
+
+            @Override
+            public int indexOf(Object o) {
+                return 0;
+            }
+
+            @Override
+            public int lastIndexOf(Object o) {
+                return 0;
+            }
+
+            @Override
+            public ListIterator<Integer> listIterator() {
+                return null;
+            }
+
+            @Override
+            public ListIterator<Integer> listIterator(int index) {
+                return null;
+            }
+
+            @Override
+            public List<Integer> subList(int fromIndex, int toIndex) {
+                return null;
+            }
+        });
+
+        cardBuyAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+        cardBuyAction.getCardType();
+
+        CloakTerritoryAction cloakTerritoryAction = new CloakTerritoryAction("a1");
+        cloakTerritoryAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+        cloakTerritoryAction.getFrom();
+
+        GodBeWithUAction godBeWithUAction = new GodBeWithUAction();
+        godBeWithUAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+        SanctionAction sanctionAction = new SanctionAction(new AccountID("a"));
+        sanctionAction.getEnemyID();
+        sanctionAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+        SpyDeployAction spyDeployAction = new SpyDeployAction("a1","b1");
+        spyDeployAction.getFrom();
+        spyDeployAction.getTo();
+        spyDeployAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+
+        SpyMoveAction spyMoveAction = new SpyMoveAction(new UUID(1L,2L),"a1","b1");
+        spyMoveAction.getFrom();
+        spyMoveAction.getTo();
+        spyMoveAction.getSpyUUID();
+        spyMoveAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+
+        SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", new UUID(1L, 1L),1);
+        spyUpgradeAction.getFrom();
+        spyUpgradeAction.getSpyUUID();
+        spyUpgradeAction.getType();
+
+
+        spyUpgradeAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+        spyDeployAction.getTo();
+
+        spyDeployAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+
+        TestAction testAction = new TestAction(true);
+        testAction.getMode();
+        testAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+        TheGreatLeapForwardAction theGreatLeapForwardAction = new TheGreatLeapForwardAction("a1");
+        theGreatLeapForwardAction.getTerritoryName();
+        theGreatLeapForwardAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+        UnitDeployAction unitDeployAction = new UnitDeployAction("a1");
+        unitDeployAction.getTo();
+        unitDeployAction.accept(new ActionVisitor() {
+            @Override
+            public void visit(AttackAction attackAction) {
+
+            }
+
+            @Override
+            public void visit(CommitAction commitAction) {
+
+            }
+
+            @Override
+            public void visit(DeployAction deployAction) {
+
+            }
+
+            @Override
+            public void visit(JoinAction joinAction) {
+
+            }
+
+            @Override
+            public void visit(LoginAction loginAction) {
+
+            }
+
+            @Override
+            public void visit(LogoutAction logoutAction) {
+
+            }
+
+            @Override
+            public void visit(MoveAction moveAction) {
+
+            }
+
+            @Override
+            public void visit(NewGameAction newGameAction) {
+
+            }
+
+            @Override
+            public void visit(SignUpAction signUpAction) {
+
+            }
+
+            @Override
+            public void visit(SwitchGameAction switchGameAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeTechAction upgradeTechAction) {
+
+            }
+
+            @Override
+            public void visit(UpgradeUnitsAction updateUnitsAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseJoinGameAction chooseJoinGameAction) {
+
+            }
+
+            @Override
+            public void visit(ChooseSwitchGameAction chooseSwitchGameAction) {
+
+            }
+
+            @Override
+            public void visit(SpyDeployAction spyDeployAction) {
+
+            }
+
+            @Override
+            public void visit(SpyMoveAction spyMoveAction) {
+
+            }
+
+            @Override
+            public void visit(SpyUpgradeAction spyUpgradeAction) {
+
+            }
+
+            @Override
+            public void visit(CloakTerritoryAction cloakTerritoryAction) {
+
+            }
+
+            @Override
+            public void visit(CardBuyAction cardBuyAction) {
+
+            }
+
+            @Override
+            public void visit(BombardmentAction bombardmentAction) {
+
+            }
+
+            @Override
+            public void visit(SanctionAction sanctionAction) {
+
+            }
+
+            @Override
+            public void visit(TheGreatLeapForwardAction theGreatLeapForwardAction) {
+
+            }
+
+            @Override
+            public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
+
+            @Override
+            public void visit(TestAction testAction) {
+
+            }
+        });
+
+
     }
 }

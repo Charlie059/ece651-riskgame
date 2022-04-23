@@ -433,7 +433,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         UnitDeployAction unitDeployAction = new UnitDeployAction("a1");
         mockClient1.sendObject(unitDeployAction);
         Response response1234555 = (Response) mockClient1.recvObject();
-        assertEquals(response1234555.getClass(),RSPUnitDeploySuccess.class);
+        assertEquals(response1234555.getClass(),RSPUnitDeployFail.class);
 
         UnitDeployAction unitDeployAction1 = new UnitDeployAction("b1");
         mockClient1.sendObject(unitDeployAction1);

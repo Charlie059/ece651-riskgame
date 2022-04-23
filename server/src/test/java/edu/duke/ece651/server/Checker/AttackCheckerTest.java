@@ -81,7 +81,7 @@ class AttackCheckerTest {
                 currFromUnits,
                 100
         );
-        assertEquals(null,attackChecker.doCheck());
+        assertEquals("Attack Error: cannot attack non-adjacent territory!",attackChecker.doCheck());
 
         attackChecker = new AttackChecker(
                 gameHashMap,

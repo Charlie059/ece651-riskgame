@@ -125,8 +125,8 @@ class ActionCheckDoFeedbackVistorTest {
         //new AccountHashMap
         AccountHashMap accountHashMap = this.createAccountHashMap();
         //new SocketConnection
-        MockServer mockServer = new MockServer(4444);
-        MockClient mockClient = new MockClient(4444, "127.0.0.1");
+        MockServer mockServer = new MockServer(4445);
+        MockClient mockClient = new MockClient(4445, "127.0.0.1");
         Socket clientSocket = mockServer.acceptClient();
         GameID currGameID = new GameID(1);
         AccountID currAccountID = new AccountID("abcde");
@@ -164,8 +164,8 @@ class ActionCheckDoFeedbackVistorTest {
         //new AccountHashMap
         AccountHashMap accountHashMap = this.createAccountHashMap();
         //new SocketConnection
-        MockServer mockServer = new MockServer(4444);
-        MockClient mockClient = new MockClient(4444, "127.0.0.1");
+        MockServer mockServer = new MockServer(4446);
+        MockClient mockClient = new MockClient(4446, "127.0.0.1");
         Socket clientSocket = mockServer.acceptClient();
         GameID currGameID = new GameID(1);
         AccountID currAccountID = new AccountID("abcde");
