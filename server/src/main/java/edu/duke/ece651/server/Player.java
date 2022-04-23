@@ -12,8 +12,8 @@ import java.util.HashSet;
 
 public class Player {
     private AccountID accountID; // player id
-    private int foodResource;
-    private int techResource;
+    private volatile int foodResource;
+    private volatile int techResource;
     private int currTechLevel;
     private int nextTechLevel;
     private boolean isTechLevelUpgrade;
@@ -244,7 +244,7 @@ public class Player {
         isWon = won;
     }
 
-    public void setFoodResource(int foodResource) {
+    public void  setFoodResource(int foodResource) {
         this.foodResource = foodResource;
     }
 

@@ -848,4 +848,16 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
     }
 
+    @Override
+    public void visit(TestAction testAction) {
+        if(testAction.getMode()==true) {
+            Player player =this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+            player.setTechResource(10000);
+            player.setFoodResource(10000);
+            sendResponse(new RSPCardBuyFail());
+        }
+        if(testAction.getMode()==false)
+            this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).setFoodResource(0);
+            this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).setTechResource(0);
+        }
 }
