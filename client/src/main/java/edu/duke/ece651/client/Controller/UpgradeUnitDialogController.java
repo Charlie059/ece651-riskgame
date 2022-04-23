@@ -35,12 +35,6 @@ public class UpgradeUnitDialogController implements Initializable {
     // User click submit button
     @FXML
     public void clickOnSubmitButton(){
-        // Local checker
-        UpgradeChecker upgradeChecker = new UpgradeChecker();
-        if(!upgradeChecker.doCheck(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(), selectUpgradeLevel.getText()})){
-            this.error_msg.setText("Invalid value, you may upgrade one unit one times");
-            return;
-        }
 
         // if pass local checker, then send request to model
         if(!GameModel.getInstance().doUpgradeUnit(new String[]{terrFrom.getText(),selectCurLevel.getText(),selectNum.getText(),selectUpgradeLevel.getText()}, debug)){

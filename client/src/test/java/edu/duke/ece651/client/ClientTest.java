@@ -58,10 +58,10 @@ class ClientTest {
         FxAssert.verifyThat("#gameID", TextInputControlMatchers.hasText("12345"));
         robot.clickOn("Start");
 
-        robot.clickOn("#n_players");
-        robot.write("2");
-        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText("02"));
-        robot.clickOn("Start");
+////        robot.clickOn("#n_players");
+////        robot.write("2");
+////        FxAssert.verifyThat("#n_players", TextInputControlMatchers.hasText("02"));
+//        robot.clickOn("Start");
 
         // Test deploy
         robot.clickOn("#territorySelect");
@@ -131,7 +131,7 @@ class ClientTest {
 
         // View Map
         robot.clickOn("View Map");
-//        robot.clickOn("a1");
+        robot.clickOn("a1");
         robot.clickOn("b1");
 
         // Test switch game

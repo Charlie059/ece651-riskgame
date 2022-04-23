@@ -33,11 +33,6 @@ public class NewGameViewController {
      */
     @FXML
     public void clickOnStart() {
-        // Check input format
-        if(!new NewGameChecker().doCheck(new String[]{n_players.getText()})){
-            allert_T.setText("Invalid number of Players!");
-            return;
-        }
 
         // Pass userInput to GameModel (if model return false then return); else model will get data from server
         if(!GameModel.getInstance().startNewGame(n_players.getText(), debug)) return;

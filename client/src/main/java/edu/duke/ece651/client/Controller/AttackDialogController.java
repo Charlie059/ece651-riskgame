@@ -48,12 +48,6 @@ public class AttackDialogController implements Initializable {
      */
     @FXML
     public void clickOnSubmitButton(){
-        // Local checker
-        AttackChecker attackChecker = new AttackChecker();
-        if(!attackChecker.doCheck(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()})){
-            this.error_msg.setText("Invalid value");
-            return;
-        }
 
         // if pass local checker, then send request to model
         if(!GameModel.getInstance().doAttack(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, debug)){

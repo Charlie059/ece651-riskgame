@@ -40,12 +40,6 @@ public class MoveDialogController implements Initializable {
 
     @FXML
     public void clickOnSubmitButton(){
-        // Local checker
-        MoveChecker moveChecker = new MoveChecker();
-        if(!moveChecker.doCheck(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()})){
-            this.error_msg.setText("Invalid value");
-            return;
-        }
 
         // if pass local checker, then send request to model
         if(!GameModel.getInstance().doMove(new String[]{terrFrom.getText(), terrTo.getText(),selectLevel.getText(),selectNum.getText()}, debug)){
