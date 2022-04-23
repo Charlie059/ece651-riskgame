@@ -64,7 +64,7 @@ test{
     }
     systemProperty "testfx.headless", "true"
     systemProperty "testfx.robot", "glass"
-    systemProperty "headless.geometry", "20000x20000-32"
+    systemProperty "headless.geometry", "6400x4800-32"
 }
 clover{
     compiler {
