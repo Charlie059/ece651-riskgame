@@ -131,7 +131,7 @@ class ClientTest {
 
         // View Map
         robot.clickOn("View Map");
-        robot.clickOn("a1");
+//        robot.clickOn("a1");
         robot.clickOn("b1");
 
         // Test switch game
