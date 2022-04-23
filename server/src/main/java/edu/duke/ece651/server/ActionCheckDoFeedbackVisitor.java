@@ -3,7 +3,6 @@ package edu.duke.ece651.server;
 import edu.duke.ece651.server.Checker.*;
 import edu.duke.ece651.server.Wrapper.*;
 import edu.duke.ece651.shared.*;
-import edu.duke.ece651.shared.Cards.Card;
 import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
 import edu.duke.ece651.shared.Wrapper.CardType;
@@ -21,7 +20,6 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import static java.lang.Thread.sleep;
@@ -848,4 +846,16 @@ public class ActionCheckDoFeedbackVisitor implements ActionVisitor {
         }
     }
 
+    @Override
+    public void visit(TestAction testAction) {
+        if(testAction.getMode()==true) {
+            Player player =this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID);
+            player.setTechResource(10000);
+            player.setFoodResource(10000);
+            sendResponse(new RSPCardBuyFail());
+        }
+        if(testAction.getMode()==false)
+            this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).setFoodResource(0);
+            this.gameHashMap.get(this.gameID).getPlayerHashMap().get(this.accountID).setTechResource(0);
+        }
 }

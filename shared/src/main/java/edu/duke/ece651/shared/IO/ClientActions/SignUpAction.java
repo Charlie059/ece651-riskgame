@@ -3,8 +3,6 @@ package edu.duke.ece651.shared.IO.ClientActions;
 import edu.duke.ece651.shared.Visitor.ActionVisitor;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 
-import java.io.Serializable;
-
 public class SignUpAction implements Action {
     private AccountID accountID;
     private String password;

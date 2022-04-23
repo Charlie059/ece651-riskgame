@@ -10,6 +10,7 @@ import edu.duke.ece651.shared.IO.ServerResponse.*;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
+import edu.duke.ece651.shared.Wrapper.SpyType;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -42,7 +43,7 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
         AccountID joinerAccountID = new AccountID("2");
 
         //Host
-        CommunicatorRunnable task1 = new CommunicatorRunnable(clientSocket1, gameHashMap, accountHashMap, gameRunnableHashMap, 53);
+        CommunicatorRunnable task1 = new CommunicatorRunnable(clientSocket1, gameHashMap, accountHashMap, gameRunnableHashMap, 59);
         Thread CommunicatorThread1 = new Thread(task1);
         CommunicatorThread1.start();
         //Joiner
@@ -357,19 +358,87 @@ public class ActionCheckDoFeedBackVisitorTestGameProcess {
 //        mockClient1.sendObject(spyUpgradeAction);
 //        Response rspspyUpgradeAction = (Response) mockClient1.recvObject();
 //        assertEquals(rspspyUpgradeAction.getClass(), RSPSpyUpgradeSuccess.class);
+
         //Spy Upgrade Fail because they don't have any special Card
         SpyUpgradeAction spyUpgradeAction = new SpyUpgradeAction("a1", responseSpyDeploy.getSpy().getSpyUUID(), responseSpyDeploy.getSpy().getSpyType());
         mockClient1.sendObject(spyUpgradeAction);
         Response rspspyUpgradeAction1 = (Response) mockClient1.recvObject();
         assertEquals(rspspyUpgradeAction1.getClass(), RSPSpyUpgradeFail.class);
+
         //AT THIS TIME HOST 1:
         //FOOD RESOURCE = 10, TECH RESOURCE = 7, CURRTECHLEVEL = 6
+
 
         CloakTerritoryAction cloakTerritoryAction = new CloakTerritoryAction("a1");
         mockClient1.sendObject(cloakTerritoryAction);
         Response rspCloakingAction = (Response) mockClient1.recvObject();
         assertEquals(rspCloakingAction.getClass(), RSPCloakTerritoryActionFail.class);
 
+        //Top up
+        TestAction testAction = new TestAction(true);
+        mockClient1.sendObject(testAction);
+        mockClient1.recvObject();
+        //Buy Card
+        CardBuyAction cardBuyAction = new CardBuyAction(new CardType().getSpecialSpyUpgrade());
+        mockClient1.sendObject(cardBuyAction);
+        mockClient1.recvObject();
+
+        mockClient1.sendObject(cardBuyAction);
+        mockClient1.recvObject();
+
+        mockClient1.sendObject(cardBuyAction);
+        mockClient1.recvObject();
+
+        CardBuyAction cardBuyAction1 = new CardBuyAction(new CardType().getGreatLeapForward());
+
+        mockClient1.sendObject(cardBuyAction1);
+        Response response12345 = (Response) mockClient1.recvObject();
+
+        mockClient1.sendObject(cardBuyAction1);
+        Response response123456 = (Response) mockClient1.recvObject();
+        assertEquals(response123456.getClass(),RSPCardBuySuccess.class);
+
+        mockClient1.sendObject(cardBuyAction1);
+        Response response1234567 = (Response) mockClient1.recvObject();
+        assertEquals(response1234567.getClass(),RSPCardBuyFail.class);
+
+        //Spy Upgrade
+        SpyUpgradeAction spyUpgradeAction1 = new SpyUpgradeAction("a1", responseSpyDeploy.getSpy().getSpyUUID(), new SpyType().HarrietTubman());
+        mockClient1.sendObject(spyUpgradeAction1);
+        Response rspspyUpgradeAction2 = (Response) mockClient1.recvObject();
+        assertEquals(rspspyUpgradeAction2.getClass(), RSPSpyUpgradeSuccess.class);
+
+
+        SpyUpgradeAction spyUpgradeAction2 = new SpyUpgradeAction("a1", responseSpyDeploy.getSpy().getSpyUUID(), new SpyType().DefaultType());
+        mockClient1.sendObject(spyUpgradeAction2);
+        Response rspspyUpgradeAction3 = (Response) mockClient1.recvObject();
+        assertEquals(rspspyUpgradeAction3.getClass(), RSPSpyUpgradeSuccess.class);
+
+        SpyUpgradeAction spyUpgradeAction3 = new SpyUpgradeAction("a1", responseSpyDeploy.getSpy().getSpyUUID(), new SpyType().Rosenbergs());
+        mockClient1.sendObject(spyUpgradeAction3);
+        Response rspspyUpgradeAction4 = (Response) mockClient1.recvObject();
+        assertEquals(rspspyUpgradeAction4.getClass(), RSPSpyUpgradeSuccess.class);
+
+
+
+        //-------------------------------------------------Cloaking-------------------------------------/
+        mockClient1.sendObject(testAction);
+        mockClient1.recvObject();
+        CloakTerritoryAction cloakTerritoryAction1 = new CloakTerritoryAction("a1");
+        mockClient1.sendObject(cloakTerritoryAction1);
+        Response rspCloakingAction1 = (Response) mockClient1.recvObject();
+        assertEquals(rspCloakingAction1.getClass(), RSPCloakTerritoryActionFail.class);
+
+        //-----------------------------------------------Unit Deploy-----------------------------------/
+        UnitDeployAction unitDeployAction = new UnitDeployAction("a1");
+        mockClient1.sendObject(unitDeployAction);
+        Response response1234555 = (Response) mockClient1.recvObject();
+        assertEquals(response1234555.getClass(),RSPUnitDeploySuccess.class);
+
+        UnitDeployAction unitDeployAction1 = new UnitDeployAction("b1");
+        mockClient1.sendObject(unitDeployAction1);
+        Response response123 = (Response) mockClient1.recvObject();
+        assertEquals(response123.getClass(),RSPUnitDeployFail.class);
 
         mockServer.closeSocket();
     }

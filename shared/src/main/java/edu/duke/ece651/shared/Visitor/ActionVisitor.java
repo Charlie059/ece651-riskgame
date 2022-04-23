@@ -52,4 +52,7 @@ public interface ActionVisitor {
 
     void visit(UnitDeployAction unitDeployAction);
 
+    //Test Usage
+    void visit(TestAction testAction);
+
 }
