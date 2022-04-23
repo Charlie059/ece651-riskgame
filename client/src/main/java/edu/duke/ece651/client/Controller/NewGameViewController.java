@@ -1,6 +1,5 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.Checker.NewGameChecker;
 import edu.duke.ece651.client.Model.GameModel;
 import edu.duke.ece651.client.SceneCollector;
 import edu.duke.ece651.client.View.DeployView;

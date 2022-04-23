@@ -1,7 +1,5 @@
 package edu.duke.ece651.client.Controller;
 
-import edu.duke.ece651.client.Checker.AttackChecker;
-import edu.duke.ece651.client.Checker.MoveChecker;
 import edu.duke.ece651.client.Model.GameModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
