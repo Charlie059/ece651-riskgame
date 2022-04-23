@@ -3,6 +3,7 @@ package edu.duke.ece651.server;
 import edu.duke.ece651.server.Wrapper.AccountHashMap;
 import edu.duke.ece651.server.Wrapper.GameHashMap;
 import edu.duke.ece651.shared.Wrapper.AccountID;
+import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
 import edu.duke.ece651.shared.map.Map;
 import edu.duke.ece651.shared.map.Territory;
@@ -119,6 +120,18 @@ public class GameRunnable implements Runnable {
             territory.updateCloak();
         }
     }
+    private void doSpecialSpy(){
+        //For each territory
+        for(Territory territory : this.currGame.getMap().getTerritoryList().values()){
+            for(AccountID accountID: this.currGame.getPlayerHashMap().getPlayerHashMap().keySet()){
+                //If harrietTubman
+                if(territory.doSpecialSpy(accountID)){
+                    //Add a UnitDeploy Card to this account's card
+                    this.currGame.getPlayerHashMap().get(accountID).addCard(new CardType().getUnitDeploy().get(0));
+                }
+            }
+        }
+    }
 
     /**
      * Define the game runnable thread
@@ -165,6 +178,9 @@ public class GameRunnable implements Runnable {
 
             //Update Cloaking For everyTerritory
             this.updateTerritories();
+
+            //Do special Spy
+            this.doSpecialSpy();
 
             //Breed
             //If first Loop, do not breed

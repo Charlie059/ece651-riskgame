@@ -224,6 +224,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         attackAction1.getFrom();
         attackAction1.setFrom("a1");
@@ -346,6 +351,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         chooseJoinGameAction.setGameID(new GameID(1));
         chooseSwitchGameAction.accept(new ActionVisitor() {
@@ -461,6 +471,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });
@@ -581,6 +596,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         DeployAction deployAction1 = new DeployAction();
         deployAction1.accept(new ActionVisitor() {
@@ -696,6 +716,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });
@@ -818,6 +843,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         loginAction.accept(new ActionVisitor() {
             @Override
@@ -932,6 +962,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });
@@ -1054,6 +1089,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         MoveAction moveAction1 = new MoveAction();
         moveAction1.accept(new ActionVisitor() {
@@ -1169,6 +1209,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });
@@ -1293,6 +1338,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         newGameAction.getNumOfPlayer();
         signUpAction.accept(new ActionVisitor() {
@@ -1408,6 +1458,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });
@@ -1529,6 +1584,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         UpgradeUnitsAction upgradeUnitsAction1 = new UpgradeUnitsAction();
         upgradeUnitsAction1.accept(new ActionVisitor() {
@@ -1646,6 +1706,11 @@ public class UtilsTest {
             public void visit(GodBeWithUAction godBeWithUAction) {
 
             }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
+
+            }
         });
         UpgradeUnitsAction upgradeUnitsAction2 = new UpgradeUnitsAction();
         upgradeUnitsAction2.accept(new ActionVisitor() {
@@ -1761,6 +1826,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });
@@ -1886,6 +1956,11 @@ public class UtilsTest {
 
             @Override
             public void visit(GodBeWithUAction godBeWithUAction) {
+
+            }
+
+            @Override
+            public void visit(UnitDeployAction unitDeployAction) {
 
             }
         });

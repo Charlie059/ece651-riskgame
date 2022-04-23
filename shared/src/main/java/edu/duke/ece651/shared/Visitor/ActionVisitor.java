@@ -50,4 +50,6 @@ public interface ActionVisitor {
 
     void visit(GodBeWithUAction godBeWithUAction);
 
+    void visit(UnitDeployAction unitDeployAction);
+
 }

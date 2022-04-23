@@ -162,13 +162,17 @@ class CombatResolutionTest {
         attackAction.setUnits(units).setFrom("a3").setTo("b1");
         attackActionArrayList.add(attackAction);
 
-
         GameHashMap gameHashMap = new GameHashMap();
         Game game = new Game(3);
+
         Map m = game.getMap();
+        AccountID attackerID = new AccountID("Akuma Drew");
+        Player attackPlayer = new Player(attackerID,new GameID(1), m);
+        AccountID defenderID = new AccountID("Tenshi Drew");
+        Player defendPlayer = new Player(defenderID,new GameID(1), m);
         //manualy assign accountID to territory
         Territory t_b1 = m.getTerritoryList().get("b1");
-        t_b1.setOwner(new AccountID("Drew"));
+        t_b1.setOwner(new AccountID("Tenshi Drew"));
         //add units to territory b1
         ArrayList<ArrayList<Integer>> arr = new ArrayList<>();
         ArrayList<Integer> a = new ArrayList<>();
@@ -183,15 +187,24 @@ class CombatResolutionTest {
         arr.add(a);
         t_b1.addUnitMultiLevels(arr);
 
-        game.getAttackHashMap().put(new AccountID("Eric"),attackActionArrayList);
+        defendPlayer.getMyTerritories().put("b1",t_b1);
+        game.getPlayerHashMap().put(attackerID, attackPlayer);
+        game.getPlayerHashMap().put(defenderID, defendPlayer);
+
+
+        game.getAttackHashMap().put(new AccountID("Akuma Drew"),attackActionArrayList);
         gameHashMap.put(new GameID(1),game);
 
         CombatResolution combatResolution = new CombatResolution(gameHashMap,new GameID(1));
-        combatResolution.combatResolution(-1); //defender always wins
-
-        assertEquals(new AccountID("Drew"), t_b1.getOwnerId());
-        assertEquals(1, t_b1.getUnits().get(2).getValue());
+        combatResolution.combatResolution(-1); //Attacker always wins
+        //expected attackerUnits after attack: ((0, 6) (1, 4) (2, 0) (3, 0) (4, 6) (5, 0) (6, 0))
+        for(int i = 0; i< t_b1.getUnits().size(); i++){
+            System.out.println("Level: "+ t_b1.getUnits().get(i).getLevel() + ", Value: "+ t_b1.getUnits().get(i).getValue());
+        }
+        assertEquals(0, t_b1.getUnits().get(0).getValue());
+        assertEquals(0, t_b1.getUnits().get(1).getValue());
         assertEquals(2, t_b1.getUnits().get(4).getValue());
+        assertEquals(0, t_b1.getUnits().get(6).getValue());
 
         HashMap<String, ArrayList<ArrayList<Integer>>> result = combatResolution.getAttackUnitListHashMap();
         assertEquals(result.get("b1").get(0).get(0),6);
