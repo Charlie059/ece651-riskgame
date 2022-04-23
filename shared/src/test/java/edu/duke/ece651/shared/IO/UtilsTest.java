@@ -10,9 +10,13 @@ import edu.duke.ece651.shared.Visitor.ResponseVisitor;
 import edu.duke.ece651.shared.Wrapper.AccountID;
 import edu.duke.ece651.shared.Wrapper.CardType;
 import edu.duke.ece651.shared.Wrapper.GameID;
+import edu.duke.ece651.shared.map.Spy;
+import edu.duke.ece651.shared.map.Territory;
+import edu.duke.ece651.shared.map.Unit;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.net.Socket;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -367,5 +371,60 @@ public class UtilsTest {
         UnitDeployAction unitDeployAction = new UnitDeployAction("a1");
         unitDeployAction.getTo();
         unitDeployAction.accept(actionVisitor);
+
+        Spy spy = new Spy(new AccountID("1"));
+        spy.setDefaultType();
+        spy.setRosenbergs();
+        spy.setHarrisTubman();
+        spy.getSpyType();
+        spy.getSpyOwnerAccountID();
+        spy.getSpyUUID();
+
+        CardType cardType1 = new CardType();
+        cardType1.getBombardment();
+        cardType1.getDayBreaks();
+        cardType1.getGodBeWithYou();
+        cardType1.getSanction();
+        cardType1.getGreatLeapForward();
+        cardType1.getSpecialSpyUpgrade();
+        cardType1.getUnitDeploy();
+
+
+        Territory territory = new Territory("a1");
+        territory.addSpy(spy);
+        territory.removeSpy(spy);
+        territory.addSpy(spy);
+        territory.getSpy(spy.getSpyUUID());
+
+        territory.getSpyInfo(new AccountID("a"));
+        territory.isCloaked();
+        territory.setCloak();
+        territory.updateCloak();
+        territory.isHaveMySpy(new AccountID("a"));
+        territory.isEnoughUnitLevelOf(1);
+
+        Spy spy1 = new Spy((new AccountID("a")));
+        spy1.setHarrisTubman();
+
+        Spy spy2 = new Spy((new AccountID("a")));
+        spy2.setRosenbergs();
+
+
+        ArrayList<Unit> U = new ArrayList<>();
+        Unit unit = new Unit();
+        unit.setValue(1);
+        unit.setLevel(0);
+        U.add(unit);
+
+        territory.setUnits(U);
+        territory.setOwner(new AccountID("b"));
+        territory.addSpy(spy1);
+
+        territory.doSpecialSpy(new AccountID("a"));
+
+        territory.addSpy(spy2);
+        territory.doSpecialSpy(new AccountID("a"));
+
+
     }
 }
